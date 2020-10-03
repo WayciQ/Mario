@@ -22,7 +22,7 @@
 #include "debug.h"
 #include <d3dx9.h>
 #include <d3d9.h>
-
+#include "Map.h"
 #include "Game.h"
 #include "Textures.h"
 #include "GameGlobal.h"
@@ -45,7 +45,7 @@
 #define ID_TEX_MISC 22
 #define ID_TEX_FIRE 33
 
-
+Map* map = Map::GetInstance();
 Game* game;
 vector<LPGAMEOBJECT> objects;
 
@@ -105,12 +105,13 @@ void LoadResources()
 	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_MARIO, L"textures\\mario2.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_FIRE, L"textures\\dan.png", D3DCOLOR_XRGB(0, 0, 0));
+	textures->Add(ID_TEXTURE_MAP_1, L"textures\\title1.png", D3DCOLOR_XRGB(176, 224, 248));
 
 	Sprites* sprites = Sprites::GetInstance();
 	Animations* animations = Animations::GetInstance();
 
 	LPDIRECT3DTEXTURE9 texMario = textures->Get(ID_TEX_MARIO);
-	
+	Map::GetInstance()->LoadResourses();
 
 	// raccoon 
 
@@ -284,7 +285,7 @@ void LoadResources()
 	player->SetPosition(50.0f, 100);
 	player->ChangeAnimation(new PlayerStandingState());
 	objects.push_back(player);
-
+	
 	/*for (int i = 0; i < 5; i++)
 	{
 		Brick* brick = new Brick();
@@ -304,14 +305,15 @@ void LoadResources()
 	}*/
 
 
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		Brick* brick = new Brick();
 		brick->AddAnimation(801,BRICK);
-		brick->SetPosition(0 + i * 16.0f, 150);
+		brick->SetPosition(0 + i * 16.0f, 300);
 		objects.push_back(brick);
 	}
 
+	
 	//// and Goombas 
 	//for (int i = 0; i < 4; i++)
 	//{
@@ -354,7 +356,8 @@ void Update(DWORD dt)
 	cx -= SCREEN_WIDTH / 2;
 	cy -= SCREEN_HEIGHT / 2;
 
-	Game::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	Game::GetInstance()->SetCamPos(cx, cy /*cy*/);
+	//Map::GetInstance()->Update(dt);
 }
 
 /*
@@ -372,7 +375,7 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-
+		Map::GetInstance()->Render();
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
 		

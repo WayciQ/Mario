@@ -10,6 +10,11 @@
 #include "debug.h"
 
 using namespace std;
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+
+#define TITLE_WIDTH 32
+#define TITLE_HEIGHT 32
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2

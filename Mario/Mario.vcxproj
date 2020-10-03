@@ -148,6 +148,7 @@
     <ClCompile Include="GameGlobal.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="PlayerDieState.cpp" />
     <ClCompile Include="PlayerFallingState.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameGlobal.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="PlayerDieState.h" />
     <ClInclude Include="PlayerFallingState.h" />

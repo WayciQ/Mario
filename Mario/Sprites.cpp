@@ -25,7 +25,11 @@ void Sprite::Draw(float x, float y, int alpha)
 	Game* game = Game::GetInstance();
 	game->Draw(x, y, texture, left, top, right, bottom, alpha);
 }
-
+void Sprite::Draw(float x, float y, float left, float top, float right, float bottom)
+{
+	Game* game = Game::GetInstance();
+	game->Draw(x, y, texture, left, top, right, bottom, 245);
+}
 void Sprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
 	LPSPRITE s = new Sprite(id, left, top, right, bottom, tex);
