@@ -1,0 +1,7 @@
+sprites.txt:
+13101 -> 13103: idle, walk right mario raccoon
+13201 -> 13203: idle, walk left mario raccoon
+13104 -> jump right
+13204 -> jump left
+13105 -> fall right
+13205 -> fall left

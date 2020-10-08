@@ -15,7 +15,7 @@ using namespace std;
 
 #define TITLE_WIDTH 32
 #define TITLE_HEIGHT 32
-
+// mario
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
 #define MARIO_LEVEL_RACCOON	3
@@ -45,6 +45,9 @@ using namespace std;
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 
+#define MARIO_RACCOON_WHIP_WIDTH 9
+#define MARIO_RACCOON_WHIP_HEIGHT 5
+
 
 extern enum STATENAME {
 	STANDING,
@@ -61,14 +64,27 @@ extern enum STATENAME {
 	FALLING_RIGHT,
 	SITTING,
 	SITTING_LEFT,
-	SITTING_RIGHT
+	SITTING_RIGHT,
+	WHIPPING,
+	WHIPPING_LEFT,
+	WHIPPING_RIGHT,
 	
 };
 extern enum TYPE {
 	BRICK,
-
+	WHIP,
 };
-
+extern enum TAG
+{
+	PLAYER,
+	ENEMY,
+	WEAPON,
+	ITEM,
+	HOLDER,
+	GROUND,
+	EFFECT,
+	BOX,
+};
 
 extern std::unordered_map<std::string, TYPE>   TYPEString;
 extern std::unordered_map<std::string, STATENAME>   STATEString;

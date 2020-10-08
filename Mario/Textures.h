@@ -3,6 +3,7 @@
 #include "Game.h"
 #include <d3dx9.h>
 #include <unordered_map>
+#include <fstream>
 using namespace std;
 class Textures
 {
@@ -13,5 +14,6 @@ public:
 	Textures();
 	void Add(int id, LPCWSTR filePath, D3DCOLOR stransparentColer);
 	LPDIRECT3DTEXTURE9 Get(unsigned int i);
+	void LoadResources();
 	static Textures* GetInstance();
 };

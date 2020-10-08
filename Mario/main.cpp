@@ -67,6 +67,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
 	keyCode[KeyCode] = false;
+	player->OnKeyUp(KeyCode);
 
 	//	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 }
@@ -99,118 +100,126 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	Textures* textures = Textures::GetInstance();
+	/*Textures* textures = Textures::GetInstance();
 	textures->Add(ID_TEX_MISC, L"textures\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
 	textures->Add(ID_TEX_ENEMY, L"textures\\enemies.png", D3DCOLOR_XRGB(3, 26, 110));
 	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_MARIO, L"textures\\mario2.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_FIRE, L"textures\\dan.png", D3DCOLOR_XRGB(0, 0, 0));
 	textures->Add(ID_TEXTURE_MAP_1, L"textures\\title1.png", D3DCOLOR_XRGB(176, 224, 248));
+	textures->LoadResources();
 
 	Sprites* sprites = Sprites::GetInstance();
 	Animations* animations = Animations::GetInstance();
-
-	LPDIRECT3DTEXTURE9 texMario = textures->Get(ID_TEX_MARIO);
+	sprites->LoadResources();
+	animations->LoadResources();*/
+	Textures* textures = Textures::GetInstance();
+	textures->LoadResources();
+	Sprites* sprites = Sprites::GetInstance();
+	sprites->LoadResources();
+	Animations* animations = Animations::GetInstance();
+	animations->LoadResources();
+	/*LPDIRECT3DTEXTURE9 texMario = textures->Get(ID_TEX_MARIO);*/
 	Map::GetInstance()->LoadResourses();
 
 	// raccoon 
 
 
-	sprites->Add(13101, 211, 442, 233, 471, texMario); // IDLE RIGHT
-	sprites->Add(13102, 285, 442, 308, 471, texMario); // walk
-	sprites->Add(13103, 313, 442, 337, 471, texMario);
-	sprites->Add(13104, 343, 442, 367, 471, texMario); // jump right
-	sprites->Add(13105, 210, 602, 234, 630, texMario);	// fall right
-	sprites->Add(13106, 371, 447, 394, 466, texMario); // sit
+	//sprites->Add(13101, 211, 442, 233, 471, texMario); // IDLE RIGHT
+	//sprites->Add(13102, 285, 442, 308, 471, texMario); // walk
+	//sprites->Add(13103, 313, 442, 337, 471, texMario);
+	//sprites->Add(13104, 343, 442, 367, 471, texMario); // jump right
+	//sprites->Add(13105, 210, 602, 234, 630, texMario);	// fall right
+	//sprites->Add(13106, 371, 447, 394, 466, texMario); // sit
 
-	sprites->Add(13201, 184, 442, 206, 471, texMario); //idle left
-	sprites->Add(13202, 101, 442, 124, 471, texMario); //walk
-	sprites->Add(13203, 69, 442, 93, 471, texMario);
-	sprites->Add(13204, 44, 442, 68, 471, texMario);	//jump left
-	sprites->Add(13205, 171, 602, 195, 630, texMario); // fall left
-	sprites->Add(13206, 11, 447, 34, 466, texMario);	//sit
+	//sprites->Add(13201, 184, 442, 206, 471, texMario); //idle left
+	//sprites->Add(13202, 101, 442, 124, 471, texMario); //walk
+	//sprites->Add(13203, 69, 442, 93, 471, texMario);
+	//sprites->Add(13204, 44, 442, 68, 471, texMario);	//jump left
+	//sprites->Add(13205, 171, 602, 195, 630, texMario); // fall left
+	//sprites->Add(13206, 11, 447, 34, 466, texMario);	//sit
 
-	//sprites->Add(13301, 209, 442, 233, 471, texMario); // fight idle right
-	//sprites->Add(13302, 235, 442, 259, 471, texMario); // fight 
-	//sprites->Add(13303, 347, 482, 371, 511, texMario);	// face
-	//sprites->Add(13304, 137, 442, 170, 471, texMario);	// fight left
-	//sprites->Add(13305, 382, 482, 406, 511, texMario);	// back
-
+	//sprites->Add(13301, 209, 442, 233, 471, texMario); // fight idle right 132
+	//sprites->Add(13302, 235, 442, 259, 471, texMario); // fight 13 2
+	//sprites->Add(13303, 347, 482, 371, 511, texMario);	// face 14 5
+	//sprites->Add(13304, 137, 442, 170, 471, texMario);	// fight left 13 2
+	//sprites->Add(13305, 382, 482, 406, 511, texMario);	// back 14 6
+	 
 	//sprites->Add(13401, 176, 442, 206, 471, texMario);
 	//sprites->Add(13402, 138, 442, 170, 471, texMario);
 	//sprites->Add(13403, 348, 482, 371, 511, texMario);
 	//sprites->Add(13404, 235, 442, 259, 471, texMario);
 	//sprites->Add(13405, 380, 482, 406, 511, texMario);
 
-	//LPDIRECT3DTEXTURE9 texFire = textures->Get(ID_TEX_FIRE);
+	////LPDIRECT3DTEXTURE9 texFire = textures->Get(ID_TEX_FIRE);
 
-	//sprites->Add(23001, 21, 83, 38, 100, texFire);
-	//sprites->Add(23002, 141, 83, 158, 100, texFire);
-	//sprites->Add(23003, 81, 83, 98, 100, texFire);
-	//sprites->Add(23004, 121, 83, 138, 100, texFire);
+	////sprites->Add(23001, 21, 83, 38, 100, texFire);
+	////sprites->Add(23002, 141, 83, 158, 100, texFire);
+	////sprites->Add(23003, 81, 83, 98, 100, texFire);
+	////sprites->Add(23004, 121, 83, 138, 100, texFire);
 
-	//sprites->Add(23101, 41, 83, 58, 100, texFire);
-	//sprites->Add(23102, 161, 83, 178, 100, texFire);
-	//sprites->Add(23103, 61, 83, 78, 100, texFire);
-	//sprites->Add(23104, 101, 83, 118, 100, texFire);
+	////sprites->Add(23101, 41, 83, 58, 100, texFire);
+	////sprites->Add(23102, 161, 83, 178, 100, texFire);
+	////sprites->Add(23103, 61, 83, 78, 100, texFire);
+	////sprites->Add(23104, 101, 83, 118, 100, texFire);
 
-	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
-	sprites->Add(20001, 408, 225, 424, 241, texMisc);
+	//LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
+	//sprites->Add(20001, 408, 225, 424, 241, texMisc);
 
-	/*LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
-	sprites->Add(30001, 5, 14, 21, 29, texEnemy);
-	sprites->Add(30002, 25, 14, 41, 29, texEnemy);
+	///*LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
+	//sprites->Add(30001, 5, 14, 21, 29, texEnemy);
+	//sprites->Add(30002, 25, 14, 41, 29, texEnemy);
 
-	sprites->Add(30003, 45, 21, 61, 29, texEnemy);*/ // die sprite
+	//sprites->Add(30003, 45, 21, 61, 29, texEnemy);*/ // die sprite
 
-	LPANIMATION ani;
-	
+	//LPANIMATION ani;
+	//
 
-	ani = new Animation(100);	// idle right
-	ani->Add(13101);
-	animations->Add(101, ani);
+	//ani = new Animation(100);	// idle right
+	//ani->Add(13101);
+	//animations->Add(101, ani);
 
-	ani = new Animation(100);	// idle left
-	ani->Add(13201);
-	animations->Add(102, ani);
+	//ani = new Animation(500);	// idle left
+	//ani->Add(13201);
+	//animations->Add(102, ani);
 
-	ani = new Animation(100);	// walk right
-	ani->Add(13101);
-	ani->Add(13102);
-	ani->Add(13103);
-	ani->Add(13102);
-	animations->Add(201, ani);
+	//ani = new Animation(100);	// walk right
+	//ani->Add(13101);
+	//ani->Add(13102);
+	//ani->Add(13103);
+	//ani->Add(13102);
+	//animations->Add(201, ani);
 
-	ani = new Animation(100);	// walk left
-	ani->Add(13201);
-	ani->Add(13202);
-	ani->Add(13203);
-	ani->Add(13202);
-	animations->Add(202, ani);
-	
-	ani = new Animation(100);	// jump right
-	ani->Add(13104);
-	animations->Add(310, ani);
+	//ani = new Animation(100);	// walk left
+	//ani->Add(13201);
+	//ani->Add(13202);
+	//ani->Add(13203);
+	//ani->Add(13202);
+	//animations->Add(202, ani);
+	//
+	//ani = new Animation(100);	// jump right
+	//ani->Add(13104);
+	//animations->Add(310, ani);
 
-	ani = new Animation(100);	// fall right
-	ani->Add(13105);
-	animations->Add(311, ani); 
-	
-	ani = new Animation(100);	// jump Left
-	ani->Add(13204);
-	animations->Add(320, ani);
+	//ani = new Animation(100);	// fall right
+	//ani->Add(13105);
+	//animations->Add(311, ani); 
+	//
+	//ani = new Animation(100);	// jump Left
+	//ani->Add(13204);
+	//animations->Add(320, ani);
 
-	ani = new Animation(100);	// fall Left
-	ani->Add(13205);
-	animations->Add(321, ani);
-	
-	ani = new Animation(100);	// sit right
-	ani->Add(13106);
-	animations->Add(330, ani);
-	
-	ani = new Animation(100);	// sit left
-	ani->Add(13206);
-	animations->Add(340, ani);
+	//ani = new Animation(100);	// fall Left
+	//ani->Add(13205);
+	//animations->Add(321, ani);
+	//
+	//ani = new Animation(100);	// sit right
+	//ani->Add(13106);
+	//animations->Add(330, ani);
+	//
+	//ani = new Animation(100);	// sit left
+	//ani->Add(13206);
+	//animations->Add(340, ani);
 
 	//ani = new Animation(60);	// fight right
 	//ani->Add(13301);
@@ -230,37 +239,37 @@ void LoadResources()
 	//ani->Add(13402);
 	//animations->Add(402, ani);
 
-	//ani = new Animation(10);	// fire right
-	//ani->Add(23001);
-	//ani->Add(23002);
-	//ani->Add(23003);
-	//ani->Add(23004);
-	//animations->Add(501, ani);
+	////ani = new Animation(10);	// fire right
+	////ani->Add(23001);
+	////ani->Add(23002);
+	////ani->Add(23003);
+	////ani->Add(23004);
+	////animations->Add(501, ani);
 
-	//ani = new Animation(10);	// fire left
-	//ani->Add(23101);
-	//ani->Add(23102);
-	//ani->Add(23103);
-	//ani->Add(23104);
-	//animations->Add(502, ani);
+	////ani = new Animation(10);	// fire left
+	////ani->Add(23101);
+	////ani->Add(23102);
+	////ani->Add(23103);
+	////ani->Add(23104);
+	////animations->Add(502, ani);
 
 
-	ani = new Animation(100);		// brick
-	ani->Add(20001);
-	animations->Add(801, ani);
+	//ani = new Animation(100);		// brick
+	//ani->Add(20001);
+	//animations->Add(801, ani);
 
-	ani = new Animation(300);		// Goomba walk
-	ani->Add(30001);
-	ani->Add(30002);
-	animations->Add(701, ani);
+	//ani = new Animation(300);		// Goomba walk
+	//ani->Add(30001);
+	//ani->Add(30002);
+	//animations->Add(701, ani);
 
-	ani = new Animation(1000);		// Goomba dead
-	ani->Add(30003);
-	animations->Add(702, ani);
+	//ani = new Animation(1000);		// Goomba dead
+	//ani->Add(30003);
+	//animations->Add(702, ani);
 
-	ani = new Animation(100);	// Mario die
-	ani->Add(10099);
-	animations->Add(599, ani);
+	//ani = new Animation(100);	// Mario die
+	//ani->Add(10099);
+	//animations->Add(599, ani);
 
 	player->AddAnimation(101,STADING_RIGHT);		// idle right
 	player->AddAnimation(102,STANDING_LEFT);		// idle left
@@ -268,17 +277,17 @@ void LoadResources()
 	player->AddAnimation(201,WALKING_RIGHT);		// walk right
 	player->AddAnimation(202,WALKING_LEFT);		// walk left
 	
-	player->AddAnimation(310,JUMPING_RIGHT);		// jump right
-	player->AddAnimation(311,FALLING_RIGHT);		// fall right
+	player->AddAnimation(310, FALLING_RIGHT);		// fall right
+	player->AddAnimation(311, FALLING_LEFT);		// fall left
 
-	player->AddAnimation(320,JUMPING_LEFT);		// jump left
-	player->AddAnimation(321,FALLING_LEFT);		// fall left
+	player->AddAnimation(320, JUMPING_RIGHT);		// jump right
+	player->AddAnimation(321, JUMPING_LEFT);		// jump left
 
 	player->AddAnimation(330,SITTING_RIGHT);		// sit right
 	player->AddAnimation(340,SITTING_LEFT);		// sit left
 
-	//mario->AddAnimation(401); 		// fight right
-	//mario->AddAnimation(402);		// fight lefty
+	player->AddAnimation(401,WHIPPING_RIGHT); 		// fight right
+	player->AddAnimation(402,WHIPPING_LEFT);		// fight left
 	//mario->AddAnimation(599);
 	//mario->AddAnimation(501);		//fire right
 	//mario->AddAnimation(502);		//fire left
@@ -345,19 +354,17 @@ void Update(DWORD dt)
 	for (int i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt, &coObjects);
+		//if (player->GetState() == WHIPPING_LEFT || player->GetState() == WHIPPING_RIGHT)
+		//{
+		//	//player->whip->Update(dt, &coObjects);
+		//}
 	}
 	
 
 
 	// Update camera to follow mario
-	float cx, cy;
-	player->GetPosition(cx, cy);
-
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
-
-	Game::GetInstance()->SetCamPos(cx, cy /*cy*/);
-	//Map::GetInstance()->Update(dt);
+	
+	Map::GetInstance()->Update(dt);
 }
 
 /*
@@ -376,6 +383,7 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		Map::GetInstance()->Render();
+		
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
 		

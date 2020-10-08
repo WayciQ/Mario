@@ -7,5 +7,6 @@ public:
 	virtual void HandleKeyBoard() = 0;
 	virtual void Update() = 0;
 	STATENAME stateName;
+	STATENAME PrevState;
 };
 

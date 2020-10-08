@@ -1,4 +1,8 @@
 #include "Brick.h"
+
+Brick::Brick() {
+	tag = GROUND;
+}
 void Brick::Render()
 {
 	animations[0]->Render(x, y);

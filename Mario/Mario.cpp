@@ -2,6 +2,7 @@
 #include "PlayerState.h"
 #include "PlayerJumpingState.h"
 #include "PlayerStandingState.h"
+#include "PlayerWhippingState.h"
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -10,6 +11,7 @@ Mario* Mario::GetInstance()
 	return __instance;
 }
 Mario::Mario() {
+	level = MARIO_LEVEL_RACCOON;
 }
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -50,6 +52,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += min_ty * dy + ny * 0.3f;
 		
 		isJumping = false;
+
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
@@ -65,31 +68,39 @@ void Mario::HandleObject(LPGAMEOBJECT object) {
 }
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-
-	
-	 if(stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX) {
-		left = x;
-		top = y;
-		right = x + MARIO_BIG_SIT_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_SIT_BBOX_HEIGHT;
+	if (level == MARIO_LEVEL_RACCOON || level == MARIO_LEVEL_BIG) {
+		if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX) {
+			left = x;
+			top = y;
+			right = x + MARIO_BIG_SIT_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_SIT_BBOX_HEIGHT;
+		}
+		else {
+			left = x;
+			top = y;
+			right = x + MARIO_BIG_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		}
 	}
-	else if (stateBoundingBox == MARIO_STATE_SMALL_BOUDING_BOX) {
+	else  {
 		left = x;
 		top = y;
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
-	}else {
-		left = x;
-		top = y;
-		right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
+	 
 	
 }
 
 void Mario::Render() {
 		alpha = 255;
-	CurAnimation->Render(x, y, alpha);
+		if (state->stateName == WHIPPING_LEFT) {
+			CurAnimation->Render(x-10, y, alpha);
+		}
+		else {
+			CurAnimation->Render(x, y, alpha);
+		}
+		
 	RenderBoundingBox();
 }
 void Mario::ChangeAnimation(PlayerState* newState)
@@ -129,5 +140,42 @@ void Mario::OnKeyDown(int key)
 			}
 			break;
 		}
+		case DIK_DOWN:
+		{
+			if (!isSitting && allow[SITTING]) {
+				y += 11;
+			}
+			
+			break;
+		}
+		case DIK_S:
+		{
+			if (!isWhipping && allow[WHIPPING]) {
+				if (keyCode[DIK_RIGHT]) {
+					vx = MARIO_WALKING_SPEED;
+					nx = 1;
+					DebugOut(L"W R1\n");
+					ChangeAnimation(new PlayerWhippingState());
+				}
+				else if (keyCode[DIK_LEFT]) {
+					vx = -MARIO_WALKING_SPEED;
+					nx = -1;
+					DebugOut(L"W L1\n");
+					ChangeAnimation(new PlayerWhippingState());
+				}
+				else {
+					ChangeAnimation(new PlayerWhippingState());
+				}
+			}
+			break;
+		}
+	}
+}
+void Mario::OnKeyUp(int key) {
+	switch (key) {
+	case DIK_S:
+	{
+		player->isWhipping = false;
+	}
 	}
 }

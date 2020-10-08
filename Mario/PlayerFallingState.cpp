@@ -18,7 +18,7 @@ void PlayerFallingState::HandleKeyBoard()
 
 PlayerFallingState::PlayerFallingState()
 {
-	player->stateBoundingBox == MARIO_STATE_BIG_BOUNDING_BOX;
+	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	if (player->nx > 0)
 		stateName = FALLING_RIGHT;
 	else

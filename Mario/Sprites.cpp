@@ -68,7 +68,15 @@ void Animation::Render(float x, float y, int alpha)
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
+			if (currentFrame == frames.size()) {
+				currentFrame = 0;
+				isLastFrame = true;
+			}
+		}
+		else
+		{
+			isLastFrame = false;
+			t += now - lastFrameTime;
 		}
 
 	}
@@ -88,7 +96,54 @@ void Animations::Add(int id, LPANIMATION ani)
 {
 	animations[id] = ani;
 }
+void Animations::LoadResources() {
+	ifstream File;
+	File.open(L"resource\\animations.txt");
+	vector<int> ParaAni;
+	ParaAni.clear();
+	vector<int>::iterator it;
+	int reader;
+	int time;
+	while (!File.eof())
+	{
+		File >> reader;
+		if (reader > -1)
+		{
+			ParaAni.push_back(reader);
+		}
+		else
+		{
+			LPANIMATION ani;
+			if (reader < -1)
+				ani = new Animation(abs(reader));
+			else
+				ani = new Animation(100);
+			for (auto it = ParaAni.begin(); it != ParaAni.end() - 1; ++it)
+				ani->Add(*it);
+			it = ParaAni.end() - 1;
+			Add(*it, ani);
+			ParaAni.clear();
+		}
+		DebugOut(L"[INFO] Animations loaded Ok: id=%d, %d \n", it);
+	}
+	File.close();
 
+}
+void Sprites::LoadResources(){
+	ifstream File;
+	File.open(L"resource\\sprites.txt");
+	int idSpirtes, left, top, right, bottom, Idtex;
+	Textures* textures = Textures::GetInstance();
+	while (!File.eof())
+	{
+
+		File >> idSpirtes >> left >> top >> right >> bottom >> Idtex;
+		LPDIRECT3DTEXTURE9 textWhip = textures->Get(Idtex);
+		Add(idSpirtes, left, top, right, bottom, textWhip);
+		DebugOut(L"[INFO] Sprites loaded Ok: id=%d, %d \n", idSpirtes, textWhip);
+	}
+	File.close();
+}
 LPANIMATION Animations::Get(int id)
 {
 	return animations[id];

@@ -39,7 +39,7 @@ public:
 	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(int id);
 	LPSPRITE& operator[](int id) { return sprites[id]; }
-
+	void LoadResources();
 	static Sprites* GetInstance();
 };
 
@@ -63,9 +63,10 @@ class Animation
 {
 	DWORD lastFrameTime;
 	int defaultTime;
-	int currentFrame;
 	vector<LPANIMATION_FRAME> frames;
 public:
+	int currentFrame;
+	bool isLastFrame;
 	Animation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void Add(int spriteId, DWORD time = 0);
 	void Render(float x, float y, int alpha = 255);
@@ -82,6 +83,6 @@ class Animations
 public:
 	void Add(int id, LPANIMATION ani);
 	LPANIMATION Get(int id);
-
+	void LoadResources();
 	static Animations* GetInstance();
 };

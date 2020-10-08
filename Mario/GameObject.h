@@ -38,10 +38,9 @@ public:
 
 	int nx;
 	int state;
-
+	TAG tag;
 	TYPE type;
 	DWORD dt;
-
 	std::unordered_map<int, LPANIMATION> animations;
 
 public:

@@ -7,7 +7,7 @@ Map::Map(){}
 void Map::LoadResourses() {
 	ifstream File;
 	char gridFileName[30];
-	sprintf_s(gridFileName, "textures\\Level1.txt");
+	sprintf_s(gridFileName, "resource\\Level1.txt");
 	File.open(gridFileName);
 	File >> col >> row;
 	mapTiles = new int* [row];
@@ -28,20 +28,28 @@ void Map::Render() {
 	Sprite *  sprite = sprites->Get(9991);
 	for (int i = 0; i < row; ++i)
 		for (int j = 0; j < col; ++j)
-		{
+		{ 
 			RECT r;
 			r.left = j * TITLE_WIDTH;
 			r.top = i * TITLE_HEIGHT;
-			r.right = r.left + TITLE_WIDTH;
-			r.bottom = r.top + TITLE_HEIGHT;
-				sprite->Draw(r.left, r.top, TITLE_WIDTH * mapTiles[i][j] - TITLE_WIDTH, 0, TITLE_HEIGHT * mapTiles[i][j], TITLE_HEIGHT);
+			/*r.right = r.left + TITLE_WIDTH;
+			r.bottom = r.top + TITLE_HEIGHT;*/
+			sprite->Draw(r.left, r.top, TITLE_WIDTH * mapTiles[i][j] - TITLE_WIDTH, 0, TITLE_HEIGHT * mapTiles[i][j], TITLE_HEIGHT);
 		}
 		
 }
  
-//void Map::Update(float dt) {
-//	SetCamPos(player->x - SCREEN_WIDTH / 2, player->y - SCREEN_HEIGHT / 2);
-//}
+void Map::Update(float dt) {
+	float cx, cy;
+	player->GetPosition(cx, cy);
+	cx -= SCREEN_WIDTH / 2;
+	cy -= SCREEN_HEIGHT / 2;
+	if(player->GetState() != SITTING_LEFT && player->GetState() != SITTING_RIGHT){
+		SetCamPos(cx, cy);
+	}
+	
+	
+}
 Map* Map::GetInstance()
 {
 	if (__instance == NULL)

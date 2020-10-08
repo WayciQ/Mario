@@ -156,8 +156,10 @@
     <ClCompile Include="PlayerSittingState.cpp" />
     <ClCompile Include="PlayerStandingState.cpp" />
     <ClCompile Include="PlayerWalkingState.cpp" />
+    <ClCompile Include="PlayerWhippingState.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h" />
@@ -174,8 +176,10 @@
     <ClInclude Include="PlayerStandingState.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerWalkingState.h" />
+    <ClInclude Include="PlayerWhippingState.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="Whip.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

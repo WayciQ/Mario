@@ -1,126 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Game Components">
+      <UniqueIdentifier>{3e5e53a9-a21b-4d65-8df8-1e8bd86f5284}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Game Graphics">
+      <UniqueIdentifier>{02613fb1-420e-4fd5-b6bd-b294face6d16}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\GameObjects">
+    <Filter Include="GameObjects">
       <UniqueIdentifier>{aceb3dc2-7363-480e-ac12-2b5bd7a94257}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GameObjects\Player">
+    <Filter Include="GameObjects\Player">
       <UniqueIdentifier>{d96dbd04-3f90-40aa-a0ca-073fdd56e830}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GameObjects\Object">
+    <Filter Include="GameObjects\Object">
       <UniqueIdentifier>{ca2d46c2-0c6d-495a-a5e9-d7a901031505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Enemy">
+      <UniqueIdentifier>{a133bd8a-63d0-4520-ad97-3b8622dfa9bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Weapon">
+      <UniqueIdentifier>{46f72de9-d9bf-454f-9b37-13d3a3df2848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Ground">
+      <UniqueIdentifier>{4c9d328e-872d-45e3-9a0a-674c7a7ef0ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="debug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameGlobal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprites.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\GameObjects\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GameObjects\Object</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerWalkingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerStandingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerJumpingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerFallingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerSittingState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Source Files\GameObjects</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerDieState.cpp">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Game Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Game Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameGlobal.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>GameObjects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWhippingState.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Whip.cpp">
+      <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameGlobal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprites.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Source Files\GameObjects\Object</Filter>
+      <Filter>GameObjects\Object</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Mario.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerWalkingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerStandingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerJumpingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerFallingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerSittingState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Source Files\GameObjects</Filter>
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerDieState.h">
-      <Filter>Source Files\GameObjects\Player</Filter>
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Game Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Game Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameGlobal.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>GameObjects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWhippingState.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Whip.h">
+      <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

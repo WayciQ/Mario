@@ -2,13 +2,16 @@
 #include "PlayerJumpingState.h"
 #include "PlayerSittingState.h" 
 #include "PlayerStandingState.h"
+#include "PlayerWhippingState.h"
 #include "Mario.h"
 PlayerWalkingState::PlayerWalkingState(DWORD timeFinish)
 {
 	timeWalk = GetTickCount();
 	this->timeFinish = timeFinish;
 	player->allow[JUMPING] = true;
-	player->stateBoundingBox == MARIO_STATE_BIG_BOUNDING_BOX;
+	player->allow[WHIPPING] = true;
+	player->isWhipping = false;
+	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	//player->ny = 1;
 	if (player->nx > 0)
 	{
@@ -80,11 +83,13 @@ void PlayerWalkingState::HandleKeyBoard()
 	}
 	else if (keyCode[DIK_RIGHT])
 	{
-
 		player->nx = 1;
 		player->ChangeAnimation(new PlayerWalkingState());
 	}
-	else
+	else if(keyCode[DIK_S]) {
+		player->ChangeAnimation(new PlayerWhippingState());
+	}
+	else 
 	{
 		player->ChangeAnimation(new PlayerStandingState);
 	}

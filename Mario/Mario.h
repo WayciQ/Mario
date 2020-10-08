@@ -1,6 +1,5 @@
 #include "GameObject.h"
 #include "PlayerState.h"
-
 #define MARIO_ANI_IDLE_RIGHT		0
 #define MARIO_ANI_IDLE_LEFT			1
 #define MARIO_ANI_WALKING_RIGHT		2
@@ -17,13 +16,14 @@
 
 class PlayerState;
 class GameObject;
-
+class Whip;
 class Mario : public GameObject 
 {
 private:
 	static Mario* __instance;
 public:
 	Mario();
+	Whip* whip;
 	PlayerState* state;
 	int level;
 	int untouchable;
@@ -32,20 +32,20 @@ public:
 	int alpha;
 	bool isSitting;
 	bool isJumping;
-	bool isFighting;
+	bool isWhipping;
 	bool isShooting;
 	bool IsWalkingComplete;
 	Animation* CurAnimation;
 	std::unordered_map<STATENAME, bool> allow;
 	static Mario* GetInstance();
+	STATENAME GetState() { return state->stateName; }
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void HandleObject(LPGAMEOBJECT object);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
-	
+	void SetLevel(int level) { this->level = level; }
 	void ChangeAnimation(PlayerState* newState);
-
 
 };
