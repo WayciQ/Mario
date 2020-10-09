@@ -3,6 +3,7 @@
 #include "PlayerJumpingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerWhippingState.h"
+#include "Goomba.h"
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -12,6 +13,7 @@ Mario* Mario::GetInstance()
 }
 Mario::Mario() {
 	level = MARIO_LEVEL_RACCOON;
+	speedPush = MARIO_WALKING_SPEED;
 }
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -52,11 +54,28 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += min_ty * dy + ny * 0.3f;
 		
 		isJumping = false;
+		speedPush = MARIO_WALKING_SPEED;
 
-		if (nx != 0) vx = 0;
+		if (nx != 0) 
+
 		if (ny != 0) vy = 0;
 
-		
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Goomba*>(e->obj)) // if e->obj is Goomba 
+			{
+				Goomba* goomba = dynamic_cast<Goomba*>(e->obj);
+				if (e->ny < 0)
+				{
+					if (!e->obj->isDead)
+					{
+						e->obj->isDead = true;
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+				}
+			}
+		}
 	}
 
 	// clean up collision events
@@ -71,10 +90,12 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	if (level == MARIO_LEVEL_RACCOON || level == MARIO_LEVEL_BIG) {
 		if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX) {
 			left = x;
-			top = y;
-			right = x + MARIO_BIG_SIT_BBOX_WIDTH;
-			bottom = y + MARIO_BIG_SIT_BBOX_HEIGHT;
-		}
+			top = y + MARIO_BIG_SIT_BBOX_HEIGHT;
+			/*right = x + MARIO_BIG_SIT_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_SIT_BBOX_HEIGHT;*/
+			right = x + MARIO_BIG_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_BBOX_HEIGHT ;
+		}     
 		else {
 			left = x;
 			top = y;
@@ -108,6 +129,7 @@ void Mario::ChangeAnimation(PlayerState* newState)
 	delete state;
 	state = newState;
 	state->stateName = newState->stateName;
+	
 	CurAnimation = animations[newState->stateName];
 }
 
@@ -123,13 +145,13 @@ void Mario::OnKeyDown(int key)
 			{
 				if ((keyCode[DIK_RIGHT]))
 				{
-					vx = MARIO_WALKING_SPEED;
+					vx = player->speedPush;
 					nx = 1;
 					ChangeAnimation(new PlayerJumpingState());
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{
-					vx = -MARIO_WALKING_SPEED;
+					vx = -player->speedPush;
 					nx = -1;
 					ChangeAnimation(new PlayerJumpingState());
 				}
@@ -140,25 +162,18 @@ void Mario::OnKeyDown(int key)
 			}
 			break;
 		}
-		case DIK_DOWN:
-		{
-			if (!isSitting && allow[SITTING]) {
-				y += 11;
-			}
-			
-			break;
-		}
+		
 		case DIK_S:
 		{
 			if (!isWhipping && allow[WHIPPING]) {
 				if (keyCode[DIK_RIGHT]) {
-					vx = MARIO_WALKING_SPEED;
+					vx = player->speedPush;
 					nx = 1;
 					DebugOut(L"W R1\n");
 					ChangeAnimation(new PlayerWhippingState());
 				}
 				else if (keyCode[DIK_LEFT]) {
-					vx = -MARIO_WALKING_SPEED;
+					vx = -player->speedPush;
 					nx = -1;
 					DebugOut(L"W L1\n");
 					ChangeAnimation(new PlayerWhippingState());
@@ -172,10 +187,15 @@ void Mario::OnKeyDown(int key)
 	}
 }
 void Mario::OnKeyUp(int key) {
-	switch (key) {
+	switch (key)
+	{
 	case DIK_S:
 	{
 		player->isWhipping = false;
+		break;
 	}
+	case DIK_A:
+		player->speedPush = MARIO_WALKING_SPEED;
+		break;
 	}
 }

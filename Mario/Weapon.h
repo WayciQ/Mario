@@ -7,7 +7,7 @@ public:
 	Weapon() : GameObject()
 	{
 		tag = WEAPON;
-		isDead = false;
+		//isDead = false;
 	}
 	~Weapon();
 	Animation* CurAnimation;
@@ -16,4 +16,6 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render();
 };
+
+
 

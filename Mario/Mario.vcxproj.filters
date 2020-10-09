@@ -81,6 +81,21 @@
     <ClCompile Include="Whip.cpp">
       <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerLastRunState.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkingLastState.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -136,6 +151,21 @@
     </ClInclude>
     <ClInclude Include="Whip.h">
       <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLastRunState.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkingLastState.h">
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

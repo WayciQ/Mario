@@ -13,7 +13,6 @@ void PlayerWhippingState::Update() {
 			player->CurAnimation->isLastFrame = false;
 			player->CurAnimation->currentFrame = -1;
 			player->ChangeAnimation(new PlayerStandingState());
-			
 		}
 		
 		
@@ -23,7 +22,6 @@ void PlayerWhippingState::HandleKeyBoard() {
 }
 PlayerWhippingState::PlayerWhippingState() {
 	PrevState = player->state->stateName;
-	
 	player->allow[JUMPING] = true;
 	player->allow[WALKING] = true;
 	player->allow[SITTING] = false;

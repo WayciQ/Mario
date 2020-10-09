@@ -5,6 +5,7 @@
 #include "PlayerSittingState.h"
 #include "PlayerWhippingState.h"
 PlayerStandingState::PlayerStandingState() {
+	
 	player->allow[JUMPING] = true;
 	player->allow[WALKING] = true;
 	player->allow[WHIPPING] = true;
@@ -23,7 +24,7 @@ PlayerStandingState::PlayerStandingState() {
 	player->isSitting = false;
 	player->isJumping = false;
 	if (player->nx > 0)
-		stateName = STADING_RIGHT;
+		stateName = STANDING_RIGHT;
 	else stateName = STANDING_LEFT;
 	
 }

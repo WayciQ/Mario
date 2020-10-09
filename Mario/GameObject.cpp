@@ -120,6 +120,7 @@ void GameObject::AddAnimation(int aniId, STATENAME NameState)
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
 	animations[NameState] = ani;
 }
+
 void GameObject::AddAnimation(int aniId,TYPE type)
 {
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);

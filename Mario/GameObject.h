@@ -41,6 +41,7 @@ public:
 	TAG tag;
 	TYPE type;
 	DWORD dt;
+	bool isDead;
 	std::unordered_map<int, LPANIMATION> animations;
 
 public:

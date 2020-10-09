@@ -3,9 +3,12 @@
 #include "PlayerSittingState.h" 
 #include "PlayerStandingState.h"
 #include "PlayerWhippingState.h"
+#include "PlayerLastRunState.h"
 #include "Mario.h"
 PlayerWalkingState::PlayerWalkingState(DWORD timeFinish)
 {
+	PrevState = player->state->stateName;
+	
 	timeWalk = GetTickCount();
 	this->timeFinish = timeFinish;
 	player->allow[JUMPING] = true;
@@ -15,13 +18,20 @@ PlayerWalkingState::PlayerWalkingState(DWORD timeFinish)
 	//player->ny = 1;
 	if (player->nx > 0)
 	{
+		if (PrevState == WALKING_RIGHT)
+		{
+			player->vx = player->vx  < player->speedPush ? player->vx + MARIO_INERTIA : player->speedPush;
+			DebugOut(L"speed: %f \n", player->vx);
+		}
 		stateName = WALKING_RIGHT;
-		player->vx = MARIO_WALKING_SPEED;
 	}
 	else
 	{
+		if (PrevState == WALKING_LEFT)
+		{
+			player->vx = player->vx > -player->speedPush ? player->vx - MARIO_INERTIA : -player->speedPush;
+		}
 		stateName = WALKING_LEFT;
-		player->vx = -MARIO_WALKING_SPEED;
 	}
 	
 
@@ -29,13 +39,12 @@ PlayerWalkingState::PlayerWalkingState(DWORD timeFinish)
 
 void PlayerWalkingState::walking(DWORD dt)
 {
-
 	if (player->x < dt)
 	{
-		if (player->x >= dt - 2)
+		if (player->x >= dt - 10)
 		{
 			//get in the position
-			player->IsWalkingComplete = true;
+			player->isWalkingComplete = true;
 			player->ChangeAnimation(new PlayerStandingState());
 			return;
 		}
@@ -43,10 +52,10 @@ void PlayerWalkingState::walking(DWORD dt)
 	}
 	else
 	{
-		if (player->x <= dt + 2)
+		if (player->x <= dt + 10)
 		{
 			//get in the position
-			player->IsWalkingComplete = true;
+			player->isWalkingComplete = true;
 				player->ChangeAnimation(new PlayerStandingState());
 			return;
 		}
@@ -58,9 +67,9 @@ void PlayerWalkingState::walking(DWORD dt)
 void PlayerWalkingState::Update()
 {
 
-	if (timeFinish != 0)
-		walking(timeFinish);
-	else
+	/*if (player->isWalkingComplete)
+		player->ChangeAnimation(new PlayerLastRunState());
+	else*/
 		this->HandleKeyBoard();
 
 }
@@ -78,11 +87,17 @@ void PlayerWalkingState::HandleKeyBoard()
 	}
 	else if (keyCode[DIK_LEFT])
 	{
+		if (keyCode[DIK_A]) {
+			player->speedPush = MARIO_WALKING_SPEED_PUSH;
+		}
 		player->nx = -1;
 		player->ChangeAnimation(new PlayerWalkingState());
 	}
 	else if (keyCode[DIK_RIGHT])
 	{
+		if (keyCode[DIK_A]) {
+			player->speedPush = MARIO_WALKING_SPEED_PUSH;
+		}
 		player->nx = 1;
 		player->ChangeAnimation(new PlayerWalkingState());
 	}

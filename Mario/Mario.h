@@ -22,6 +22,8 @@ class Mario : public GameObject
 private:
 	static Mario* __instance;
 public:
+	float ax; //inertia
+	float speedPush;
 	Mario();
 	Whip* whip;
 	PlayerState* state;
@@ -34,7 +36,7 @@ public:
 	bool isJumping;
 	bool isWhipping;
 	bool isShooting;
-	bool IsWalkingComplete;
+	bool isWalkingComplete;
 	Animation* CurAnimation;
 	std::unordered_map<STATENAME, bool> allow;
 	static Mario* GetInstance();

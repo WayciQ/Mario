@@ -29,6 +29,7 @@
 #include "Mario.h"
 #include "PlayerStandingState.h"
 #include "Brick.h"
+#include "Goomba.h"
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
 
@@ -271,7 +272,7 @@ void LoadResources()
 	//ani->Add(10099);
 	//animations->Add(599, ani);
 
-	player->AddAnimation(101,STADING_RIGHT);		// idle right
+	player->AddAnimation(101,STANDING_RIGHT);		// idle right
 	player->AddAnimation(102,STANDING_LEFT);		// idle left
 
 	player->AddAnimation(201,WALKING_RIGHT);		// walk right
@@ -288,10 +289,12 @@ void LoadResources()
 
 	player->AddAnimation(401,WHIPPING_RIGHT); 		// fight right
 	player->AddAnimation(402,WHIPPING_LEFT);		// fight left
+	player->AddAnimation(403, LAST_RIGHT);
+	player->AddAnimation(404, LAST_LEFT);
 	//mario->AddAnimation(599);
 	//mario->AddAnimation(501);		//fire right
 	//mario->AddAnimation(502);		//fire left
-	player->SetPosition(50.0f, 100);
+	player->SetPosition(270, 100);
 	player->ChangeAnimation(new PlayerStandingState());
 	objects.push_back(player);
 	
@@ -321,16 +324,30 @@ void LoadResources()
 		brick->SetPosition(0 + i * 16.0f, 300);
 		objects.push_back(brick);
 	}
+	for (int i = 0; i < 2; i++)
+	{
+		Brick* brick = new Brick();
+		brick->AddAnimation(801, BRICK);
+		brick->SetPosition(150, 284 - i*16.0f);
+		objects.push_back(brick);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Brick* brick = new Brick();
+		brick->AddAnimation(801, BRICK);
+		brick->SetPosition(350, 284 - i * 16.0f);
+		objects.push_back(brick);
+	}
+	
 
 	
 	//// and Goombas 
 	//for (int i = 0; i < 4; i++)
 	//{
-	//	goomba = new Goomba();
-	//	goomba->AddAnimation(701);
-	//	goomba->AddAnimation(702);
-	//	goomba->SetPosition(200 + i * 60, 135);
-	//	goomba->SetState(GOOMBA_STATE_WALKING);
+	//	Goomba* goomba = new Goomba();
+	//	goomba->AddAnimation(701,GOOMBA);
+	//	goomba->AddAnimation(702,GOOMBA_DIE);
+	//	goomba->SetPosition(170 + i * 14.0f, 200);
 	//	objects.push_back(goomba);
 	//}
 
@@ -354,10 +371,7 @@ void Update(DWORD dt)
 	for (int i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt, &coObjects);
-		//if (player->GetState() == WHIPPING_LEFT || player->GetState() == WHIPPING_RIGHT)
-		//{
-		//	//player->whip->Update(dt, &coObjects);
-		//}
+		
 	}
 	
 

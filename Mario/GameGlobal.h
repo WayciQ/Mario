@@ -19,8 +19,10 @@ using namespace std;
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
 #define MARIO_LEVEL_RACCOON	3
-#define MARIO_WALKING_SPEED		0.1f 
 
+#define MARIO_INERTIA 0.005f
+#define MARIO_WALKING_SPEED		0.1f 
+#define MARIO_WALKING_SPEED_PUSH 0.3f
 #define MARIO_JUMP_SPEED_Y		0.3f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
 #define MARIO_GRAVITY			0.001f
@@ -52,7 +54,7 @@ using namespace std;
 extern enum STATENAME {
 	STANDING,
 	STANDING_LEFT,
-	STADING_RIGHT,
+	STANDING_RIGHT,
 	WALKING,
 	WALKING_LEFT,
 	WALKING_RIGHT,
@@ -68,11 +70,20 @@ extern enum STATENAME {
 	WHIPPING,
 	WHIPPING_LEFT,
 	WHIPPING_RIGHT,
+	LAST_RIGHT,
+	LAST_LEFT
 	
+};extern enum LEVEL {
+	SMALL,
+	BIG,
+	RACCOON,
+	FIRE
 };
 extern enum TYPE {
 	BRICK,
 	WHIP,
+	GOOMBA,
+	GOOMBA_DIE
 };
 extern enum TAG
 {

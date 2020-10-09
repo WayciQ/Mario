@@ -5,6 +5,7 @@
 class PlayerWalkingState : public PlayerState
 {
 public:
+	
 	DWORD timeWalk, timeFinish;
 	void Update();
 	void HandleKeyBoard();
