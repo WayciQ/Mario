@@ -3,21 +3,35 @@
 #include "PlayerStandingState.h"
 #include "PlayerWalkingState.h"
 PlayerLastRunState::PlayerLastRunState() {
-	player->allow[STANDING] = true;
-	player->allow[WALKING] = true;
-	player->isWalkingComplete = false;
+	
 	player->vx = 0;
-	if (player->nx > 0) {
-		stateName = LAST_RIGHT;
+	if (player->walkingDirection > 0) {
+		stateName = LAST_LEFT;
 	}
 	else {
-		stateName = LAST_LEFT;
+		stateName = LAST_RIGHT;
 	}
 }
 PlayerLastRunState::~PlayerLastRunState(){}
 void PlayerLastRunState::HandleKeyBoard() {
+	/*if (keyCode[DIK_LEFT])
+	{
+		player->nx = -1;
+		player->ChangeAnimation(new PlayerWalkingState());
+	}
+	else if (keyCode[DIK_RIGHT])
+	{
+		player->nx = 1;
+		player->ChangeAnimation(new PlayerWalkingState());
+	}*/
 	
 }
 void PlayerLastRunState::Update() {
-
+	if (!player->isWaittingPress)
+	{
+		player->isWalkingComplete = false;
+		player->ChangeAnimation(new PlayerStandingState());
+		return;
+	}
+	this->HandleKeyBoard();
 }

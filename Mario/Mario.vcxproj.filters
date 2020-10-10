@@ -93,9 +93,6 @@
     <ClCompile Include="PlayerLastRunState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerWalkingLastState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -162,9 +159,6 @@
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="PlayerLastRunState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWalkingLastState.h">
       <Filter>GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>

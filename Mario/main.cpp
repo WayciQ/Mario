@@ -289,8 +289,8 @@ void LoadResources()
 
 	player->AddAnimation(401,WHIPPING_RIGHT); 		// fight right
 	player->AddAnimation(402,WHIPPING_LEFT);		// fight left
-	player->AddAnimation(403, LAST_RIGHT);
-	player->AddAnimation(404, LAST_LEFT);
+	player->AddAnimation(404, LAST_RIGHT);
+	player->AddAnimation(403, LAST_LEFT);
 	//mario->AddAnimation(599);
 	//mario->AddAnimation(501);		//fire right
 	//mario->AddAnimation(502);		//fire left

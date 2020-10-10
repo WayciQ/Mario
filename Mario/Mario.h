@@ -36,7 +36,10 @@ public:
 	bool isJumping;
 	bool isWhipping;
 	bool isShooting;
+	int startWalkingComplete;
+	int walkingDirection;
 	bool isWalkingComplete;
+	bool isWaittingPress;
 	Animation* CurAnimation;
 	std::unordered_map<STATENAME, bool> allow;
 	static Mario* GetInstance();
@@ -44,6 +47,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
 	void HandleObject(LPGAMEOBJECT object);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);

@@ -161,7 +161,6 @@
     <ClCompile Include="PlayerLastRunState.cpp" />
     <ClCompile Include="PlayerSittingState.cpp" />
     <ClCompile Include="PlayerStandingState.cpp" />
-    <ClCompile Include="PlayerWalkingLastState.cpp" />
     <ClCompile Include="PlayerWalkingState.cpp" />
     <ClCompile Include="PlayerWhippingState.cpp" />
     <ClCompile Include="Sprites.cpp" />
@@ -186,7 +185,6 @@
     <ClInclude Include="PlayerSittingState.h" />
     <ClInclude Include="PlayerStandingState.h" />
     <ClInclude Include="PlayerState.h" />
-    <ClInclude Include="PlayerWalkingLastState.h" />
     <ClInclude Include="PlayerWalkingState.h" />
     <ClInclude Include="PlayerWhippingState.h" />
     <ClInclude Include="Sprites.h" />

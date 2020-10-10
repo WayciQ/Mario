@@ -7,6 +7,5 @@ public:
 	void HandleKeyBoard();
 	PlayerLastRunState();
 	~PlayerLastRunState();
-
 };
 

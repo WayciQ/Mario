@@ -22,7 +22,12 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	state->Update();
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
-
+	isWaittingPress = GetTickCount() - startWalkingComplete <= MARIO_LAST_RUN_TIME;
+	if (isWaittingPress) {
+		DebugOut(L"\n isWaittingPress:true - %d", GetTickCount() - startWalkingComplete);
+	}else DebugOut(L"\n isWaittingPress:false - %d", GetTickCount() - startWalkingComplete);
+	
+		
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -169,13 +174,11 @@ void Mario::OnKeyDown(int key)
 				if (keyCode[DIK_RIGHT]) {
 					vx = player->speedPush;
 					nx = 1;
-					DebugOut(L"W R1\n");
 					ChangeAnimation(new PlayerWhippingState());
 				}
 				else if (keyCode[DIK_LEFT]) {
 					vx = -player->speedPush;
 					nx = -1;
-					DebugOut(L"W L1\n");
 					ChangeAnimation(new PlayerWhippingState());
 				}
 				else {
@@ -191,11 +194,21 @@ void Mario::OnKeyUp(int key) {
 	{
 	case DIK_S:
 	{
-		player->isWhipping = false;
+		isWhipping = false;
 		break;
 	}
 	case DIK_A:
-		player->speedPush = MARIO_WALKING_SPEED;
+		speedPush = MARIO_WALKING_SPEED;
+		break;
+	case DIK_RIGHT:
+		startWalkingDone();
+		walkingDirection = 1;
+		DebugOut(L"Righ up \n");
+		break;
+	case DIK_LEFT:
+		startWalkingDone();
+		walkingDirection = -1;
+		DebugOut(L"Left up \n");
 		break;
 	}
 }
