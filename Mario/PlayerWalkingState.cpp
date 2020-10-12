@@ -8,9 +8,7 @@
 PlayerWalkingState::PlayerWalkingState()
 {
 	PrevState = player->state->stateName;
-	
 	player->allow[JUMPING] = true;
-	player->allow[WHIPPING] = true;
 	player->isWhipping = false;
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	//player->ny = 1;
@@ -91,8 +89,6 @@ void PlayerWalkingState::HandleKeyBoard()
 	{
 		if(!player->isWalkingComplete && player->CurAnimation->isLastFrame)
 			player->ChangeAnimation(new PlayerStandingState());
-		
-		
 	}
 }
 

@@ -4,6 +4,7 @@
 #include "PlayerStandingState.h"
 #include "PlayerWhippingState.h"
 #include "Goomba.h"
+
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -12,7 +13,7 @@ Mario* Mario::GetInstance()
 	return __instance;
 }
 Mario::Mario() {
-	level = MARIO_LEVEL_RACCOON;
+	level = SMALL;
 	speedPush = MARIO_WALKING_SPEED;
 }
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -92,7 +93,7 @@ void Mario::HandleObject(LPGAMEOBJECT object) {
 }
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (level == MARIO_LEVEL_RACCOON || level == MARIO_LEVEL_BIG) {
+	if (level == RACCOON || level == BIG) {
 		if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX) {
 			left = x;
 			top = y + MARIO_BIG_SIT_BBOX_HEIGHT;
@@ -131,11 +132,13 @@ void Mario::Render() {
 }
 void Mario::ChangeAnimation(PlayerState* newState)
 {
+	LevelMario* marioLevel = LevelMario::GetInstance();
 	delete state;
 	state = newState;
+	LPMARIOLEVEL ani = marioLevel->Get(level);
 	state->stateName = newState->stateName;
-	
-	CurAnimation = animations[newState->stateName];
+	/*CurAnimation = animations[newState->stateName];*/
+	CurAnimation = ani->Get(newState->stateName);
 }
 
 

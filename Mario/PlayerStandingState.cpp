@@ -5,18 +5,28 @@
 #include "PlayerSittingState.h"
 #include "PlayerWhippingState.h"
 PlayerStandingState::PlayerStandingState() {
-	
 	player->allow[JUMPING] = true;
 	player->allow[WALKING] = true;
-	player->allow[WHIPPING] = true;
-	player->allow[SITTING] = true;
+	if (player->level == SMALL) {
+		player->allow[WHIPPING] = false;
+		player->allow[SITTING] = false;
+	}
+	else if (player->level == BIG)
+	{
+		player->allow[WHIPPING] = false;
+		player->allow[SITTING] = true;
+	}
+	else {
+		player->allow[WHIPPING] = true;
+		player->allow[SITTING] = true;
+	}
+	
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	player->vx = 0;
 	//player->nx = 1;
 	player->isWhipping = false;
 	player->isSitting = false;
 	player->isJumping = false;
-	player->walkingDirection = false;
 	if (player->nx > 0)
 		stateName = STANDING_RIGHT;
 	else stateName = STANDING_LEFT;
@@ -33,7 +43,7 @@ void PlayerStandingState::HandleKeyBoard() {
 	{
 			player->ChangeAnimation(new PlayerWalkingState());
 	}
-	else if (keyCode[DIK_DOWN])
+	else if (keyCode[DIK_DOWN] && player->allow[SITTING])
 	{
 		player->ChangeAnimation(new PlayerSittingState());
 	}

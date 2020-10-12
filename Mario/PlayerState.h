@@ -8,5 +8,6 @@ public:
 	virtual void Update() = 0;
 	STATENAME stateName;
 	STATENAME PrevState;
+	LEVEL level;
 };
 

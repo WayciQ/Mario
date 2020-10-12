@@ -271,26 +271,76 @@ void LoadResources()
 	//ani = new Animation(100);	// Mario die
 	//ani->Add(10099);
 	//animations->Add(599, ani);
+	LevelMario* marioLevel = LevelMario::GetInstance();
+	LPMARIOLEVEL level;
+	level = new CLevel();
+	level->Add(121, STANDING_RIGHT);
+	level->Add(122, STANDING_LEFT);		// idle left
+	level->Add(221, WALKING_RIGHT);		// walk right
+	level->Add(222, WALKING_LEFT);		// walk left
 
-	player->AddAnimation(101,STANDING_RIGHT);		// idle right
-	player->AddAnimation(102,STANDING_LEFT);		// idle left
+	level->Add(320, FALLING_RIGHT);		// fall right
+	level->Add(321, FALLING_LEFT);		// fall left
+	level->Add(323, JUMPING_RIGHT);		// jump right
+	level->Add(324, JUMPING_LEFT);		// jump left
+	level->Add(325, SITTING_RIGHT);		// sit right
+	level->Add(326, SITTING_LEFT);		// sit left
+	level->Add(421, WHIPPING_RIGHT); 		// fight right
+	level->Add(422, WHIPPING_LEFT);		// fight left
+	level->Add(423, LAST_RIGHT);
+	level->Add(424, LAST_LEFT);
+	marioLevel->Add(RACCOON, level);
 
-	player->AddAnimation(201,WALKING_RIGHT);		// walk right
-	player->AddAnimation(202,WALKING_LEFT);		// walk left
+	level = new CLevel();
+	level->Add(101, STANDING_RIGHT);
+	level->Add(102, STANDING_LEFT);		// idle left
+	level->Add(201, WALKING_RIGHT);		// walk right
+	level->Add(202, WALKING_LEFT);		// walk left
+
+	level->Add(300, FALLING_RIGHT);		// fall right
+	level->Add(301, FALLING_LEFT);		// fall left
+	level->Add(302, JUMPING_RIGHT);		// jump right
+	level->Add(303, JUMPING_LEFT);		// jump left
+	level->Add(403, LAST_RIGHT);
+	level->Add(404, LAST_LEFT);
+	marioLevel->Add(SMALL, level);
+
+	level = new CLevel();
+	level->Add(111, STANDING_RIGHT);
+	level->Add(112, STANDING_LEFT);		// idle left
+	level->Add(211, WALKING_RIGHT);		// walk right
+	level->Add(212, WALKING_LEFT);		// walk left
+	level->Add(310, FALLING_RIGHT);		// fall right
+	level->Add(311, FALLING_LEFT);		// fall left
+	level->Add(312, JUMPING_RIGHT);		// jump right
+	level->Add(313, JUMPING_LEFT);		// jump left
+	level->Add(314, SITTING_RIGHT);		// sit right
+	level->Add(315, SITTING_LEFT);		// sit left
+	level->Add(413, LAST_RIGHT);
+	level->Add(414, LAST_LEFT);
+	marioLevel->Add(BIG, level);
+
+	//player->AddAnimation(101,STANDING_RIGHT);		// idle right
+	//player->AddAnimation(102,STANDING_LEFT);		// idle left
+
+	//player->AddAnimation(201,WALKING_RIGHT);		// walk right
+	//player->AddAnimation(202,WALKING_LEFT);		// walk left
+	//
+	//player->AddAnimation(310, FALLING_RIGHT);		// fall right
+	//player->AddAnimation(311, FALLING_LEFT);		// fall left
+
+	//player->AddAnimation(320, JUMPING_RIGHT);		// jump right
+	//player->AddAnimation(321, JUMPING_LEFT);		// jump left
+
+	//player->AddAnimation(330,SITTING_RIGHT);		// sit right
+	//player->AddAnimation(340,SITTING_LEFT);		// sit left
+
+	//player->AddAnimation(401,WHIPPING_RIGHT); 		// fight right
+	//player->AddAnimation(402,WHIPPING_LEFT);		// fight left
+	//player->AddAnimation(404, LAST_RIGHT);
+	//player->AddAnimation(403, LAST_LEFT);
+
 	
-	player->AddAnimation(310, FALLING_RIGHT);		// fall right
-	player->AddAnimation(311, FALLING_LEFT);		// fall left
-
-	player->AddAnimation(320, JUMPING_RIGHT);		// jump right
-	player->AddAnimation(321, JUMPING_LEFT);		// jump left
-
-	player->AddAnimation(330,SITTING_RIGHT);		// sit right
-	player->AddAnimation(340,SITTING_LEFT);		// sit left
-
-	player->AddAnimation(401,WHIPPING_RIGHT); 		// fight right
-	player->AddAnimation(402,WHIPPING_LEFT);		// fight left
-	player->AddAnimation(404, LAST_RIGHT);
-	player->AddAnimation(403, LAST_LEFT);
 	//mario->AddAnimation(599);
 	//mario->AddAnimation(501);		//fire right
 	//mario->AddAnimation(502);		//fire left

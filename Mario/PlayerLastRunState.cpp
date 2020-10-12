@@ -6,25 +6,14 @@ PlayerLastRunState::PlayerLastRunState() {
 	
 	player->vx = 0;
 	if (player->walkingDirection > 0) {
-		stateName = LAST_LEFT;
+		stateName = LAST_RIGHT;
 	}
 	else {
-		stateName = LAST_RIGHT;
+		stateName = LAST_LEFT;
 	}
 }
 PlayerLastRunState::~PlayerLastRunState(){}
 void PlayerLastRunState::HandleKeyBoard() {
-	/*if (keyCode[DIK_LEFT])
-	{
-		player->nx = -1;
-		player->ChangeAnimation(new PlayerWalkingState());
-	}
-	else if (keyCode[DIK_RIGHT])
-	{
-		player->nx = 1;
-		player->ChangeAnimation(new PlayerWalkingState());
-	}*/
-	
 }
 void PlayerLastRunState::Update() {
 	if (!player->isWaittingPress)

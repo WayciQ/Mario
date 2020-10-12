@@ -27,7 +27,7 @@ public:
 	Mario();
 	Whip* whip;
 	PlayerState* state;
-	int level;
+	LEVEL level;
 	int untouchable;
 	DWORD untouchableTime;
 	int stateBoundingBox;
@@ -51,7 +51,7 @@ public:
 	void HandleObject(LPGAMEOBJECT object);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
-	void SetLevel(int level) { this->level = level; }
+	void SetLevel(LEVEL level) { this->level = level; }
 	void ChangeAnimation(PlayerState* newState);
 
 };

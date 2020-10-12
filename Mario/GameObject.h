@@ -1,6 +1,6 @@
 #pragma once
 #include "Sprites.h"
-
+#include "LevelMario.h"
 using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
@@ -10,7 +10,6 @@ typedef GameObject* LPGAMEOBJECT;
 
 struct CollisionEvent;
 typedef CollisionEvent* LPCOLLISIONEVENT;
-
 struct CollisionEvent
 {
 	LPGAMEOBJECT obj;
