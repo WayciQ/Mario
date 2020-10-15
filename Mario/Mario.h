@@ -22,24 +22,24 @@ class Mario : public GameObject
 private:
 	static Mario* __instance;
 public:
-	float ax; //inertia
-	float speedPush;
 	Mario();
 	Whip* whip;
 	PlayerState* state;
 	LEVEL level;
 	int untouchable;
 	DWORD untouchableTime;
+	float speedJump;
 	int stateBoundingBox;
 	int alpha;
 	bool isSitting;
 	bool isJumping;
 	bool isWhipping;
+	bool isRunning;
 	bool isShooting;
 	int startWalkingComplete;
 	int walkingDirection;
 	bool isWalkingComplete;
-	bool isWaittingPress;
+	bool isWaittingPressBtn;
 	Animation* CurAnimation;
 	std::unordered_map<STATENAME, bool> allow;
 	static Mario* GetInstance();

@@ -4,31 +4,36 @@
 #include "PlayerStandingState.h"
 #include "PlayerWhippingState.h"
 #include "PlayerLastRunState.h"
+#include "PlayerRunningState.h"
 #include "Mario.h"
 PlayerWalkingState::PlayerWalkingState()
 {
-	PrevState = player->state->stateName;
-	player->allow[JUMPING] = true;
+	player->allow[RUNNING] = true;
+	player->allow[JUMPING] = true; // can jump in walking state
+	
+	if (player->level == RACCOON) {
+		player->allow[WHIPPING] = true;
+		player->allow[SITTING] = true;
+	}
+	else player->allow[WHIPPING] = false;// can whipping in walking state
 	player->isWhipping = false;
+	player->isRunning = false;
+	// set bouding box
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
-	//player->ny = 1;
+
+	//set state by nx and vx
 		if (player->nx > 0)
 		{
-			if (PrevState == WALKING_RIGHT)
-			{
-				player->vx = player->vx < player->speedPush ? player->vx + MARIO_INERTIA : player->speedPush;
-			}
+			player->vx = player->vx > MARIO_WALKING_SPEED ? MARIO_WALKING_SPEED : player->vx + MARIO_INERTIA_WALKING; // vx increase by inertia; max vx = speedPush
 			stateName = WALKING_RIGHT;
 		}
 		else
 		{
-			if (PrevState == WALKING_LEFT)
-			{
-				player->vx = player->vx > -player->speedPush ? player->vx - MARIO_INERTIA : -player->speedPush;
-			}
+			//DebugOut(L"vx-left: %f\n", player->vx);
+			player->vx = player->vx < -MARIO_WALKING_SPEED ? -MARIO_WALKING_SPEED : player->vx - MARIO_INERTIA_WALKING; // vx decrease by inertia; max vx = speedPush
 			stateName = WALKING_LEFT;
 		}
-	
+		player->speedJump = player->vx;
 	
 	
 
@@ -36,31 +41,58 @@ PlayerWalkingState::PlayerWalkingState()
 
 void PlayerWalkingState::Update()
 {
-	if (player->isWaittingPress) 
+	this->HandleKeyBoard();
+	if (player->isWaittingPressBtn) // btn left or right is OnUpKey in number of time
 	{
 		if (player->walkingDirection != player->nx) {
-			player->isWalkingComplete = true;
-			DebugOut(L"\n11111");
+			// if nx != walkingDirection that mean wakling is done and change direction
+			player->isWalkingComplete = true; 
 		}
 		else {
+			// continue walking in before direction
 			player->isWalkingComplete = false;
 		}
+		
 	}
 	else
 	{
 		player->isWalkingComplete = false;
-		
+
+		// vx will be minus by inertia cause btn left or right dosen't press
+		if (stateName == WALKING_RIGHT)
+		{
+			player->vx = player->vx < 0 ? 0 : player->vx - 5 * MARIO_INERTIA_WALKING;
+
+			if (player->vx == 0 && player->CurAnimation->isLastFrame) {
+				player->ChangeAnimation(new PlayerStandingState());
+				return;
+			}
+		}
+		else if (stateName == WALKING_LEFT)
+		{
+			player->vx = player->vx > 0 ? 0 : player->vx + 5 * MARIO_INERTIA_WALKING;
+			if (player->vx == 0 && player->CurAnimation->isLastFrame) {
+				player->ChangeAnimation(new PlayerStandingState());
+				return;
+			}
+		}
 	}
-	this->HandleKeyBoard();
+
 
 }
 
 void PlayerWalkingState::HandleKeyBoard()
 {
-	if (keyCode[DIK_A]) {
-		player->speedPush = MARIO_WALKING_SPEED_PUSH;
+	if (keyCode[DIK_A])
+	{
+		if (!player->isRunning && player->allow[RUNNING])
+		{
+			player->isRunning = true;
+			player->ChangeAnimation(new PlayerRunningState());
+			
+		}
 	}
-	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
+	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
 	{
 		player->ChangeAnimation(new PlayerStandingState());
 	}
@@ -85,10 +117,10 @@ void PlayerWalkingState::HandleKeyBoard()
 
 		
 	}
-	else 
+	 if(keyCode[DIK_DOWN] && player->allow[SITTING])
 	{
-		if(!player->isWalkingComplete && player->CurAnimation->isLastFrame)
-			player->ChangeAnimation(new PlayerStandingState());
+		player->vx = 0;
+		player->ChangeAnimation(new PlayerSittingState());
 	}
 }
 

@@ -1,18 +1,9 @@
-﻿  Mario.cpp
+﻿  PlayerSittingState.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(77,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(82,2): warning C4091: 'extern ': ignored on left of 'LEVEL' when no variable is declared
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(88,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(99,2): warning C4091: 'extern ': ignored on left of 'TAG' when no variable is declared
+C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(85,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
+C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(90,2): warning C4091: 'extern ': ignored on left of 'LEVEL' when no variable is declared
+C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(97,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
+C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(108,2): warning C4091: 'extern ': ignored on left of 'TAG' when no variable is declared
 C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\Game.h(6,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
 C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
-  PlayerWhippingState.cpp
-  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(77,2): warning C4091: 'extern ': ignored on left of 'STATENAME' when no variable is declared
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(82,2): warning C4091: 'extern ': ignored on left of 'LEVEL' when no variable is declared
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(88,2): warning C4091: 'extern ': ignored on left of 'TYPE' when no variable is declared
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\GameGlobal.h(99,2): warning C4091: 'extern ': ignored on left of 'TAG' when no variable is declared
-C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Mario\Game.h(6,1): warning C4005: 'DIRECTINPUT_VERSION': macro redefinition
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h(42): message : see previous definition of 'DIRECTINPUT_VERSION'
-  Generating Code...
   Mario.vcxproj -> C:\Users\WayciQ\Desktop\Mario_bros_3\Mario\Debug\Mario.exe

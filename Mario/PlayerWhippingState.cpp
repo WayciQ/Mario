@@ -8,7 +8,7 @@
 void PlayerWhippingState::Update() {
 	
 	this->HandleKeyBoard();
-		if (player->CurAnimation->isLastFrame && player->isWhipping) {
+		if (player->CurAnimation->isLastFrame ) {
 			player->allow[WHIPPING] = true;
 			player->CurAnimation->isLastFrame = false;
 			player->CurAnimation->currentFrame = -1;

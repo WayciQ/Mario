@@ -16,7 +16,7 @@ PlayerLastRunState::~PlayerLastRunState(){}
 void PlayerLastRunState::HandleKeyBoard() {
 }
 void PlayerLastRunState::Update() {
-	if (!player->isWaittingPress)
+	if (!player->isWaittingPressBtn)
 	{
 		player->isWalkingComplete = false;
 		player->ChangeAnimation(new PlayerStandingState());

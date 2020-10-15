@@ -5,8 +5,11 @@
 #include "PlayerSittingState.h"
 #include "PlayerWhippingState.h"
 PlayerStandingState::PlayerStandingState() {
-	player->allow[JUMPING] = true;
-	player->allow[WALKING] = true;
+	player->allow[JUMPING] = true; // allow jump in standing state
+	player->allow[WALKING] = true; // allow walk
+	player->allow[RUNNING] = false;
+	player->speedJump = 0;
+	// allow state by level
 	if (player->level == SMALL) {
 		player->allow[WHIPPING] = false;
 		player->allow[SITTING] = false;
@@ -21,12 +24,15 @@ PlayerStandingState::PlayerStandingState() {
 		player->allow[SITTING] = true;
 	}
 	
+	// set bounding box in standing state
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
-	player->vx = 0;
-	//player->nx = 1;
+	player->vx = 0; // vx = 0;
+
+	// flag state 
 	player->isWhipping = false;
 	player->isSitting = false;
 	player->isJumping = false;
+	// set state by nx
 	if (player->nx > 0)
 		stateName = STANDING_RIGHT;
 	else stateName = STANDING_LEFT;
@@ -41,9 +47,9 @@ void PlayerStandingState::HandleKeyBoard() {
 	}
 	else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT])
 	{
-			player->ChangeAnimation(new PlayerWalkingState());
+		player->ChangeAnimation(new PlayerWalkingState());
 	}
-	else if (keyCode[DIK_DOWN] && player->allow[SITTING])
+	else if (keyCode[DIK_DOWN] && player->allow[SITTING]) // small level dosen't have state sit
 	{
 		player->ChangeAnimation(new PlayerSittingState());
 	}
@@ -52,7 +58,7 @@ void PlayerStandingState::HandleKeyBoard() {
 
 void PlayerStandingState::Update()
 {
-	this->HandleKeyBoard();
+	this->HandleKeyBoard(); // loop
 }
 
 PlayerStandingState::~PlayerStandingState()

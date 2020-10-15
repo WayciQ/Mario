@@ -16,13 +16,33 @@ void PlayerJumpingState::Update()
 void PlayerJumpingState::HandleKeyBoard()
 {
 	
+	if (keyCode[DIK_RIGHT]) {
+		player->nx = 1;
+		player->vx = player->speedJump;
+		if (player->vx == 0) {
+			player->vx = MARIO_WALKING_SPEED;
+		}
+	}
+	else if (keyCode[DIK_LEFT])
+	{
+		player->nx = -1;
+		player->vx = player->speedJump;
+		if (player->vx == 0) {
+			player->vx = -MARIO_WALKING_SPEED;
+		}
+	}
 }
 
 PlayerJumpingState::PlayerJumpingState()
 {
 	
 	player->allow[JUMPING] = false;
-	player->allow[WHIPPING] = true;
+	if (player->level == RACCOON) {
+		player->allow[WHIPPING] = true;
+	}
+	else
+		player->allow[WHIPPING] = false;
+
 	if (!player->isJumping)
 		player->vy = -MARIO_JUMP_SPEED_Y;
 	player->isJumping = true;

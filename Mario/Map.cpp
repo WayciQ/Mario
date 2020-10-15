@@ -7,7 +7,7 @@ Map::Map(){}
 void Map::LoadResourses() {
 	ifstream File;
 	char gridFileName[30];
-	sprintf_s(gridFileName, "resource\\Level1.txt");
+	sprintf_s(gridFileName, "resource\\level1.txt");
 	File.open(gridFileName);
 	File >> col >> row;
 	mapTiles = new int* [row];
@@ -21,10 +21,10 @@ void Map::LoadResourses() {
 }
 void Map::Render() {
 	Textures* tex = Textures::GetInstance();
-	LPDIRECT3DTEXTURE9 texMap = tex->Get(ID_TEXTURE_MAP_1);
+	LPDIRECT3DTEXTURE9 texMap = tex->Get(40);
 	Sprites* sprites = Sprites::GetInstance();
 
-	sprites->Add(9991, 0, 0, 32, 1568, texMap);
+	sprites->Add(9991, 0, 0, 1568, 32, texMap);
 	Sprite *  sprite = sprites->Get(9991);
 	for (int i = 0; i < row; ++i)
 		for (int j = 0; j < col; ++j)
@@ -32,10 +32,12 @@ void Map::Render() {
 			RECT r;
 			r.left = j * TITLE_WIDTH;
 			r.top = i * TITLE_HEIGHT;
-			/*r.right = r.left + TITLE_WIDTH;
-			r.bottom = r.top + TITLE_HEIGHT;*/
+			r.right = r.left + TITLE_WIDTH;
+			r.bottom = r.top + TITLE_HEIGHT;
 			sprite->Draw(r.left, r.top, TITLE_WIDTH * mapTiles[i][j] - TITLE_WIDTH, 0, TITLE_HEIGHT * mapTiles[i][j], TITLE_HEIGHT);
 		}
+	
+	
 		
 }
  
@@ -45,7 +47,7 @@ void Map::Update(float dt) {
 	cx -= SCREEN_WIDTH / 2;
 	cy -= SCREEN_HEIGHT / 2;
 	if(player->GetState() != SITTING_LEFT && player->GetState() != SITTING_RIGHT){
-		SetCamPos(cx, cy);
+		SetCamPos(cx, 150.0f);
 	}
 	
 	

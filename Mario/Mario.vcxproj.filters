@@ -93,7 +93,10 @@
     <ClCompile Include="PlayerLastRunState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="LevelMario.cpp" />
+    <ClCompile Include="LevelMario.cpp">
+      <Filter>Game Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRunningState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -162,6 +165,9 @@
     <ClInclude Include="PlayerLastRunState.h">
       <Filter>GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="LevelMario.h" />
+    <ClInclude Include="LevelMario.h">
+      <Filter>Game Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRunningState.h" />
   </ItemGroup>
 </Project>
