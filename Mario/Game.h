@@ -3,19 +3,13 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "GameGlobal.h"
-#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
-
+#include "Scene.h"
 #define KEYBOARD_BUFFER_SIZE 1024
+#define DIRECTINPUT_VERSION 0x0800
 
-class KeyEventHandler
-{
-public:
-	virtual void KeyState(BYTE* state) = 0;
-	virtual void OnKeyDown(int KeyCode) = 0;
-	virtual void OnKeyUp(int KeyCode) = 0;
-};
-typedef	KeyEventHandler* LPKEYEVENTHANDLER;
+using namespace std;
+
 class Game
 {
 	static Game* __instance;
@@ -35,13 +29,27 @@ class Game
 
 	LPKEYEVENTHANDLER keyHandler;
 
+	int screen_width;
+	int screen_height;
+
+
+	unordered_map<int, LPSCENE> scenes;
+	int current_scene;
+
+	void _ParseSection_SETTINGS(string line);
+	void _ParseSection_SCENES(string line);
 public:
-	void InitKeyboard(LPKEYEVENTHANDLER handler);
+	void InitKeyboard();
 	void Init(HWND hWnd);
+	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
 
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
+
+	void Load(LPCWSTR gameFile);
+	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
+	void SwitchScene(int scene_id);
 
 	static void SweptAABB(
 		float ml,			// move left 
@@ -61,6 +69,7 @@ public:
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
+
 
 	static Game* GetInstance();
 

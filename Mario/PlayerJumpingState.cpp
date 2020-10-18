@@ -35,8 +35,6 @@ void PlayerJumpingState::HandleKeyBoard()
 
 PlayerJumpingState::PlayerJumpingState()
 {
-	
-	player->allow[JUMPING] = false;
 	if (player->level == RACCOON) {
 		player->allow[WHIPPING] = true;
 	}
@@ -50,6 +48,14 @@ PlayerJumpingState::PlayerJumpingState()
 		stateName = JUMPING_RIGHT;
 	else
 		stateName = JUMPING_LEFT;
+
+	if (player->isSitting)
+	{
+		if (player->nx > 0)
+			stateName = SITTING_RIGHT;
+		else
+			stateName = SITTING_LEFT;
+	}
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 }
 

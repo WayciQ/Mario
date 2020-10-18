@@ -5,8 +5,7 @@ Brick::Brick() {
 }
 void Brick::Render()
 {
-	animations[0]->Render(x, y);
-	//RenderBoundingBox();
+	animation_set->Get(BRICK_NORMAL)->Render(x, y);
 }
 
 void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)

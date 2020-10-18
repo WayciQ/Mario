@@ -1,13 +1,16 @@
 #include "PlayerSittingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerWalkingState.h"
+#include "PlayerJumpingState.h"
 #include "Mario.h"
 
 PlayerSittingState::PlayerSittingState()
 {
 	player->allow[JUMPING] = true;
+	player->allow[WALKING] = false;
 	player->allow[WHIPPING] = false;
-	player->vy = 0;
+	player->isSitWalk = true;
+	player->isSitting = true;
 	player->stateBoundingBox = MARIO_STATE_BIG_SIT_BOUNDING_BOX;
 	if (player->nx > 0) {
 		stateName = SITTING_RIGHT;
@@ -17,24 +20,27 @@ PlayerSittingState::PlayerSittingState()
 
 void PlayerSittingState::Update()
 {
+	if (!player->isSitting) {
+		player->ChangeAnimation(new PlayerStandingState());
+		return;
+	}
 	this->HandleKeyBoard();
 }
 void PlayerSittingState::HandleKeyBoard()
 {
-	if (!keyCode[DIK_DOWN])
+	if (keyCode[DIK_DOWN]) 
 	{
-		player->allow[JUMPING] = true;
-		
-		if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT])
+		if ((keyCode[DIK_LEFT] || keyCode[DIK_RIGHT]) )
 		{
+		
 			player->ChangeAnimation(new PlayerWalkingState());
 		}
-		else
-		{
-			player->ChangeAnimation(new PlayerStandingState());
-		}
+	}
+	else {
+		player->ChangeAnimation(new PlayerStandingState());
 	}
 }
+	
 PlayerSittingState::~PlayerSittingState() {
 
 }

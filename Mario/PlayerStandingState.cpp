@@ -5,23 +5,27 @@
 #include "PlayerSittingState.h"
 #include "PlayerWhippingState.h"
 PlayerStandingState::PlayerStandingState() {
-	player->allow[JUMPING] = true; // allow jump in standing state
-	player->allow[WALKING] = true; // allow walk
-	player->allow[RUNNING] = false;
+	
 	player->speedJump = 0;
 	// allow state by level
-	if (player->level == SMALL) {
+	player->allow[JUMPING] = true; // allow jump in standing state
+	player->allow[WALKING] = true; // allow walk
+	switch (player->level)
+	{
+	case SMALL:
 		player->allow[WHIPPING] = false;
 		player->allow[SITTING] = false;
-	}
-	else if (player->level == BIG)
-	{
+		break;
+	case BIG:
 		player->allow[WHIPPING] = false;
 		player->allow[SITTING] = true;
-	}
-	else {
+		break;
+	case RACCOON:
 		player->allow[WHIPPING] = true;
 		player->allow[SITTING] = true;
+		break;
+	case FIRE:
+		break;
 	}
 	
 	// set bounding box in standing state
@@ -32,6 +36,7 @@ PlayerStandingState::PlayerStandingState() {
 	player->isWhipping = false;
 	player->isSitting = false;
 	player->isJumping = false;
+	player->isSitWalk = false;
 	// set state by nx
 	if (player->nx > 0)
 		stateName = STANDING_RIGHT;

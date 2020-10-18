@@ -8,6 +8,6 @@ public:
 	virtual void Update() = 0;
 	STATENAME stateName; // animation by state;
 	STATENAME PrevState; // state before change;
-	LEVEL level; // level by state;
+	TYPE level; // level by state;
 };
 

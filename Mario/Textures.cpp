@@ -1,7 +1,7 @@
 #include "Textures.h"
 #include <Windows.h>
 #include <d3d9.h>
-#include "debug.h"
+#include "Utils.h"
 Textures* Textures::__instance = NULL;
 
 Textures::Textures() {
@@ -18,15 +18,18 @@ void Textures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
 	D3DXIMAGE_INFO info;
 	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
-	if (result != D3D_OK) {
+	if (result != D3D_OK)
+	{
+		DebugOut(L"[ERROR] GetImageInfoFromFile failed: %s\n", filePath);
 		return;
 	}
 
 	LPDIRECT3DDEVICE9 d3ddv = Game::GetInstance()->GetDirect3DDevice();
 	LPDIRECT3DTEXTURE9 texture;
+
 	result = D3DXCreateTextureFromFileEx(
 		d3ddv,								// Pointer to Direct3D device object
-		filePath,						// Path to the image to load
+		filePath,							// Path to the image to load
 		info.Width,							// Texture width
 		info.Height,						// Texture height
 		1,
@@ -35,18 +38,20 @@ void Textures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 		D3DPOOL_DEFAULT,
 		D3DX_DEFAULT,
 		D3DX_DEFAULT,
-		D3DCOLOR_XRGB(255, 255, 255),			// Transparent color
+		transparentColor,
 		&info,
 		NULL,
 		&texture);								// Created texture pointer
 
 	if (result != D3D_OK)
 	{
-
+		OutputDebugString(L"[ERROR] CreateTextureFromFile failed\n");
 		return;
 	}
+
 	textures[id] = texture;
-	DebugOut(L"[INFO] Texture loaded Ok: id=%d, %s \n", id, filePath);
+
+	DebugOut(L"[INFO] Texture loaded Ok: id=%d, %s\n", id, filePath);
 }
 
 
@@ -69,4 +74,15 @@ void Textures::LoadResources() {
 		DebugOut(L"[INFO] Texture loaded Ok: id=%d, %s \n", id, stemp);
 	}
 	File.close();
+}
+
+void Textures::Clear()
+{
+	for (auto x : textures)
+	{
+		LPDIRECT3DTEXTURE9 tex = x.second;
+		if (tex != NULL) tex->Release();
+	}
+
+	textures.clear();
 }

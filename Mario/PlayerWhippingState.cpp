@@ -26,7 +26,6 @@ PlayerWhippingState::PlayerWhippingState() {
 	player->allow[WALKING] = true;
 	player->allow[SITTING] = false;
 	player->isWhipping = true;
-	player->isSitting = false;
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	if (player->nx > 0) {
 		stateName = WHIPPING_RIGHT;

@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-#include "debug.h"
+#include "Utils.h"
 #include "Textures.h"
 #include <unordered_map>
 
@@ -39,50 +39,7 @@ public:
 	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(int id);
 	LPSPRITE& operator[](int id) { return sprites[id]; }
+	void Clear();
 	void LoadResources();
 	static Sprites* GetInstance();
-};
-
-/*
-	Sprite animation
-*/
-class AnimationFrame
-{
-	LPSPRITE sprite;
-	DWORD time;
-
-public:
-	AnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
-	DWORD GetTime() { return time; }
-	LPSPRITE GetSprite() { return sprite; }
-};
-
-typedef AnimationFrame* LPANIMATION_FRAME;
-
-class Animation
-{
-	DWORD lastFrameTime;
-	int defaultTime;
-	vector<LPANIMATION_FRAME> frames;
-public:
-	int currentFrame;
-	bool isLastFrame;
-	Animation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
-	void Add(int spriteId, DWORD time = 0);
-	void Render(float x, float y, int alpha = 255);
-};
-
-typedef Animation* LPANIMATION;
-
-class Animations
-{
-	static Animations* __instance;
-
-	unordered_map<int, LPANIMATION> animations;
-
-public:
-	void Add(int id, LPANIMATION ani);
-	LPANIMATION Get(int id);
-	void LoadResources();
-	static Animations* GetInstance();
 };

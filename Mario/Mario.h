@@ -1,22 +1,10 @@
 #include "GameObject.h"
 #include "PlayerState.h"
-#define MARIO_ANI_IDLE_RIGHT		0
-#define MARIO_ANI_IDLE_LEFT			1
-#define MARIO_ANI_WALKING_RIGHT		2
-#define MARIO_ANI_WALKING_LEFT		3
-#define MARIO_ANI_JUMP_RIGHT		4	
-#define MARIO_ANI_FALL_RIGHT		5
-#define MARIO_ANI_JUMP_LEFT			6
-#define MARIO_ANI_FALL_LEFT			7
-#define MARIO_ANI_SIT_RIGHT			8
-#define MARIO_ANI_SIT_LEFT			9
-#define MARIO_ANI_FIGHT_RIGHT		10
-#define MARIO_ANI_FIGHT_LEFT		11
-#define MARIO_ANI_DIE				12
 
 class PlayerState;
 class GameObject;
 class Whip;
+
 class Mario : public GameObject 
 {
 private:
@@ -25,7 +13,7 @@ public:
 	Mario();
 	Whip* whip;
 	PlayerState* state;
-	LEVEL level;
+	TYPE level;
 	int untouchable;
 	DWORD untouchableTime;
 	float speedJump;
@@ -36,6 +24,7 @@ public:
 	bool isWhipping;
 	bool isRunning;
 	bool isShooting;
+	bool isSitWalk;
 	int startWalkingComplete;
 	int walkingDirection;
 	bool isWalkingComplete;
@@ -51,7 +40,8 @@ public:
 	void HandleObject(LPGAMEOBJECT object);
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
-	void SetLevel(LEVEL level) { this->level = level; }
+	void SetLevel(TYPE level) { this->level = level; }
 	void ChangeAnimation(PlayerState* newState);
+	void Reset(float x, float y);
 
 };

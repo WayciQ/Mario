@@ -66,9 +66,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
-    <ClCompile Include="debug.cpp">
-      <Filter>Game Components</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
@@ -93,10 +90,17 @@
     <ClCompile Include="PlayerLastRunState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="LevelMario.cpp">
+    <ClCompile Include="PlayerRunningState.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations.cpp">
       <Filter>Game Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerRunningState.cpp" />
+    <ClCompile Include="PlayScence.cpp" />
+    <ClCompile Include="Utils.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -141,9 +145,6 @@
     <ClInclude Include="Game.h">
       <Filter>Game Components</Filter>
     </ClInclude>
-    <ClInclude Include="debug.h">
-      <Filter>Game Components</Filter>
-    </ClInclude>
     <ClInclude Include="Brick.h">
       <Filter>GameObjects\Ground</Filter>
     </ClInclude>
@@ -165,9 +166,17 @@
     <ClInclude Include="PlayerLastRunState.h">
       <Filter>GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="LevelMario.h">
+    <ClInclude Include="PlayerRunningState.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations.h">
       <Filter>Game Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerRunningState.h" />
+    <ClInclude Include="KeyEventHandler.h" />
+    <ClInclude Include="Utils.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
 </Project>

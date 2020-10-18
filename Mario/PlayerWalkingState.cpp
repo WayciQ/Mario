@@ -10,14 +10,28 @@ PlayerWalkingState::PlayerWalkingState()
 {
 	player->allow[RUNNING] = true;
 	player->allow[JUMPING] = true; // can jump in walking state
-	
-	if (player->level == RACCOON) {
+	switch (player->level)
+	{
+	case SMALL:
+		player->allow[WHIPPING] = false;
+		player->allow[SITTING] = false;
+		break;
+	case BIG:
+		player->allow[WHIPPING] = false;
+		player->allow[SITTING] = true;
+		break;
+	case RACCOON:
 		player->allow[WHIPPING] = true;
 		player->allow[SITTING] = true;
+		break;
+	case FIRE:
+		break;
 	}
-	else player->allow[WHIPPING] = false;// can whipping in walking state
+
+	//flag
 	player->isWhipping = false;
 	player->isRunning = false;
+	player->isSitting = false;
 	// set bouding box
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 
@@ -86,15 +100,21 @@ void PlayerWalkingState::HandleKeyBoard()
 	if (keyCode[DIK_A])
 	{
 		if (!player->isRunning && player->allow[RUNNING])
-		{
+		{	
 			player->isRunning = true;
 			player->ChangeAnimation(new PlayerRunningState());
 			
 		}
 	}
-	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
+	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT] )
 	{
+		player->isSitWalk = true;
 		player->ChangeAnimation(new PlayerStandingState());
+	}
+	else if (keyCode[DIK_DOWN] && player->allow[SITTING]) // small level dosen't have state sit
+	{
+		player->vx = 0;
+		player->ChangeAnimation(new PlayerSittingState());
 	}
 	else if (keyCode[DIK_LEFT])
 	{
@@ -104,7 +124,6 @@ void PlayerWalkingState::HandleKeyBoard()
 			player->ChangeAnimation(new PlayerWalkingState());
 		}
 		else player->ChangeAnimation(new PlayerLastRunState());
-		
 	}
 	else if (keyCode[DIK_RIGHT] )
 	{
@@ -114,14 +133,8 @@ void PlayerWalkingState::HandleKeyBoard()
 			player->ChangeAnimation(new PlayerWalkingState());
 		}
 		else player->ChangeAnimation(new PlayerLastRunState());
-
-		
 	}
-	 if(keyCode[DIK_DOWN] && player->allow[SITTING])
-	{
-		player->vx = 0;
-		player->ChangeAnimation(new PlayerSittingState());
-	}
+	
 }
 
 

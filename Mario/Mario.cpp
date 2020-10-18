@@ -6,6 +6,7 @@
 #include "PlayerFallingState.h"
 #include "PlayerWalkingState.h"
 #include "PlayerRunningState.h"
+#include "PlayerSittingState.h"
 #include "Goomba.h"
 
 Mario* Mario:: __instance = NULL;
@@ -134,10 +135,10 @@ void Mario::Render() {
 }
 void Mario::ChangeAnimation(PlayerState* newState)
 {
-	LevelMario* marioLevel = LevelMario::GetInstance();
+	AnimationSets* ani_sets = AnimationSets::GetInstance();
 	delete state;
 	state = newState;
-	LPMARIOLEVEL ani = marioLevel->Get(level);
+	LPANIMATION_SET ani = ani_sets->Get(level);
 	state->stateName = newState->stateName;
 	/*CurAnimation = animations[newState->stateName];*/
 	CurAnimation = ani->Get(newState->stateName);
@@ -190,7 +191,25 @@ void Mario::OnKeyDown(int key)
 			}
 			break;
 		}
-		
+		case DIK_DOWN:
+		{
+			/*if (!isSitting && allow[SITTING])
+			{
+				if (keyCode[DIK_RIGHT]) {
+					nx = 1;
+					ChangeAnimation(new PlayerWalkingState());
+				}
+				else if (keyCode[DIK_LEFT]) {
+					nx = -1;
+					ChangeAnimation(new PlayerWalkingState());
+				}
+				else
+				{
+					ChangeAnimation(new PlayerSittingState());
+				}
+			}*/
+			break;
+		}
 		case DIK_1: 
 			level = SMALL;
 			y -= 20;
@@ -223,8 +242,19 @@ void Mario::OnKeyUp(int key) {
 		walkingDirection = -1;
 		break;
 	case DIK_S:
-		if (!isJumping && allow[JUMPING]) {
+		/*if (!isJumping && allow[JUMPING]) {
 			ChangeAnimation(new PlayerFallingState());
-		}
+		}*/
+		break;
+	case DIK_DOWN:
+		//isSitting = false;
+		break;
 	}
+	
+}
+void Mario::Reset(float x, float y)
+{
+	ChangeAnimation(new PlayerStandingState());
+	SetPosition(x, y);
+	SetSpeed(0, 0);
 }

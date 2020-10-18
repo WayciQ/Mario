@@ -23,6 +23,13 @@ PlayerFallingState::PlayerFallingState()
 		stateName = FALLING_RIGHT;
 	else
 		stateName = FALLING_LEFT;
+	if (player->isSitting)
+	{
+		if (player->nx > 0)
+			stateName = SITTING_RIGHT;
+		else
+			stateName = SITTING_LEFT;
+	}
 }
 
 

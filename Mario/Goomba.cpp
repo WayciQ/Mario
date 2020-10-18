@@ -3,7 +3,7 @@ Goomba::Goomba() {
 	isDead = false;
 	nx = 1;	
 	vx = GOOMBA_WALKING_SPEED;
-	CurAnimation = animations[GOOMBA];
+	CurAnimation = animation_set->Get(GOOMBA_WALKING);
 }
 Goomba::~Goomba(){}
 void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -23,11 +23,11 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt);
 	vy += MARIO_GRAVITY * dt;
 	if (!isDead) {
-		CurAnimation = animations[GOOMBA];
+		CurAnimation = animation_set->Get(GOOMBA_WALKING);
 	}
 	else {
 		vx = 0;
-		CurAnimation = animations[GOOMBA_DIE];
+		CurAnimation = animation_set->Get(GOOMBA_DIE);
 	}
 	
 

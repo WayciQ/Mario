@@ -1,6 +1,6 @@
 #pragma once
 #include "Sprites.h"
-#include "LevelMario.h"
+#include "Animations.h"
 using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
@@ -41,7 +41,8 @@ public:
 	TYPE type;
 	DWORD dt;
 	bool isDead;
-	std::unordered_map<int, LPANIMATION> animations;
+
+	LPANIMATION_SET animation_set;
 
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -61,8 +62,7 @@ public:
 		float& min_ty,
 		float& nx,
 		float& ny);
-	void AddAnimation(int aniId, STATENAME NameState);
-	void AddAnimation(int aniId,TYPE type);
+	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
 	GameObject();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
