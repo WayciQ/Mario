@@ -11,14 +11,18 @@ private:
 	static Map* __instance;
 	int col;
 	int row;
-	int** mapTiles;
+	int colTitle;
+	int** mapTitles;
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
+
 public:
 	Map();
 	~Map();
 	
-	void LoadResourses();
+	void LoadResourses(LPCWSTR gameFile);
+	RECT GetPositionMap(int x, int y);
+	RECT GetPositionTitle(int title);
 	void Render();
 	void Update(float dt);
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }

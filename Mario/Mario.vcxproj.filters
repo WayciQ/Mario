@@ -57,9 +57,6 @@
     <ClCompile Include="Sprites.cpp">
       <Filter>Game Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Game Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="GameGlobal.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
@@ -96,11 +93,18 @@
     <ClCompile Include="Animations.cpp">
       <Filter>Game Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="Utils.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Map.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScence.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -136,9 +140,6 @@
     <ClInclude Include="Sprites.h">
       <Filter>Game Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Game Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="GameGlobal.h">
       <Filter>Game Components</Filter>
     </ClInclude>
@@ -172,11 +173,20 @@
     <ClInclude Include="Animations.h">
       <Filter>Game Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Utils.h">
       <Filter>Game Components</Filter>
     </ClInclude>
-    <ClInclude Include="PlayScene.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Map.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEventHandler.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

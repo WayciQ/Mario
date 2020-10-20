@@ -17,6 +17,7 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 #define SCENE_SECTION_ANIMATIONS 4
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_MAPS	7
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -35,6 +36,15 @@ void PlayScene::_ParseSection_TEXTURES(string line)
 	int B = atoi(tokens[4].c_str());
 
 	Textures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
+}
+
+void PlayScene::_ParseSection_MAPS(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 2) return;
+	int mapId = atoi(tokens[0].c_str());
+	wstring path = ToWSTR(tokens[1]);
+	Map::GetInstance()->LoadResourses(path.c_str());
 }
 void PlayScene::_ParseSection_SPRITES(string line)
 {
@@ -201,6 +211,9 @@ void PlayScene::Load()
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
 		}
+		if (line == "[MAPS]") {
+			section = SCENE_SECTION_MAPS; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 		//
 		// data section
@@ -212,12 +225,11 @@ void PlayScene::Load()
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_MAPS: _ParseSection_MAPS(line); break;
 		}
 	}
 
 	f.close();
-	Map::GetInstance()->LoadResourses();
-	Textures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }

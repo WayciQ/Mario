@@ -58,6 +58,19 @@ void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top,
 	r.bottom = bottom;
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
+void Game::Draw48(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+{
+	float cx, cy;
+	Map::GetInstance()->GetCamPos(cx, cy);
+	D3DXVECTOR3 p(floor(x - cx), floor(y - cy), 0);
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
+	D3DXVECTOR2 scale = D3DXVECTOR2(3,3);
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+}
 
 int Game::IsKeyDown(int KeyCode)
 {
@@ -179,12 +192,7 @@ void Game::ProcessKeyboard()
 			keyHandler->OnKeyUp(KeyCode);
 	}
 }
-#define MAX_GAME_LINE 1024
 
-
-#define GAME_FILE_SECTION_UNKNOWN -1
-#define GAME_FILE_SECTION_SETTINGS 1
-#define GAME_FILE_SECTION_SCENES 2
 
 void Game::Load(LPCWSTR gameFile)
 {

@@ -16,6 +16,7 @@ private:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_MAPS(string line);
 
 public:
 	PlayScene(int id, LPCWSTR filePath);
