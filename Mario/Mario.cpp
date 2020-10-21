@@ -103,9 +103,9 @@ void Mario::HandleObject(LPGAMEOBJECT object) {
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (level == RACCOON || level == BIG) {
-		if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX) {
+		if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX && isSitting) {
 			left = x;
-			top = y + MARIO_BIG_SIT_BBOX_HEIGHT;
+			top = y + 20;
 			right = x + MARIO_BIG_BBOX_WIDTH;
 			bottom = y + MARIO_BIG_BBOX_HEIGHT ;
 		}     
@@ -216,15 +216,16 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_1: 
 			level = SMALL;
-			y -= 20;
+			ChangeAnimation(new PlayerStandingState());
 			break;
 		case DIK_2:
 			level = BIG;
+			ChangeAnimation(new PlayerStandingState());
 			y -= 20;
 			break;
 		case DIK_3:
 			level = RACCOON;
-			y -= 20;
+			ChangeAnimation(new PlayerStandingState());
 			break;
 		case DIK_F1:
 			SetPosition(100, 400);
@@ -232,7 +233,7 @@ void Mario::OnKeyDown(int key)
 		case DIK_F2:
 			SetPosition(1400, 400);
 			break;
-		case DIK_F4:
+		case DIK_F3:
 			SetPosition(2500, 400);
 			break;
 

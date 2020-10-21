@@ -23,6 +23,15 @@ void Map::LoadResourses(LPCWSTR gameFile) {
 	DebugOut(L"[INFO] Map loaded OK: %s\n", gameFile);
 
 }
+
+float Map::GetWidthMap()
+{
+	return col * TITLE_WIDTH + TITLE_WIDTH;
+}
+float Map::GetHeightMap()
+{
+	return row * TITLE_HEIGHT + TITLE_HEIGHT;
+}
 RECT Map::GetPositionMap(int x, int y)
 {
 	RECT r;
@@ -43,21 +52,22 @@ RECT Map::GetPositionTitle(int title)
 	return t;
 	
 }
-void Map::GetPositionCam(RECT cam,int &xs, int& ys, int& xe, int& ye)
+void Map::GetPositionCam(int &xs, int& ys, int& xe, int& ye)
 {
-	float width = row * TITLE_WIDTH;
-	float height = col * TITLE_HEIGHT;
-	
+	RECT cam = Camera::GetInstance()->GetBound();
+
+	int width = GetWidthMap();
+
 	int left = (int)cam.left;
 	int top = (int)cam.top;
 	int bottom = (int)cam.bottom;
 	int right = (int)cam.right;
-	xs =  width / (int)cam.left;
-	ys =  height / (int)cam.top;
-	xe =  height / (int)cam.bottom  + 1;
-	ye =  width / (int)cam.right + 1;
-	/*DebugOut(L"cam f:%d, t:%d, r:%d,b:%d\n", xs, ys, xe, ye);
-	DebugOut(L"mario f:%d, t:%d, r:%d,b:%d\n", left,top, right, bottom);*/
+
+	xs = left == 0 ? 1 : left / TITLE_WIDTH;
+	ys = top / TITLE_HEIGHT - 1;
+	ye = bottom / TITLE_HEIGHT + 1;
+	xe = right == width ? col : right / TITLE_WIDTH - 1;
+	//DebugOut(L"cam l:%d\n t:%d\n r:%d\n b:%d\n", xs, ys, xe, ye);
 }
 
 void Map::Render() {
@@ -65,19 +75,22 @@ void Map::Render() {
 	RECT t;
 	Sprite * sprite = Sprites::GetInstance()->Get(9991);
 	int xs, ys, xe, ye;
-	GetPositionCam(Camera::GetInstance()->GetBound(), xs, ys, xe, ye);
+	GetPositionCam( xs, ys, xe, ye);
 	
-	for (int i = 0; i < row; ++i)
-		for (int j = 0; j < col; ++j)
-		{ 
-			if(mapTitles[i][j]>=0)
+	for (int i = ys; i <= ye; ++i)
+	{
+		for (int j = xs; j <= xe; ++j)
+		{
+			if (mapTitles[i][j] >= 0)
 			{
 				r = GetPositionMap(j, i);
 				t = GetPositionTitle(mapTitles[i][j]);
 				sprite->Draw(r.left, r.top, t.left, t.top, t.right, t.bottom);
 			}
-			
+
 		}
+	}
+		
 }
  
 void Map::Update(float dt) {

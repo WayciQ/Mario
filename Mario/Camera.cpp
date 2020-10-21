@@ -13,7 +13,8 @@ Camera::Camera()
 {
 	cam_x = 0;
 	cam_y = 0;
-	isChangePort = false;
+	this->mWidth = SCREEN_WIDTH;
+	this->mHeight = SCREEN_HEIGHT;
 }
 RECT Camera::GetBound()
 {
@@ -31,7 +32,22 @@ void Camera::Update()
 	float cx, cy;
 	player->GetPosition(cx, cy);
 	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
+	
+	if (cx <= 0)
+	{
+		cx = 0;
+	}
+	else if(cx + mWidth >= Map::GetInstance()->GetWidthMap())
+	{
+		cx = Map::GetInstance()->GetWidthMap() - mWidth;
+	}
+	
+	if (cy <= 224)
+	{
+		cy -= SCREEN_HEIGHT / 2;
+	}
+	else
+		cy = 264;
 	SetCamPos(cx, cy);
 }
 

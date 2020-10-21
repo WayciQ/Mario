@@ -23,10 +23,11 @@ public:
 	void LoadResourses(LPCWSTR gameFile);
 	RECT GetPositionMap(int x, int y);
 	RECT GetPositionTitle(int title);
-	void GetPositionCam(RECT cam,int& xs, int& ys, int& xe, int& ye);
+	void GetPositionCam(int& xs, int& ys, int& xe, int& ye);
 	void Render();
 	void Update(float dt);
-	
+	float GetWidthMap();
+	float GetHeightMap();
 	static Map* GetInstance();
 };
 
