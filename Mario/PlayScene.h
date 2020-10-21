@@ -4,6 +4,7 @@
 #include "Mario.h"
 #include "Brick.h"
 #include "Scene.h"
+#include "Camera.h"
 class PlayScene :public Scene
 {
 private:

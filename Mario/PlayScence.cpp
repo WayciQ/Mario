@@ -143,6 +143,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
+	int id_State = atof(tokens[3].c_str());
 	// General object setup
 
 	GameObject* obj = NULL;
@@ -161,7 +162,8 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		P->Reset(x,y);
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case BRICK: obj = new Brick(); 
+	case BRICK:
+		obj = new Brick(static_cast<STATEOBJECT>(id_State));
 	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -171,7 +173,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	obj->SetPosition(x, y);
 	if (type != MARIO)
 	{
-		int type_ani = atoi(tokens[3].c_str());
+		int type_ani = atoi(tokens[0].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);
@@ -247,7 +249,7 @@ void PlayScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
-	Map::GetInstance()->Update(dt);
+	Camera::GetInstance()->Update();
 }
 
 void PlayScene::Render()

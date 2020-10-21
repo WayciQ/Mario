@@ -49,7 +49,7 @@ void Game::Init(HWND hWnd)
 void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
 	float cx, cy;
-	Map::GetInstance()->GetCamPos(cx, cy);
+	Camera::GetInstance()->GetCamPos(cx, cy);
 	D3DXVECTOR3 p(floor(x - cx), floor(y - cy), 0);
 	RECT r;
 	r.left = left;
@@ -58,18 +58,27 @@ void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top,
 	r.bottom = bottom;
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
-void Game::Draw48(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void Game::DrawX3(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
 	float cx, cy;
-	Map::GetInstance()->GetCamPos(cx, cy);
+	Camera::GetInstance()->GetCamPos(cx, cy);
 	D3DXVECTOR3 p(floor(x - cx), floor(y - cy), 0);
+
+
 	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	D3DXVECTOR2 scale = D3DXVECTOR2(3,3);
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+
+	auto pScaling = D3DXVECTOR2(1, 1);
+
+	D3DXMATRIX oldMatrix, curMatrix;
+	D3DXMatrixTransformation2D(&curMatrix, 0, 0, &pScaling, 0, 0, 0);
+	spriteHandler->GetTransform(&oldMatrix);
+	spriteHandler->SetTransform(&curMatrix);
+	spriteHandler->Draw(texture, &r, 0, &p, D3DCOLOR_XRGB(255, 255, 255));
+	spriteHandler->SetTransform(&oldMatrix);
 }
 
 int Game::IsKeyDown(int KeyCode)
@@ -234,7 +243,7 @@ void Game::SwitchScene(int scene_id)
 {
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
 
-	scenes[current_scene]->Unload();;
+	scenes[current_scene]->Unload();
 
 	Textures::GetInstance()->Clear();
 	Sprites::GetInstance()->Clear();

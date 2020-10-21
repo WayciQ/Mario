@@ -17,7 +17,7 @@ Mario* Mario::GetInstance()
 	return __instance;
 }
 Mario::Mario() {
-	level = SMALL;
+	level = BIG;
 }
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -40,12 +40,6 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	/*if(state->stateName != )*/
 	CalcPotentialCollisions(coObjects, coEvents);
 	
-	//// reset untouchable timer if untouchable time has passed
-	/*if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
-	{
-		untouchable_start = 0;
-		untouchable = 0;
-	}*/
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -60,18 +54,30 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block 
-		x += min_tx * dx + nx * 0.3f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.3f;
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
 		
 		isJumping = false;
 
-		if (nx != 0) 
+		if (nx != 0);
 
-		if (ny != 0) vy = 0;
+		if (ny != 0) vy =0;
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Goomba*>(e->obj)) // if e->obj is Goomba 
+			{
+				Goomba* goomba = dynamic_cast<Goomba*>(e->obj);
+				if (e->ny < 0)
+				{
+					if (!e->obj->isDead)
+					{
+						e->obj->isDead = true;
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+				}
+			}
 			if (dynamic_cast<Goomba*>(e->obj)) // if e->obj is Goomba 
 			{
 				Goomba* goomba = dynamic_cast<Goomba*>(e->obj);
@@ -100,8 +106,6 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX) {
 			left = x;
 			top = y + MARIO_BIG_SIT_BBOX_HEIGHT;
-			/*right = x + MARIO_BIG_SIT_BBOX_WIDTH;
-			bottom = y + MARIO_BIG_SIT_BBOX_HEIGHT;*/
 			right = x + MARIO_BIG_BBOX_WIDTH;
 			bottom = y + MARIO_BIG_BBOX_HEIGHT ;
 		}     
@@ -222,6 +226,16 @@ void Mario::OnKeyDown(int key)
 			level = RACCOON;
 			y -= 20;
 			break;
+		case DIK_F1:
+			SetPosition(100, 400);
+			break;
+		case DIK_F2:
+			SetPosition(1400, 400);
+			break;
+		case DIK_F4:
+			SetPosition(2500, 400);
+			break;
+
 	}
 }
 void Mario::OnKeyUp(int key) {

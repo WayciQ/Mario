@@ -29,6 +29,11 @@ void Sprite::Draw(float x, float y, float left, float top, float right, float bo
 	Game* game = Game::GetInstance();
 	game->Draw(x, y, texture, left, top, right, bottom, 245);
 }
+void Sprite::DrawX3(float x, float y, float left, float top, float right, float bottom)
+{
+	Game* game = Game::GetInstance();
+	game->DrawX3(x, y, texture, left, top, right, bottom, 245);
+}
 void Sprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
 	LPSPRITE s = new Sprite(id, left, top, right, bottom, tex);
@@ -41,21 +46,7 @@ LPSPRITE Sprites::Get(int id)
 	return sprites[id];
 }
 
-void Sprites::LoadResources() {
-	ifstream File;
-	File.open(L"resource\\sprites.txt");
-	int idSpirtes, left, top, right, bottom, Idtex;
-	Textures* textures = Textures::GetInstance();
-	while (!File.eof())
-	{
 
-		File >> idSpirtes >> left >> top >> right >> bottom >> Idtex;
-		LPDIRECT3DTEXTURE9 textWhip = textures->Get(Idtex);
-		Add(idSpirtes, left, top, right, bottom, textWhip);
-		DebugOut(L"[INFO] Sprites loaded Ok: id=%d, %d \n", idSpirtes, textWhip);
-	}
-	File.close();
-}
 
 void Sprites::Clear()
 {

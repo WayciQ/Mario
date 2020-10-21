@@ -1,23 +1,13 @@
 #include <windows.h>
-#include "Utils.h"
 #include <d3dx9.h>
 #include <d3d9.h>
-#include "Map.h"
 #include "Game.h"
 #include "Textures.h"
 #include "GameGlobal.h"
-#include "PlayerStandingState.h"
-#include "Brick.h"
-#include "Goomba.h"
 #include "PlayScene.h"
 
 
-Map* map = Map::GetInstance();
 Game* game;
-
-
-
-
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -54,7 +44,6 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-		//Map::GetInstance()->Render();
 		
 		Game::GetInstance()->GetCurrentScene()->Render();
 		
@@ -159,7 +148,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game = Game::GetInstance();
 	game->Init(hWnd);
 	game->InitKeyboard();
-	game->Load(L"resource\\mario-sample.txt");
+	game->Load(LOAD_DATA);
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 

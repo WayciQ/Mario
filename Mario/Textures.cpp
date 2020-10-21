@@ -59,22 +59,7 @@ LPDIRECT3DTEXTURE9 Textures::Get(unsigned int i) {
 	return textures[i];
 }
 
-void Textures::LoadResources() {
 
-	ifstream File;
-	File.open(L"resource\\texture.txt");
-	int rgb1, rgb2, rgb3, id;
-	string path;
-	while (!File.eof())
-	{
-		File >> id >> path >> rgb1 >> rgb2 >> rgb3;
-		std::wstring stemp = std::wstring(path.begin(), path.end());		//change string to LPSWSTR
-		LPCWSTR sw = stemp.c_str();
-		Add(id, sw, D3DCOLOR_XRGB(rgb1, rgb2, rgb3));
-		DebugOut(L"[INFO] Texture loaded Ok: id=%d, %s \n", id, stemp);
-	}
-	File.close();
-}
 
 void Textures::Clear()
 {

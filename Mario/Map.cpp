@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "Textures.h"
 #include "Mario.h"
+#include "Camera.h"
 Map* Map::__instance = NULL;
 Map::Map(){}
 
@@ -35,21 +36,41 @@ RECT Map::GetPositionTitle(int title)
 	title++;
 	int i = title / colTitle;		// get top
 	int j = title % colTitle;		// get left
-	t.left = j == 0 ?  TITLE_WIDTH * colTitle - TITLE_WIDTH: TITLE_WIDTH * j - TITLE_WIDTH; // if title % colTitle = 0 mean title is 29th else j = title % colTitle
-	t.top = title > colTitle ? i * TITLE_HEIGHT : 0; // if title / colTitle = 1  mean title is 29th
+	t.left = j == 0 ?  TITLE_WIDTH * colTitle - TITLE_WIDTH: TITLE_WIDTH * j - TITLE_WIDTH; // if title % colTitle = 0 mean title is last colTitle else j = title % colTitle
+	t.top = title > colTitle ? i * TITLE_HEIGHT : 0; // if title / colTitle = 1  mean title is last colTitle
 	t.right = t.left + TITLE_WIDTH;
 	t.bottom = t.top + TITLE_HEIGHT;
 	return t;
 	
 }
+void Map::GetPositionCam(RECT cam,int &xs, int& ys, int& xe, int& ye)
+{
+	float width = row * TITLE_WIDTH;
+	float height = col * TITLE_HEIGHT;
+	
+	int left = (int)cam.left;
+	int top = (int)cam.top;
+	int bottom = (int)cam.bottom;
+	int right = (int)cam.right;
+	xs =  width / (int)cam.left;
+	ys =  height / (int)cam.top;
+	xe =  height / (int)cam.bottom  + 1;
+	ye =  width / (int)cam.right + 1;
+	/*DebugOut(L"cam f:%d, t:%d, r:%d,b:%d\n", xs, ys, xe, ye);
+	DebugOut(L"mario f:%d, t:%d, r:%d,b:%d\n", left,top, right, bottom);*/
+}
+
 void Map::Render() {
 	RECT r;
 	RECT t;
-	Sprite *  sprite = Sprites::GetInstance()->Get(9991);
+	Sprite * sprite = Sprites::GetInstance()->Get(9991);
+	int xs, ys, xe, ye;
+	GetPositionCam(Camera::GetInstance()->GetBound(), xs, ys, xe, ye);
+	
 	for (int i = 0; i < row; ++i)
 		for (int j = 0; j < col; ++j)
 		{ 
-			if(mapTitles[i][j] != -1)
+			if(mapTitles[i][j]>=0)
 			{
 				r = GetPositionMap(j, i);
 				t = GetPositionTitle(mapTitles[i][j]);
@@ -57,15 +78,10 @@ void Map::Render() {
 			}
 			
 		}
-	
 }
  
 void Map::Update(float dt) {
-	float cx, cy;
-	player->GetPosition(cx, cy);
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
-	SetCamPos(cx,  cy);
+	
 }
 Map* Map::GetInstance()
 {

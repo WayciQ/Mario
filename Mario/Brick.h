@@ -6,8 +6,9 @@
 
 class Brick : public GameObject
 {
+	STATEOBJECT type;
 public:
-	Brick();
+	Brick(STATEOBJECT types);
 	~Brick();
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

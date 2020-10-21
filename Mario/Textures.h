@@ -15,6 +15,5 @@ public:
 	void Add(int id, LPCWSTR filePath, D3DCOLOR stransparentColer);
 	LPDIRECT3DTEXTURE9 Get(unsigned int i);
 	void Clear();
-	void LoadResources();
 	static Textures* GetInstance();
 };

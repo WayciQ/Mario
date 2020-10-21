@@ -22,6 +22,7 @@ public:
 	Sprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 	void Draw(float x, float y, float left, float top, float right, float bottom);
 	void Draw(float x, float y, int alpha = 255);
+	void DrawX3(float x, float y, float left, float top, float right, float bottom);
 };
 
 typedef Sprite* LPSPRITE;
@@ -40,6 +41,5 @@ public:
 	LPSPRITE Get(int id);
 	LPSPRITE& operator[](int id) { return sprites[id]; }
 	void Clear();
-	void LoadResources();
 	static Sprites* GetInstance();
 };

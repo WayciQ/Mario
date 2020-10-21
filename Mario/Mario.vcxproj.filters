@@ -105,6 +105,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -186,6 +189,9 @@
       <Filter>Game Components</Filter>
     </ClInclude>
     <ClInclude Include="KeyEventHandler.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>Game Components</Filter>
     </ClInclude>
   </ItemGroup>

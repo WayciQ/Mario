@@ -2,6 +2,7 @@
 #include "GameGlobal.h"
 #include "Sprites.h"
 #include <fstream>
+
 #define ID_TEXTURE_MAP_1 40
 
 
@@ -13,8 +14,7 @@ private:
 	int row;
 	int colTitle;
 	int** mapTitles;
-	float cam_x = 0.0f;
-	float cam_y = 0.0f;
+	
 
 public:
 	Map();
@@ -23,10 +23,10 @@ public:
 	void LoadResourses(LPCWSTR gameFile);
 	RECT GetPositionMap(int x, int y);
 	RECT GetPositionTitle(int title);
+	void GetPositionCam(RECT cam,int& xs, int& ys, int& xe, int& ye);
 	void Render();
 	void Update(float dt);
-	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
-	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
+	
 	static Map* GetInstance();
 };
 
