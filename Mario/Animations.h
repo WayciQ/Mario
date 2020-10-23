@@ -55,8 +55,8 @@ public:
 };
 typedef AnimationSet* LPANIMATION_SET;
 
-class AnimationSets
-{
+class AnimationSets									// use unodered_map to store the ani follow statename, type, state object
+{	
 	static AnimationSets* __instance;
 	unordered_map<int, LPANIMATION_SET> animation_sets;
 public:

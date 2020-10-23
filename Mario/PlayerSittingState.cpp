@@ -6,9 +6,9 @@
 
 PlayerSittingState::PlayerSittingState()
 {
-	player->allow[JUMPING] = true;
-	player->allow[WALKING] = false;
-	player->allow[WHIPPING] = false;
+	player->Allow[JUMPING] = true;
+	player->Allow[WALKING] = false;
+	player->Allow[WHIPPING] = false;
 	player->isSitWalk = true;
 	player->isSitting = true;
 	player->stateBoundingBox = MARIO_STATE_BIG_SIT_BOUNDING_BOX;

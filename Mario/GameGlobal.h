@@ -20,6 +20,7 @@ using namespace std;
 
 #define SCREEN_WIDTH	288
 #define SCREEN_HEIGHT	224
+#define CAMERA_SCREEN	264
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(100, 255, 255)
 #define WINDOW_CLASS_NAME L"Mario"
@@ -108,6 +109,12 @@ extern enum STATEOBJECT {
 	BRICK_GROUND_HEAD,
 	BRICK_GROUND_MID,
 	BRICK_GROUND_END,
+	BRICK_QUESTION,
+	BRICK_QUESTION_SELECTED,
+	BRICK_BREAKABLE,
+	BRICK_CLOUND,
+	DRAIN_NORMAL,
+	DRAIN_POTAL,
 	GOOMBA_WALKING,
 	GOOMBA_DIE,
 };
@@ -115,12 +122,13 @@ extern enum TYPE {
 	MARIO,
 	SMALL,
 	BIG,
-	RACCOON, 
+	RACCOON,
 	FIRE,
 	BRICK,
 	GOOMBA,
+	DRAIN,
 	WHIP,
-	
+	BOX_GROUND
 };
 extern enum TAG
 {
@@ -134,18 +142,15 @@ extern enum TAG
 	BOX,
 };
 
-extern std::unordered_map<std::string, TYPE>   TYPEString;
-extern std::unordered_map<std::string, STATENAME>   STATEString;
-extern std::unordered_map<int, bool> keyCode; // manager info of keyboard have been pressed or not 
+
+extern unordered_map<int, bool> keyCode; // manager info of keyboard have been pressed or not 
 #define player Mario::GetInstance()
 #define GAME  Game::GetInstance()
-extern std::unordered_map<int, bool> Allow;
-#define ADDITEM(x)  TYPEString.insert(std::pair<std::string,TYPE>(#x,x));
+#define CAMERA Camera::GetInstance();
+
+
 class GameGlobal
 {
-	/*void TypeMapToString()
-	{
-		ADDITEM(BRICK, "BRICK");
-	}*/
+	
 };
 

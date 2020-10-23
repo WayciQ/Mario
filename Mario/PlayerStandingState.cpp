@@ -8,21 +8,21 @@ PlayerStandingState::PlayerStandingState() {
 	
 	player->speedJump = 0;
 	// allow state by level
-	player->allow[JUMPING] = true; // allow jump in standing state
-	player->allow[WALKING] = true; // allow walk
+	player->Allow[JUMPING] = true; // allow jump in standing state
+	player->Allow[WALKING] = true; // allow walk
 	switch (player->level)
 	{
 	case SMALL:
-		player->allow[WHIPPING] = false;
-		player->allow[SITTING] = false;
+		player->Allow[WHIPPING] = false;
+		player->Allow[SITTING] = false;
 		break;
 	case BIG:
-		player->allow[WHIPPING] = false;
-		player->allow[SITTING] = true;
+		player->Allow[WHIPPING] = false;
+		player->Allow[SITTING] = true;
 		break;
 	case RACCOON:
-		player->allow[WHIPPING] = true;
-		player->allow[SITTING] = true;
+		player->Allow[WHIPPING] = true;
+		player->Allow[SITTING] = true;
 		break;
 	case FIRE:
 		break;
@@ -54,7 +54,7 @@ void PlayerStandingState::HandleKeyBoard() {
 	{
 		player->ChangeAnimation(new PlayerWalkingState());
 	}
-	else if (keyCode[DIK_DOWN] && player->allow[SITTING]) // small level dosen't have state sit
+	else if (keyCode[DIK_DOWN] && player->Allow[SITTING]) // small level dosen't have state sit
 	{
 		player->ChangeAnimation(new PlayerSittingState());
 	}

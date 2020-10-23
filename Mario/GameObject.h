@@ -71,6 +71,8 @@ public:
 	virtual void SetState(int state) { this->state = state; }
 	int GetNx() { return this->nx; }
 
+	bool IsCollisionAABB(RECT rect1, RECT rect2);
+	RECT GetRect();
 	~GameObject();
 };
 

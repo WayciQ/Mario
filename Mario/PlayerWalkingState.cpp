@@ -8,21 +8,21 @@
 #include "Mario.h"
 PlayerWalkingState::PlayerWalkingState()
 {
-	player->allow[RUNNING] = true;
-	player->allow[JUMPING] = true; // can jump in walking state
+	player->Allow[RUNNING] = true;
+	player->Allow[JUMPING] = true; // can jump in walking state
 	switch (player->level)
 	{
 	case SMALL:
-		player->allow[WHIPPING] = false;
-		player->allow[SITTING] = false;
+		player->Allow[WHIPPING] = false;
+		player->Allow[SITTING] = false;
 		break;
 	case BIG:
-		player->allow[WHIPPING] = false;
-		player->allow[SITTING] = true;
+		player->Allow[WHIPPING] = false;
+		player->Allow[SITTING] = true;
 		break;
 	case RACCOON:
-		player->allow[WHIPPING] = true;
-		player->allow[SITTING] = true;
+		player->Allow[WHIPPING] = true;
+		player->Allow[SITTING] = true;
 		break;
 	case FIRE:
 		break;
@@ -75,7 +75,7 @@ void PlayerWalkingState::Update()
 		// vx will be minus by inertia cause btn left or right dosen't press
 		if (stateName == WALKING_RIGHT)
 		{
-			player->vx = player->vx < 0 ? 0 : player->vx - 5 * MARIO_INERTIA_WALKING;
+			player->vx = player->vx < 0 ? 0 : player->vx - 3 * MARIO_INERTIA_WALKING;
 
 			if (player->vx == 0 && player->CurAnimation->isLastFrame) {
 				player->ChangeAnimation(new PlayerStandingState());
@@ -84,7 +84,7 @@ void PlayerWalkingState::Update()
 		}
 		else if (stateName == WALKING_LEFT)
 		{
-			player->vx = player->vx > 0 ? 0 : player->vx + 5 * MARIO_INERTIA_WALKING;
+			player->vx = player->vx > 0 ? 0 : player->vx + 3 * MARIO_INERTIA_WALKING;
 			if (player->vx == 0 && player->CurAnimation->isLastFrame) {
 				player->ChangeAnimation(new PlayerStandingState());
 				return;
@@ -99,7 +99,7 @@ void PlayerWalkingState::HandleKeyBoard()
 {
 	if (keyCode[DIK_A])
 	{
-		if (!player->isRunning && player->allow[RUNNING])
+		if (!player->isRunning && player->Allow[RUNNING])
 		{	
 			player->isRunning = true;
 			player->ChangeAnimation(new PlayerRunningState());
@@ -111,7 +111,7 @@ void PlayerWalkingState::HandleKeyBoard()
 		player->isSitWalk = true;
 		player->ChangeAnimation(new PlayerStandingState());
 	}
-	else if (keyCode[DIK_DOWN] && player->allow[SITTING]) // small level dosen't have state sit
+	else if (keyCode[DIK_DOWN] && player->Allow[SITTING]) // small level dosen't have state sit
 	{
 		player->vx = 0;
 		player->ChangeAnimation(new PlayerSittingState());

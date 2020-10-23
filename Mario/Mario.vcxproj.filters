@@ -72,17 +72,11 @@
     <ClCompile Include="PlayerWhippingState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Whip.cpp">
-      <Filter>GameObjects\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>GameObjects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>GameObjects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="PlayerLastRunState.cpp">
       <Filter>GameObjects\Player</Filter>
@@ -107,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Drain.cpp">
+      <Filter>GameObjects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>GameObjects\Ground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,17 +155,11 @@
     <ClInclude Include="PlayerWhippingState.h">
       <Filter>GameObjects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Whip.h">
-      <Filter>GameObjects\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>GameObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>GameObjects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="PlayerLastRunState.h">
       <Filter>GameObjects\Player</Filter>
@@ -193,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Drain.h">
+      <Filter>GameObjects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>GameObjects\Ground</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

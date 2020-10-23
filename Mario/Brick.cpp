@@ -2,11 +2,12 @@
 
 Brick::Brick(STATEOBJECT types) {
 	tag = GROUND;
-	this->type = types;
+	type = BRICK;
+	this->typeBrick = types;
 }
 void Brick::Render()
 {
-	animation_set->Get(type)->Render(x, y);
+	animation_set->Get(typeBrick)->Render(x, y);
 }
 
 void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)

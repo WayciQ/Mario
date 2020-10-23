@@ -36,10 +36,10 @@ void PlayerJumpingState::HandleKeyBoard()
 PlayerJumpingState::PlayerJumpingState()
 {
 	if (player->level == RACCOON) {
-		player->allow[WHIPPING] = true;
+		player->Allow[WHIPPING] = true;
 	}
 	else
-		player->allow[WHIPPING] = false;
+		player->Allow[WHIPPING] = false;
 
 	if (!player->isJumping)
 		player->vy = -MARIO_JUMP_SPEED_Y;

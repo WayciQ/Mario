@@ -5,6 +5,9 @@
 #include "Textures.h"
 #include "Sprites.h"
 
+#include "Brick.h"
+#include "Drain.h"
+#include "Box.h"
 using namespace std;
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
@@ -144,6 +147,12 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
 	int id_State = atof(tokens[3].c_str());
+
+	if (type == DRAIN)
+	{
+		float w = atof(tokens[4].c_str());
+		float h = atof(tokens[5].c_str());
+	}
 	// General object setup
 
 	GameObject* obj = NULL;
@@ -165,6 +174,13 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	case BRICK:
 		obj = new Brick(static_cast<STATEOBJECT>(id_State));
 	break;
+	case DRAIN:
+		obj = new Drain(static_cast<STATEOBJECT>(id_State), (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+		break;
+
+	case BOX_GROUND:
+		obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -239,6 +255,8 @@ void PlayScene::Load()
 void PlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
+
+	
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);

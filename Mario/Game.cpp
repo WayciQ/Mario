@@ -51,6 +51,7 @@ void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top,
 	float cx, cy;
 	Camera::GetInstance()->GetCamPos(cx, cy);
 	D3DXVECTOR3 p(floor(x - cx), floor(y - cy), 0);
+
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -64,14 +65,13 @@ void Game::DrawX3(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int to
 	Camera::GetInstance()->GetCamPos(cx, cy);
 	D3DXVECTOR3 p(floor(x - cx), floor(y - cy), 0);
 
-
 	RECT r;
 	r.left = left;
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
 
-	auto pScaling = D3DXVECTOR2(1, 1);
+	auto pScaling = D3DXVECTOR2(0.5, 0.5);
 
 	D3DXMATRIX oldMatrix, curMatrix;
 	D3DXMatrixTransformation2D(&curMatrix, 0, 0, &pScaling, 0, 0, 0);

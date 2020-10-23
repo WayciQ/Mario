@@ -17,8 +17,10 @@ Mario* Mario::GetInstance()
 	return __instance;
 }
 Mario::Mario() {
+	type = MARIO;
 	level = BIG;
 }
+
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
@@ -37,7 +39,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 
-	/*if(state->stateName != )*/
+	
 	CalcPotentialCollisions(coObjects, coEvents);
 	
 
@@ -54,40 +56,28 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.4f;
+		x += min_tx * dx + nx * 0.1f;		
+		y += min_ty * dy + ny * 0.3f;
+		DebugOut(L"vx %f\n", vx);
 		
 		isJumping = false;
-
-		if (nx != 0);
-
-		if (ny != 0) vy =0;
-
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<Goomba*>(e->obj)) // if e->obj is Goomba 
+			if (e->obj->tag = GROUND)
 			{
-				Goomba* goomba = dynamic_cast<Goomba*>(e->obj);
-				if (e->ny < 0)
+				if (e->obj->type == BOX_GROUND)
 				{
-					if (!e->obj->isDead)
+					if (e->nx != 0)
 					{
-						e->obj->isDead = true;
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
+						x += dx;
 					}
 				}
-			}
-			if (dynamic_cast<Goomba*>(e->obj)) // if e->obj is Goomba 
-			{
-				Goomba* goomba = dynamic_cast<Goomba*>(e->obj);
-				if (e->ny < 0)
+				else 
 				{
-					if (!e->obj->isDead)
-					{
-						e->obj->isDead = true;
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
-					}
+					if (e->ny != 0)
+						vy = 0;
+					
 				}
 			}
 		}
@@ -97,15 +87,12 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
-void Mario::HandleObject(LPGAMEOBJECT object) {
-
-}
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (level == RACCOON || level == BIG) {
 		if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX && isSitting) {
 			left = x;
-			top = y + 20;
+			top = y + 2*MARIO_BIG_SIT_BBOX_HEIGHT;
 			right = x + MARIO_BIG_BBOX_WIDTH;
 			bottom = y + MARIO_BIG_BBOX_HEIGHT ;
 		}     
@@ -128,12 +115,12 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void Mario::Render() {
 		alpha = 255;
-		if (state->stateName == WHIPPING_LEFT) {
+		/*if (state->stateName == WHIPPING_LEFT) {
 			CurAnimation->Render(x-10, y, alpha);
 		}
-		else {
+		else */
 			CurAnimation->Render(x, y, alpha);
-		}
+		
 		
 	RenderBoundingBox();
 }
@@ -144,7 +131,6 @@ void Mario::ChangeAnimation(PlayerState* newState)
 	state = newState;
 	LPANIMATION_SET ani = ani_sets->Get(level);
 	state->stateName = newState->stateName;
-	/*CurAnimation = animations[newState->stateName];*/
 	CurAnimation = ani->Get(newState->stateName);
 }
 
@@ -156,7 +142,7 @@ void Mario::OnKeyDown(int key)
 	{
 		case DIK_S:
 		{
-			if (!isJumping && allow[JUMPING])
+			if (!isJumping && Allow[JUMPING])
 			{
 				
 				if ((keyCode[DIK_RIGHT]))
@@ -179,7 +165,7 @@ void Mario::OnKeyDown(int key)
 		
 		case DIK_A:
 		{
-			if (!isWhipping && allow[WHIPPING]) {
+			if (!isWhipping && Allow[WHIPPING]) {
 				if (keyCode[DIK_RIGHT]) {
 					nx = 1;
 					ChangeAnimation(new PlayerWhippingState());
@@ -235,6 +221,9 @@ void Mario::OnKeyDown(int key)
 			break;
 		case DIK_F3:
 			SetPosition(2500, 400);
+			break;
+		case DIK_F4:
+			SetPosition(1616, 140);
 			break;
 
 	}

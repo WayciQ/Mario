@@ -3,8 +3,8 @@
 #include "PlayerStandingState.h"
 #include "Mario.h"
 PlayerRunningState::PlayerRunningState() {
-	player->allow[JUMPING] = true;
-	player->allow[SITTING] = true;
+	player->Allow[JUMPING] = true;
+	player->Allow[SITTING] = true;
 	player->isRunning = true;
 	if (player->nx > 0)
 	{

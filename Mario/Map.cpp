@@ -10,6 +10,8 @@ void Map::LoadResourses(LPCWSTR gameFile) {
 	f.open(gameFile);
 	f >> col >> row >> colTitle;
 	mapTitles = new int* [row];
+
+	// int **  to store title of matrix map
 	for (int r = 0; r < row; ++r)
 	{
 		mapTitles[r] = new int[col];
@@ -24,15 +26,15 @@ void Map::LoadResourses(LPCWSTR gameFile) {
 
 }
 
-float Map::GetWidthMap()
+float Map::GetWidthMap() 
 {
 	return col * TITLE_WIDTH + TITLE_WIDTH;
 }
 float Map::GetHeightMap()
 {
-	return row * TITLE_HEIGHT + TITLE_HEIGHT;
+	return row * TITLE_HEIGHT + TITLE_HEIGHT;	
 }
-RECT Map::GetPositionMap(int x, int y)
+RECT Map::GetPositionMap(int x, int y) 
 {
 	RECT r;
 	r.left = x * TITLE_WIDTH;
@@ -64,7 +66,7 @@ void Map::GetPositionCam(int &xs, int& ys, int& xe, int& ye)
 	int right = (int)cam.right;
 
 	xs = left == 0 ? 1 : left / TITLE_WIDTH;
-	ys = top / TITLE_HEIGHT - 1;
+	ys = top < 16 ? 1 : top / TITLE_HEIGHT;
 	ye = bottom / TITLE_HEIGHT + 1;
 	xe = right == width ? col : right / TITLE_WIDTH - 1;
 	//DebugOut(L"cam l:%d\n t:%d\n r:%d\n b:%d\n", xs, ys, xe, ye);
@@ -74,6 +76,7 @@ void Map::Render() {
 	RECT r;
 	RECT t;
 	Sprite * sprite = Sprites::GetInstance()->Get(9991);
+
 	int xs, ys, xe, ye;
 	GetPositionCam( xs, ys, xe, ye);
 	

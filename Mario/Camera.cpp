@@ -13,8 +13,8 @@ Camera::Camera()
 {
 	cam_x = 0;
 	cam_y = 0;
-	this->mWidth = SCREEN_WIDTH;
-	this->mHeight = SCREEN_HEIGHT;
+	this->width = SCREEN_WIDTH;
+	this->height = SCREEN_HEIGHT;
 }
 RECT Camera::GetBound()
 {
@@ -22,8 +22,8 @@ RECT Camera::GetBound()
 
 	bound.left = cam_x;
 	bound.top = cam_y;
-	bound.right = cam_x + mWidth;;
-	bound.bottom = cam_y + mHeight;
+	bound.right = cam_x + width;;
+	bound.bottom = cam_y + height;
 	return bound;
 }
 
@@ -37,17 +37,19 @@ void Camera::Update()
 	{
 		cx = 0;
 	}
-	else if(cx + mWidth >= Map::GetInstance()->GetWidthMap())
+	else if(cx + width >= Map::GetInstance()->GetWidthMap())
 	{
-		cx = Map::GetInstance()->GetWidthMap() - mWidth;
+		cx = Map::GetInstance()->GetWidthMap() - width;
 	}
 	
-	if (cy <= 224)
+	else if (cy <= SCREEN_HEIGHT)
 	{
+		if (cy <= 0)
+			cy = 0;
+		else
 		cy -= SCREEN_HEIGHT / 2;
 	}
-	else
-		cy = 264;
+	else cy = CAMERA_SCREEN;
 	SetCamPos(cx, cy);
 }
 

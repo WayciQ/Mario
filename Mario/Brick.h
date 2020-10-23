@@ -6,7 +6,7 @@
 
 class Brick : public GameObject
 {
-	STATEOBJECT type;
+	STATEOBJECT typeBrick;
 public:
 	Brick(STATEOBJECT types);
 	~Brick();
