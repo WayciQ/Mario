@@ -3,8 +3,9 @@
 #include "PlayerStandingState.h"
 #include "Mario.h"
 PlayerRunningState::PlayerRunningState() {
+	PrevState = player->state->stateName;
 	player->Allow[JUMPING] = true;
-	player->Allow[SITTING] = true;
+	player->isJumping = false;
 	player->isRunning = true;
 	if (player->nx > 0)
 	{
@@ -19,24 +20,26 @@ PlayerRunningState::PlayerRunningState() {
 	if (player->vx >= MARIO_RUNNING_SPEED) 
 	{
 			stateName = RUNNING_RIGHT;
+			player->canFly = true;
 	}
 	else if (player->vx <= -MARIO_RUNNING_SPEED)
 	{
+		player->canFly = true;
 		stateName = RUNNING_LEFT;
 	}
-	player->speedJump = player->vx;
 
 
 }
 PlayerRunningState::~PlayerRunningState(){}
 void PlayerRunningState::Update()
 {
-	if (!player->isRunning)
+	this->HandleKeyBoard();
+	if (!player->isRunning  )
 	{
 		player->ChangeAnimation(new PlayerWalkingState());
 		return;
 	}
-	this->HandleKeyBoard();
+	
 }
 void PlayerRunningState::HandleKeyBoard(){
 	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])

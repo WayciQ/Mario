@@ -19,9 +19,6 @@
     <Filter Include="GameObjects\Enemy">
       <UniqueIdentifier>{a133bd8a-63d0-4520-ad97-3b8622dfa9bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects\Weapon">
-      <UniqueIdentifier>{46f72de9-d9bf-454f-9b37-13d3a3df2848}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObjects\Ground">
       <UniqueIdentifier>{4c9d328e-872d-45e3-9a0a-674c7a7ef0ab}</UniqueIdentifier>
     </Filter>
@@ -108,6 +105,9 @@
     <ClCompile Include="Box.cpp">
       <Filter>GameObjects\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerWhippingFlyState.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -193,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="Box.h">
       <Filter>GameObjects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWhippingFlyState.h">
+      <Filter>GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

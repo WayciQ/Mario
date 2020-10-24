@@ -168,7 +168,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		}
 		obj = player;
 		P = (Mario*)obj;
-		P->Reset(x,y);
+		P->Revival(x,y);
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case BRICK:

@@ -248,7 +248,7 @@ void Game::SwitchScene(int scene_id)
 	Textures::GetInstance()->Clear();
 	Sprites::GetInstance()->Clear();
 	Animations::GetInstance()->Clear();
-
+	AnimationSets::GetInstance()->Clear();
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 	Game::GetInstance()->SetKeyHandler(s->GetKeyEventHandler()); //nhan ban phim moi

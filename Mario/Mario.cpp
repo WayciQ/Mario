@@ -58,8 +58,9 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// block 
 		x += min_tx * dx + nx * 0.1f;		
 		y += min_ty * dy + ny * 0.3f;
-		DebugOut(L"vx %f\n", vx);
 		
+		if (ny == 1)
+			vy = 0;
 		isJumping = false;
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -96,7 +97,14 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 			right = x + MARIO_BIG_BBOX_WIDTH;
 			bottom = y + MARIO_BIG_BBOX_HEIGHT ;
 		}     
-		else {
+		else if (stateBoundingBox == MARIO_STATE_BIG_BOUNDING_BOX)
+		{
+			left = x;
+			top = y;
+			right = x + MARIO_BIG_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		}
+		else{
 			left = x;
 			top = y;
 			right = x + MARIO_BIG_BBOX_WIDTH;
@@ -135,7 +143,6 @@ void Mario::ChangeAnimation(PlayerState* newState)
 }
 
 
-
 void Mario::OnKeyDown(int key)
 {
 	switch (key)
@@ -145,6 +152,8 @@ void Mario::OnKeyDown(int key)
 			if (!isJumping && Allow[JUMPING])
 			{
 				
+				startJump();
+
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
@@ -183,46 +192,36 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_DOWN:
 		{
-			/*if (!isSitting && allow[SITTING])
-			{
-				if (keyCode[DIK_RIGHT]) {
-					nx = 1;
-					ChangeAnimation(new PlayerWalkingState());
-				}
-				else if (keyCode[DIK_LEFT]) {
-					nx = -1;
-					ChangeAnimation(new PlayerWalkingState());
-				}
-				else
-				{
-					ChangeAnimation(new PlayerSittingState());
-				}
-			}*/
+			
 			break;
 		}
 		case DIK_1: 
-			level = SMALL;
+			SetLevel(SMALL);
 			ChangeAnimation(new PlayerStandingState());
 			break;
 		case DIK_2:
-			level = BIG;
+			SetLevel(BIG);
 			ChangeAnimation(new PlayerStandingState());
 			y -= 20;
 			break;
 		case DIK_3:
-			level = RACCOON;
+			SetLevel(RACCOON);
 			ChangeAnimation(new PlayerStandingState());
 			break;
 		case DIK_F1:
+			isOnSky = false;
 			SetPosition(100, 400);
 			break;
 		case DIK_F2:
+			isOnSky = false;
 			SetPosition(1400, 400);
 			break;
 		case DIK_F3:
+			isOnSky = false;
 			SetPosition(2500, 400);
 			break;
 		case DIK_F4:
+			isOnSky = true;
 			SetPosition(1616, 140);
 			break;
 
@@ -246,9 +245,7 @@ void Mario::OnKeyUp(int key) {
 		walkingDirection = -1;
 		break;
 	case DIK_S:
-		/*if (!isJumping && allow[JUMPING]) {
-			ChangeAnimation(new PlayerFallingState());
-		}*/
+		isJumpDone = true;
 		break;
 	case DIK_DOWN:
 		//isSitting = false;
@@ -256,9 +253,10 @@ void Mario::OnKeyUp(int key) {
 	}
 	
 }
-void Mario::Reset(float x, float y)
+void Mario::Revival(float x, float y)
 {
 	ChangeAnimation(new PlayerStandingState());
 	SetPosition(x, y);
 	SetSpeed(0, 0);
+	isOnSky = false;
 }

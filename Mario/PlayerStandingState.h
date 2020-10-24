@@ -3,8 +3,8 @@
 class PlayerStandingState : public PlayerState
 {
 public:
-	void Update();
-	void HandleKeyBoard();
+	virtual void Update();
+	virtual void HandleKeyBoard();
 	PlayerStandingState();
 	~PlayerStandingState();
 

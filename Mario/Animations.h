@@ -41,7 +41,6 @@ public:
 	void Add(int id, LPANIMATION ani);
 	void Clear();
 	LPANIMATION Get(int id);
-	void LoadResources();
 	static Animations* GetInstance();
 };
 
@@ -62,5 +61,6 @@ class AnimationSets									// use unodered_map to store the ani follow statenam
 public:
 	void Add(TYPE type, LPANIMATION_SET ani);
 	LPANIMATION_SET Get(TYPE type);
+	void Clear();
 	static AnimationSets* GetInstance();
 };

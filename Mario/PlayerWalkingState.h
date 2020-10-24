@@ -5,8 +5,8 @@
 class PlayerWalkingState : public PlayerState
 {
 public:
-	void Update();
-	void HandleKeyBoard();
+	virtual void Update();
+	virtual void HandleKeyBoard();
 	PlayerWalkingState();
 	~PlayerWalkingState();
 	bool walkingDone();

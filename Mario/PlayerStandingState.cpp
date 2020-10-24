@@ -6,7 +6,6 @@
 #include "PlayerWhippingState.h"
 PlayerStandingState::PlayerStandingState() {
 	
-	player->speedJump = 0;
 	// allow state by level
 	player->Allow[JUMPING] = true; // allow jump in standing state
 	player->Allow[WALKING] = true; // allow walk
@@ -32,11 +31,11 @@ PlayerStandingState::PlayerStandingState() {
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	player->vx = 0; // vx = 0;
 
-	// flag state 
+	// flag state s
 	player->isWhipping = false;
 	player->isSitting = false;
 	player->isJumping = false;
-	player->isSitWalk = false;
+	player->canFly = false;
 	// set state by nx
 	if (player->nx > 0)
 		stateName = STANDING_RIGHT;

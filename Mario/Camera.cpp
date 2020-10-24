@@ -42,7 +42,7 @@ void Camera::Update()
 		cx = Map::GetInstance()->GetWidthMap() - width;
 	}
 	
-	else if (cy <= SCREEN_HEIGHT)
+	if (cy <= SCREEN_HEIGHT && player->isOnSky)
 	{
 		if (cy <= 0)
 			cy = 0;
@@ -50,6 +50,7 @@ void Camera::Update()
 		cy -= SCREEN_HEIGHT / 2;
 	}
 	else cy = CAMERA_SCREEN;
+
 	SetCamPos(cx, cy);
 }
 

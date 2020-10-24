@@ -1,11 +1,11 @@
 #pragma once
 #include "PlayerState.h"
-class PlayerWhippingState : public PlayerState
+class PlayerWhippingFlyState	: public PlayerState
 {
 public: 
 	virtual void Update();
 	virtual void HandleKeyBoard();
-	PlayerWhippingState();
-	~PlayerWhippingState();
+	PlayerWhippingFlyState();
+	~PlayerWhippingFlyState();
 };
 

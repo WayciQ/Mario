@@ -105,7 +105,16 @@ void AnimationSets::Add(TYPE type, LPANIMATION_SET ani)
 LPANIMATION_SET AnimationSets::Get(TYPE type) {
 	return animation_sets[type];
 }
+void AnimationSets::Clear()
+{
+	for (auto x : animation_sets)
+	{
+		LPANIMATION_SET ani = x.second;
+		delete ani;
+	}
 
+	animation_sets.clear();
+}
 AnimationSets* AnimationSets::GetInstance() {
 	if (__instance == NULL) __instance = new AnimationSets();
 	return __instance;

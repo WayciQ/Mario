@@ -32,6 +32,8 @@ PlayerWalkingState::PlayerWalkingState()
 	player->isWhipping = false;
 	player->isRunning = false;
 	player->isSitting = false;
+	player->isJumping = false;
+	player->canFly = false;
 	// set bouding box
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 
@@ -50,7 +52,6 @@ PlayerWalkingState::PlayerWalkingState()
 		player->speedJump = player->vx;
 	
 	
-
 }
 
 void PlayerWalkingState::Update()
@@ -77,7 +78,7 @@ void PlayerWalkingState::Update()
 		{
 			player->vx = player->vx < 0 ? 0 : player->vx - 3 * MARIO_INERTIA_WALKING;
 
-			if (player->vx == 0 && player->CurAnimation->isLastFrame) {
+			if (player->vx == 0 ) {
 				player->ChangeAnimation(new PlayerStandingState());
 				return;
 			}
@@ -85,7 +86,7 @@ void PlayerWalkingState::Update()
 		else if (stateName == WALKING_LEFT)
 		{
 			player->vx = player->vx > 0 ? 0 : player->vx + 3 * MARIO_INERTIA_WALKING;
-			if (player->vx == 0 && player->CurAnimation->isLastFrame) {
+			if (player->vx == 0 ) {
 				player->ChangeAnimation(new PlayerStandingState());
 				return;
 			}
@@ -108,13 +109,7 @@ void PlayerWalkingState::HandleKeyBoard()
 	}
 	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT] )
 	{
-		player->isSitWalk = true;
 		player->ChangeAnimation(new PlayerStandingState());
-	}
-	else if (keyCode[DIK_DOWN] && player->Allow[SITTING]) // small level dosen't have state sit
-	{
-		player->vx = 0;
-		player->ChangeAnimation(new PlayerSittingState());
 	}
 	else if (keyCode[DIK_LEFT])
 	{

@@ -19,11 +19,15 @@ public:
 	int alpha;
 	bool isSitting;
 	bool isJumping;
+	bool isJumpDone;
 	bool isWhipping;
 	bool isRunning;
-	bool isShooting;
+	bool isOnSky;
 	bool isSitWalk;
+	bool canFly;
+	bool isFlying;
 	int startWalkingComplete;
+	int startJumping;
 	int walkingDirection;
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
@@ -37,12 +41,11 @@ public:
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
+	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
 	void SetLevel(TYPE level) { this->level = level; }
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
 	void ChangeAnimation(PlayerState* newState);
-
-
-	void Reset(float x, float y);
+	void Revival(float x, float y);
 
 };
