@@ -9,6 +9,5 @@ public:
 	virtual void HandleKeyBoard();
 	PlayerWalkingState();
 	~PlayerWalkingState();
-	bool walkingDone();
 };
 

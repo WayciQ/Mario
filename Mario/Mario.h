@@ -20,10 +20,13 @@ public:
 	bool isSitting;
 	bool isJumping;
 	bool isJumpDone;
+
+	bool canShortJump;
+	bool canFallJump;
+
 	bool isWhipping;
 	bool isRunning;
 	bool isOnSky;
-	bool isSitWalk;
 	bool canFly;
 	bool isFlying;
 	int startWalkingComplete;

@@ -7,6 +7,7 @@
 #include "PlayerWalkingState.h"
 #include "PlayerRunningState.h"
 #include "PlayerSittingState.h"
+#include "PlayerJumpingShortState.h"
 #include "Goomba.h"
 
 Mario* Mario:: __instance = NULL;
@@ -18,7 +19,7 @@ Mario* Mario::GetInstance()
 }
 Mario::Mario() {
 	type = MARIO;
-	level = BIG;
+	level = RACCOON;
 }
 
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -28,7 +29,12 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	state->Update();
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
+	//if (vy >= MARIO_GRAVITY * dt);
 
+	if (vy > 3.5 * (MARIO_GRAVITY * dt))
+	{
+		ChangeAnimation(new PlayerFallingState());
+	}
 	isWaittingPressBtn = GetTickCount() - startWalkingComplete <= MARIO_LAST_RUN_TIME;
 	/*if (isWaittingPressBtn) {
 		DebugOut(L"\n isWaittingPress:true - %d", GetTickCount() - startWalkingComplete);
@@ -60,8 +66,15 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += min_ty * dy + ny * 0.3f;
 		
 		if (ny == 1)
+		{
 			vy = 0;
-		isJumping = false;
+			isJumpDone = true;
+		}
+		else if (ny == -1)
+		{
+			isJumping = false;
+		}
+		
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -73,12 +86,18 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						x += dx;
 					}
+					if (e->ny != 0)
+					{
+						vy = 0;
+					}
+
 				}
 				else 
 				{
 					if (e->ny != 0)
+					{
 						vy = 0;
-					
+					}
 				}
 			}
 		}
@@ -107,7 +126,7 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		else{
 			left = x;
 			top = y;
-			right = x + MARIO_BIG_BBOX_WIDTH;
+			right = x + 9;
 			bottom = y + MARIO_BIG_BBOX_HEIGHT;
 		}
 	}
@@ -149,11 +168,9 @@ void Mario::OnKeyDown(int key)
 	{
 		case DIK_S:
 		{
-			if (!isJumping && Allow[JUMPING])
+			if (!isJumping && Allow[JUMPING_LONG])
 			{
-				
 				startJump();
-
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
@@ -171,7 +188,27 @@ void Mario::OnKeyDown(int key)
 			}
 			break;
 		}
-		
+		case DIK_X:
+		{
+			if (!isJumping && Allow[JUMPING_SHORT])
+			{
+				if ((keyCode[DIK_RIGHT]))
+				{
+					nx = 1;
+					ChangeAnimation(new PlayerJumpingShortState());
+				}
+				else if ((keyCode[DIK_LEFT]))
+				{
+					nx = -1;
+					ChangeAnimation(new PlayerJumpingShortState());
+				}
+				else
+				{
+					ChangeAnimation(new PlayerJumpingShortState());
+				}
+			}
+			break;
+		}
 		case DIK_A:
 		{
 			if (!isWhipping && Allow[WHIPPING]) {
@@ -210,11 +247,11 @@ void Mario::OnKeyDown(int key)
 			break;
 		case DIK_F1:
 			isOnSky = false;
-			SetPosition(100, 400);
+			SetPosition(50, 400);
 			break;
 		case DIK_F2:
 			isOnSky = false;
-			SetPosition(1400, 400);
+			SetPosition(900, 300);
 			break;
 		case DIK_F3:
 			isOnSky = false;
@@ -224,7 +261,7 @@ void Mario::OnKeyDown(int key)
 			isOnSky = true;
 			SetPosition(1616, 140);
 			break;
-
+		
 	}
 }
 void Mario::OnKeyUp(int key) {
@@ -246,9 +283,13 @@ void Mario::OnKeyUp(int key) {
 		break;
 	case DIK_S:
 		isJumpDone = true;
+		player->canFallJump = true;
 		break;
 	case DIK_DOWN:
 		//isSitting = false;
+		break;
+	case DIK_X:
+
 		break;
 	}
 	

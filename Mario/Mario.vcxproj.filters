@@ -105,7 +105,7 @@
     <ClCompile Include="Box.cpp">
       <Filter>GameObjects\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerWhippingFlyState.cpp">
+    <ClCompile Include="PlayerJumpingShortState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -194,7 +194,7 @@
     <ClInclude Include="Box.h">
       <Filter>GameObjects\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerWhippingFlyState.h">
+    <ClInclude Include="PlayerJumpingShortState.h">
       <Filter>GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>

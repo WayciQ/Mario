@@ -22,7 +22,7 @@ void PlayerWhippingState::HandleKeyBoard() {
 }
 PlayerWhippingState::PlayerWhippingState() {
 	PrevState = player->state->stateName;
-	player->Allow[JUMPING] = true;
+	player->Allow[JUMPING_LONG] = true;
 	player->Allow[WALKING] = true;
 	player->Allow[SITTING] = false;
 	player->isWhipping = true;

@@ -42,7 +42,7 @@ void Camera::Update()
 		cx = Map::GetInstance()->GetWidthMap() - width;
 	}
 	
-	if (cy <= SCREEN_HEIGHT && player->isOnSky)
+	if (cy <= SCREEN_HEIGHT)
 	{
 		if (cy <= 0)
 			cy = 0;

@@ -2,19 +2,30 @@
 #include "PlayerJumpingState.h"
 #include "Mario.h"
 #include "PlayerStandingState.h"
-
+#include "PlayerJumpingShortState.h"
 
 PlayerFallingState::PlayerFallingState()
 {
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
+	player->Allow[JUMPING_LONG] = false;
+	
 	if (player->canFly)
 	{
 		if (player->nx > 0)
-			stateName = FLY_FALL_RIGHT;
+			stateName = FLYING_FALL_RIGHT;
 		else
-			stateName = FLY_FALL_LEFT;
+			stateName = FLYING_FALL_LEFT;
 		
 	}
+	else if (player->canShortJump )
+	{
+		
+		if (player->nx > 0)
+			stateName = RACCON_WHIPING_FLY_RIGHT;
+		else
+			stateName = RACCON_WHIPING_FLY_LEFT;
+	}
+	
 	else
 	{
 		if (player->nx > 0)
@@ -37,13 +48,32 @@ void PlayerFallingState::Update()
 	if (!player->isJumping)
 	{
 		player->canFly = false;
+		player->canShortJump = false;
+		player->canFallJump = true;
 		player->ChangeAnimation(new PlayerStandingState());
 	}
 	
 }
 void PlayerFallingState::HandleKeyBoard()
 {
+	if (player->level == RACCOON)
+	{
+		if (keyCode[DIK_S] && player->isJumping && player->canFallJump)
+		{
 
+			player->canShortJump = false;
+			player->canFallJump = false;
+			player->ChangeAnimation(new PlayerJumpingShortState());
+		}
+		else 
+		if (keyCode[DIK_X] && player->isJumping)
+		{
+			player->vy = 0;
+			player->canShortJump = true;
+			player->ChangeAnimation(new PlayerFallingState());
+		}
+	}
+	
 }
 
 PlayerFallingState::~PlayerFallingState()

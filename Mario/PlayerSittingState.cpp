@@ -6,9 +6,10 @@
 
 PlayerSittingState::PlayerSittingState()
 {
-	player->Allow[JUMPING] = true;
+	player->Allow[JUMPING_LONG] = true;
 	player->Allow[WALKING] = false;
 	player->Allow[WHIPPING] = false;
+	player->Allow[JUMPING_SHORT] = true;
 	player->isSitting = true;
 	player->vx = 0;
 	player->stateBoundingBox = MARIO_STATE_BIG_SIT_BOUNDING_BOX;
@@ -32,14 +33,12 @@ void PlayerSittingState::HandleKeyBoard()
 			{
 				
 				player->nx = -1;
-				player->isSitWalk = false;
 				player->ChangeAnimation(new PlayerWalkingState());
 			}
 			else if (keyCode[DIK_RIGHT])
 			{
 				
 				player->nx = 1;
-				player->isSitWalk = false;
 				player->ChangeAnimation(new PlayerWalkingState());
 			}
 		

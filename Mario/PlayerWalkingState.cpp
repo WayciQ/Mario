@@ -5,11 +5,13 @@
 #include "PlayerWhippingState.h"
 #include "PlayerLastRunState.h"
 #include "PlayerRunningState.h"
+#include "PlayerJumpingShortState.h"
 #include "Mario.h"
 PlayerWalkingState::PlayerWalkingState()
 {
 	player->Allow[RUNNING] = true;
-	player->Allow[JUMPING] = true; // can jump in walking state
+	player->Allow[JUMPING_LONG] = true; // can jump in walking state
+	player->Allow[JUMPING_SHORT] = true;
 	switch (player->level)
 	{
 	case SMALL:
@@ -54,57 +56,15 @@ PlayerWalkingState::PlayerWalkingState()
 	
 }
 
-void PlayerWalkingState::Update()
-{
-	this->HandleKeyBoard();
-	if (player->isWaittingPressBtn) // btn left or right is OnUpKey in number of time
-	{
-		if (player->walkingDirection != player->nx) {
-			// if nx != walkingDirection that mean wakling is done and change direction
-			player->isWalkingComplete = true; 
-		}
-		else {
-			// continue walking in before direction
-			player->isWalkingComplete = false;
-		}
-		
-	}
-	else
-	{
-		player->isWalkingComplete = false;
-
-		// vx will be minus by inertia cause btn left or right dosen't press
-		if (stateName == WALKING_RIGHT)
-		{
-			player->vx = player->vx < 0 ? 0 : player->vx - 3 * MARIO_INERTIA_WALKING;
-
-			if (player->vx == 0 ) {
-				player->ChangeAnimation(new PlayerStandingState());
-				return;
-			}
-		}
-		else if (stateName == WALKING_LEFT)
-		{
-			player->vx = player->vx > 0 ? 0 : player->vx + 3 * MARIO_INERTIA_WALKING;
-			if (player->vx == 0 ) {
-				player->ChangeAnimation(new PlayerStandingState());
-				return;
-			}
-		}
-	}
-
-
-}
 
 void PlayerWalkingState::HandleKeyBoard()
 {
 	if (keyCode[DIK_A])
 	{
 		if (!player->isRunning && player->Allow[RUNNING])
-		{	
+		{
 			player->isRunning = true;
 			player->ChangeAnimation(new PlayerRunningState());
-			
 		}
 	}
 	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT] )
@@ -130,8 +90,32 @@ void PlayerWalkingState::HandleKeyBoard()
 		else player->ChangeAnimation(new PlayerLastRunState());
 	}
 	
+	
 }
 
+void PlayerWalkingState::Update()
+{
+	this->HandleKeyBoard();
+	if (player->isWaittingPressBtn) // btn left or right is OnUpKey in number of time
+	{
+		if (player->walkingDirection != player->nx) {
+			// if nx != walkingDirection that mean wakling is done and change direction
+			player->isWalkingComplete = true;
+		}
+		else {
+			// continue walking in before direction
+			player->isWalkingComplete = false;
+			player->ChangeAnimation(new PlayerStandingState());
+		}
+	}
+	else
+	{
+		player->isWalkingComplete = false;
+		//DebugOut(L"vx On key Down: %f \n", player->vx);
+	}
+
+	
+}
 
 PlayerWalkingState::~PlayerWalkingState()
 {

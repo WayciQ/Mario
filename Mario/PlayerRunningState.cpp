@@ -1,12 +1,13 @@
 #include "PlayerRunningState.h"
 #include "PlayerWalkingState.h"
 #include "PlayerStandingState.h"
+#include "PlayerJumpingState.h"
 #include "Mario.h"
 PlayerRunningState::PlayerRunningState() {
-	PrevState = player->state->stateName;
-	player->Allow[JUMPING] = true;
+	player->Allow[JUMPING_LONG] = true;
+	player->Allow[JUMPING_SHORT] = true;
 	player->isJumping = false;
-	player->isRunning = true;
+	// inertia
 	if (player->nx > 0)
 	{
 		player->vx = player->vx > MARIO_RUNNING_SPEED ? MARIO_RUNNING_SPEED : player->vx + MARIO_INERTIA_RUNNING; // vx increase by inertia; max vx = speedPush
@@ -17,6 +18,8 @@ PlayerRunningState::PlayerRunningState() {
 		player->vx = player->vx < -MARIO_RUNNING_SPEED ? -MARIO_RUNNING_SPEED : player->vx - MARIO_INERTIA_RUNNING; // vx decrease by inertia; max vx = speedPush
 		stateName = WALKING_FAST_LEFT;
 	}
+
+	// max speed
 	if (player->vx >= MARIO_RUNNING_SPEED) 
 	{
 			stateName = RUNNING_RIGHT;
@@ -30,18 +33,8 @@ PlayerRunningState::PlayerRunningState() {
 
 
 }
-PlayerRunningState::~PlayerRunningState(){}
-void PlayerRunningState::Update()
-{
-	this->HandleKeyBoard();
-	if (!player->isRunning  )
-	{
-		player->ChangeAnimation(new PlayerWalkingState());
-		return;
-	}
-	
-}
-void PlayerRunningState::HandleKeyBoard(){
+
+void PlayerRunningState::HandleKeyBoard() {
 	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
 	{
 		player->ChangeAnimation(new PlayerStandingState());
@@ -57,4 +50,16 @@ void PlayerRunningState::HandleKeyBoard(){
 		player->nx = 1;
 		player->ChangeAnimation(new PlayerRunningState());
 	}
+	
 }
+
+void PlayerRunningState::Update()
+{
+	this->HandleKeyBoard();
+	if (!player->isRunning)
+	{
+		player->ChangeAnimation(new PlayerStandingState());
+	}
+
+}
+PlayerRunningState::~PlayerRunningState(){}

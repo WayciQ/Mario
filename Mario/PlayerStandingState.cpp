@@ -4,11 +4,13 @@
 #include "PlayerWalkingState.h"
 #include "PlayerSittingState.h"
 #include "PlayerWhippingState.h"
+#include "PlayerJumpingShortState.h"
 PlayerStandingState::PlayerStandingState() {
 	
 	// allow state by level
-	player->Allow[JUMPING] = true; // allow jump in standing state
+	player->Allow[JUMPING_LONG] = true; // allow jump in standing state
 	player->Allow[WALKING] = true; // allow walk
+	player->Allow[JUMPING_SHORT] = true;
 	switch (player->level)
 	{
 	case SMALL:
@@ -29,13 +31,11 @@ PlayerStandingState::PlayerStandingState() {
 	
 	// set bounding box in standing state
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
-	player->vx = 0; // vx = 0;
 
 	// flag state s
 	player->isWhipping = false;
 	player->isSitting = false;
 	player->isJumping = false;
-	player->canFly = false;
 	// set state by nx
 	if (player->nx > 0)
 		stateName = STANDING_RIGHT;
@@ -57,12 +57,37 @@ void PlayerStandingState::HandleKeyBoard() {
 	{
 		player->ChangeAnimation(new PlayerSittingState());
 	}
+	else if (keyCode[DIK_X])
+	{
+		player->ChangeAnimation(new PlayerJumpingShortState()); 
+	}
 	
 }
 
 void PlayerStandingState::Update()
 {
 	this->HandleKeyBoard(); // loop
+
+	if (player->vx < MARIO_INERTIA_WALKING && player->vx > -MARIO_INERTIA_WALKING)
+	{
+		player->vx = 0;
+	}
+	else
+	{
+		if (player->vx > 0)
+		{
+			player->vx = player->vx < 0 ? 0 : player->vx - MARIO_INERTIA_WALKING;
+		}
+		else
+		{
+			player->vx = player->vx > 0 ? 0 : player->vx + MARIO_INERTIA_WALKING;
+			
+		}
+	}
+		
+
+	
+	
 }
 
 PlayerStandingState::~PlayerStandingState()
