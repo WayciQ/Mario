@@ -189,13 +189,13 @@ void Mario::OnKeyDown(int key)
 			break;
 		}
 		case DIK_X:
-		{
+		{	startJump();
 			if (!isJumping && Allow[JUMPING_SHORT])
 			{
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
-					ChangeAnimation(new PlayerJumpingShortState());
+					ChangeAnimation(new PlayerJumpingState());
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{

@@ -11,6 +11,7 @@ PlayerStandingState::PlayerStandingState() {
 	player->Allow[JUMPING_LONG] = true; // allow jump in standing state
 	player->Allow[WALKING] = true; // allow walk
 	player->Allow[JUMPING_SHORT] = true;
+	player->Allow[FLYING_PUSH] = false;
 	switch (player->level)
 	{
 	case SMALL:

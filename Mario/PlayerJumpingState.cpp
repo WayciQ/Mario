@@ -28,10 +28,22 @@ PlayerJumpingState::PlayerJumpingState()
 	
 	if (player->canFly)
 	{
-		if (player->nx > 0)
-			stateName = FLYING_RIGHT;
+		DebugOut(L"CL\n");
+		if (player->isFlying)
+		{
+			DebugOut(L"Cc\n");
+			if (player->nx > 0)
+				stateName = FLYING_PUSH_RIGHT;
+			else
+				stateName = FLYING_PUSH_LEFT;
+		}
 		else
-			stateName = FLYING_LEFT;
+		{
+			if (player->nx > 0)
+				stateName = FLYING_RIGHT;
+			else
+				stateName = FLYING_LEFT;
+		}
 	}
 	else
 	{
@@ -44,6 +56,8 @@ PlayerJumpingState::PlayerJumpingState()
 			stateName = JUMPING_LEFT;
 		}
 	}
+
+
 	if (player->isSitting)
 	{
 		if (player->nx > 0)
@@ -83,9 +97,17 @@ void PlayerJumpingState::HandleKeyBoard()
 			player->ChangeAnimation(new PlayerJumpingState());
 		}
 	}
-	
-	
-	
+	else if (keyCode[DIK_X]  && player->Allow[FLYING_PUSH])
+	{
+		if (GetTickCount() - player->startJumping < 1000)
+		{
+			player->vy = -MARIO_JUMP_SPEED_Y;
+			player->vx > -MARIO_WALKING_SPEED;
+			 player->isFlying = true;
+		}
+		else player->isFlying = false;
+		
+	}
 }
 
 void PlayerJumpingState::Update()

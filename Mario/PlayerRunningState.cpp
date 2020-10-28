@@ -6,6 +6,7 @@
 PlayerRunningState::PlayerRunningState() {
 	player->Allow[JUMPING_LONG] = true;
 	player->Allow[JUMPING_SHORT] = true;
+	player->Allow[FLYING_PUSH] = false;
 	player->isJumping = false;
 	// inertia
 	if (player->nx > 0)
@@ -19,18 +20,21 @@ PlayerRunningState::PlayerRunningState() {
 		stateName = WALKING_FAST_LEFT;
 	}
 
+	if (player->level == RACCOON)
+	{
+		player->Allow[FLYING_PUSH] = true;
+	}
 	// max speed
 	if (player->vx >= MARIO_RUNNING_SPEED) 
 	{
-			stateName = RUNNING_RIGHT;
-			player->canFly = true;
+		stateName = RUNNING_RIGHT;
+		player->canFly = true;
 	}
 	else if (player->vx <= -MARIO_RUNNING_SPEED)
 	{
 		player->canFly = true;
 		stateName = RUNNING_LEFT;
 	}
-
 
 }
 
@@ -49,6 +53,23 @@ void PlayerRunningState::HandleKeyBoard() {
 	{
 		player->nx = 1;
 		player->ChangeAnimation(new PlayerRunningState());
+	}else if (keyCode[DIK_X])
+	{
+		player->isFlying = true;
+		if ((keyCode[DIK_RIGHT]))
+		{
+			player->nx = 1;
+			player->ChangeAnimation(new PlayerJumpingState());
+		}
+		else if ((keyCode[DIK_LEFT]))
+		{
+			player->nx = -1;
+			player->ChangeAnimation(new PlayerJumpingState());
+		}
+		else
+		{
+			player->ChangeAnimation(new PlayerJumpingState());
+		}
 	}
 	
 }
