@@ -12,21 +12,22 @@ PlayerStandingState::PlayerStandingState() {
 	player->Allow[WALKING] = true; // allow walk
 	player->Allow[JUMPING_SHORT] = true;
 	player->Allow[FLYING_PUSH] = false;
+	player->Allow[WHIPPING] = false;
+	player->Allow[SITTING] = true;
+	player->Allow[FIRING_FIRE] = false;
+
 	switch (player->level)
 	{
 	case SMALL:
-		player->Allow[WHIPPING] = false;
 		player->Allow[SITTING] = false;
 		break;
 	case BIG:
-		player->Allow[WHIPPING] = false;
-		player->Allow[SITTING] = true;
 		break;
 	case RACCOON:
 		player->Allow[WHIPPING] = true;
-		player->Allow[SITTING] = true;
 		break;
 	case FIRE:
+		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
 	
@@ -37,6 +38,7 @@ PlayerStandingState::PlayerStandingState() {
 	player->isWhipping = false;
 	player->isSitting = false;
 	player->isJumping = false;
+	player->isShooting = false;
 	// set state by nx
 	if (player->nx > 0)
 		stateName = STANDING_RIGHT;

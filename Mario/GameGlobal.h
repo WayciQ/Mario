@@ -31,10 +31,11 @@ using namespace std;
 #define TITLE_HEIGHT 16
 
 #define ID_TEX_MARIO 1
+#define ID_TEX_ENEMY 2
+#define ID_TEX_BRICK 3
+#define ID_TEX_FIRE 3
+#define ID_TEXTURE_MAP_1 32
 
-#define ID_TEX_ENEMY 11
-#define ID_TEX_MISC 22
-#define ID_TEX_FIRE 33
 // mario
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
@@ -54,18 +55,20 @@ using namespace std;
 #define MARIO_STATE_BIG_SIT_BOUNDING_BOX 100
 #define MARIO_STATE_SMALL_BOUDING_BOX 222
 
+// bbx
 #define MARIO_BIG_BBOX_WIDTH  15
 #define MARIO_BIG_BBOX_HEIGHT 27
 
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 16
 
-#define MARIO_BIG_SIT_BBOX_WIDTH 23
-#define MARIO_BIG_SIT_BBOX_HEIGHT 10
+#define MARIO_BIG_SIT_BBOX_TOP 12
+#define MARIO_BIG_SIT_BBOX_WIDTH 18
+#define MARIO_BIG_SIT_BBOX_HEIGHT 14
 
-#define MARIO_RACCOON_FIGHT_WIDTH 22
+#define MARIO_RACCOON_FIGHT_WIDTH 14
 #define MARIO_RACCOON_FIGHT_HEIGHT 28
-#define MARIO_RACCOON_FIGHT_WIDTH_X 8
+#define MARIO_RACCOON_FIGHT_WIDTH_X 9
 
 #define MARIO_UNTOUCHABLE_TIME 5000
 #define MARIO_LAST_RUN_TIME 350
@@ -115,7 +118,15 @@ extern enum STATENAME {
 	RACCON_WHIPING_FLY_RIGHT,
 	RACCON_WHIPING_FLY_LEFT,
 	JUMPING_SHORT,
-	
+	FIRING_FIRE,
+	STANDING_FIRE_RIGHT,
+	STANDING_FIRE_LEFT,
+	JUMPING_FIRE,
+	JUMPING_FIRE_RIGHT,
+	JUMPING_FIRE_LEFT,
+	KICK,
+	KICK_RIGHT,
+	KICK_LEFT,
 };
 
 extern enum STATEOBJECT {
@@ -131,6 +142,12 @@ extern enum STATEOBJECT {
 	DRAIN_POTAL,
 	GOOMBA_WALKING,
 	GOOMBA_DIE,
+	FIRE_FIRE_RIGHT,
+	FIRE_FIRE_LEFT,
+	FIRE_GONE,
+	KOOMBA_WALKING_RIGHT,
+	KOOMBA_WALKING_LEFT,
+	KOOMBA_DIE,
 };
 extern enum TYPE {
 	MARIO,
@@ -142,7 +159,12 @@ extern enum TYPE {
 	GOOMBA,
 	DRAIN,
 	WHIP,
-	BOX_GROUND
+	BOX_GROUND,
+	WEAPON_MARIO,
+	FIRE_FIRE,
+	NOR_GOOMBA,
+	KOOMBA,
+	NOR_KOOMBA
 };
 extern enum TAG
 {
@@ -159,8 +181,9 @@ extern enum TAG
 
 extern unordered_map<int, bool> keyCode; // manager info of keyboard have been pressed or not 
 #define player Mario::GetInstance()
-#define GAME  Game::GetInstance()
-#define CAMERA Camera::GetInstance();
+#define game  Game::GetInstance()
+#define camera Camera::GetInstance()
+#define animationsSets AnimationSets::GetInstance()
 
 
 class GameGlobal

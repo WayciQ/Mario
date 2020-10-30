@@ -5,13 +5,11 @@ class Camera
 {
 private:
 	static Camera* __instance;
-
+public:
 	float cam_x; // cam_x
 	float cam_y; // cam_y
 	int width; // width screen
 	int height; // height screen
-public:
-
 	Camera();
 	~Camera();
 

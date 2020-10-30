@@ -11,7 +11,7 @@ Box::Box(float w, float h)
 Box::~Box() {}
 void Box::Render()
 {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void Box::Update() {}

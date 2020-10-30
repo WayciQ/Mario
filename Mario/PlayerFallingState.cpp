@@ -8,14 +8,27 @@ PlayerFallingState::PlayerFallingState()
 {
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	player->Allow[JUMPING_LONG] = false;
-	
+	switch (player->level)
+	{
+	case SMALL:
+		player->Allow[SITTING] = false;
+		break;
+	case BIG:
+		break;
+	case RACCOON:
+		player->Allow[WHIPPING] = true;
+		break;
+	case FIRE:
+		player->Allow[FIRING_FIRE] = true;
+		break;
+	}
+
 	if (player->canFly)
 	{
 		if (player->nx > 0)
 			stateName = FLYING_FALL_RIGHT;
 		else
 			stateName = FLYING_FALL_LEFT;
-		
 	}
 	else if (player->canShortJump )
 	{

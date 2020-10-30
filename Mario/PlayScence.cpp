@@ -4,11 +4,14 @@
 #include "Utils.h"
 #include "Textures.h"
 #include "Sprites.h"
-
+#include "Weapons.h"
 #include "Brick.h"
 #include "Drain.h"
 #include "Box.h"
+#include "Goomba.h"
+#include "Koomba.h"
 using namespace std;
+
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
 	key_handler = new PlayScenceKeyHandler(this);
@@ -181,6 +184,12 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	case BOX_GROUND:
 		obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 		break;
+	case GOOMBA:
+		obj = new Goomba(static_cast<TYPE>(id_State));
+		break;
+	case KOOMBA:
+		obj = new Koomba(static_cast<TYPE>(id_State));
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -255,16 +264,29 @@ void PlayScene::Load()
 void PlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
-
 	
+	if (P->isWhipping)
+	{
+		auto w = Weapons::CreateWeapon(WHIP);
+		objects.push_back(w);
+	}
+	if (P->canShoot)
+	{
+		auto w = Weapons::CreateWeapon(FIRE_FIRE);
+		objects.push_back(w);
+	}
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
+		if (objects[i]->canDel)
+		{
+			objects.erase(objects.begin() + i);
+		}
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		objects[i]->Update(dt, &coObjects);	
 	}
 
 	Camera::GetInstance()->Update();

@@ -112,7 +112,7 @@ void GameObject::RenderBoundingBox()
 	rect.top = 0;
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
-	Game::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 155);
+	Game::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, 155);
 }
 
 bool GameObject::IsCollisionAABB(RECT rect1, RECT rect2)

@@ -9,8 +9,7 @@ class PlayScene :public Scene
 private:
 	Mario* P;
 	Map* map;
-	vector<LPGAMEOBJECT> objects;
-
+	
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -19,13 +18,14 @@ private:
 	void _ParseSection_MAPS(string line);
 
 public:
+
+	vector<LPGAMEOBJECT> objects;
 	PlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
-	virtual void Unload();
-
+	virtual void Unload(); 
 	Mario* GetPlayer() { return P; }
 
 };

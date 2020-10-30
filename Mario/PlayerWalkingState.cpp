@@ -12,21 +12,21 @@ PlayerWalkingState::PlayerWalkingState()
 	player->Allow[RUNNING] = true;
 	player->Allow[JUMPING_LONG] = true; // can jump in walking state
 	player->Allow[JUMPING_SHORT] = true;
+	player->Allow[FIRING_FIRE] = false;
+	player->Allow[WHIPPING] = false;
+	player->Allow[SITTING] = true;
 	switch (player->level)
 	{
 	case SMALL:
-		player->Allow[WHIPPING] = false;
 		player->Allow[SITTING] = false;
 		break;
 	case BIG:
-		player->Allow[WHIPPING] = false;
-		player->Allow[SITTING] = true;
 		break;
 	case RACCOON:
 		player->Allow[WHIPPING] = true;
-		player->Allow[SITTING] = true;
 		break;
 	case FIRE:
+		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
 
@@ -95,6 +95,7 @@ void PlayerWalkingState::HandleKeyBoard()
 
 void PlayerWalkingState::Update()
 {
+
 	this->HandleKeyBoard();
 	if (player->isWaittingPressBtn) // btn left or right is OnUpKey in number of time
 	{

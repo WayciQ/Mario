@@ -1,8 +1,6 @@
 #include "GameObject.h"
 #include "PlayerState.h"
 
-class PlayerState;
-class GameObject;
 
 class Mario : public GameObject 
 {
@@ -17,6 +15,13 @@ public:
 	float speedJump;
 	int stateBoundingBox;
 	int alpha;
+
+	bool isKicking;
+
+	bool isShooting;
+	bool canShoot;
+	int countShoot;
+
 	bool isSitting;
 	bool isJumping;
 	bool isJumpDone;
@@ -25,15 +30,19 @@ public:
 	bool canFallJump;
 
 	bool isWhipping;
+	bool canWhip;
+
 	bool isRunning;
 	bool isOnSky;
 	bool canFly;
 	bool isFlying;
+
 	int startWalkingComplete;
 	int startJumping;
 	int walkingDirection;
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
+
 	Animation* CurAnimation;
 	unordered_map<STATENAME, bool> Allow;
 	static Mario* GetInstance();

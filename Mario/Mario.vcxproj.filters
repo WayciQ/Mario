@@ -22,6 +22,9 @@
     <Filter Include="GameObjects\Ground">
       <UniqueIdentifier>{4c9d328e-872d-45e3-9a0a-674c7a7ef0ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Weapon">
+      <UniqueIdentifier>{b5fb76bf-780b-42c5-8b55-87e5f3821726}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -96,9 +99,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Game Components</Filter>
-    </ClCompile>
     <ClCompile Include="Drain.cpp">
       <Filter>GameObjects\Ground</Filter>
     </ClCompile>
@@ -106,6 +106,27 @@
       <Filter>GameObjects\Ground</Filter>
     </ClCompile>
     <ClCompile Include="PlayerJumpingShortState.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerShootingFireState.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Fire.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Whip.cpp">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Koomba.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerKickState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -195,6 +216,27 @@
       <Filter>GameObjects\Ground</Filter>
     </ClInclude>
     <ClInclude Include="PlayerJumpingShortState.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShootingFireState.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Fire.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Whip.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapons.h">
+      <Filter>GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Koomba.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerKickState.h">
       <Filter>GameObjects\Player</Filter>
     </ClInclude>
   </ItemGroup>

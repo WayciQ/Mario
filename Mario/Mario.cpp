@@ -1,5 +1,6 @@
 #include "Mario.h"
 #include "PlayerState.h"
+#include "PlayerKickState.h"
 #include "PlayerJumpingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerWhippingState.h"
@@ -8,6 +9,7 @@
 #include "PlayerRunningState.h"
 #include "PlayerSittingState.h"
 #include "PlayerJumpingShortState.h"
+#include "PlayerShootingFireState.h"
 #include "Goomba.h"
 
 Mario* Mario:: __instance = NULL;
@@ -29,9 +31,8 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	state->Update();
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
-	//if (vy >= MARIO_GRAVITY * dt);
 
-	if (vy > 3.5 * (MARIO_GRAVITY * dt))
+	if (vy > 3.5f * (MARIO_GRAVITY * dt))
 	{
 		ChangeAnimation(new PlayerFallingState());
 	}
@@ -78,7 +79,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->tag = GROUND)
+			if (e->obj->tag == GROUND)
 			{
 				if (e->obj->type == BOX_GROUND)
 				{
@@ -100,6 +101,35 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+			if (e->obj->tag == ENEMY) 
+			{
+				if (e->ny == -1)
+				{
+					e->obj->vx = 0;
+					e->obj->isDead = true;
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+				}
+				if (e->obj->type == KOOMBA)
+				{
+					if (e->obj->isDead)
+					{
+						if (e->nx != 0)
+						{
+							vx = 0;
+							ChangeAnimation(new PlayerKickState());
+							if (e->nx == -1)
+							{
+								e->obj->vx = 2*MARIO_WALKING_SPEED;
+							}
+							else {
+								e->obj->vx = -2 * MARIO_WALKING_SPEED;
+							}
+						}
+					}
+
+
+				}
+			}
 		}
 	}
 
@@ -109,26 +139,72 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (level == RACCOON || level == BIG) {
-		if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX && isSitting) {
-			left = x;
-			top = y + 2*MARIO_BIG_SIT_BBOX_HEIGHT;
-			right = x + MARIO_BIG_BBOX_WIDTH;
-			bottom = y + MARIO_BIG_BBOX_HEIGHT ;
-		}     
-		else if (stateBoundingBox == MARIO_STATE_BIG_BOUNDING_BOX)
+	if (level == RACCOON || level == BIG || level == FIRE) {
+		
+		if (level != RACCOON)
 		{
-			left = x;
-			top = y;
-			right = x + MARIO_BIG_BBOX_WIDTH;
-			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+			if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX && isSitting) {
+				left = x;
+				top = y + MARIO_BIG_SIT_BBOX_TOP;
+				right = x + MARIO_BIG_BBOX_WIDTH;
+				bottom = y + MARIO_BIG_BBOX_HEIGHT;
+			}
+			else if (stateBoundingBox == MARIO_STATE_BIG_BOUNDING_BOX)
+			{
+				if (level == RACCOON)
+				{
+					left = x + MARIO_RACCOON_FIGHT_WIDTH_X;
+					top = y;
+					right = x + MARIO_BIG_BBOX_WIDTH + MARIO_RACCOON_FIGHT_WIDTH_X;
+					bottom = y + MARIO_BIG_BBOX_HEIGHT;
+				}
+				else
+				{
+					left = x;
+					top = y;
+					right = x + MARIO_BIG_BBOX_WIDTH;
+					bottom = y + MARIO_BIG_BBOX_HEIGHT;
+				}
+			}
 		}
-		else{
-			left = x;
-			top = y;
-			right = x + 9;
-			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		else
+		{
+			if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX && isSitting) {
+				if (nx < 0)
+				{
+					left = x;
+					top = y + MARIO_BIG_SIT_BBOX_TOP;
+					right = x + MARIO_BIG_BBOX_WIDTH;
+					bottom = y + MARIO_BIG_BBOX_HEIGHT;
+				}
+				else
+				{
+					left = x + MARIO_RACCOON_FIGHT_WIDTH_X;
+					top = y + MARIO_BIG_SIT_BBOX_TOP;
+					right = x +MARIO_RACCOON_FIGHT_WIDTH_X + MARIO_BIG_BBOX_WIDTH;
+					bottom = y + MARIO_BIG_BBOX_HEIGHT;
+				}
+				
+			}
+			else if (stateBoundingBox == MARIO_STATE_BIG_BOUNDING_BOX)
+			{
+				if (nx < 0)
+				{
+					left = x;
+					top = y;
+					right = x + MARIO_BIG_BBOX_WIDTH ;
+					bottom = y + MARIO_BIG_BBOX_HEIGHT;
+				}
+				else
+				{
+					left = x + MARIO_RACCOON_FIGHT_WIDTH_X;
+					top = y;
+					right = x + MARIO_BIG_BBOX_WIDTH + MARIO_RACCOON_FIGHT_WIDTH_X;
+					bottom = y + MARIO_BIG_BBOX_HEIGHT;
+				}
+			}
 		}
+		
 	}
 	else  {
 		left = x;
@@ -153,10 +229,9 @@ void Mario::Render() {
 }
 void Mario::ChangeAnimation(PlayerState* newState)
 {
-	AnimationSets* ani_sets = AnimationSets::GetInstance();
 	delete state;
 	state = newState;
-	LPANIMATION_SET ani = ani_sets->Get(level);
+	LPANIMATION_SET ani = animationsSets->Get(level);
 	state->stateName = newState->stateName;
 	CurAnimation = ani->Get(newState->stateName);
 }
@@ -211,19 +286,31 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_A:
 		{
-			if (!isWhipping && Allow[WHIPPING]) {
-				if (keyCode[DIK_RIGHT]) {
-					nx = 1;
-					ChangeAnimation(new PlayerWhippingState());
+			switch (level)
+			{
+			case RACCOON:
+				if (!isWhipping && Allow[WHIPPING]) {
+					if (keyCode[DIK_RIGHT]) {
+						nx = 1;
+						ChangeAnimation(new PlayerWhippingState());
+					}
+					else if (keyCode[DIK_LEFT]) {
+						nx = -1;
+						ChangeAnimation(new PlayerWhippingState());
+					}
+					else
+					{
+						ChangeAnimation(new PlayerWhippingState());
+					}
 				}
-				else if (keyCode[DIK_LEFT]) {
-					nx = -1;
-					ChangeAnimation(new PlayerWhippingState());
+				break;
+			case FIRE:
+				if (!isShooting && Allow[FIRING_FIRE]) {
+					{
+						ChangeAnimation(new PlayerShootingFireState());
+					}
 				}
-				else 
-				{
-					ChangeAnimation(new PlayerWhippingState());
-				}
+				break;
 			}
 			break;
 		}
@@ -243,6 +330,10 @@ void Mario::OnKeyDown(int key)
 			break;
 		case DIK_3:
 			SetLevel(RACCOON);
+			ChangeAnimation(new PlayerStandingState());
+			break;
+		case DIK_4:
+			SetLevel(FIRE);
 			ChangeAnimation(new PlayerStandingState());
 			break;
 		case DIK_F1:
@@ -289,7 +380,7 @@ void Mario::OnKeyUp(int key) {
 		//isSitting = false;
 		break;
 	case DIK_X:
-
+		DebugOut(L"\n isWaittingPress:false ");
 		break;
 	}
 	

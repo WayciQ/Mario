@@ -1,8 +1,12 @@
 #include "Goomba.h"
-Goomba::Goomba() {
+Goomba::Goomba(TYPE type) : Enemy()
+{
 	isDead = false;
-	nx = 1;	
+	canDel = false;
+	this->type = type;
+	this->nx =1;
 	vx = GOOMBA_WALKING_SPEED;
+	this->animation_set = animationsSets->Get(type);
 	CurAnimation = animation_set->Get(GOOMBA_WALKING);
 }
 Goomba::~Goomba(){}
@@ -11,26 +15,23 @@ void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	left = x;
 	top = y;
 	right = x + GOOMBA_BBOX_WIDTH;
-
-	if (state == GOOMBA_STATE_DIE)
+	bottom = y + GOOMBA_BBOX_HEIGHT;
+	if(isDead)
 		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
-	else
-		bottom = y + GOOMBA_BBOX_HEIGHT;
 }
 
 void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
 	vy += MARIO_GRAVITY * dt;
-	if (!isDead) {
-		CurAnimation = animation_set->Get(GOOMBA_WALKING);
-	}
-	else {
-		vx = 0;
-		CurAnimation = animation_set->Get(GOOMBA_DIE);
-	}
 	
-
+	if (isDead)
+	{
+		vx = 0;
+		CurAnimation = animationsSets->Get(type)->Get(GOOMBA_DIE);
+		GetTime();
+	}
+	canDel = GetTickCount() - timeDie < 3000;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -51,17 +52,15 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		
-		x += min_tx * dx + nx * 0.7f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.7f;
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;
 		if (ny != 0) vy = 0;
+		
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
-void Goomba::Render()
-{
-	CurAnimation->Render(x, y, 255);
-	RenderBoundingBox();
-}
+
+

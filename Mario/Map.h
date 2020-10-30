@@ -3,9 +3,6 @@
 #include "Sprites.h"
 #include <fstream>
 
-#define ID_TEXTURE_MAP_1 40
-
-
 class Map
 {
 private:

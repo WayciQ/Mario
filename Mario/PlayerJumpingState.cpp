@@ -7,23 +7,20 @@
 
 PlayerJumpingState::PlayerJumpingState()
 {
+	player->Allow[WHIPPING] = false;
+	player->Allow[JUMPING_SHORT] = false;
 	switch (player->level)
 	{
-	case SMALL:
-		player->Allow[WHIPPING] = false;
-		break;
 	case BIG:
-		player->Allow[WHIPPING] = false;
 		break;
 	case RACCOON:
 		player->Allow[WHIPPING] = true;
 		break;
 	case FIRE:
-		player->Allow[WHIPPING] = false;
+		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
 	
-	player->Allow[JUMPING_SHORT] = false;
 	player->isJumping =true;
 	
 	if (player->canFly)

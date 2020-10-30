@@ -3,7 +3,7 @@
 #include "Animations.h"
 using namespace std;
 
-#define ID_TEX_BBOX -100		// special texture to draw object bounding box
+#define ID_TEX_BBOX -100		
 
 class GameObject;
 typedef GameObject* LPGAMEOBJECT;
@@ -41,14 +41,16 @@ public:
 	TYPE type;
 	DWORD dt;
 	bool isDead;
-
+	bool canDel;
 	LPANIMATION_SET animation_set;
 
 public:
+	float widthBBox, heightBBox;
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
+	void SetWidthHeight(float w, float h) { this->widthBBox = w, this->heightBBox = h; }
 
 	int GetState() { return this->state; }
 
