@@ -123,16 +123,18 @@
     <ClCompile Include="Koomba.cpp">
       <Filter>GameObjects\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerKickState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
       <Filter>GameObjects\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerHoldingState.cpp" />
+    <ClCompile Include="Camera.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHoldingState.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -167,9 +169,6 @@
     </ClInclude>
     <ClInclude Include="Sprites.h">
       <Filter>Game Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="GameGlobal.h">
-      <Filter>Game Components</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Game Components</Filter>
@@ -246,6 +245,11 @@
     <ClInclude Include="Ground.h">
       <Filter>GameObjects\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerHoldingState.h" />
+    <ClInclude Include="PlayerHoldingState.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameGlobal.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -55,7 +55,6 @@ PlayerStandingState::PlayerStandingState() {
 		else stateName = STANDING_LEFT;
 	}
 
-	
 }
 
 void PlayerStandingState::HandleKeyBoard() {

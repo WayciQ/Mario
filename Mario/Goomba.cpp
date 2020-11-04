@@ -1,4 +1,5 @@
 #include "Goomba.h"
+#define GOOMBA_TIME_DIE 200
 Goomba::Goomba(TYPE type) : Enemy(type)
 {
 	isDead = false;
@@ -33,7 +34,7 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (checkDead)
 	{
-		if (GetTickCount() - TimeDead > 150)
+		if (GetTickCount() - TimeDead > GOOMBA_TIME_DIE)
 		{
 			canDel = true;
 			TimeDead = 0;

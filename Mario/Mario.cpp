@@ -10,6 +10,7 @@
 #include "PlayerSittingState.h"
 #include "PlayerJumpingShortState.h"
 #include "PlayerShootingFireState.h"
+#include "PlayerDieState.h"
 #include "Goomba.h"
 #include "PlayerHoldingState.h"
 
@@ -43,6 +44,11 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		DebugOut(L"\n isWaittingPress:true - %d", GetTickCount() - startWalkingComplete);
 	}else DebugOut(L"\n isWaittingPress:false - %d", GetTickCount() - startWalkingComplete);*/
 	
+	if (GetTickCount() - untouchableTime >= MARIO_UNTOUCHABLE_TIME)
+	{
+		untouchableTime = 0;
+		untouchable = false;
+	}
 		
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -105,49 +111,60 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			}
 			if (e->obj->tag == ENEMY) 
-			{
+			{	
+				
 				if (e->ny == -1)
 				{
 					e->obj->vx = 0;
 					e->obj->startTimeDead();
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
-				if (e->obj->type == KOOMBA)
-				{
-					if (e->obj->isDead)
-					{
-						if (e->nx != 0)
-						{
-							vx = 0;
-							e->obj->startTimeDead();
-							if (e->nx != player->nx )
-							{
-								if (canHolding) {
-									isHolding = true;
-								}
-								else {
-									if (!e->obj->isKicked)
-									{
-										ChangeAnimation(new PlayerKickState());
-									}
-									
 
-									if (e->nx == -1)
+				if (e->nx != 0)
+				{
+					if (!untouchable)
+					{	
+						if (!e->obj->isDead) {
+							ChangeAnimation(new PlayerDieState());
+							
+						}
+						else {
+							if (e->obj->type == KOOMBA)
+							{
+								vx = 0;
+								if (e->obj->isKicked)
+								{
+									startTimeDead();
+								}
+								else
+								{
+									if (e->nx != player->nx)
 									{
-										e->obj->vx = 2 * MARIO_WALKING_SPEED;
-									}
-									else {
-										e->obj->vx = -2 * MARIO_WALKING_SPEED;
+										if (canHolding) {
+											isHolding = true;
+										}
+										else {
+											if (!e->obj->isKicked)
+											{
+												ChangeAnimation(new PlayerKickState());
+												e->obj->startTimeDead();
+												e->obj->isKicked = true;
+											}
+											if (e->nx == -1)
+											{
+												e->obj->vx = 2 * MARIO_WALKING_SPEED;
+											}
+											else {
+												e->obj->vx = -2 * MARIO_WALKING_SPEED;
+											}
+										}
 									}
 								}
 							}
-							
-							
 						}
 					}
-
-
 				}
+				
 			}
 		}
 	}
@@ -236,8 +253,12 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 }
 
 void Mario::Render() {
-		alpha = 255;
 		state->Render();
+		if (untouchable)
+		{
+			alpha = alpha == 255 ? 125 : 255;
+		}
+		else alpha = 255;
 	CurAnimation->Render(x, y, alpha);
 	RenderBoundingBox();
 }

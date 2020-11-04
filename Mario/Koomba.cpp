@@ -2,14 +2,11 @@
 #include "Mario.h"
 #include "PlayerKickState.h"
 
-#define KOOMBA_TIME_REVIVAL 10000
+#define KOOMBA_TIME_REVIVAL 7000
 Koomba::Koomba(TYPE type) : Enemy(type)
 {
-	isDead = true;
-	checkDead = false;
-	isKicked = false;
 	this->type = KOOMBA;
-	//Revival();
+	Revival();
 }
 Koomba::~Koomba() {}
 void Koomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -37,10 +34,8 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (GetTickCount() - TimeDead > KOOMBA_TIME_REVIVAL)
 		{
-			isDead = false;
-			checkDead = false;
-			Revival();
 			TimeDead = 0;
+			Revival();
 		}
 	}
 	
@@ -63,6 +58,7 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (player->isHolding)
 		{
 			player->ChangeAnimation(new PlayerKickState());
+			isKicked = true;
 			if (player->nx == 1)
 			{
 				vx = 2 * MARIO_WALKING_SPEED;
@@ -114,18 +110,16 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->nx != 0)
 					{
 						vx = -vx;
-						
-						if(vx > 0 && !isDead )
-							ChangeAnimation(KOOMBA_WALKING_RIGHT);
-						else 
-							ChangeAnimation(KOOMBA_WALKING_LEFT);
+						if(!isDead)
+						{
+							if (vx > 0)
+								ChangeAnimation(KOOMBA_WALKING_RIGHT);
+							else
+								ChangeAnimation(KOOMBA_WALKING_LEFT);
+						}
 					}
 				}
 
-			}
-			if (e->obj->tag == PLAYER)
-			{
-				
 			}
 		}
 		
@@ -139,14 +133,32 @@ void Koomba::Revival()
 	nx = 1;
 	y -= 9;
 	vx = KOOMBA_WALKING_SPEED;
-	ChangeAnimation(KOOMBA_WALKING_RIGHT);
+	isDead = false;
+	checkDead = false;
 	isKicked = false;
+	isKicked = false;
+	ChangeAnimation(KOOMBA_WALKING_RIGHT);
 }
 
 void Koomba::UpdatePosition(DWORD dt)
 {
-	int posX = player->nx > 0 ? player->x+13 : player->x -13;
-	int	posY =  player->y + 5;
+	int posX, posY;
+	switch (player->level)
+	{
+	case RACCOON:
+		posX = player->nx > 0 ? player->x + 25 : player->x - 13;
+		posY = player->y + 9;
+		break;
+	case SMALL:
+		posX = player->nx > 0 ? player->x + 15 : player->x - 13;
+		posY = player->y;
+		break;
+	case BIG:case FIRE:
+		posX = player->nx > 0 ? player->x + 15 : player->x - 13;
+		posY = player->y + 9;
+		break;
+	}
+	
 	vy = 0;
 	SetPosition(posX, posY);
 }

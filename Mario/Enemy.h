@@ -11,9 +11,7 @@ public:
 		animation_set = animationsSets->Get(type);
 	}
 	Animation* CurAnimation;
-	int timeDie;
-	bool ishitting;
-	virtual void GetTime() { timeDie = GetTickCount(); canDel = false; };
+	bool checkDead;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
 	virtual void UpdatePosition(float dt) {};

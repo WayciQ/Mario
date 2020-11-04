@@ -44,7 +44,6 @@ public:
 	bool isDead;
 	bool canDel;
 	bool isKicked;
-	bool checkDead;
 	int TimeDead;
 
 	LPANIMATION_SET animation_set;
@@ -77,7 +76,7 @@ public:
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 	int GetNx() { return this->nx; }
-	virtual void startTimeDead() { TimeDead = GetTickCount(); checkDead = true;isDead = true; }
+	virtual void startTimeDead() { TimeDead = GetTickCount();isDead = true; }
 	bool IsCollisionAABB(RECT rect1, RECT rect2);
 	RECT GetRect();
 	~GameObject();

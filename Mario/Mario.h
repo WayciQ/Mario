@@ -63,5 +63,5 @@ public:
 	void OnKeyDown(int key);
 	void ChangeAnimation(PlayerState* newState);
 	void Revival(float x, float y);
-
+	void startTimeDead() { untouchableTime = GetTickCount(); untouchable = true; }
 };
