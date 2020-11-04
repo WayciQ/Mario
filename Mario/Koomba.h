@@ -8,12 +8,14 @@
 
 class Koomba : public Enemy
 {
+
 public:
 	Koomba(TYPE type);
 	~Koomba();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void startTimeDead() { TimeDead = GetTickCount(); isDead = true; isKicked = true; }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void UpdatePosition(DWORD dt);
-
+	void Revival();
 };
 

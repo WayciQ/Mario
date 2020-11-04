@@ -10,6 +10,7 @@
 #include "Box.h"
 #include "Goomba.h"
 #include "Koomba.h"
+#include "Ground.h"
 using namespace std;
 
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
@@ -190,6 +191,9 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	case KOOMBA:
 		obj = new Koomba(static_cast<TYPE>(id_State));
 		break;
+	case GROUND_LAND:
+		obj = new Ground((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -198,7 +202,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	obj->SetPosition(x, y);
 	if (type != MARIO)
 	{
-		int type_ani = atoi(tokens[0].c_str());
+		int type_ani = type == BRICK ? atoi(tokens[0].c_str()) : atoi(tokens[3].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);

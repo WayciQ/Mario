@@ -22,13 +22,11 @@ PlayerJumpingState::PlayerJumpingState()
 	}
 	
 	player->isJumping =true;
-	
+
 	if (player->canFly)
 	{
-		DebugOut(L"CL\n");
 		if (player->isFlying)
 		{
-			DebugOut(L"Cc\n");
 			if (player->nx > 0)
 				stateName = FLYING_PUSH_RIGHT;
 			else
@@ -44,14 +42,25 @@ PlayerJumpingState::PlayerJumpingState()
 	}
 	else
 	{
-		if (player->nx > 0)
+		if (player->isHolding)
 		{
-			stateName = JUMPING_RIGHT;
+			if (player->nx > 0)
+			{
+				stateName = PICKING_RIGHT;
+			}
+			else stateName = PICKING_LEFT;
 		}
-		else
-		{
-			stateName = JUMPING_LEFT;
+		else {
+			if (player->nx > 0)
+			{
+				stateName = JUMPING_RIGHT;
+			}
+			else
+			{
+				stateName = JUMPING_LEFT;
+			}
 		}
+		
 	}
 
 

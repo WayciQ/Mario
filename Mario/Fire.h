@@ -10,5 +10,6 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void UpdatePosititon(DWORD dt);
+
 };
 

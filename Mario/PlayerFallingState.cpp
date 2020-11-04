@@ -23,37 +23,49 @@ PlayerFallingState::PlayerFallingState()
 		break;
 	}
 
-	if (player->canFly)
+	if (player->isHolding)
 	{
 		if (player->nx > 0)
-			stateName = FLYING_FALL_RIGHT;
-		else
-			stateName = FLYING_FALL_LEFT;
+		{
+			stateName = PICKING_RIGHT;
+		}
+		else stateName = PICKING_LEFT;
 	}
-	else if (player->canShortJump )
+	else 
 	{
-		
-		if (player->nx > 0)
-			stateName = RACCON_WHIPING_FLY_RIGHT;
+		if (player->canFly)
+		{
+			if (player->nx > 0)
+				stateName = FLYING_FALL_RIGHT;
+			else
+				stateName = FLYING_FALL_LEFT;
+		}
+		else if (player->canShortJump)
+		{
+
+			if (player->nx > 0)
+				stateName = RACCON_WHIPING_FLY_RIGHT;
+			else
+				stateName = RACCON_WHIPING_FLY_LEFT;
+		}
+
 		else
-			stateName = RACCON_WHIPING_FLY_LEFT;
+		{
+			if (player->nx > 0)
+				stateName = FALLING_RIGHT;
+			else
+				stateName = FALLING_LEFT;
+		}
+
+		if (player->isSitting)
+		{
+			if (player->nx > 0)
+				stateName = SITTING_RIGHT;
+			else
+				stateName = SITTING_LEFT;
+		}
 	}
 	
-	else
-	{
-		if (player->nx > 0)
-			stateName = FALLING_RIGHT;
-		else
-			stateName = FALLING_LEFT;
-	}
-	
-	if (player->isSitting)
-	{
-		if (player->nx > 0)
-			stateName = SITTING_RIGHT;
-		else
-			stateName = SITTING_LEFT;
-	}
 }
 void PlayerFallingState::Update()
 {

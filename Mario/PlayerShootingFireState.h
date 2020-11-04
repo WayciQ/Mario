@@ -5,8 +5,9 @@ class PlayerShootingFireState : public PlayerState
 public:
 	PlayerShootingFireState();
 	~PlayerShootingFireState();
-	virtual void Update();
-	virtual void HandleKeyBoard();
+	void Render();
+	void Update();
+	void HandleKeyBoard();
 
 };
 

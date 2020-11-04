@@ -7,14 +7,14 @@ class Mario : public GameObject
 private:
 	static Mario* __instance;
 public:
-	Mario();
+	
 	PlayerState* state;
 	TYPE level;
-	int untouchable;
+	bool untouchable;
 	DWORD untouchableTime;
 	float speedJump;
 	int stateBoundingBox;
-	int alpha;
+	int alpha,beta;
 
 	bool isKicking;
 
@@ -23,9 +23,10 @@ public:
 	int countShoot;
 
 	bool isSitting;
+
 	bool isJumping;
 	bool isJumpDone;
-
+	int startJumping;
 	bool canShortJump;
 	bool canFallJump;
 
@@ -37,17 +38,20 @@ public:
 	bool canFly;
 	bool isFlying;
 
+	bool isHolding;
+	bool canHolding;
+
 	int startWalkingComplete;
-	int startJumping;
 	int walkingDirection;
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
+
 
 	Animation* CurAnimation;
 	unordered_map<STATENAME, bool> Allow;
 	static Mario* GetInstance();
 	STATENAME GetState() { return state->stateName; }
-
+	Mario();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 

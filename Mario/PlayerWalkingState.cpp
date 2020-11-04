@@ -43,13 +43,27 @@ PlayerWalkingState::PlayerWalkingState()
 		if (player->nx > 0)
 		{
 			player->vx = player->vx > MARIO_WALKING_SPEED ? MARIO_WALKING_SPEED : player->vx + MARIO_INERTIA_WALKING; // vx increase by inertia; max vx = speedPush
-			stateName = WALKING_RIGHT;
 		}
 		else
 		{
 			//DebugOut(L"vx-left: %f\n", player->vx);
 			player->vx = player->vx < -MARIO_WALKING_SPEED ? -MARIO_WALKING_SPEED : player->vx - MARIO_INERTIA_WALKING; // vx decrease by inertia; max vx = speedPush
-			stateName = WALKING_LEFT;
+		}
+		if (player->isHolding)
+		{
+			if (player->nx > 0)
+			{
+				stateName = PICKING_RIGHT;
+			}
+			else stateName = PICKING_LEFT;
+		}
+		else
+		{
+			if (player->nx > 0)
+			{
+				stateName = WALKING_RIGHT;
+			}
+			else stateName = WALKING_LEFT;
 		}
 		player->speedJump = player->vx;
 	
@@ -114,8 +128,6 @@ void PlayerWalkingState::Update()
 		player->isWalkingComplete = false;
 		//DebugOut(L"vx On key Down: %f \n", player->vx);
 	}
-
-	
 }
 
 PlayerWalkingState::~PlayerWalkingState()

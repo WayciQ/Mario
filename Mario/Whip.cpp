@@ -56,10 +56,10 @@ void Whip::UpdatePosititon(DWORD dt)
 	int	posY = player->nx > 0 ? player->y + 15 : player->y +15;
 
 	SetPosition(posX, posY);
-	if (player->CurAnimation->isLastFrame)
-		isDead = true;
+	if (player->CurAnimation->isLastFrame)	
+		canDel = true;
 }
 void Whip::Render() {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 Whip::~Whip(){}

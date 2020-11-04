@@ -11,7 +11,7 @@ Drain::Drain(STATEOBJECT types, float w, float h)
 Drain::~Drain(){}
 void Drain::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Drain::Update(){}

@@ -40,9 +40,21 @@ PlayerStandingState::PlayerStandingState() {
 	player->isJumping = false;
 	player->isShooting = false;
 	// set state by nx
-	if (player->nx > 0)
-		stateName = STANDING_RIGHT;
-	else stateName = STANDING_LEFT;
+	if (player->isHolding)
+	{
+		if (player->nx > 0)
+		{
+			stateName = PICKING_RIGHT;
+		}
+		else stateName = PICKING_LEFT;
+	}
+	else
+	{
+		if (player->nx > 0)
+			stateName = STANDING_RIGHT;
+		else stateName = STANDING_LEFT;
+	}
+
 	
 }
 

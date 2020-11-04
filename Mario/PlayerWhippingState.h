@@ -3,8 +3,9 @@
 class PlayerWhippingState : public PlayerState
 {
 public: 
-	virtual void Update();
-	virtual void HandleKeyBoard();
+	void Update();
+	void HandleKeyBoard();
+	void Render();
 	PlayerWhippingState();
 	~PlayerWhippingState();
 };

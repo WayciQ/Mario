@@ -5,9 +5,10 @@ class Enemy : public GameObject
 {
 	
 public:
-	Enemy() {
+	Enemy(TYPE type) {
 		tag = ENEMY;
 		isDead = false;
+		animation_set = animationsSets->Get(type);
 	}
 	Animation* CurAnimation;
 	int timeDie;
@@ -18,6 +19,7 @@ public:
 	virtual void UpdatePosition(float dt) {};
 	virtual void Render();
 	virtual void CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {};
-
+	virtual void ChangeAnimation(STATEOBJECT state);
+	virtual void Revival() {};
 };
 

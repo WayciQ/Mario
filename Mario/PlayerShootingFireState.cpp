@@ -10,8 +10,6 @@ PlayerShootingFireState::PlayerShootingFireState()
 	{
 		player->canShoot = true;
 	}
-	
-	
 
 	player->isShooting = true;
 	if (!player->isJumping)
@@ -49,6 +47,11 @@ void PlayerShootingFireState::Update()
 	{
 		player->canShoot = false;
 	}
+	
+}
+
+void PlayerShootingFireState::Render()
+{
 	if (player->CurAnimation->isLastFrame) {
 		player->CurAnimation->isLastFrame = false;
 		player->CurAnimation->currentFrame = -1;

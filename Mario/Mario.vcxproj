@@ -151,7 +151,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Drain.cpp" />
     <ClCompile Include="Fire.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Koomba.cpp" />
+    <ClCompile Include="PlayerHoldingState.cpp" />
     <ClCompile Include="PlayerJumpingShortState.cpp" />
     <ClCompile Include="PlayerKickState.cpp" />
     <ClCompile Include="PlayerShootingFireState.cpp" />
@@ -187,7 +189,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Drain.h" />
     <ClInclude Include="Fire.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="Koomba.h" />
+    <ClInclude Include="PlayerHoldingState.h" />
     <ClInclude Include="PlayerJumpingShortState.h" />
     <ClInclude Include="PlayerKickState.h" />
     <ClInclude Include="PlayerShootingFireState.h" />

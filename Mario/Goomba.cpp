@@ -1,13 +1,13 @@
 #include "Goomba.h"
-Goomba::Goomba(TYPE type) : Enemy()
+Goomba::Goomba(TYPE type) : Enemy(type)
 {
 	isDead = false;
 	canDel = false;
+	checkDead = false;
 	this->type = type;
 	this->nx =1;
 	vx = GOOMBA_WALKING_SPEED;
-	this->animation_set = animationsSets->Get(type);
-	CurAnimation = animation_set->Get(GOOMBA_WALKING);
+	ChangeAnimation(GOOMBA_WALKING);
 }
 Goomba::~Goomba(){}
 void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -28,10 +28,17 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isDead)
 	{
 		vx = 0;
-		CurAnimation = animationsSets->Get(type)->Get(GOOMBA_DIE);
-		GetTime();
+		ChangeAnimation(GOOMBA_DIE);
 	}
-	canDel = GetTickCount() - timeDie < 3000;
+
+	if (checkDead)
+	{
+		if (GetTickCount() - TimeDead > 150)
+		{
+			canDel = true;
+			TimeDead = 0;
+		}
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -55,9 +62,31 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;
+		/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
 		if (ny != 0) vy = 0;
-		
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (e->obj->tag == GROUND)
+			{
+				if (e->obj->type == BOX_GROUND)
+				{
+					if (e->nx != 0)
+					{
+						x += dx;
+					}
+				}
+				else 
+				{
+					if (e->nx != 0)
+					{
+						vx = -vx;
+					}	
+				}
+				
+			}
+		}
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

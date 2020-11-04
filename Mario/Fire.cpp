@@ -18,14 +18,14 @@ Fire::Fire()
 	SetPosition(px, py);
 	if (nx > 0)
 	{
-		CurAnimation = animation_set->Get(FIRE_FIRE_RIGHT);
+		ChangeAnimation(FIRE_FIRE_RIGHT);
 		vx = player->vx + FIRE_SPEED_X;
 		
 	}
 	else 
 	{
 		vx = player->vx - FIRE_SPEED_X;
-		CurAnimation = animation_set->Get(FIRE_FIRE_LEFT);
+		ChangeAnimation(FIRE_FIRE_LEFT);
 	}
 }
 void Fire::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -44,6 +44,10 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
+	if (isDead)
+	{
+		canDel = true;
+	}
 
 	CalcPotentialCollisions(coObjects, coEvents);
 	if (coEvents.size() == 0)
@@ -76,9 +80,15 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vx = 0;
 						vy = 0;
 						isDead = true;
-						CurAnimation = animation_set->Get(FIRE_GONE);
+						ChangeAnimation(FIRE_GONE);
 					}
 
+				}
+				else {
+					if (e->nx != 0)
+					{
+						x += dx;
+					}
 				}
 				
 			}

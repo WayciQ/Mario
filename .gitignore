@@ -1,0 +1,15 @@
+
+.vs/Mario/v16/.suo
+*.db
+*.ipch
+Debug/Mario.exe
+Debug/Mario.ilk
+Debug/Mario.pdb
+Mario/Debug/Animations.obj
+Mario/Debug/Box.obj
+*.obj
+*.enc
+*.log
+*.tlog
+*.idb
+*.pdb

@@ -13,5 +13,8 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
 	virtual void CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
 	virtual void Render();
+	virtual void ChangeAnimation(STATEOBJECT state) {
+		CurAnimation = animation_set->Get(state);
+	}
 
 };

@@ -6,7 +6,6 @@
 #include "Mario.h"
 
 PlayerWhippingState::PlayerWhippingState() {
-	PrevState = player->state->stateName;
 	player->Allow[JUMPING_LONG] = true;
 	player->Allow[WALKING] = true;
 	player->Allow[SITTING] = false;
@@ -29,15 +28,16 @@ void PlayerWhippingState::Update() {
 	{
 		player->canWhip = false;
 	}
-	if (player->CurAnimation->isLastFrame ) {
+}
+void PlayerWhippingState::Render()
+{
+	if (player->CurAnimation->isLastFrame) {
 		player->Allow[WHIPPING] = true;
 		player->CurAnimation->isLastFrame = false;
 		player->CurAnimation->currentFrame = -1;
 		player->ChangeAnimation(new PlayerStandingState());
 	}
-
 }
-
 void PlayerWhippingState::HandleKeyBoard() {
 
 }

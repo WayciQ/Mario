@@ -129,6 +129,10 @@
     <ClCompile Include="PlayerKickState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>GameObjects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHoldingState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -239,5 +243,9 @@
     <ClInclude Include="PlayerKickState.h">
       <Filter>GameObjects\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>GameObjects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHoldingState.h" />
   </ItemGroup>
 </Project>

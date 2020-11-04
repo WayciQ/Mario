@@ -11,6 +11,7 @@
 #include "PlayerJumpingShortState.h"
 #include "PlayerShootingFireState.h"
 #include "Goomba.h"
+#include "PlayerHoldingState.h"
 
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
@@ -20,8 +21,9 @@ Mario* Mario::GetInstance()
 	return __instance;
 }
 Mario::Mario() {
+	tag = PLAYER;
 	type = MARIO;
-	level = RACCOON;
+	level = SMALL;
 }
 
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -100,13 +102,14 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vy = 0;
 					}
 				}
+
 			}
 			if (e->obj->tag == ENEMY) 
 			{
 				if (e->ny == -1)
 				{
 					e->obj->vx = 0;
-					e->obj->isDead = true;
+					e->obj->startTimeDead();
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
 				if (e->obj->type == KOOMBA)
@@ -116,14 +119,30 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (e->nx != 0)
 						{
 							vx = 0;
-							ChangeAnimation(new PlayerKickState());
-							if (e->nx == -1)
+							e->obj->startTimeDead();
+							if (e->nx != player->nx )
 							{
-								e->obj->vx = 2*MARIO_WALKING_SPEED;
+								if (canHolding) {
+									isHolding = true;
+								}
+								else {
+									if (!e->obj->isKicked)
+									{
+										ChangeAnimation(new PlayerKickState());
+									}
+									
+
+									if (e->nx == -1)
+									{
+										e->obj->vx = 2 * MARIO_WALKING_SPEED;
+									}
+									else {
+										e->obj->vx = -2 * MARIO_WALKING_SPEED;
+									}
+								}
 							}
-							else {
-								e->obj->vx = -2 * MARIO_WALKING_SPEED;
-							}
+							
+							
 						}
 					}
 
@@ -218,13 +237,8 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void Mario::Render() {
 		alpha = 255;
-		/*if (state->stateName == WHIPPING_LEFT) {
-			CurAnimation->Render(x-10, y, alpha);
-		}
-		else */
-			CurAnimation->Render(x, y, alpha);
-		
-		
+		state->Render();
+	CurAnimation->Render(x, y, alpha);
 	RenderBoundingBox();
 }
 void Mario::ChangeAnimation(PlayerState* newState)
@@ -312,6 +326,10 @@ void Mario::OnKeyDown(int key)
 				}
 				break;
 			}
+			if (!canHolding)
+			{
+				canHolding = true;
+			}
 			break;
 		}
 		case DIK_DOWN:
@@ -362,6 +380,7 @@ void Mario::OnKeyUp(int key) {
 	{
 		isWhipping = false;
 		isRunning = false;
+		canHolding = false;
 		break;
 	}
 	case DIK_RIGHT:

@@ -8,15 +8,19 @@ PlayerKickState::PlayerKickState()
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	if (player->nx > 0)
 	{
-		stateName = KICK_RIGHT;
+		stateName = KICKING_RIGHT;
 	}
-	else stateName = KICK_LEFT;
+	else stateName = KICKING_LEFT;
 }
 void PlayerKickState::HandleKeyBoard()
 {
 
 }
 void PlayerKickState::Update()
+{
+	
+}
+void PlayerKickState::Render()
 {
 	if (player->CurAnimation->isLastFrame) {
 		player->CurAnimation->isLastFrame = false;

@@ -40,8 +40,13 @@ public:
 	TAG tag;
 	TYPE type;
 	DWORD dt;
+
 	bool isDead;
 	bool canDel;
+	bool isKicked;
+	bool checkDead;
+	int TimeDead;
+
 	LPANIMATION_SET animation_set;
 
 public:
@@ -72,7 +77,7 @@ public:
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 	int GetNx() { return this->nx; }
-
+	virtual void startTimeDead() { TimeDead = GetTickCount(); checkDead = true;isDead = true; }
 	bool IsCollisionAABB(RECT rect1, RECT rect2);
 	RECT GetRect();
 	~GameObject();
