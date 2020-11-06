@@ -61,10 +61,10 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isKicked = true;
 			if (player->nx == 1)
 			{
-				vx = 2 * MARIO_WALKING_SPEED;
+				vx =player->vx+ 2 * MARIO_WALKING_SPEED;
 			}
 			else {
-				vx = -2 * MARIO_WALKING_SPEED;
+				vx = player->vx - 2 * MARIO_WALKING_SPEED;
 			}
 			player->isHolding = false;
 		}

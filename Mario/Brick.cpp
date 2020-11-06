@@ -8,7 +8,7 @@ Brick::Brick(STATEOBJECT types) {
 void Brick::Render()
 {
 	animation_set->Get(typeBrick)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)

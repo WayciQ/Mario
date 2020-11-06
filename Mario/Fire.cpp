@@ -10,7 +10,8 @@
 Fire::Fire() 
 {
 	type = WEAPON_MARIO;
-	SetBBox(8, 8);
+	SetBBox(FIRE_WIDTH, FIRE_HEIGHT);
+	checkDead = false;
 	float px, py;
 	player->GetPosition(px, py);
 	animation_set = animationsSets->Get(WEAPON_MARIO);
@@ -46,9 +47,17 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 	if (isDead)
 	{
-		canDel = true;
+		ChangeAnimation(FIRE_GONE);
 	}
-
+	if (checkDead)
+	{
+		if (GetTickCount() - TimeDead > 300)
+		{
+			canDel = true;
+			TimeDead = 0;
+		}
+	}
+	
 	CalcPotentialCollisions(coObjects, coEvents);
 	if (coEvents.size() == 0)
 	{
@@ -80,7 +89,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vx = 0;
 						vy = 0;
 						isDead = true;
-						ChangeAnimation(FIRE_GONE);
+						startTimeDead();
 					}
 
 				}
@@ -94,7 +103,6 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			if (e->obj->tag == ENEMY)
 			{
-				DebugOut(L"cham\n");
 				if (e->nx != 0 || e->ny != 0)
 				{
 					

@@ -8,8 +8,10 @@ class Brick : public GameObject
 {
 	STATEOBJECT typeBrick;
 public:
+	Animation* CurAnimation;
 	Brick(STATEOBJECT types);
 	~Brick() {};
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	virtual void Update() {};
 };

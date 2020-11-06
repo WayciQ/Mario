@@ -44,9 +44,9 @@ PlayerStandingState::PlayerStandingState() {
 	{
 		if (player->nx > 0)
 		{
-			stateName = PICKING_RIGHT;
+			stateName = STANDING_PICK_RIGHT;
 		}
-		else stateName = PICKING_LEFT;
+		else stateName = STANDING_PICK_LEFT;
 	}
 	else
 	{

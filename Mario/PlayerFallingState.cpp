@@ -83,20 +83,24 @@ void PlayerFallingState::HandleKeyBoard()
 {
 	if (player->level == RACCOON)
 	{
-		if (keyCode[DIK_S] && player->isJumping && player->canFallJump)
+		if (!player->Allow[FLYING_PUSH])
 		{
+			if (keyCode[DIK_S] && player->isJumping && player->canFallJump)
+			{
 
-			player->canShortJump = false;
-			player->canFallJump = false;
-			player->ChangeAnimation(new PlayerJumpingShortState());
+				player->canShortJump = false;
+				player->canFallJump = false;
+				player->ChangeAnimation(new PlayerJumpingShortState());
+			}
+			else
+				if (keyCode[DIK_X] && player->isJumping)
+				{			
+					player->vy = 0;
+					player->canShortJump = true;
+					player->ChangeAnimation(new PlayerFallingState());
+				}
 		}
-		else 
-		if (keyCode[DIK_X] && player->isJumping)
-		{
-			player->vy = 0;
-			player->canShortJump = true;
-			player->ChangeAnimation(new PlayerFallingState());
-		}
+		
 	}
 	
 }

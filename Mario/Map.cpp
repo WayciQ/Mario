@@ -65,7 +65,7 @@ void Map::GetPositionCam(int &xs, int& ys, int& xe, int& ye)
 	int bottom = (int)cam.bottom;
 	int right = (int)cam.right;
 
-	xs = left == 0 ? 1 : left / TITLE_WIDTH;
+	xs = left == 0 ? 0 : left / TITLE_WIDTH;
 	ys = top < 16 ? 1 : top / TITLE_HEIGHT;
 	ye = bottom / TITLE_HEIGHT + 1;
 	xe = right == width ? col : right / TITLE_WIDTH - 1;

@@ -11,7 +11,7 @@ public:
 		animation_set = animationsSets->Get(type);
 	}
 	Animation* CurAnimation;
-	bool checkDead;
+	
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
 	virtual void UpdatePosition(float dt) {};
@@ -19,5 +19,6 @@ public:
 	virtual void CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {};
 	virtual void ChangeAnimation(STATEOBJECT state);
 	virtual void Revival() {};
+	virtual void startTimeDead(){ TimeDead = GetTickCount(); isDead = true;  checkDead = true; }
 };
 

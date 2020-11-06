@@ -148,6 +148,8 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="BrickBreakable.cpp" />
+    <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Drain.cpp" />
     <ClCompile Include="Fire.cpp" />
@@ -186,6 +188,8 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="BrickBreakable.h" />
+    <ClInclude Include="BrickQuestion.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Drain.h" />
     <ClInclude Include="Fire.h" />
@@ -221,6 +225,23 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Weapons.h" />
     <ClInclude Include="Whip.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resource\data\map1.txt" />
+    <Text Include="resource\data\map2.txt" />
+    <Text Include="resource\data\mario-sample.txt" />
+    <Text Include="resource\data\Scene.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\textures\bbox.png" />
+    <Image Include="resource\textures\dan.png" />
+    <Image Include="resource\textures\enemies.png" />
+    <Image Include="resource\textures\enemies2.png" />
+    <Image Include="resource\textures\items-objects.png" />
+    <Image Include="resource\textures\map-1.png" />
+    <Image Include="resource\textures\Maps.png" />
+    <Image Include="resource\textures\mario.png" />
+    <Image Include="resource\textures\title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

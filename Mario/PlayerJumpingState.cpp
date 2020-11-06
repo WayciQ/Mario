@@ -4,6 +4,7 @@
 #include "PlayerFallingState.h"
 #include "PlayerWhippingState.h"
 #include "PlayerJumpingShortState.h"
+#define MARIO_TIME_FLY 2000
 
 PlayerJumpingState::PlayerJumpingState()
 {
@@ -46,9 +47,9 @@ PlayerJumpingState::PlayerJumpingState()
 		{
 			if (player->nx > 0)
 			{
-				stateName = PICKING_RIGHT;
+				stateName = STANDING_PICK_RIGHT;
 			}
-			else stateName = PICKING_LEFT;
+			else stateName = STANDING_PICK_LEFT;
 		}
 		else {
 			if (player->nx > 0)
@@ -105,13 +106,18 @@ void PlayerJumpingState::HandleKeyBoard()
 	}
 	else if (keyCode[DIK_X]  && player->Allow[FLYING_PUSH])
 	{
-		if (GetTickCount() - player->startJumping < 1000)
+		if (GetTickCount() - player->startJumping < MARIO_TIME_FLY)
 		{
 			player->vy = -MARIO_JUMP_SPEED_Y;
 			player->vx > -MARIO_WALKING_SPEED;
 			 player->isFlying = true;
+			
 		}
-		else player->isFlying = false;
+		else {
+			DebugOut(L"fly\n");
+			player->isFlying = false;
+			player->vy = 0;
+		} 
 		
 	}
 }

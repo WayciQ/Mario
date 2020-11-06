@@ -420,7 +420,6 @@ void Mario::OnKeyUp(int key) {
 		//isSitting = false;
 		break;
 	case DIK_X:
-		DebugOut(L"\n isWaittingPress:false ");
 		break;
 	}
 	

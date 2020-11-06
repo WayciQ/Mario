@@ -42,14 +42,13 @@ void Camera::Update()
 		cx = Map::GetInstance()->GetWidthMap() - width;
 	}
 	
-	if (cy <= SCREEN_HEIGHT)
+	if (cy <= CAMERA_SCREEN_HIGHT_MAX)
 	{
-		if (cy <= 0)
-			cy = 0;
-		else
 		cy -= SCREEN_HEIGHT / 2;
+		if (cy <= 70)
+			cy = 70;
 	}
-	else cy = CAMERA_SCREEN;
+	else cy = CAMERA_SCREEN_HIGHT;
 
 	SetCamPos(cx, cy);
 }

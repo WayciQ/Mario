@@ -25,6 +25,15 @@
     <Filter Include="GameObjects\Weapon">
       <UniqueIdentifier>{b5fb76bf-780b-42c5-8b55-87e5f3821726}</UniqueIdentifier>
     </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{21ccf577-1a8e-4f9d-bb6f-ec2177f9fc1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\data">
+      <UniqueIdentifier>{54361df0-1f06-45f1-8d1a-2a1ca2407ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\textures">
+      <UniqueIdentifier>{acd3a337-b266-4695-9bf8-a6e6cf50fedc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -102,9 +111,6 @@
     <ClCompile Include="Drain.cpp">
       <Filter>GameObjects\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>GameObjects\Ground</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerJumpingShortState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
@@ -134,6 +140,15 @@
     </ClCompile>
     <ClCompile Include="PlayerHoldingState.cpp">
       <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickQuestion.cpp">
+      <Filter>GameObjects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickBreakable.cpp">
+      <Filter>GameObjects\Ground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,5 +266,54 @@
     <ClInclude Include="GameGlobal.h">
       <Filter>Game Components</Filter>
     </ClInclude>
+    <ClInclude Include="BrickQuestion.h">
+      <Filter>GameObjects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickBreakable.h">
+      <Filter>GameObjects\Ground</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resource\data\Scene.txt">
+      <Filter>resources\data</Filter>
+    </Text>
+    <Text Include="resource\data\mario-sample.txt">
+      <Filter>resources\data</Filter>
+    </Text>
+    <Text Include="resource\data\map2.txt">
+      <Filter>resources\data</Filter>
+    </Text>
+    <Text Include="resource\data\map1.txt">
+      <Filter>resources\data</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\textures\bbox.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="resource\textures\dan.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="resource\textures\enemies.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="resource\textures\enemies2.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="resource\textures\items-objects.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="resource\textures\map-1.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="resource\textures\Maps.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="resource\textures\mario.png">
+      <Filter>resources\textures</Filter>
+    </Image>
+    <Image Include="resource\textures\title.png">
+      <Filter>resources\textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>
