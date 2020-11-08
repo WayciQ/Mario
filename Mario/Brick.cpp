@@ -1,16 +1,18 @@
 #include "Brick.h"
 
-Brick::Brick(STATEOBJECT types) {
+Brick::Brick() {
 	tag = GROUND;
-	type = BRICK;
-	this->typeBrick = types;
+	isDead = false;
 }
 void Brick::Render()
 {
-	animation_set->Get(typeBrick)->Render(x, y);
-	//RenderBoundingBox();
+	CurAnimation->Render(x, y, 255);
+	RenderBoundingBox();
 }
-
+void Brick::ChangeAnimation(STATEOBJECT state)
+{
+	CurAnimation = animation_set->Get(state);
+}
 void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;

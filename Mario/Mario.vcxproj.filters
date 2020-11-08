@@ -34,6 +34,9 @@
     <Filter Include="resources\textures">
       <UniqueIdentifier>{acd3a337-b266-4695-9bf8-a6e6cf50fedc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Ground\Brick">
+      <UniqueIdentifier>{69cfe26d-10a0-4740-8bdc-7d2a412827a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -74,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Game Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>GameObjects\Ground</Filter>
     </ClCompile>
     <ClCompile Include="PlayerWhippingState.cpp">
       <Filter>GameObjects\Player</Filter>
@@ -142,13 +142,25 @@
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Box.cpp">
-      <Filter>GameObjects\Enemy</Filter>
+      <Filter>GameObjects\Ground</Filter>
     </ClCompile>
     <ClCompile Include="BrickQuestion.cpp">
-      <Filter>GameObjects\Ground</Filter>
+      <Filter>GameObjects\Ground\Brick</Filter>
     </ClCompile>
     <ClCompile Include="BrickBreakable.cpp">
-      <Filter>GameObjects\Ground</Filter>
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickNormal.cpp">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickCloud.cpp">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="Bricks.cpp">
+      <Filter>GameObjects\Ground\Brick</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,9 +199,6 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Game Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>GameObjects\Ground</Filter>
     </ClInclude>
     <ClInclude Include="PlayerWhippingState.h">
       <Filter>GameObjects\Player</Filter>
@@ -267,10 +276,22 @@
       <Filter>Game Components</Filter>
     </ClInclude>
     <ClInclude Include="BrickQuestion.h">
-      <Filter>GameObjects\Ground</Filter>
+      <Filter>GameObjects\Ground\Brick</Filter>
     </ClInclude>
     <ClInclude Include="BrickBreakable.h">
-      <Filter>GameObjects\Ground</Filter>
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickNormal.h">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickCloud.h">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Bricks.h">
+      <Filter>GameObjects\Ground\Brick</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

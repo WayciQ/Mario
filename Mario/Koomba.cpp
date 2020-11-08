@@ -2,7 +2,7 @@
 #include "Mario.h"
 #include "PlayerKickState.h"
 
-#define KOOMBA_TIME_REVIVAL 7000
+#define KOOMBA_TIME_REVIVAL 10000
 Koomba::Koomba(TYPE type) : Enemy(type)
 {
 	this->type = KOOMBA;
@@ -22,7 +22,7 @@ void Koomba::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
-	vy += MARIO_GRAVITY * dt;
+	vy += WORLD_GRAVITY * dt;
 
 	if (isDead)
 	{
@@ -34,6 +34,8 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (GetTickCount() - TimeDead > KOOMBA_TIME_REVIVAL)
 		{
+			player->canHolding = false;
+			player->isHolding = false;
 			TimeDead = 0;
 			Revival();
 		}
@@ -47,29 +49,33 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (player->isHolding)
-	{
-		UpdatePosition(dt);
-	}
-
-	if (!player->canHolding)
+	
+	if (isDead)
 	{
 		if (player->isHolding)
 		{
-			player->ChangeAnimation(new PlayerKickState());
-			isKicked = true;
-			if (player->nx == 1)
-			{
-				vx =player->vx+ 2 * MARIO_WALKING_SPEED;
-			}
-			else {
-				vx = player->vx - 2 * MARIO_WALKING_SPEED;
-			}
-			player->isHolding = false;
+			UpdatePosition(dt);
 		}
-		
+
+		if (!player->canHolding)
+		{
+			if (player->isHolding)
+			{
+				player->ChangeAnimation(new PlayerKickState());
+				this->isKicked = true;
+				if (player->nx == 1)
+				{
+					this->vx = player->vx + 2 * MARIO_WALKING_SPEED;
+				}
+				else {
+					this->vx = player->vx - 2 * MARIO_WALKING_SPEED;
+				}
+				player->isHolding = false;
+			}
+
+		}
 	}
+	
 
 
 	if (coEvents.size() == 0)
@@ -121,6 +127,22 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
+			if (e->obj->tag == ENEMY)
+			{
+
+				if (e->nx != 0)
+				{
+					if (e->obj->type == KOOMBA && e->obj->isDead && e->obj->isKicked)
+					{
+						startTimeDead();
+					}
+					else {
+						x += dx;
+						
+					}
+				}
+
+			}
 		}
 		
 	}
@@ -135,7 +157,6 @@ void Koomba::Revival()
 	vx = KOOMBA_WALKING_SPEED;
 	isDead = false;
 	checkDead = false;
-	isKicked = false;
 	isKicked = false;
 	ChangeAnimation(KOOMBA_WALKING_RIGHT);
 }
@@ -158,7 +179,6 @@ void Koomba::UpdatePosition(DWORD dt)
 		posY = player->y + 9;
 		break;
 	}
-	
 	vy = 0;
 	SetPosition(posX, posY);
 }

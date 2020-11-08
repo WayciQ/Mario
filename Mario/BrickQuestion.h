@@ -2,11 +2,10 @@
 #include "Brick.h"
 class BrickQuestion : public Brick
 {
+	float curY;
 public:
-	BrickQuestion();
+	BrickQuestion(float CurY);
 	~BrickQuestion(){}
-	void Update()	;
-	void Render();
-	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 };
 

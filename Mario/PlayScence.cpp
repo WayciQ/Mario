@@ -5,7 +5,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Weapons.h"
-#include "Brick.h"
+#include "Bricks.h"
 #include "Drain.h"
 #include "Box.h"
 #include "Goomba.h"
@@ -177,8 +177,11 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case BRICK:
-		obj = new Brick(static_cast<STATEOBJECT>(id_State));
-	break;
+		if(static_cast<TYPE>(id_State) == BRICK_QUESTION)
+			obj = Bricks::CreateBrick(static_cast<TYPE>(id_State),y);
+		else
+		obj = Bricks::CreateBrick(static_cast<TYPE>(id_State));
+		break;
 	case DRAIN:
 		obj = new Drain(static_cast<STATEOBJECT>(id_State), (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 		break;
@@ -203,7 +206,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	obj->SetPosition(x, y);
 	if (type != MARIO)
 	{
-		int type_ani = type == BRICK ? atoi(tokens[0].c_str()) : atoi(tokens[3].c_str());
+		int type_ani = atoi(tokens[3].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);

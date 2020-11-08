@@ -24,7 +24,7 @@ void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
-	vy += MARIO_GRAVITY * dt;
+	vy += WORLD_GRAVITY * dt;
 	
 	if (isDead)
 	{
@@ -86,6 +86,21 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}	
 				}
 				
+			}
+			if (e->obj->tag == ENEMY)
+			{
+				if (e->nx != 0)
+				{
+					if (e->obj->type == KOOMBA && e->obj->isDead && e->obj->isKicked)
+					{
+						startTimeDead();
+					}
+					else {
+						x += dx;
+
+					}
+				}
+
 			}
 		}
 	}

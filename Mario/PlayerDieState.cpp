@@ -22,7 +22,7 @@ PlayerDieState::PlayerDieState()
 		if (player->nx > 0)
 			stateName = STANDING_RIGHT;
 		else stateName = STANDING_LEFT;
-		player->ChangeAnimation(new PlayerStandingState());
+		
 	}
 	else {
 		stateName = DIE;
@@ -40,5 +40,8 @@ void PlayerDieState::Render()
 
 void PlayerDieState::Update()
 {
-
+	if (GetTickCount() - player->untouchableTime < MARIO_UNTOUCHABLE_TIME)
+	{
+		player->ChangeAnimation(new PlayerStandingState());
+	}
 }

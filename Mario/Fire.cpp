@@ -38,7 +38,7 @@ void Fire::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += MARIO_GRAVITY * dt;
+	vy += WORLD_GRAVITY * dt;
 	GameObject::Update(dt);
 
 	UpdatePosititon(dt);
@@ -51,7 +51,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (checkDead)
 	{
-		if (GetTickCount() - TimeDead > 300)
+		if (GetTickCount() - TimeDead > 50)
 		{
 			canDel = true;
 			TimeDead = 0;
@@ -80,15 +80,15 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->tag == GROUND)
+			switch (e->obj->tag)
 			{
+			case GROUND:
 				if (e->obj->type != BOX_GROUND)
 				{
 					if (e->nx != 0)
 					{
 						vx = 0;
 						vy = 0;
-						isDead = true;
 						startTimeDead();
 					}
 
@@ -99,18 +99,26 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						x += dx;
 					}
 				}
-				
-			}
-			if (e->obj->tag == ENEMY)
-			{
+				if (e->obj->type == BRICK_QUESTION)
+				{
+
+					vy = 0;
+					e->obj->isDead = true;
+
+
+				}
+				break;
+			case ENEMY:
 				if (e->nx != 0 || e->ny != 0)
 				{
-					
 					e->obj->vx = 0;
-					e->obj->isDead = true;
-					this->isDead = true;
+					e->obj->startTimeDead();
+					startTimeDead();
+					vx = 0;
 				}
-
+				break;
+			default:
+				break;
 			}
 		}
 

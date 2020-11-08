@@ -24,7 +24,7 @@ Mario* Mario::GetInstance()
 Mario::Mario() {
 	tag = PLAYER;
 	type = MARIO;
-	level = SMALL;
+	level = BIG;
 }
 
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -33,9 +33,9 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt);
 	state->Update();
 	// Simple fall down
-	vy += MARIO_GRAVITY * dt;
+	vy += WORLD_GRAVITY * dt;
 
-	if (vy > 3.5f * (MARIO_GRAVITY * dt))
+	if (vy > 3.5f * (WORLD_GRAVITY * dt))
 	{
 		ChangeAnimation(new PlayerFallingState());
 	}
@@ -49,7 +49,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchableTime = 0;
 		untouchable = false;
 	}
-		
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -72,7 +72,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		// block 
 		x += min_tx * dx + nx * 0.1f;		
-		y += min_ty * dy + ny * 0.3f;
+		y += min_ty * dy + ny * 0.1f;
 		
 		if (ny == 1)
 		{
@@ -87,8 +87,9 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->tag == GROUND)
+			switch (e->obj->tag)
 			{
+			case GROUND:
 				if (e->obj->type == BOX_GROUND)
 				{
 					if (e->nx != 0)
@@ -101,18 +102,24 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 
 				}
-				else 
+				else
 				{
 					if (e->ny != 0)
 					{
 						vy = 0;
 					}
 				}
+				if (e->obj->type == BRICK_QUESTION)
+				{
+					if (e->ny == 1)
+					{
+						vy = 0;
+						e->obj->isDead = true;
+					}
 
-			}
-			if (e->obj->tag == ENEMY) 
-			{	
-				
+				}
+				break;
+			case ENEMY:
 				if (e->ny == -1)
 				{
 					e->obj->vx = 0;
@@ -123,40 +130,35 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->nx != 0)
 				{
 					if (!untouchable)
-					{	
+					{
 						if (!e->obj->isDead) {
 							ChangeAnimation(new PlayerDieState());
-							
 						}
 						else {
 							if (e->obj->type == KOOMBA)
 							{
-								vx = 0;
-								if (e->obj->isKicked)
+								if (e->obj->isKicked && e->obj->vx != 0)
 								{
 									startTimeDead();
 								}
-								else
+								if (e->nx != player->nx)
 								{
-									if (e->nx != player->nx)
-									{
-										if (canHolding) {
-											isHolding = true;
+									if (canHolding) {
+										isHolding = true;
+									}
+									else {
+										if (!e->obj->isKicked)
+										{
+											ChangeAnimation(new PlayerKickState());
+											e->obj->startTimeDead();
+											e->obj->isKicked = true;
+										}
+										if (e->nx == -1)
+										{
+											e->obj->vx = 2 * MARIO_WALKING_SPEED;
 										}
 										else {
-											if (!e->obj->isKicked)
-											{
-												ChangeAnimation(new PlayerKickState());
-												e->obj->startTimeDead();
-												e->obj->isKicked = true;
-											}
-											if (e->nx == -1)
-											{
-												e->obj->vx = 2 * MARIO_WALKING_SPEED;
-											}
-											else {
-												e->obj->vx = -2 * MARIO_WALKING_SPEED;
-											}
+											e->obj->vx = -2 * MARIO_WALKING_SPEED;
 										}
 									}
 								}
@@ -164,7 +166,9 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -368,16 +372,18 @@ void Mario::OnKeyDown(int key)
 			y -= 20;
 			break;
 		case DIK_3:
+			y -= 20;
 			SetLevel(RACCOON);
 			ChangeAnimation(new PlayerStandingState());
 			break;
 		case DIK_4:
+			y -= 20;
 			SetLevel(FIRE);
 			ChangeAnimation(new PlayerStandingState());
 			break;
 		case DIK_F1:
 			isOnSky = false;
-			SetPosition(50, 400);
+			SetPosition(0,0);
 			break;
 		case DIK_F2:
 			isOnSky = false;

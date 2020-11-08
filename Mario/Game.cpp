@@ -71,13 +71,18 @@ void Game::DrawX3(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int to
 	r.right = right;
 	r.bottom = bottom;
 
-	auto pScaling = D3DXVECTOR2(0.5, 0.5);
+	auto pScaling = D3DXVECTOR2(2, 2);
 
 	D3DXMATRIX oldMatrix, curMatrix;
-	D3DXMatrixTransformation2D(&curMatrix, 0, 0, &pScaling, 0, 0, 0);
+
+	if(pScaling.x >= 0)
+		D3DXMatrixTransformation2D(&curMatrix, &D3DXVECTOR2(p.x, p.y), 0, &pScaling, NULL, NULL, NULL);
+	else 
+		D3DXMatrixTransformation2D(&curMatrix, &D3DXVECTOR2(p.x + (right- left), p.y), 0, &pScaling, NULL, NULL, NULL);
+
 	spriteHandler->GetTransform(&oldMatrix);
 	spriteHandler->SetTransform(&curMatrix);
-	spriteHandler->Draw(texture, &r, 0, &p, D3DCOLOR_XRGB(255, 255, 255));
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 	spriteHandler->SetTransform(&oldMatrix);
 }
 

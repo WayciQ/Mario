@@ -2,7 +2,7 @@
 void Enemy::Render()
 {
 	CurAnimation->Render(x, y, 255);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void Enemy::ChangeAnimation(STATEOBJECT state)

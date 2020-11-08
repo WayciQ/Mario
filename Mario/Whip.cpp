@@ -17,37 +17,34 @@ void Whip::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += MARIO_GRAVITY * dt;
-	GameObject::Update(dt);
+	
 
 	UpdatePosititon(dt);
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-
+	vector<LPGAMEOBJECT> coEvents;
 	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-	if (coEvents.size() == 0)
+	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		if (IsCollisionAABB(GetRect(), coObjects->at(i)->GetRect()))
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->tag == ENEMY)
-			{
-				e->obj->isDead = true;
-			}
+			coEvents.push_back(coObjects->at(i));
 		}
-
 	}
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	for (UINT i = 0; i < coEvents.size(); i++)
+	{
+		switch(coEvents.at(i)->tag)
+		{
+		case ENEMY:
+			coEvents.at(i)->startTimeDead();
+			break;
+		case GROUND:
+			if (coEvents.at(i)->type == BRICK_QUESTION)
+			{
+				coEvents.at(i)->isDead = true;
+			}
+			break;
+		}
+	}
 }
 
 void Whip::UpdatePosititon(DWORD dt)
