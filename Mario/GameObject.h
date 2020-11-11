@@ -36,7 +36,8 @@ public:
 	float vy;
 
 	int nx;
-	int state;
+	int ny;
+	STATEOBJECT state;
 	TAG tag;
 	TYPE type;
 	DWORD dt;
@@ -45,7 +46,12 @@ public:
 	bool canDel;
 	bool isKicked;
 	int TimeDead;
-	bool checkDead;
+	bool canRespawn;
+
+	bool isFlip;
+
+	bool isShoot;
+	bool canShoot;
 	LPANIMATION_SET animation_set;
 
 public:
@@ -74,9 +80,9 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render() = 0;
-	virtual void SetState(int state) { this->state = state; }
+	virtual void SetState(STATEOBJECT state) { this->state = state; }
 	int GetNx() { return this->nx; }
-	virtual void startTimeDead() { TimeDead = GetTickCount();isDead = true; checkDead = true;}
+	virtual void startTimeDead() { TimeDead = GetTickCount(); isDead = true; canRespawn = true; }
 	bool IsCollisionAABB(RECT rect1, RECT rect2);
 	RECT GetRect();
 	~GameObject();

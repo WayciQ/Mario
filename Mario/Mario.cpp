@@ -34,8 +34,9 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	state->Update();
 	// Simple fall down
 	vy += WORLD_GRAVITY * dt;
-
-	if (vy > 3.5f * (WORLD_GRAVITY * dt))
+	//DebugOut(L"state: %d\n", player->GetState());
+	
+	if(y > curY)
 	{
 		ChangeAnimation(new PlayerFallingState());
 	}
@@ -82,6 +83,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (ny == -1)
 		{
 			isJumping = false;
+			curY = y;
 		}
 		
 		for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -122,11 +124,50 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case ENEMY:
 				if (e->ny == -1)
 				{
-					e->obj->vx = 0;
-					e->obj->startTimeDead();
-					vy = -MARIO_JUMP_DEFLECT_SPEED;
+					if (e->obj->type == KOOMBA && e->obj->isDead)
+					{
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+						if (e->obj->isKicked)
+						{
+							e->obj->isKicked = false;
+							e->obj->vx = 0;
+							if (e->obj->isFlip)
+							{
+								SetState(ENEMY_DIE_FLIP);
+							}
+							else SetState(ENEMY_DIE_STAND);
+						}
+						else {
+							ChangeAnimation(new PlayerKickState());
+							e->obj->isKicked = true;
+							e->obj->canRespawn = false;
+							if (player->nx > 0)
+							{
+								e->obj->vx = 2 * MARIO_WALKING_SPEED;
+							}
+							else {
+								e->obj->vx = -2 * MARIO_WALKING_SPEED;
+							}
+						}
+					}
+					else {
+						if (e->obj->type == KOOMBA || e->obj->type == GOOMBA)
+						{
+							if (!e->obj->isDead)
+							{
+								e->obj->vx = 0;
+								vy = -MARIO_JUMP_DEFLECT_SPEED;
+							}
+							e->obj->startTimeDead();
+							e->obj->isFlip = false;
+							e->obj->SetState(ENEMY_DIE_STAND);
+						}
+						else {
+							startTimeDead();
+							y += dy;
+						}
+					}
 				}
-
 				if (e->nx != 0)
 				{
 					if (!untouchable)
@@ -141,19 +182,17 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								{
 									startTimeDead();
 								}
-								if (e->nx != player->nx)
-								{
-									if (canHolding) {
-										isHolding = true;
-									}
-									else {
-										if (!e->obj->isKicked)
-										{
-											ChangeAnimation(new PlayerKickState());
-											e->obj->startTimeDead();
-											e->obj->isKicked = true;
-										}
-										if (e->nx == -1)
+								if (canHolding) {
+									isHolding = true;
+								}
+								else {
+									if (!e->obj->isKicked && e->nx != player->nx)
+									{
+										ChangeAnimation(new PlayerKickState());
+										e->obj->isDead = true;
+										e->obj->isKicked = true;
+										e->obj->canRespawn = false;
+										if (player->nx > 0)
 										{
 											e->obj->vx = 2 * MARIO_WALKING_SPEED;
 										}
@@ -161,7 +200,10 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 											e->obj->vx = -2 * MARIO_WALKING_SPEED;
 										}
 									}
+									
 								}
+								
+								
 							}
 						}
 					}
@@ -282,6 +324,7 @@ void Mario::OnKeyDown(int key)
 	{
 		case DIK_S:
 		{
+			
 			if (!isJumping && Allow[JUMPING_LONG])
 			{
 				startJump();
@@ -325,6 +368,7 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_A:
 		{
+			
 			switch (level)
 			{
 			case RACCOON:

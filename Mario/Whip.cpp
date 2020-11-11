@@ -36,6 +36,10 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 		case ENEMY:
 			coEvents.at(i)->startTimeDead();
+			coEvents.at(i)->isFlip = true;
+			coEvents.at(i)->vy = -0.2f;
+			coEvents.at(i)->vx = 0;
+			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
 			break;
 		case GROUND:
 			if (coEvents.at(i)->type == BRICK_QUESTION)

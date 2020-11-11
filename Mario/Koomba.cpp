@@ -2,7 +2,7 @@
 #include "Mario.h"
 #include "PlayerKickState.h"
 
-#define KOOMBA_TIME_REVIVAL 10000
+#define KOOMBA_TIME_REVIVAL 5000
 Koomba::Koomba(TYPE type) : Enemy(type)
 {
 	this->type = KOOMBA;
@@ -23,15 +23,20 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
 	vy += WORLD_GRAVITY * dt;
-
-	if (isDead)
+	if(canRespawn)
 	{
-		ChangeAnimation(KOOMBA_DIE);
-	}
-
-
-	if(checkDead)
-	{
+		if (GetTickCount() - TimeDead > KOOMBA_TIME_REVIVAL - 1000)
+		{
+			
+			if (!isFlip)
+			{
+				state = KOOMBA_RESPAWN;
+			}
+			else
+			{
+				state = KOOMBA_RESPAWN_FLIP;
+			}
+		}
 		if (GetTickCount() - TimeDead > KOOMBA_TIME_REVIVAL)
 		{
 			player->canHolding = false;
@@ -41,17 +46,33 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	
-	
-	
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-	
 	if (isDead)
 	{
+		if (!canRespawn) {
+			if (isKicked)
+			{
+				if (!isFlip)
+				{
+					state = KOOMBA_KICKED;
+				}
+				else
+				{
+					state = KOOMBA_KICKED_FLIP;
+				}
+			}
+			else {
+				if (!isFlip)
+				{
+					state = ENEMY_DIE_STAND;
+				}
+				else
+				{
+					state = ENEMY_DIE_FLIP;
+				}
+
+			}
+		}
+
 		if (player->isHolding)
 		{
 			UpdatePosition(dt);
@@ -65,19 +86,25 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				this->isKicked = true;
 				if (player->nx == 1)
 				{
-					this->vx = player->vx + 2 * MARIO_WALKING_SPEED;
+					this->vx = 2 * MARIO_WALKING_SPEED;
 				}
 				else {
-					this->vx = player->vx - 2 * MARIO_WALKING_SPEED;
+					this->vx = - 2 * MARIO_WALKING_SPEED;
 				}
 				player->isHolding = false;
 			}
 
 		}
 	}
+
 	
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
+	coEvents.clear();
 
+	CalcPotentialCollisions(coObjects, coEvents);
+	
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -91,13 +118,8 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		y += min_ty * dy + ny * 0.00004f;
 
-		if (nx != 0)
-		{
-			
-			
-		}
 		if (ny != 0) vy = 0;
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -115,14 +137,15 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (e->nx != 0)
 					{
-						vx = -vx;
 						if(!isDead)
 						{
 							if (vx > 0)
-								ChangeAnimation(KOOMBA_WALKING_RIGHT);
+								state = ENEMY_WALKING_LEFT;
 							else
-								ChangeAnimation(KOOMBA_WALKING_LEFT);
+								state = ENEMY_WALKING_RIGHT;
 						}
+						
+						vx = -vx;
 					}
 				}
 
@@ -138,13 +161,15 @@ void Koomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else {
 						x += dx;
-						
 					}
+				}
+				if (e->ny != 0)
+				{
+					y += dy;
 				}
 
 			}
 		}
-		
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -154,13 +179,34 @@ void Koomba::Revival()
 {
 	nx = 1;
 	y -= 9;
-	vx = KOOMBA_WALKING_SPEED;
 	isDead = false;
-	checkDead = false;
+	
+	canRespawn = false;
 	isKicked = false;
-	ChangeAnimation(KOOMBA_WALKING_RIGHT);
+	SetState(ENEMY_WALKING_RIGHT);
 }
 
+void Koomba::SetState(STATEOBJECT state)
+{
+	GameObject::SetState(state);
+	switch (state)
+	{
+	case ENEMY_WALKING_RIGHT:
+		vx = KOOMBA_WALKING_SPEED;
+		break;
+	case ENEMY_WALKING_LEFT:
+		vx = -KOOMBA_WALKING_SPEED;
+		break;
+	case ENEMY_DIE_STAND:
+		vx = 0;
+		break;
+	case ENEMY_DIE_FLIP:
+		vx = 0;
+		break;
+	default:
+		break;
+	}
+}
 void Koomba::UpdatePosition(DWORD dt)
 {
 	int posX, posY;

@@ -5,6 +5,7 @@
 #include "PlayerWhippingState.h"
 #include "PlayerJumpingShortState.h"
 #define MARIO_TIME_FLY 2000
+#define MARIO_JUMP_TIME 310
 
 PlayerJumpingState::PlayerJumpingState()
 {
@@ -22,7 +23,7 @@ PlayerJumpingState::PlayerJumpingState()
 		break;
 	}
 	
-	player->isJumping =true;
+	player->isJumping = true;
 
 	if (player->canFly)
 	{
@@ -78,16 +79,16 @@ void PlayerJumpingState::HandleKeyBoard()
 {
 	if (keyCode[DIK_S])
 	{
-		
-		if (GetTickCount() - player->startJumping > 300)
+		if (GetTickCount() - player->startJumping > MARIO_JUMP_TIME)
 		{
 			player->isJumpDone = true;
+			player->Allow[JUMPING_LONG] = false;
 		}
 		else
 		{
 			player->vy = -MARIO_JUMP_SPEED_Y;
+
 		}
-		
 		if (keyCode[DIK_RIGHT]) {
 			player->nx = 1;
 			if (player->vx < MARIO_WALKING_SPEED) {
@@ -114,7 +115,7 @@ void PlayerJumpingState::HandleKeyBoard()
 			
 		}
 		else {
-			DebugOut(L"fly\n");
+			
 			player->isFlying = false;
 			player->vy = 0;
 		} 
@@ -128,7 +129,7 @@ void PlayerJumpingState::Update()
 	
 	if (player->vy >= 0 || player->isJumpDone)
 	{
-		
+		player->curY = player->y;
 		player->ChangeAnimation(new PlayerFallingState());
 	}
 	

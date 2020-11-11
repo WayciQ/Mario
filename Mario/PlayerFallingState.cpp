@@ -6,8 +6,10 @@
 
 PlayerFallingState::PlayerFallingState()
 {
+	
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	player->Allow[JUMPING_LONG] = false;
+	player->Allow[JUMPING_SHORT] = false;
 	switch (player->level)
 	{
 	case SMALL:
@@ -16,6 +18,7 @@ PlayerFallingState::PlayerFallingState()
 	case BIG:
 		break;
 	case RACCOON:
+		player->Allow[JUMPING_SHORT] = true;
 		player->Allow[WHIPPING] = true;
 		break;
 	case FIRE:
@@ -75,13 +78,14 @@ void PlayerFallingState::Update()
 		player->canFly = false;
 		player->canShortJump = false;
 		player->canFallJump = true;
-		player->ChangeAnimation(new PlayerStandingState());
+		if(player->vy == 0)
+			player->ChangeAnimation(new PlayerStandingState());
 	}
 	
 }
 void PlayerFallingState::HandleKeyBoard()
 {
-	if (player->level == RACCOON)
+	if (player->level == RACCOON && player->Allow[JUMPING_SHORT])
 	{
 		if (!player->Allow[FLYING_PUSH])
 		{

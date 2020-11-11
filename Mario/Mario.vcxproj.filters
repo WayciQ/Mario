@@ -162,6 +162,12 @@
     <ClCompile Include="Bricks.cpp">
       <Filter>GameObjects\Ground\Brick</Filter>
     </ClCompile>
+    <ClCompile Include="NipperPlant.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PiranhaPlant.cpp">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -292,6 +298,15 @@
     </ClInclude>
     <ClInclude Include="Bricks.h">
       <Filter>GameObjects\Ground\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Flyer.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="NipperPlant.h">
+      <Filter>GameObjects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PiranhaPlant.h">
+      <Filter>GameObjects\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

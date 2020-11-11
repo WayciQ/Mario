@@ -15,5 +15,6 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void UpdatePosition(DWORD dt);
 	void Revival();
+	void SetState(STATEOBJECT state);
 };
 

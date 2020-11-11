@@ -58,7 +58,7 @@ PlayerStandingState::PlayerStandingState() {
 }
 
 void PlayerStandingState::HandleKeyBoard() {
-
+	
 	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
 	{
 		player->ChangeAnimation(new PlayerStandingState());

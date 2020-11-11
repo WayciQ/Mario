@@ -1,14 +1,14 @@
 #include "Goomba.h"
-#define GOOMBA_TIME_DIE 200
+#define GOOMBA_TIME_DIE 300
 Goomba::Goomba(TYPE type) : Enemy(type)
 {
 	isDead = false;
 	canDel = false;
-	checkDead = false;
+	canRespawn = false;
 	this->type = type;
 	this->nx =1;
 	vx = GOOMBA_WALKING_SPEED;
-	ChangeAnimation(GOOMBA_WALKING);
+	SetState(GOOMBA_WALKING);
 }
 Goomba::~Goomba(){}
 void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -25,21 +25,25 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
 	vy += WORLD_GRAVITY * dt;
-	
+	ChangeAnimation();
 	if (isDead)
 	{
 		vx = 0;
-		ChangeAnimation(GOOMBA_DIE);
+		if (isFlip)
+		{
+			if (canRespawn)
+			{
+				if (GetTickCount() - TimeDead > GOOMBA_TIME_DIE)
+				{
+					if (isFlip) canDel = true;
+					TimeDead = 0;
+				}
+			}
+		}
+		
 	}
 
-	if (checkDead)
-	{
-		if (GetTickCount() - TimeDead > GOOMBA_TIME_DIE)
-		{
-			canDel = true;
-			TimeDead = 0;
-		}
-	}
+	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -66,6 +70,11 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
 		if (ny != 0) vy = 0;
 
+		if (isDead == true && ny == -1)
+		{
+			y += dy;
+			canDel = true;
+		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -83,7 +92,8 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->nx != 0)
 					{
 						vx = -vx;
-					}	
+					}
+					
 				}
 				
 			}
@@ -94,11 +104,16 @@ void Goomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->obj->type == KOOMBA && e->obj->isDead && e->obj->isKicked)
 					{
 						startTimeDead();
+						isFlip = true;
 					}
 					else {
 						x += dx;
 
 					}
+				}
+				if (e->ny != 0)
+				{
+					y += dy;
 				}
 
 			}

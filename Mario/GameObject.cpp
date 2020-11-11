@@ -8,6 +8,7 @@ GameObject::GameObject()
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;
+	ny = 1;
 }
 
 void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

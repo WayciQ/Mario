@@ -11,6 +11,8 @@
 #include "Goomba.h"
 #include "Koomba.h"
 #include "Ground.h"
+#include "PiranhaPlant.h"
+#include "NipperPlant.h"
 
 using namespace std;
 
@@ -101,13 +103,13 @@ void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	if (tokens.size() < 2) return; // skip invalid lines - an animation set must at least id and one animation id
 
-	int types = atoi(tokens[0].c_str());
+	int tag = atoi(tokens[0].c_str());
 	int ani_set_id = atoi(tokens[1].c_str());
 
-	TYPE type = static_cast<TYPE>(types);
+	TAG type = static_cast<TAG>(tag);
 
 	
-	if (type == MARIO) 
+	if (tag == PLAYER)
 	{
 		TYPE type = static_cast<TYPE>(ani_set_id);
 		LPANIMATION_SET set = new AnimationSet();
@@ -118,7 +120,7 @@ void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 			STATENAME stateName = static_cast<STATENAME>(state);
 			set->Add(ani_id, stateName);
 		}
-		DebugOut(L"--> %s\n", ToWSTR(line).c_str());
+		//DebugOut(L"--> %s\n", ToWSTR(line).c_str());
 		AnimationSets::GetInstance()->Add(type, set);
 	}
 	else
@@ -135,9 +137,6 @@ void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 		DebugOut(L"--> %s\n", ToWSTR(line).c_str());
 		AnimationSets::GetInstance()->Add(type, set);
 	}
-	
-
-	
 }
 void PlayScene::_ParseSection_OBJECTS(string line)
 {
@@ -145,27 +144,22 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 
 
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
-
-	int object_type = atoi(tokens[0].c_str());
-	TYPE  type = static_cast<TYPE>(object_type);
+	//DebugOut(L"--> %s\n", ToWSTR(line).c_str());
+	int object_TAG = atoi(tokens[0].c_str());
+	TAG  tag = static_cast<TAG>(object_TAG);
 
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
-	int id_State = atof(tokens[3].c_str());
+	int type = atof(tokens[3].c_str());
 
-	if (type == DRAIN)
-	{
-		float w = atof(tokens[4].c_str());
-		float h = atof(tokens[5].c_str());
-	}
 	// General object setup
 
 	GameObject* obj = NULL;
 
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
-	switch (type)
+	switch (tag)
 	{
-	case MARIO:
+	case PLAYER:
 		if (P != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
@@ -176,37 +170,53 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		P->Revival(x,y);
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case BRICK:
-		if(static_cast<TYPE>(id_State) == BRICK_QUESTION)
-			obj = Bricks::CreateBrick(static_cast<TYPE>(id_State),y);
-		else
-		obj = Bricks::CreateBrick(static_cast<TYPE>(id_State));
+	case GROUND:
+		switch (type)
+		{
+		case GROUND_LAND:
+			obj = new Ground((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+			break;
+		case BRICK:
+			if (static_cast<TYPE>((int)atof(tokens[4].c_str())) == BRICK_QUESTION)
+				obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())), y);
+			else
+				obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())));
+			break;
+		case DRAIN:
+			obj = new Drain(static_cast<STATEOBJECT>((int)atof(tokens[6].c_str())), (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+			break;
+		case BOX_GROUND:
+			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+			break;
+		}
 		break;
-	case DRAIN:
-		obj = new Drain(static_cast<STATEOBJECT>(id_State), (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
-		break;
-
-	case BOX_GROUND:
-		obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
-		break;
-	case GOOMBA:
-		obj = new Goomba(static_cast<TYPE>(id_State));
-		break;
-	case KOOMBA:
-		obj = new Koomba(static_cast<TYPE>(id_State));
-		break;
-	case GROUND_LAND:
-		obj = new Ground((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+	case ENEMY:
+		switch (type)
+		{
+		case NOR_GOOMBA:
+			obj = new Goomba(static_cast<TYPE>(type));
+			break;
+		case PARA_KOOMBA:
+			obj = new Koomba(static_cast<TYPE>(type));
+			break;
+		case PIRANHA_PLANT:
+			obj = new PiranhaPlant(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+			break;
+		case PIRANHA_PLANT_RED:
+			obj = new PiranhaPlant(static_cast<TYPE>(type),(float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+			break;
+		case NIPPER_PLANT:
+			obj = new NipperPlant(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+		}
 		break;
 	default:
-		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
+		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);
 		return;
 	}
-
 	obj->SetPosition(x, y);
-	if (type != MARIO)
+	if (tag != PLAYER)
 	{
-		int type_ani = atoi(tokens[3].c_str());
+		int type_ani = static_cast<TYPE>(type) == BRICK ? atoi(tokens[4].c_str()): atoi(tokens[3].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);
@@ -285,6 +295,12 @@ void PlayScene::Update(DWORD dt)
 	}
 	for (size_t i = 1; i < objects.size(); i++)
 	{
+		if (objects[i]->canShoot)
+		{
+			auto w = Weapons::CreateWeapon(FIRE_FIRE, objects[i]->tag, objects[i]->nx, objects[i]->ny, objects[i]->x, objects[i]->y);
+			objects.push_back(w);
+			objects[i]->isShoot = true;
+		}
 		coObjects.push_back(objects[i]);
 		if (objects[i]->canDel)
 		{

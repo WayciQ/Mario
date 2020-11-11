@@ -7,7 +7,7 @@ class Mario : public GameObject
 private:
 	static Mario* __instance;
 public:
-	
+	float curY;
 	PlayerState* state;
 	TYPE level;
 	bool untouchable;
