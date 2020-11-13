@@ -7,7 +7,7 @@ BrickQuestion::BrickQuestion(float CurY)
 	vy = -BRICK_DEFLECT_SPEED;
 	this->type = BRICK_QUESTION;
 	animation_set = animationsSets->Get(type);
-	ChangeAnimation(BRICK_QUESTION_STATIC);
+	ChangeAnimation(BRICK_STATIC);
 }
 void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
 {
@@ -24,7 +24,7 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
 	if(isDead)
 	{
 		
-		ChangeAnimation(BRICK_QUESTION_SELECTED);
+		ChangeAnimation(BRICK_HITTED);
 		y += dy;
 	}
 	

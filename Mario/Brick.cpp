@@ -2,6 +2,7 @@
 
 Brick::Brick() {
 	tag = GROUND;
+	typeParent = BRICK;
 	isDead = false;
 }
 void Brick::Render()

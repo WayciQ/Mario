@@ -36,7 +36,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += WORLD_GRAVITY * dt;
 	//DebugOut(L"state: %d\n", player->GetState());
 	
-	if(y > curY)
+	if(y > curY+15)
 	{
 		ChangeAnimation(new PlayerFallingState());
 	}
@@ -82,6 +82,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else if (ny == -1)
 		{
+			vy = 0;
 			isJumping = false;
 			curY = y;
 		}
@@ -92,6 +93,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			switch (e->obj->tag)
 			{
 			case GROUND:
+			{
 				if (e->obj->type == BOX_GROUND)
 				{
 					if (e->nx != 0)
@@ -120,51 +122,55 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 
 				}
+			}
 				break;
 			case ENEMY:
+			{
+
 				if (e->ny == -1)
 				{
-					if (e->obj->type == KOOMBA && e->obj->isDead)
+					if (!e->obj->isDead)
 					{
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
-						if (e->obj->isKicked)
+						if (e->obj->typeParent != PLANT)
 						{
-							e->obj->isKicked = false;
 							e->obj->vx = 0;
-							if (e->obj->isFlip)
-							{
-								SetState(ENEMY_DIE_FLIP);
-							}
-							else SetState(ENEMY_DIE_STAND);
-						}
-						else {
-							ChangeAnimation(new PlayerKickState());
-							e->obj->isKicked = true;
-							e->obj->canRespawn = false;
-							if (player->nx > 0)
-							{
-								e->obj->vx = 2 * MARIO_WALKING_SPEED;
-							}
-							else {
-								e->obj->vx = -2 * MARIO_WALKING_SPEED;
-							}
-						}
-					}
-					else {
-						if (e->obj->type == KOOMBA || e->obj->type == GOOMBA)
-						{
-							if (!e->obj->isDead)
-							{
-								e->obj->vx = 0;
-								vy = -MARIO_JUMP_DEFLECT_SPEED;
-							}
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
 							e->obj->startTimeDead();
 							e->obj->isFlip = false;
 							e->obj->SetState(ENEMY_DIE_STAND);
 						}
 						else {
-							startTimeDead();
+							ChangeAnimation(new PlayerDieState());
 							y += dy;
+						}
+					}
+					else
+					{
+						if (e->obj->typeParent == KOOMPA)
+						{
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							if (e->obj->isKicked)
+							{
+								e->obj->isKicked = false;
+								e->obj->vx = 0;
+								if (e->obj->isFlip)
+								{
+									SetState(ENEMY_DIE_FLIP);
+								}
+								else SetState(ENEMY_DIE_STAND);
+							}
+							else {
+								ChangeAnimation(new PlayerKickState());
+								e->obj->isKicked = true;
+								e->obj->canRespawn = false;
+								if (player->nx > 0)
+								{
+									e->obj->vx = 2 * MARIO_WALKING_SPEED;
+								}
+								else {
+									e->obj->vx = -2 * MARIO_WALKING_SPEED;
+								}
+							}
 						}
 					}
 				}
@@ -176,11 +182,11 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							ChangeAnimation(new PlayerDieState());
 						}
 						else {
-							if (e->obj->type == KOOMBA)
+							if (e->obj->typeParent == KOOMPA)
 							{
 								if (e->obj->isKicked && e->obj->vx != 0)
 								{
-									startTimeDead();
+									ChangeAnimation(new PlayerDieState());
 								}
 								if (canHolding) {
 									isHolding = true;
@@ -200,17 +206,29 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 											e->obj->vx = -2 * MARIO_WALKING_SPEED;
 										}
 									}
-									
+
 								}
-								
-								
 							}
 						}
 					}
 				}
-				break;
-			default:
-				break;
+				if (e->ny == 1)
+				{
+					ChangeAnimation(new PlayerDieState());
+				}
+			}
+			break;
+			}
+			if (e->obj->tagChange == WEAPON)
+			{
+				if (e->nx != 0)
+				{
+					ChangeAnimation(new PlayerDieState());
+				}
+				if (e->ny != 0)
+				{
+					y += dy;
+				}
 			}
 		}
 	}
@@ -295,9 +313,8 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
 	}
 	 
-	
 }
-
+#define MARIO_X_WHIP x - 9
 void Mario::Render() {
 		state->Render();
 		if (untouchable)
@@ -305,7 +322,15 @@ void Mario::Render() {
 			alpha = alpha == 255 ? 125 : 255;
 		}
 		else alpha = 255;
-	CurAnimation->Render(x, y, alpha);
+		if (GetState() == WHIPPING_LEFT)
+		{
+			CurAnimation->Render(MARIO_X_WHIP, y, alpha);
+		}
+		else
+		{
+			CurAnimation->Render(x, y, alpha);
+		}
+	
 	RenderBoundingBox();
 }
 void Mario::ChangeAnimation(PlayerState* newState)

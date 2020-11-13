@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BasGoomba.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickBreakable.cpp" />
@@ -157,13 +158,16 @@
     <ClCompile Include="Drain.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Ground.cpp" />
-    <ClCompile Include="Koomba.cpp" />
+    <ClCompile Include="Koompa.cpp" />
     <ClCompile Include="NipperPlant.cpp" />
+    <ClCompile Include="ParaGoomba.cpp" />
+    <ClCompile Include="ParaKoomba.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
     <ClCompile Include="PlayerHoldingState.cpp" />
     <ClCompile Include="PlayerJumpingShortState.cpp" />
     <ClCompile Include="PlayerKickState.cpp" />
     <ClCompile Include="PlayerShootingFireState.cpp" />
+    <ClCompile Include="TropaKoompa.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -191,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="BasGoomba.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="BrickBreakable.h" />
@@ -200,16 +205,19 @@
     <ClInclude Include="Bricks.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Drain.h" />
+    <ClInclude Include="Enemies.h" />
     <ClInclude Include="Fire.h" />
-    <ClInclude Include="Flyer.h" />
     <ClInclude Include="Ground.h" />
-    <ClInclude Include="Koomba.h" />
+    <ClInclude Include="Koompa.h" />
     <ClInclude Include="NipperPlant.h" />
+    <ClInclude Include="ParaGoomba.h" />
+    <ClInclude Include="ParaKoomba.h" />
     <ClInclude Include="PiranhaPlant.h" />
     <ClInclude Include="PlayerHoldingState.h" />
     <ClInclude Include="PlayerJumpingShortState.h" />
     <ClInclude Include="PlayerKickState.h" />
     <ClInclude Include="PlayerShootingFireState.h" />
+    <ClInclude Include="TropaKoompa.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />

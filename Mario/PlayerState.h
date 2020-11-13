@@ -7,6 +7,6 @@ public:
 	virtual void HandleKeyBoard() = 0;
 	virtual void Update() = 0;
 	virtual void Render() = 0;
-	STATENAME stateName; // animation by state;
+	STATEPLAYER stateName; // animation by state;
 };
 

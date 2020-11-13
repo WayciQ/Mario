@@ -53,7 +53,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Whip::UpdatePosititon(DWORD dt)
 {
-	int posX = player->nx > 0 ? player->x : player->x;
+	int posX = player->nx > 0 ? player->x : player->x - 7;
 	int	posY = player->nx > 0 ? player->y + 15 : player->y +15;
 
 	SetPosition(posX, posY);

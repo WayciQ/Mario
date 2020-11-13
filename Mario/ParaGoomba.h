@@ -1,17 +1,15 @@
 #pragma once
-#include "Enemy.h" 
-class NipperPlant : public Enemy
+#include "Goomba.h"
+class ParaGoomba : public Goomba
 {
-	int startTimeUp;
-	float PosX, PosY;
-	bool isUp;
+	bool jumped;
 public:
-	NipperPlant(float x, float y);
-	~NipperPlant() {}
+	ParaGoomba();
+	~ParaGoomba() {};
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	void SetState(STATEOBJECT state);
 	void UpdatePosition(DWORD dt);
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void Render();
-
+	void Revival();
 };
 

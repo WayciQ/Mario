@@ -47,9 +47,9 @@ public:
 class AnimationSet {
 	unordered_map<int, LPANIMATION> animations;
 public:
-	void Add(int aniId, STATENAME NameState);
+	void Add(int aniId, STATEPLAYER NameState);
 	void Add(int aniId, STATEOBJECT type);
-	LPANIMATION Get(STATENAME NameState);
+	LPANIMATION Get(STATEPLAYER NameState);
 	LPANIMATION Get(STATEOBJECT type);
 };
 typedef AnimationSet* LPANIMATION_SET;

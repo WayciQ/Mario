@@ -2,7 +2,7 @@
 #include "Mario.h"
 #include "Camera.h"
 
-PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy(type)
+PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 {
 	isUp = true;
 	startTimeUp = 0;
@@ -10,9 +10,11 @@ PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy(type)
 	this->type = type;
 	PosX = posx;
 	YY = posy;
+	typeParent = PLANT;
 	PosY = type == PIRANHA_PLANT ? posy + 8 : posy;
 	SetState(PLANT_FIRE_DOWN_RIGHT);
 }
+
 void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	x = PosX + 8;
@@ -30,6 +32,33 @@ void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	if (coEvents.size() != 0)
+	{
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (e->obj->tag == ENEMY)
+			{
+				if (e->obj->tagChange == WEAPON && e->obj->isKicked)
+				{
+					startTimeDead();
+					SetState(ENEMY_DIE_FLIP);
+				}
+			}
+		}
+	}
+	
+	
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 void PiranhaPlant::UpdatePosition(DWORD dt)
 {

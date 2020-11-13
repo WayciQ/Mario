@@ -39,7 +39,9 @@ public:
 	int ny;
 	STATEOBJECT state;
 	TAG tag;
+	TAG tagChange;
 	TYPE type;
+	TYPE typeParent;
 	DWORD dt;
 
 	bool isDead;
@@ -49,7 +51,6 @@ public:
 	bool canRespawn;
 
 	bool isFlip;
-
 	bool isShoot;
 	bool canShoot;
 	LPANIMATION_SET animation_set;

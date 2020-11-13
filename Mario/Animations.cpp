@@ -76,7 +76,7 @@ void Animations::Clear()
 }
 
 
-void AnimationSet::Add(int aniId, STATENAME NameState)
+void AnimationSet::Add(int aniId, STATEPLAYER NameState)
 {
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
 	animations[NameState] = ani;
@@ -86,7 +86,7 @@ void AnimationSet::Add(int aniId, STATEOBJECT type)
 	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
 	animations[type] = ani;
 }
-LPANIMATION AnimationSet::Get(STATENAME NameState)
+LPANIMATION AnimationSet::Get(STATEPLAYER NameState)
 {
 	return animations[NameState];
 }

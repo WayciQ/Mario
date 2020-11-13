@@ -8,11 +8,8 @@
 #include "Bricks.h"
 #include "Drain.h"
 #include "Box.h"
-#include "Goomba.h"
-#include "Koomba.h"
 #include "Ground.h"
-#include "PiranhaPlant.h"
-#include "NipperPlant.h"
+#include "Enemies.h"
 
 using namespace std;
 
@@ -117,7 +114,7 @@ void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 		{
 			int ani_id = atoi(tokens[i].c_str());
 			int state = atoi(tokens[i + 1].c_str());
-			STATENAME stateName = static_cast<STATENAME>(state);
+			STATEPLAYER stateName = static_cast<STATEPLAYER>(state);
 			set->Add(ani_id, stateName);
 		}
 		//DebugOut(L"--> %s\n", ToWSTR(line).c_str());
@@ -191,23 +188,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		}
 		break;
 	case ENEMY:
-		switch (type)
-		{
-		case NOR_GOOMBA:
-			obj = new Goomba(static_cast<TYPE>(type));
-			break;
-		case PARA_KOOMBA:
-			obj = new Koomba(static_cast<TYPE>(type));
-			break;
-		case PIRANHA_PLANT:
-			obj = new PiranhaPlant(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
-			break;
-		case PIRANHA_PLANT_RED:
-			obj = new PiranhaPlant(static_cast<TYPE>(type),(float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
-			break;
-		case NIPPER_PLANT:
-			obj = new NipperPlant(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
-		}
+		obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);

@@ -9,10 +9,9 @@ class Enemy : public GameObject
 {
 	
 public:
-	Enemy(TYPE type) {
+	Enemy() {
 		tag = ENEMY;
 		isDead = false;
-		animation_set = animationsSets->Get(type);
 	}
 	Animation* CurAnimation;
 	

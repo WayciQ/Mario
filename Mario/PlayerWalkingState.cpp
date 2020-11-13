@@ -73,7 +73,7 @@ PlayerWalkingState::PlayerWalkingState()
 
 void PlayerWalkingState::HandleKeyBoard()
 {
-	if (keyCode[DIK_A])
+	if (keyCode[DIK_A] && !player->isHolding)
 	{
 		if (!player->isRunning && player->Allow[RUNNING])
 		{

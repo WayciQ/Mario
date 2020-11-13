@@ -48,9 +48,9 @@ public:
 
 
 	Animation* CurAnimation;
-	unordered_map<STATENAME, bool> Allow;
+	unordered_map<STATEPLAYER, bool> Allow;
 	static Mario* GetInstance();
-	STATENAME GetState() { return state->stateName; }
+	STATEPLAYER GetState() { return state->stateName; }
 	Mario();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
