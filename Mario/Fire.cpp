@@ -116,7 +116,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							x += dx;
 						}
 					}
-					if (e->obj->type == BRICK_QUESTION)
+					if (e->obj->type == BRICK_QUESTION )
 					{
 						vy = 0;
 						e->obj->isDead = true;

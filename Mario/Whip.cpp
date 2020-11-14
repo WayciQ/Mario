@@ -3,7 +3,7 @@
 Whip::Whip()
 {
 	type = WHIP;
-	SetBBox(30, 7);
+	SetBBox(9, 7);
 
 }
 
@@ -19,7 +19,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	
 
-	UpdatePosititon(dt);
+	
 	vector<LPGAMEOBJECT> coEvents;
 	coEvents.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -42,9 +42,10 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
 			break;
 		case GROUND:
-			if (coEvents.at(i)->type == BRICK_QUESTION)
+			if (coEvents.at(i)->type == BRICK_QUESTION || coEvents.at(i)->type == BRICK_BREAKABLE)
 			{
 				coEvents.at(i)->isDead = true;
+				canDel = true;
 			}
 			break;
 		}
@@ -53,14 +54,24 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Whip::UpdatePosititon(DWORD dt)
 {
-	int posX = player->nx > 0 ? player->x : player->x - 7;
-	int	posY = player->nx > 0 ? player->y + 15 : player->y +15;
-
+	int curFrame = player->CurAnimation->currentFrame;
+	int posX, posY;
+	if (curFrame == 0)
+	{
+		posX = player->nx > 0 ? player->x  : player->x + 15;
+	}
+	else if (curFrame == 3)
+	{
+		posX = player->nx > 0 ? player->x + 25 : player->x - 9;
+	}
+	else posX = player->x + 15;
+	posY = player->y + 18;
 	SetPosition(posX, posY);
 	if (player->CurAnimation->isLastFrame)	
 		canDel = true;
 }
 void Whip::Render() {
+	UpdatePosititon(dt);
 	RenderBoundingBox();
 }
 Whip::~Whip(){}

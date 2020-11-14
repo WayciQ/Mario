@@ -113,7 +113,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vy = 0;
 					}
 				}
-				if (e->obj->type == BRICK_QUESTION)
+				if (e->obj->type == BRICK_QUESTION || e->obj->type == BRICK_BREAKABLE)
 				{
 					if (e->ny == 1)
 					{
@@ -126,7 +126,6 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				break;
 			case ENEMY:
 			{
-
 				if (e->ny == -1)
 				{
 					if (!e->obj->isDead)
@@ -451,19 +450,15 @@ void Mario::OnKeyDown(int key)
 			ChangeAnimation(new PlayerStandingState());
 			break;
 		case DIK_F1:
-			isOnSky = false;
-			SetPosition(0,0);
+			SetPosition(70,250);
 			break;
 		case DIK_F2:
-			isOnSky = false;
 			SetPosition(900, 300);
 			break;
 		case DIK_F3:
-			isOnSky = false;
 			SetPosition(2500, 400);
 			break;
 		case DIK_F4:
-			isOnSky = true;
 			SetPosition(1616, 140);
 			break;
 		

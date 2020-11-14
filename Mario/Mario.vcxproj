@@ -96,7 +96,7 @@
     <Link>
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dxerr.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dinput8.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -148,6 +148,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BasGoomba.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BreakBrick.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickBreakable.cpp" />
     <ClCompile Include="BrickCloud.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Drain.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Koompa.cpp" />
     <ClCompile Include="NipperPlant.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
@@ -197,6 +199,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="BasGoomba.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="BreakBrick.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="BrickBreakable.h" />
     <ClInclude Include="BrickCloud.h" />
@@ -208,6 +211,7 @@
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Koompa.h" />
     <ClInclude Include="NipperPlant.h" />
     <ClInclude Include="ParaGoomba.h" />

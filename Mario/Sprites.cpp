@@ -25,11 +25,11 @@ void Sprite::Draw(float x, float y, int alpha)
 }
 void Sprite::Draw(float x, float y, float left, float top, float right, float bottom)
 {
-	game->Draw(x, y, texture, left, top, right, bottom, 245);
+	game->Draw(x, y, texture, left, top, right, bottom, 255);
 }
 void Sprite::DrawX3(float x, float y, float left, float top, float right, float bottom)
 {
-	game->DrawX3(x, y, texture, left, top, right, bottom, 245);
+	game->DrawX3(x, y, texture, left, top, right, bottom, 255);
 }
 void Sprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {

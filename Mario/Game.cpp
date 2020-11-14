@@ -71,7 +71,7 @@ void Game::DrawX3(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int to
 	r.right = right;
 	r.bottom = bottom;
 
-	auto pScaling = D3DXVECTOR2(2, 2);
+	auto pScaling = D3DXVECTOR2(0.3, 0.3);
 
 	D3DXMATRIX oldMatrix, curMatrix;
 

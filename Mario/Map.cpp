@@ -90,7 +90,6 @@ void Map::Render() {
 				t = GetPositionTitle(mapTitles[i][j]);
 				sprite->Draw(r.left, r.top, t.left, t.top, t.right, t.bottom);
 			}
-
 		}
 	}
 		

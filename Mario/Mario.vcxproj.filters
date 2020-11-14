@@ -46,30 +46,21 @@
     <Filter Include="GameObjects\Enemy\Plant">
       <UniqueIdentifier>{2636c1f3-6cd2-43c4-ac66-93b59cfce415}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Item">
+      <UniqueIdentifier>{dd193737-e6c2-4d5a-8c33-9762117168f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Player\state">
+      <UniqueIdentifier>{402ef722-b1e3-45a5-ad28-dc10ea49cb71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Effect">
+      <UniqueIdentifier>{c4b1edf3-d4c4-4fe5-8977-d52756f63b83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects\Object</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWalkingState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStandingState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerJumpingState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerFallingState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerSittingState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerDieState.cpp">
       <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Textures.cpp">
@@ -87,17 +78,8 @@
     <ClCompile Include="main.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerWhippingState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>GameObjects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerLastRunState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRunningState.cpp">
-      <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Animations.cpp">
       <Filter>Game Graphics</Filter>
@@ -117,12 +99,6 @@
     <ClCompile Include="Drain.cpp">
       <Filter>GameObjects\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerJumpingShortState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerShootingFireState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
@@ -132,17 +108,11 @@
     <ClCompile Include="Whip.cpp">
       <Filter>GameObjects\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerKickState.cpp">
-      <Filter>GameObjects\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Ground.cpp">
       <Filter>GameObjects\Ground</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Game Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHoldingState.cpp">
-      <Filter>GameObjects\Player</Filter>
     </ClCompile>
     <ClCompile Include="Box.cpp">
       <Filter>GameObjects\Ground</Filter>
@@ -189,33 +159,55 @@
     <ClCompile Include="NipperPlant.cpp">
       <Filter>GameObjects\Enemy\Plant</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>GameObjects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDieState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFallingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHoldingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerJumpingShortState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerJumpingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerKickState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerLastRunState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRunningState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerShootingFireState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSittingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStandingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWhippingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakBrick.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects\Object</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Mario.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWalkingState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStandingState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerJumpingState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFallingState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerSittingState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerDieState.h">
       <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Textures.h">
@@ -227,17 +219,8 @@
     <ClInclude Include="Game.h">
       <Filter>Game Components</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerWhippingState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>GameObjects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerLastRunState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRunningState.h">
-      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Game Graphics</Filter>
@@ -266,12 +249,6 @@
     <ClInclude Include="Box.h">
       <Filter>GameObjects\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerJumpingShortState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerShootingFireState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
@@ -284,14 +261,8 @@
     <ClInclude Include="Weapons.h">
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerKickState.h">
-      <Filter>GameObjects\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Ground.h">
       <Filter>GameObjects\Ground</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHoldingState.h">
-      <Filter>GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="BrickQuestion.h">
       <Filter>GameObjects\Ground\Brick</Filter>
@@ -341,6 +312,52 @@
     <ClInclude Include="GameGlobal.h">
       <Filter>Game Components</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDieState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFallingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHoldingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerJumpingShortState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerJumpingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerKickState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLastRunState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRunningState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShootingFireState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSittingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStandingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWhippingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakBrick.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\Scene.txt">
