@@ -132,6 +132,7 @@ RECT GameObject::GetRect()
 	rect.right = r;
 	rect.bottom = b;
 	return rect;
+	
 }
 GameObject::~GameObject()
 {

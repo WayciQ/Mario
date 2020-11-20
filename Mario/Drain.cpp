@@ -1,9 +1,8 @@
 #include "Drain.h"
-Drain::Drain(STATEOBJECT types, float w, float h)
+Drain::Drain(float w, float h)
 {
 	tag = GROUND;
 	type = DRAIN;
-	this->typeDrain = types;
 	this->width = w;
 	this->height = h;
 }

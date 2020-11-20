@@ -11,7 +11,6 @@
 #include "Ground.h"
 #include "Enemies.h"
 
-using namespace std;
 
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
@@ -52,6 +51,11 @@ void PlayScene::_ParseSection_MAPS(string line)
 	int mapId = atoi(tokens[0].c_str());
 	wstring path = ToWSTR(tokens[1]);
 	Map::GetInstance()->LoadResourses(path.c_str());
+	grid = new Grid();
+	grid->SetSizeCell((int)atoi(tokens[2].c_str()));
+	grid->cols = ((int)Map::GetInstance()->GetWidthMap() / (int)atoi(tokens[2].c_str())) + 1;
+	grid->rows = ((int)Map::GetInstance()->GetHeightMap() / (int)atoi(tokens[2].c_str())) + 1;
+	grid->Init();
 }
 void PlayScene::_ParseSection_SPRITES(string line)
 {
@@ -105,7 +109,7 @@ void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	TAG type = static_cast<TAG>(tag);
 
-	
+
 	if (tag == PLAYER)
 	{
 		TYPE type = static_cast<TYPE>(ani_set_id);
@@ -164,7 +168,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		}
 		obj = player;
 		P = (Mario*)obj;
-		P->Revival(x,y);
+		player->Revival(x, y);
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case GROUND:
@@ -180,30 +184,32 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 				obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())));
 			break;
 		case DRAIN:
-			obj = new Drain(static_cast<STATEOBJECT>((int)atof(tokens[6].c_str())), (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+			obj = new Drain( (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
 		case BOX_GROUND:
 			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
 		}
+		grid->LoadObjects(obj,x,y);
 		break;
 	case ENEMY:
 		obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+		grid->LoadObjects(obj,x,y);
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);
 		return;
 	}
-	obj->SetPosition(x, y);
+	
 	if (tag != PLAYER)
 	{
-		int type_ani = static_cast<TYPE>(type) == BRICK ? atoi(tokens[4].c_str()): atoi(tokens[3].c_str());
+		int type_ani = static_cast<TYPE>(type) == BRICK ? atoi(tokens[4].c_str()) : atoi(tokens[3].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);
 	}
 	objects.push_back(obj);
-	DebugOut(L"[INFO] Object size: %d\n", objects.size());
+	//DebugOut(L"[INFO] Object size: %d\n", objects.size());
 }
 
 void PlayScene::Load()
@@ -263,35 +269,40 @@ void PlayScene::Load()
 void PlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
+	grid->ObjectHolder = objects;
+	grid->UpdateCell();
+	grid->CalcObjectInViewPort();
 	
-	if (P->isWhipping)
+	if (player->isWhipping)
 	{
-		auto w = Weapons::CreateWeapon(WHIP);
-		objects.push_back(w);
+		auto w = Weapons::CreateWeapon(WHIP,player->nx,player->ny,player->x,player->y);
+		grid->AddObjectToCell(w);
 	}
-	if (P->canShoot)
+	if (player->canShoot)
 	{
-		auto w = Weapons::CreateWeapon(FIRE_FIRE);
-		objects.push_back(w);
-	}
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->canShoot)
-		{
-			auto w = Weapons::CreateWeapon(FIRE_FIRE, objects[i]->tag, objects[i]->nx, objects[i]->ny, objects[i]->x, objects[i]->y);
-			objects.push_back(w);
-			objects[i]->isShoot = true;
-		}
-		coObjects.push_back(objects[i]);
-		if (objects[i]->canDel)
-		{
-			objects.erase(objects.begin() + i);
-		}
+		auto w = Weapons::CreateWeapon(FIRE_FIRE, player->nx, player->ny, player->x, player->y);
+		grid->AddObjectToCell(w);
 	}
 
-	for (size_t i = 0; i < objects.size(); i++)
+	player->Update(dt, &grid->GetObjectInViewPort());
+	for (size_t i = 1; i < grid->GetObjectInViewPort().size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);	
+		if (grid->GetObjectInViewPort()[i]->canShoot)
+		{
+			auto w = Weapons::CreateWeapon(FIRE_FIRE,
+				grid->GetObjectInViewPort()[i]->nx,
+				grid->GetObjectInViewPort()[i]->ny, 
+				grid->GetObjectInViewPort()[i]->x, 
+				grid->GetObjectInViewPort()[i]->y,
+				grid->GetObjectInViewPort()[i]->tag);
+			grid->AddObjectToCell(w);
+			grid->GetObjectInViewPort()[i]->isShoot = true;
+		}
+		coObjects.push_back(grid->GetObjectInViewPort()[i]);
+	}
+	for (auto& obj : grid->GetObjectInViewPort())
+	{
+		obj->Update(dt, &coObjects);
 	}
 
 	Camera::GetInstance()->Update();
@@ -300,8 +311,12 @@ void PlayScene::Update(DWORD dt)
 void PlayScene::Render()
 {
 	Map::GetInstance()->Render();
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();
+	grid->RenderCell();
+	player->Render();
+	for (auto& obj : grid->GetObjectInViewPort())
+	{
+		obj->Render();
+	}
 }
 
 void PlayScene::Unload()
@@ -332,3 +347,5 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	keyCode[KeyCode] = false;
 	mario->OnKeyUp(KeyCode);
 }
+
+

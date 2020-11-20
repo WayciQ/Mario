@@ -162,6 +162,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								ChangeAnimation(new PlayerKickState());
 								e->obj->isKicked = true;
 								e->obj->canRespawn = false;
+								e->obj->tagChange = WEAPON;
 								if (player->nx > 0)
 								{
 									e->obj->vx = 2 * MARIO_WALKING_SPEED;
@@ -196,6 +197,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 										ChangeAnimation(new PlayerKickState());
 										e->obj->isDead = true;
 										e->obj->isKicked = true;
+										e->obj->tagChange = WEAPON;
 										e->obj->canRespawn = false;
 										if (player->nx > 0)
 										{

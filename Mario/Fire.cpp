@@ -106,8 +106,15 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							vx = 0;
 							vy = 0;
+							e->obj->isDead = true;
 							startTimeDead();
 						}
+						/*if (e->obj->type == BRICK_QUESTION)
+						{
+							vy = 0;
+							
+
+						}*/
 
 					}
 					else {
@@ -116,12 +123,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							x += dx;
 						}
 					}
-					if (e->obj->type == BRICK_QUESTION )
-					{
-						vy = 0;
-						e->obj->isDead = true;
-
-					}
+					
 					break;
 				case ENEMY:
 					if (e->nx != 0 || e->ny != 0)
@@ -137,11 +139,11 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					break;
 				case WEAPON:
-				{
-					x += dx;
-					y += dy;
-				}
-				break;
+					{
+						x += dx;
+						y += dy;
+					}
+					break;
 				default:
 					break;
 				}
@@ -171,7 +173,7 @@ void Fire::UpdatePosititon(DWORD dt)
 
 	if(x < camera-> cam_x || x > camera->cam_x + camera->width ||  y > camera->cam_y + camera->height)
 	{
-		isDead = true;
+		startTimeDead();
 		CurAnimation = animation_set->Get(BIGBANG);
 	}
 

@@ -4,12 +4,13 @@
 #include "Mario.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "Grid.h"
 class PlayScene :public Scene
 {
 private:
 	Mario* P;
 	Map* map;
-	
+	Grid* grid;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -20,6 +21,7 @@ private:
 public:
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> staticOnject;
 	PlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();

@@ -1,5 +1,5 @@
 #include "BrickQuestion.h"
-#define BRICK_DEFLECT_SPEED 0.03f
+#define BRICK_DEFLECT_SPEED 0.05f
 BrickQuestion::BrickQuestion(float CurY)
 {
 	isDead = false;
@@ -21,6 +21,7 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
 	{
 		vy = BRICK_DEFLECT_SPEED;
 	}
+
 	if(isDead)
 	{
 		

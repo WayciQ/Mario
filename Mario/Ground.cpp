@@ -2,7 +2,7 @@
 Ground::Ground(float w, float h)
 {
 	tag = GROUND;
-	type = BRICK;
+	type = GROUND_LAND;
 	this->width = w;
 	this->height = h;
 }

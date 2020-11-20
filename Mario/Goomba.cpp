@@ -4,15 +4,17 @@
 Goomba::Goomba() : Enemy()
 {
 	typeParent = GOOMBA;
+	widthBBox = GOOMBA_BBOX_WIDTH;
+	heightBBox = GOOMBA_BBOX_HEIGHT;
 }
 void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	right = x + GOOMBA_BBOX_WIDTH;
-	bottom = y + GOOMBA_BBOX_HEIGHT;
+	right = x + widthBBox;
+	bottom = y + heightBBox;
 	if(isDead)
-		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
+		heightBBox = GOOMBA_BBOX_HEIGHT_DIE;
 }
 
 void Goomba::SetState(STATEOBJECT state)

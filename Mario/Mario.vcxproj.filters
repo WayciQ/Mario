@@ -201,7 +201,12 @@
     <ClCompile Include="PlayerWhippingState.cpp">
       <Filter>GameObjects\Player\state</Filter>
     </ClCompile>
-    <ClCompile Include="BreakBrick.cpp" />
+    <ClCompile Include="BreakBrick.cpp">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Game Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -357,7 +362,15 @@
     <ClInclude Include="PlayerWhippingState.h">
       <Filter>GameObjects\Player\state</Filter>
     </ClInclude>
-    <ClInclude Include="BreakBrick.h" />
+    <ClInclude Include="BreakBrick.h">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Game Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\Scene.txt">
