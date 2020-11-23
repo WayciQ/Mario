@@ -3,9 +3,9 @@
 BrickBreakable::BrickBreakable()
 {
 	
-	this->type = BRICK_BREAKABLE;
+	this->type = BLOCK_BREAKABLE;
 	animation_set = animationsSets->Get(type);
-	ChangeAnimation(BRICK_STATIC);
+	ChangeAnimation(BLOCK_STATIC);
 	
 }
 

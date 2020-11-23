@@ -21,6 +21,7 @@ Mario* Mario::GetInstance()
 		__instance = new Mario();
 	return __instance;
 }
+
 Mario::Mario() {
 	tag = PLAYER;
 	type = MARIO;
@@ -113,7 +114,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vy = 0;
 					}
 				}
-				if (e->obj->type == BRICK_QUESTION || e->obj->type == BRICK_BREAKABLE)
+				if (e->obj->type == BLOCK_QUESTION || e->obj->type == BLOCK_BREAKABLE)
 				{
 					if (e->ny == 1)
 					{

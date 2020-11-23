@@ -4,8 +4,7 @@
 
 class Drain	: public GameObject
 {
-	float width;
-	float height;
+
 public:
 	Drain(float w, float h);
 	~Drain();

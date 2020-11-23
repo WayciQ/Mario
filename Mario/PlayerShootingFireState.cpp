@@ -1,5 +1,7 @@
 #include "PlayerShootingFireState.h"
 #include "PlayerStandingState.h"
+#include "Weapons.h"
+#include "Grid.h"
 #include "Mario.h"
 PlayerShootingFireState::PlayerShootingFireState()
 {
@@ -12,6 +14,12 @@ PlayerShootingFireState::PlayerShootingFireState()
 	}
 
 	player->isShooting = true;
+
+	if (player->canShoot)
+	{
+		auto w = Weapons::CreateWeapon(FIRE_FIRE, player->nx, player->ny, player->x, player->y);
+		grid->AddObjectToCell(w);
+	}
 	if (!player->isJumping)
 	{
 		if (player->nx > 0) {

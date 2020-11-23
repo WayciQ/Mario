@@ -105,6 +105,14 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				state = ENEMY_WALKING_RIGHT;
 			else state = ENEMY_WALKING_LEFT;
 		}
+		else
+		{
+			if (nx > 0)
+			{
+				SetState(ENEMY_JUMPING_RIGHT);
+			}
+			else SetState(ENEMY_JUMPING_LEFT);
+		}
 	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -146,12 +154,17 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						x += dx;
 					}
 				}
+				else if (e->obj->type == BLOCK_QUESTION && isDead)
+				{
+					e->obj->isDead = true;
+					vx = -vx;
+				}
 				else
 				{
 					if (e->nx != 0)
 					{
 						this->nx = -this->nx;
-						if (!isDead && jumped)
+						/*if (!isDead && jumped)
 						{
 							if (this->nx < 0)
 								state = ENEMY_WALKING_LEFT;
@@ -164,7 +177,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								state = ENEMY_JUMPING_LEFT;
 							else
 								state = ENEMY_JUMPING_RIGHT;
-						}
+						}*/
 						vx = -vx;
 					}
 					if (e->ny == 1)
@@ -174,15 +187,15 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				
 			}
-			if (e->obj->tag == ENEMY)
+			else
 			{
-				if (e->obj->tagChange == WEAPON && e->obj->isKicked)
+				if (tagChange == WEAPON && isKicked)
 				{
-					startTimeDead();
-					isFlip = true;
-					vy = -0.2f;
-					vx = 0;
-					SetState(ENEMY_DIE_FLIP);
+					e->obj->startTimeDead();
+					e->obj->isFlip = true;
+					e->obj->vy = -0.2f;
+					e->obj->vx = 0;
+					e->obj->SetState(ENEMY_DIE_FLIP);
 				}
 				if (e->nx != 0)
 				{
@@ -192,7 +205,6 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					y += dy;
 				}
-
 			}
 		}
 	}
@@ -215,7 +227,7 @@ void TropaKoompa::SetState(STATEOBJECT state)
 }
 void TropaKoompa::Revival()
 {
-	y -= 9;
+	y -=20;
 	nx = 1;
 	isDead = false;
 	canRespawn = false;

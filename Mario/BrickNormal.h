@@ -6,9 +6,9 @@ class BrickNormal : public Brick
 public:
 	BrickNormal()
 	{
-		this->type = BRICK_NORMAL;
+		this->type = BLOCK_NORMAL;
 		animation_set = animationsSets->Get(type);
-		ChangeAnimation(BRICK_STATIC);
+		ChangeAnimation(BLOCK_STATIC);
 	}
 	~BrickNormal() {};
 };

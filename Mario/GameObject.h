@@ -37,11 +37,13 @@ public:
 
 	int nx;
 	int ny;
+
 	STATEOBJECT state;
 	TAG tag;
 	TAG tagChange;
-	TYPE type;
-	TYPE typeParent;
+	TYPE type;			// type obj
+	TYPE typeParent;	// type parent obj
+	TYPE child;			// type child after destroy obj
 	DWORD dt;
 
 	bool isDead;

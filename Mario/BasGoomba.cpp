@@ -92,14 +92,14 @@ void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					y += dy;
 				}
-				if (e->obj->tagChange == WEAPON && e->obj->isKicked)
+				/*if (e->obj->tagChange == WEAPON && e->obj->isKicked)
 				{
 					startTimeDead();
 					isFlip = true;
 					vy = -0.2f;
 					vx = 0;
 					SetState(ENEMY_DIE_FLIP);
-				}
+				}*/
 			}
 			
 		}

@@ -4,8 +4,8 @@ Box::Box(float w, float h)
 {
 	tag = GROUND;
 	type = BOX_GROUND;
-	this->width = w;
-	this->height = h;
+	widthBBox = w;
+	heightBBox = h;
 }
 
 Box::~Box() {}
@@ -20,6 +20,6 @@ void Box::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = x + width;
-	b = y + height;
+	r = x + widthBBox;
+	b = y + heightBBox;
 }

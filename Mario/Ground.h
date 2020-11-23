@@ -2,8 +2,6 @@
 #include"GameObject.h"
 class Ground : public GameObject
 {
-	float width;
-	float height;
 public:
 	Ground(float w, float h);
 	~Ground() {};

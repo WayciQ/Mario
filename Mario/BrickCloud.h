@@ -5,10 +5,9 @@ class BrickCloud : public Brick
 public:
 	BrickCloud() : Brick()
 	{
-		
-		this->type = BRICK_CLOUD;
+		this->type = BLOCK_CLOUD;
 		animation_set = animationsSets->Get(type);
-		ChangeAnimation(BRICK_STATIC);
+		ChangeAnimation(BLOCK_STATIC);
 	}
 	~BrickCloud() {};
 };

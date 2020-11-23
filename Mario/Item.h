@@ -2,9 +2,11 @@
 #include "GameObject.h"
 class Item : public GameObject
 {
-	Animation* CurAnimation;
+
 public:
-	Item() {
+	Animation* CurAnimation;
+	Item(float x,float y) {
+		SetPosition(x, y);
 		tag = ITEM;
 		isDead = false;
 	};

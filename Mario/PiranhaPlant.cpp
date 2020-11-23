@@ -1,7 +1,8 @@
 #include "PiranhaPlant.h"
 #include "Mario.h"
 #include "Camera.h"
-
+#include "Weapons.h"
+#include "Grid.h"
 PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 {
 	isUp = true;
@@ -72,7 +73,14 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 				canShoot = true;
 			}
 			else {
+				
 				canShoot = false;
+			}
+			if (canShoot)
+			{
+				auto w = Weapons::CreateWeapon(FIRE_FIRE, nx, ny, x, y, tag);
+				grid->AddObjectToCell(w);
+				isShoot = true;
 			}
 		}
 		

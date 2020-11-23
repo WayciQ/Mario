@@ -10,7 +10,7 @@
 #include "Box.h"
 #include "Ground.h"
 #include "Enemies.h"
-
+#include "Items.h"
 
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
@@ -51,7 +51,6 @@ void PlayScene::_ParseSection_MAPS(string line)
 	int mapId = atoi(tokens[0].c_str());
 	wstring path = ToWSTR(tokens[1]);
 	Map::GetInstance()->LoadResourses(path.c_str());
-	grid = new Grid();
 	grid->SetSizeCell((int)atoi(tokens[2].c_str()));
 	grid->cols = ((int)Map::GetInstance()->GetWidthMap() / (int)atoi(tokens[2].c_str())) + 1;
 	grid->rows = ((int)Map::GetInstance()->GetHeightMap() / (int)atoi(tokens[2].c_str())) + 1;
@@ -87,7 +86,7 @@ void PlayScene::_ParseSection_ANIMATIONS(string line)
 	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
 
 	LPANIMATION ani = new Animation();
-	//DebugOut(L"--> %s\n", ToWSTR(line).c_str());
+	DebugOut(L"--> %s\n", ToWSTR(line).c_str());
 	int ani_id = atoi(tokens[0].c_str());
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
@@ -152,9 +151,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
 	int type = atof(tokens[3].c_str());
-
 	// General object setup
-
 	GameObject* obj = NULL;
 
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
@@ -172,16 +169,16 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case GROUND:
+		
 		switch (type)
 		{
 		case GROUND_LAND:
 			obj = new Ground((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
-		case BRICK:
-			if (static_cast<TYPE>((int)atof(tokens[4].c_str())) == BRICK_QUESTION)
-				obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())), y);
-			else
-				obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())));
+		case BLOCK:
+		
+			obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())), y, static_cast<TYPE>((int)atof(tokens[5].c_str())));
+			
 			break;
 		case DRAIN:
 			obj = new Drain( (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
@@ -196,20 +193,25 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
 		grid->LoadObjects(obj,x,y);
 		break;
+	case ITEM:
+		obj = Items::CreateItem(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+		grid->AddItem(obj, x, y);
+		break;
 	default:
+		
 		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);
 		return;
 	}
 	
 	if (tag != PLAYER)
 	{
-		int type_ani = static_cast<TYPE>(type) == BRICK ? atoi(tokens[4].c_str()) : atoi(tokens[3].c_str());
+		int type_ani = static_cast<TYPE>(type) == BLOCK ? atoi(tokens[4].c_str()) : atoi(tokens[3].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);
 	}
-	objects.push_back(obj);
-	//DebugOut(L"[INFO] Object size: %d\n", objects.size());
+	
+	//DebugOut(L"[INFO] Object size: %d\n", HolderObjects.size());
 }
 
 void PlayScene::Load()
@@ -269,37 +271,17 @@ void PlayScene::Load()
 void PlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
-	grid->ObjectHolder = objects;
 	grid->UpdateCell();
+//	grid->UpdateStaticObject();
 	grid->CalcObjectInViewPort();
-	
-	if (player->isWhipping)
-	{
-		auto w = Weapons::CreateWeapon(WHIP,player->nx,player->ny,player->x,player->y);
-		grid->AddObjectToCell(w);
-	}
-	if (player->canShoot)
-	{
-		auto w = Weapons::CreateWeapon(FIRE_FIRE, player->nx, player->ny, player->x, player->y);
-		grid->AddObjectToCell(w);
-	}
 
 	player->Update(dt, &grid->GetObjectInViewPort());
+
 	for (size_t i = 1; i < grid->GetObjectInViewPort().size(); i++)
 	{
-		if (grid->GetObjectInViewPort()[i]->canShoot)
-		{
-			auto w = Weapons::CreateWeapon(FIRE_FIRE,
-				grid->GetObjectInViewPort()[i]->nx,
-				grid->GetObjectInViewPort()[i]->ny, 
-				grid->GetObjectInViewPort()[i]->x, 
-				grid->GetObjectInViewPort()[i]->y,
-				grid->GetObjectInViewPort()[i]->tag);
-			grid->AddObjectToCell(w);
-			grid->GetObjectInViewPort()[i]->isShoot = true;
-		}
 		coObjects.push_back(grid->GetObjectInViewPort()[i]);
 	}
+	
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
 		obj->Update(dt, &coObjects);
@@ -321,10 +303,10 @@ void PlayScene::Render()
 
 void PlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
+	for (int i = 0; i < HolderObjects.size(); i++)
+		delete HolderObjects[i];
 
-	objects.clear();
+	HolderObjects.clear();
 	P = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);

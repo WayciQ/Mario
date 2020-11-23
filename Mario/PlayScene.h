@@ -9,8 +9,6 @@ class PlayScene :public Scene
 {
 private:
 	Mario* P;
-	Map* map;
-	Grid* grid;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -20,7 +18,7 @@ private:
 
 public:
 
-	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> HolderObjects;
 	vector<LPGAMEOBJECT> staticOnject;
 	PlayScene(int id, LPCWSTR filePath);
 

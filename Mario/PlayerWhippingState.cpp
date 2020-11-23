@@ -3,6 +3,8 @@
 #include "PlayerWalkingState.h"
 #include "PlayerJumpingState.h"
 #include "PlayerFallingState.h"
+#include "Weapons.h"
+#include "Grid.h"
 #include "Mario.h"
 
 PlayerWhippingState::PlayerWhippingState() {
@@ -13,7 +15,13 @@ PlayerWhippingState::PlayerWhippingState() {
 	{
 		player->canWhip = true;
 	}
+	
 	player->isWhipping = true;
+
+	
+	auto w = Weapons::CreateWeapon(WHIP, player->nx, player->ny, player->x, player->y);
+	grid->AddObjectToCell(w);
+	
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	if (player->nx > 0) {
 		stateName = WHIPPING_RIGHT;

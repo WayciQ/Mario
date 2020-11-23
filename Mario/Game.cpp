@@ -59,11 +59,11 @@ void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top,
 	r.bottom = bottom;
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
-void Game::DrawX3(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void Game::DrawFlip(float x, float y, LPDIRECT3DTEXTURE9 texture, D3DXVECTOR2& vtScale, int left, int top, int right, int bottom, int alpha)
 {
 	float cx, cy;
 	Camera::GetInstance()->GetCamPos(cx, cy);
-	D3DXVECTOR3 p(floor(x - cx), floor(y - cy), 0);
+	D3DXVECTOR3 p(floor(x - cx ), floor(y - cy), 0);
 
 	RECT r;
 	r.left = left;
@@ -71,14 +71,12 @@ void Game::DrawX3(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int to
 	r.right = right;
 	r.bottom = bottom;
 
-	auto pScaling = D3DXVECTOR2(0.3, 0.3);
-
 	D3DXMATRIX oldMatrix, curMatrix;
-
-	if(pScaling.x >= 0)
-		D3DXMatrixTransformation2D(&curMatrix, &D3DXVECTOR2(p.x, p.y), 0, &pScaling, NULL, NULL, NULL);
+	if(vtScale.x < 0)
+		D3DXMatrixTransformation2D(&curMatrix, &D3DXVECTOR2(p.x + (right - left), p.y), 0, &vtScale, NULL, NULL, NULL);
 	else 
-		D3DXMatrixTransformation2D(&curMatrix, &D3DXVECTOR2(p.x + (right- left), p.y), 0, &pScaling, NULL, NULL, NULL);
+		D3DXMatrixTransformation2D(&curMatrix, &D3DXVECTOR2(p.x, p.y), 0, &vtScale, NULL, NULL, NULL);
+	
 
 	spriteHandler->GetTransform(&oldMatrix);
 	spriteHandler->SetTransform(&curMatrix);

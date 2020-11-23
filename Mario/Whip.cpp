@@ -4,7 +4,7 @@ Whip::Whip()
 {
 	type = WHIP;
 	SetBBox(9, 7);
-
+	SetPosition(player->x, player->y);
 }
 
 void Whip::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -42,7 +42,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
 			break;
 		case GROUND:
-			if (coEvents.at(i)->type == BRICK_QUESTION || coEvents.at(i)->type == BRICK_BREAKABLE)
+			if (coEvents.at(i)->type == BLOCK_QUESTION || coEvents.at(i)->type == BLOCK_BREAKABLE)
 			{
 				coEvents.at(i)->isDead = true;
 				canDel = true;

@@ -41,6 +41,37 @@ void Animation::Render(float x, float y, int alpha)
 
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
+void Animation::Render2(float x, float y, D3DXVECTOR2& vtScale)
+{
+	DWORD now = GetTickCount();
+	if (currentFrame == -1)
+	{
+		currentFrame = 0;
+		lastFrameTime = now;
+	}
+	else
+	{
+		DWORD t = frames[currentFrame]->GetTime();
+		if (now - lastFrameTime > t)
+		{
+			currentFrame++;
+			lastFrameTime = now;
+			if (currentFrame == frames.size()) {
+				currentFrame = 0;
+				isLastFrame = true;
+			}
+		}
+		else
+		{
+			isLastFrame = false;
+			t += now - lastFrameTime;
+		}
+
+	}
+
+	frames[currentFrame]->GetSprite()->DrawFlip(x, y, vtScale);
+}
+
 
 Animations* Animations::__instance = NULL;
 

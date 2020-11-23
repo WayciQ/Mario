@@ -7,6 +7,7 @@ public:
 	RECT boundingBox;
 	unordered_set<LPGAMEOBJECT> movingObjects;
 	unordered_set<LPGAMEOBJECT> staticObjects;
+	unordered_set<LPGAMEOBJECT> hiddenObjects;
 	Cell(int x, int y)
 	{
 		this->posX = x;
@@ -17,6 +18,7 @@ public:
 		boundingBox.left = y + 176;
 		movingObjects.clear();
 		staticObjects.clear();
+		hiddenObjects.clear();
 	}
 	RECT GetBbox() { return boundingBox; }
 	~Cell(){}

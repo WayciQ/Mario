@@ -8,9 +8,12 @@ struct  Area
 };
 class Grid
 {
-	
+private:
+	static Grid* __instance;
 public:
-	Grid() {};
+	
+	static Grid* GetInstance();
+	Grid();
 	~Grid() {};
 	int rows, cols;
 	int alphaa;
@@ -22,7 +25,9 @@ public:
 	void Init();
 	void SetSizeCell(int s) { this->SizeCell = s;}
 	void LoadObjects(LPGAMEOBJECT& obj, float x, float y);
+	void AddItem( LPGAMEOBJECT obj, float x, float y);
 	void UpdateCell();
+	void UpdateStaticObject();
 	void RenderCell();
 	bool IsOnCam(LPGAMEOBJECT obj);
 	void RemoveDeadObject();

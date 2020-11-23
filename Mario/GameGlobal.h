@@ -133,12 +133,16 @@ extern enum STATEPLAYER {
 	PICKING_LEFT,
 	DIE,
 	STANDING_PICK_RIGHT,
-	STANDING_PICK_LEFT
+	STANDING_PICK_LEFT,
+	UP_SIZE_RIGHT,
+	UP_SIZE_LEFT,
+	DOWN_SIZE_RIGHT,
+	DOWN_SIZE_LEFT
 };
 
 extern enum STATEOBJECT {
-	BRICK_STATIC,
-	BRICK_HITTED,
+	BLOCK_STATIC,
+	BLOCK_HITTED,
 	FIRE_FIRE_RIGHT,
 	FIRE_FIRE_LEFT,
 	BIGBANG,
@@ -166,17 +170,17 @@ extern enum TYPE {
 	BIG,
 	RACCOON,
 	FIRE,
-	BRICK,
+	BLOCK,
 	WHIP,
 	DRAIN,
 	WEAPON_MARIO,
 	BOX_GROUND,
 	FIRE_FIRE,
 	GROUND_LAND,
-	BRICK_QUESTION,
-	BRICK_BREAKABLE,
-	BRICK_NORMAL,
-	BRICK_CLOUD,
+	BLOCK_QUESTION,
+	BLOCK_BREAKABLE,
+	BLOCK_NORMAL,
+	BLOCK_CLOUD,
 	KOOMPA,
 	PARA_KOOMPA,
 	TROPA_KOOMPA,
@@ -187,6 +191,11 @@ extern enum TYPE {
 	PIRANHA_PLANT_RED,
 	PIRANHA_PLANT,
 	PLANT,
+	COIN,
+	RED_MUSHROOM,
+	GREEN_MUSHROOM,
+	LEAF,
+	BUTTON,
 };
 extern enum TAG
 {
@@ -204,7 +213,7 @@ extern unordered_map<int, bool> keyCode; // manager info of keyboard have been p
 #define game  Game::GetInstance()
 #define camera Camera::GetInstance()
 #define animationsSets AnimationSets::GetInstance()
-
+#define grid Grid::GetInstance()
 
 class GameGlobal
 {

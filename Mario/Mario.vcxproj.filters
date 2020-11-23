@@ -207,6 +207,18 @@
     <ClCompile Include="Grid.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>GameObjects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Leaf.cpp">
+      <Filter>GameObjects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchBlock.cpp">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>GameObjects\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -261,9 +273,6 @@
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Whip.h">
-      <Filter>GameObjects\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapons.h">
       <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Ground.h">
@@ -370,6 +379,24 @@
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>Game Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Leaf.h">
+      <Filter>GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Items.h">
+      <Filter>GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchBlock.h">
+      <Filter>GameObjects\Ground\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapons.h">
+      <Filter>GameObjects\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

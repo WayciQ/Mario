@@ -7,6 +7,7 @@
 
 class Brick : public GameObject
 {
+	
 public:
 	Animation* CurAnimation;
 	Brick();

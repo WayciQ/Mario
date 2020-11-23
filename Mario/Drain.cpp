@@ -3,8 +3,8 @@ Drain::Drain(float w, float h)
 {
 	tag = GROUND;
 	type = DRAIN;
-	this->width = w;
-	this->height = h;
+	this->widthBBox = w;
+	this->heightBBox = h;
 }
 
 Drain::~Drain(){}
@@ -19,6 +19,6 @@ void Drain::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = x + width;
-	b = y + height;
+	r = x + widthBBox;
+	b = y + heightBBox;
 }

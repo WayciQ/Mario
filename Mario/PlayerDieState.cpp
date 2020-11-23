@@ -13,9 +13,11 @@ PlayerDieState::PlayerDieState()
 			player->level = BIG;
 			break;
 		case BIG:
+			stateName = player->nx > 0 ? DOWN_SIZE_RIGHT : DOWN_SIZE_LEFT;
 			player->level = SMALL;
 			break;
 		case FIRE:
+			stateName = player->nx > 0 ? UP_SIZE_RIGHT : UP_SIZE_LEFT;
 			player->level = BIG;
 			break;
 		}
@@ -33,10 +35,6 @@ PlayerDieState::PlayerDieState()
 
 }
 
-void PlayerDieState::Render()
-{
-
-}
 
 void PlayerDieState::Update()
 {

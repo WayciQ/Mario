@@ -27,9 +27,9 @@ void Sprite::Draw(float x, float y, float left, float top, float right, float bo
 {
 	game->Draw(x, y, texture, left, top, right, bottom, 255);
 }
-void Sprite::DrawX3(float x, float y, float left, float top, float right, float bottom)
+void Sprite::DrawFlip(float x, float y, D3DXVECTOR2& vtScale)
 {
-	game->DrawX3(x, y, texture, left, top, right, bottom, 255);
+	game->DrawFlip(x, y, texture, vtScale, left, top, right, bottom, 255);
 }
 void Sprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {

@@ -22,7 +22,7 @@ public:
 	Sprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 	void Draw(float x, float y, float left, float top, float right, float bottom);
 	void Draw(float x, float y, int alpha = 255);
-	void DrawX3(float x, float y, float left, float top, float right, float bottom);
+	void DrawFlip(float x, float y, D3DXVECTOR2& vtScale);
 };
 
 typedef Sprite* LPSPRITE;

@@ -13,3 +13,6 @@ Mario/Debug/Box.obj
 *.tlog
 *.idb
 *.pdb
+*.db-shm
+*.db-wal
+*.opendb

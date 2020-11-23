@@ -3,28 +3,31 @@
 #include "BrickCloud.h"
 #include "BrickNormal.h"
 #include "BrickQuestion.h"
-
+#include "SwitchBlock.h"
 class Bricks
 {
 public:
 	Bricks() {};
 	~Bricks() {};
-	static Brick* CreateBrick(TYPE type, float CurY = NULL)
+	static Brick* CreateBrick(TYPE type, float CurY = NULL, TYPE child = MARIO)
 	{
 		switch (type)
 		{
-		case BRICK_NORMAL:
+		case BLOCK_NORMAL:
 			return new BrickNormal();
 			break;
-		case BRICK_CLOUD:
+		case BLOCK_CLOUD:
 			return new BrickCloud();
 			break;
-		case BRICK_BREAKABLE:
+		case BLOCK_BREAKABLE:
 			return new BrickBreakable();
 			break;
-		case BRICK_QUESTION:
-			return new BrickQuestion(CurY);
+		case BLOCK_QUESTION:
+			return new BrickQuestion(CurY,child);
 			break;
+		/*case BUTTON:
+			return new SwitchBlock();
+			break;*/
 		default:
 			return NULL;
 			break;

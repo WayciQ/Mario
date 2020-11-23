@@ -1,13 +1,17 @@
 #include "BrickQuestion.h"
+#include "Items.h"
+#include "Grid.h"
 #define BRICK_DEFLECT_SPEED 0.05f
-BrickQuestion::BrickQuestion(float CurY)
+BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 {
 	isDead = false;
 	curY = CurY;
+	isSpawnItem = false;
+	this->child = Child;
 	vy = -BRICK_DEFLECT_SPEED;
-	this->type = BRICK_QUESTION;
+	this->type = BLOCK_QUESTION;
 	animation_set = animationsSets->Get(type);
-	ChangeAnimation(BRICK_STATIC);
+	ChangeAnimation(BLOCK_STATIC);
 }
 void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
 {
@@ -21,11 +25,15 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
 	{
 		vy = BRICK_DEFLECT_SPEED;
 	}
-
 	if(isDead)
 	{
 		
-		ChangeAnimation(BRICK_HITTED);
+		ChangeAnimation(BLOCK_HITTED);
+		if (!isSpawnItem) {
+			auto item = Items::CreateItem(child, x, y - 16);
+			grid->AddObjectToCell(item);
+			isSpawnItem = true;
+		}
 		y += dy;
 	}
 	

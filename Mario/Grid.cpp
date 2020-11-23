@@ -1,6 +1,10 @@
 #include "Grid.h"
 #include "Mario.h"
 #include "Camera.h"
+#include "Items.h"
+
+Grid* Grid::__instance = NULL;
+Grid::Grid() {}
 Area Grid::FindCell(RECT e)
 {
 	return {
@@ -58,11 +62,37 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 		obj->SetPosition(x, y);
 		break;
 	}
+	case ITEM:
+		for (int r = area.TopCell; r <= area.BottomCell; r++)
+			for (int c = area.LeftCell; c <= area.RightCell; c++)
+			{
+				DebugOut(L"[INFO] object Hidden TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+				Cells[r][c]->staticObjects.insert(obj);
+			}
+		obj->SetPosition(x, y);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object TYPE: %d\n", obj->type);
 		break;
 	}
-
+}void Grid::AddItem( LPGAMEOBJECT obj, float x, float y)
+{
+	RECT e;
+	e.top =  y;
+	e.left = x;
+	e.right =x + obj->widthBBox;
+	e.bottom = y + obj->heightBBox;
+	auto area = FindCell(e);
+	
+	for (int r = area.TopCell; r <= area.BottomCell; r++)
+		for (int c = area.LeftCell; c <= area.RightCell; c++)
+		{
+			DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+			Cells[r][c]->staticObjects.insert(obj);
+		}
+	obj->SetPosition(x, y);
+		
+	
 }
 void Grid::RenderCell()
 {
@@ -89,6 +119,7 @@ void Grid::CalcObjectInViewPort()
 	auto area = FindCell(camera->GetBound());
 	
 	unordered_set<GameObject*> result;
+	unordered_set<GameObject*> resultItem;
 	LOOP(r, area.TopCell, area.BottomCell)
 	{
 		LOOP(c, area.LeftCell, area.RightCell+1)
@@ -96,9 +127,10 @@ void Grid::CalcObjectInViewPort()
 			result.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 			result.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
 			//DebugOut(L"[info] Object in Cell  [%d]: %d\n",c,Cells[r][c]->movingObjects.size());
-
+			resultItem.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 		}
 	}
+	ObjectHolder = { resultItem.begin(), resultItem.end() };
 	CurObjectInViewPort = { result.begin(), result.end() };
 	//DebugOut(L"[info] Cell left: [%d], top: [%d], right: [%d] bottom: [%d]\n", area.LeftCell, area.TopCell, area.RightCell, area.BottomCell);
 	//DebugOut(L"[info] Object in viewport: %d\n", CurObjectInViewPort.size());
@@ -112,6 +144,42 @@ void RemoveObjectIf(unordered_set<T>& container, Pred  del)
 		if (del(*it)) it = container.erase(it);
 		else                       it++;
 	}
+}
+void Grid::UpdateStaticObject()
+{
+	auto area = FindCell(camera->GetBound());
+	
+	LOOP(r, area.TopCell, area.BottomCell)
+		LOOP(c, area.LeftCell, area.RightCell)
+	{
+		for (auto& obj : Cells[r][c]->staticObjects)
+		{
+			if (obj->isDead && obj->child != 0)
+			{
+				LPGAMEOBJECT item;
+				item = Items::CreateItem(obj->child, obj->x, obj->y);
+				item->SetPosition(obj->x, obj->y);
+				switch (obj->child)
+				{
+				case LEAF:
+					AddObjectToCell(item);
+					break;
+				case RED_MUSHROOM:
+					AddObjectToCell(item);
+					break;
+				case GREEN_MUSHROOM:
+					AddObjectToCell(item);
+					break;
+				case COIN:
+					AddObjectToCell(item);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+
 }
 void Grid::UpdateCell()
 {
@@ -132,7 +200,7 @@ void Grid::UpdateCell()
 				e.bottom = obj->y + obj->heightBBox;
 				auto objArea = FindCell(e);
 				if (obj->canDel) isDeadObject = true;
-				if (objArea.TopCell != r || objArea.LeftCell != c)
+				if (objArea.TopCell != r || objArea.RightCell != c)
 				{
 					//DebugOut(L"obj in cell [%d]\n", c);
 					shouldBeUpdatedObjects.emplace(obj);
@@ -140,9 +208,8 @@ void Grid::UpdateCell()
 				}
 				return false;
 		});
-		
 	}
-
+	
 	for (auto& obj : shouldBeUpdatedObjects)
 	{
 		RECT e;
@@ -165,10 +232,10 @@ void Grid::UpdateCell()
 void Grid::AddObjectToCell(LPGAMEOBJECT obj)
 {
 	RECT e;
-	e.top = obj->y;
 	e.left = obj->x;
-	e.right = obj->x + obj->GetRect().right;
-	e.bottom = obj->y + obj->GetRect().bottom;
+	e.top = obj->y;
+	e.right = obj->x + obj->widthBBox;
+	e.bottom = obj->y + obj->heightBBox;
 	auto area = FindCell(e);
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell)
@@ -184,5 +251,11 @@ void Grid::RemoveDeadObject()
 	{
 		RemoveObjectIf(Cells[r][c]->movingObjects, [](auto obj) {return obj->canDel; });
 	}
-	
+}
+
+Grid* Grid::GetInstance()
+{
+	if (__instance == NULL)
+		__instance = new Grid();
+	return __instance;
 }
