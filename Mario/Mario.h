@@ -12,7 +12,9 @@ public:
 	TYPE level;
 	bool untouchable;
 	DWORD untouchableTime;
-	float speedJump;
+	DWORD gameTime;
+	float gravity;
+	float SpeedX;
 	int stateBoundingBox;
 	int alpha,beta;
 
@@ -33,8 +35,6 @@ public:
 	bool isWhipping;
 	bool canWhip;
 
-	bool isRunning;
-	bool isOnSky;
 	bool canFly;
 	bool isFlying;
 
@@ -54,7 +54,6 @@ public:
 	Mario();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
-
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }

@@ -6,7 +6,6 @@
 #include "PlayerWhippingState.h"
 #include "PlayerFallingState.h"
 #include "PlayerWalkingState.h"
-#include "PlayerRunningState.h"
 #include "PlayerSittingState.h"
 #include "PlayerJumpingShortState.h"
 #include "PlayerShootingFireState.h"
@@ -25,16 +24,17 @@ Mario* Mario::GetInstance()
 Mario::Mario() {
 	tag = PLAYER;
 	type = MARIO;
-	level = BIG;
+	level = RACCOON;
+	gravity = WORLD_GRAVITY;
 }
 
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	GameObject::Update(dt);
-	state->Update();
+	state->Update(dt);
 	// Simple fall down
-	vy += WORLD_GRAVITY * dt;
+	vy += gravity*dt;
 	//DebugOut(L"state: %d\n", player->GetState());
 	
 	if(y > curY+15)
@@ -473,7 +473,6 @@ void Mario::OnKeyUp(int key) {
 	case DIK_A:
 	{
 		isWhipping = false;
-		isRunning = false;
 		canHolding = false;
 		break;
 	}
@@ -502,5 +501,5 @@ void Mario::Revival(float x, float y)
 	ChangeAnimation(new PlayerStandingState());
 	SetPosition(x, y);
 	SetSpeed(0, 0);
-	isOnSky = false;
+
 }

@@ -5,10 +5,10 @@
 class PlayerWalkingState : public PlayerState
 {
 public:
-	void Update();
-	void HandleKeyBoard();
-	void Render() {};
 	PlayerWalkingState();
 	~PlayerWalkingState();
+	void Update(DWORD dt);
+	void HandleKeyBoard();
+	void Render() {};
 };
 

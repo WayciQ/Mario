@@ -5,6 +5,7 @@
 #include "PlayerSittingState.h"
 #include "PlayerWhippingState.h"
 #include "PlayerJumpingShortState.h"
+#include "PlayerJumpingState.h"
 PlayerStandingState::PlayerStandingState() {
 	
 	// allow state by level
@@ -78,7 +79,7 @@ void PlayerStandingState::HandleKeyBoard() {
 	
 }
 
-void PlayerStandingState::Update()
+void PlayerStandingState::Update(DWORD dt)
 {
 	this->HandleKeyBoard(); // loop
 

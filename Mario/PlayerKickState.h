@@ -6,7 +6,7 @@ public:
 	PlayerKickState();
 	~PlayerKickState(){}
 	void Render();
-	virtual void Update();
-	virtual void HandleKeyBoard();
+	void Update(DWORD dt);
+	void HandleKeyBoard();
 };
 

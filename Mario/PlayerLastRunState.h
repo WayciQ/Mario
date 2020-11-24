@@ -3,10 +3,10 @@
 class PlayerLastRunState : public PlayerState
 {
 public:
-	void Update();
-	void HandleKeyBoard();
-	void Render() {};
 	PlayerLastRunState();
 	~PlayerLastRunState();
+	void Update(DWORD dt);
+	void HandleKeyBoard();
+	void Render() {};
 };
 

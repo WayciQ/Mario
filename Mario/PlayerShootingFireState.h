@@ -6,7 +6,7 @@ public:
 	PlayerShootingFireState();
 	~PlayerShootingFireState();
 	void Render();
-	void Update();
+	void Update(DWORD dt);
 	void HandleKeyBoard();
 
 };

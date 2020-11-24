@@ -19,7 +19,7 @@ PlayerSittingState::PlayerSittingState()
 	else stateName = SITTING_LEFT;
 }
 
-void PlayerSittingState::Update()
+void PlayerSittingState::Update(DWORD dt)
 {
 	
 	this->HandleKeyBoard();

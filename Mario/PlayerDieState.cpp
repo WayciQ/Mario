@@ -36,7 +36,7 @@ PlayerDieState::PlayerDieState()
 }
 
 
-void PlayerDieState::Update()
+void PlayerDieState::Update(DWORD dt)
 {
 	if (GetTickCount() - player->untouchableTime < MARIO_UNTOUCHABLE_TIME)
 	{

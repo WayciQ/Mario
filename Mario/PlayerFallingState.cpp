@@ -70,7 +70,7 @@ PlayerFallingState::PlayerFallingState()
 	}
 	
 }
-void PlayerFallingState::Update()
+void PlayerFallingState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
 	if (!player->isJumping)

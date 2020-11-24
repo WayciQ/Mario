@@ -4,7 +4,6 @@
 #include "PlayerStandingState.h"
 #include "PlayerWhippingState.h"
 #include "PlayerLastRunState.h"
-#include "PlayerRunningState.h"
 #include "PlayerJumpingShortState.h"
 #include "Mario.h"
 PlayerWalkingState::PlayerWalkingState()
@@ -32,7 +31,6 @@ PlayerWalkingState::PlayerWalkingState()
 
 	//flag
 	player->isWhipping = false;
-	player->isRunning = false;
 	player->isSitting = false;
 	player->isJumping = false;
 	player->canFly = false;
@@ -42,13 +40,14 @@ PlayerWalkingState::PlayerWalkingState()
 	//set state by nx and vx
 		if (player->nx > 0)
 		{
-			player->vx = player->vx > MARIO_WALKING_SPEED ? MARIO_WALKING_SPEED : player->vx + MARIO_INERTIA_WALKING; // vx increase by inertia; max vx = speedPush
+			player->vx = player->vx > player->SpeedX ? player->SpeedX : player->vx + MARIO_INERTIA_WALKING; // vx increase by inertia; max vx = speedPush
 		}
 		else
 		{
 			//DebugOut(L"vx-left: %f\n", player->vx);
-			player->vx = player->vx < -MARIO_WALKING_SPEED ? -MARIO_WALKING_SPEED : player->vx - MARIO_INERTIA_WALKING; // vx decrease by inertia; max vx = speedPush
+			player->vx = player->vx < -player->SpeedX ? -player->SpeedX : player->vx - MARIO_INERTIA_WALKING; // vx decrease by inertia; max vx = speedPush
 		}
+
 		if (player->isHolding)
 		{
 			if (player->nx > 0)
@@ -59,27 +58,49 @@ PlayerWalkingState::PlayerWalkingState()
 		}
 		else
 		{
-			if (player->nx > 0)
+			if (abs(player->vx) <= MARIO_WALKING_SPEED)
 			{
-				stateName = WALKING_RIGHT;
+				if (player->nx > 0)
+				{
+					stateName = WALKING_RIGHT;
+				}
+				else stateName = WALKING_LEFT;
 			}
-			else stateName = WALKING_LEFT;
+			else if (abs(player->vx) > MARIO_WALKING_SPEED && abs(player->vx) <= MARIO_RUNNING_SPEED)
+			{
+				if (player->nx > 0)
+				{
+					stateName = WALKING_FAST_RIGHT;
+				}
+				else
+					stateName = WALKING_FAST_LEFT;
+			}
+			else
+			{
+				if (player->nx > 0)
+				{
+					stateName = RUNNING_RIGHT;
+					player->canFly = true;
+				}
+				else
+				{
+					player->canFly = true;
+					stateName = RUNNING_LEFT;
+				}
+			}
 		}
-		player->speedJump = player->vx;
-	
+
+		
 	
 }
 
 
 void PlayerWalkingState::HandleKeyBoard()
 {
-	if (keyCode[DIK_A] && !player->isHolding)
+	if (keyCode[DIK_A] &&(keyCode[DIK_LEFT] || keyCode[DIK_RIGHT]))
 	{
-		if (!player->isRunning && player->Allow[RUNNING])
-		{
-			player->isRunning = true;
-			player->ChangeAnimation(new PlayerRunningState());
-		}
+		player->SpeedX = MARIO_RUNNING_SPEED;
+		player->ChangeAnimation(new PlayerWalkingState());
 	}
 	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT] )
 	{
@@ -89,6 +110,7 @@ void PlayerWalkingState::HandleKeyBoard()
 	{
 		if (!player->isWalkingComplete)
 		{
+			player->SpeedX = MARIO_WALKING_SPEED;
 			player->nx = -1;
 			player->ChangeAnimation(new PlayerWalkingState());
 		}
@@ -98,6 +120,7 @@ void PlayerWalkingState::HandleKeyBoard()
 	{
 		if (!player->isWalkingComplete)
 		{
+			player->SpeedX = MARIO_WALKING_SPEED;
 			player->nx = 1;
 			player->ChangeAnimation(new PlayerWalkingState());
 		}
@@ -107,7 +130,7 @@ void PlayerWalkingState::HandleKeyBoard()
 	
 }
 
-void PlayerWalkingState::Update()
+void PlayerWalkingState::Update(DWORD dt)
 {
 
 	this->HandleKeyBoard();

@@ -36,7 +36,7 @@ PlayerJumpingShortState::PlayerJumpingShortState()
 		}
 	}
 }
-void PlayerJumpingShortState::Update()
+void PlayerJumpingShortState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
 	

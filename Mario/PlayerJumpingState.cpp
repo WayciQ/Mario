@@ -11,6 +11,7 @@ PlayerJumpingState::PlayerJumpingState()
 {
 	player->Allow[WHIPPING] = false;
 	player->Allow[JUMPING_SHORT] = false;
+
 	switch (player->level)
 	{
 	case BIG:
@@ -24,7 +25,7 @@ PlayerJumpingState::PlayerJumpingState()
 	}
 	
 	player->isJumping = true;
-
+	
 	if (player->canFly)
 	{
 		if (player->isFlying)
@@ -123,7 +124,7 @@ void PlayerJumpingState::HandleKeyBoard()
 	}
 }
 
-void PlayerJumpingState::Update()
+void PlayerJumpingState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
 	

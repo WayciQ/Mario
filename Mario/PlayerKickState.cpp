@@ -16,7 +16,7 @@ void PlayerKickState::HandleKeyBoard()
 {
 
 }
-void PlayerKickState::Update()
+void PlayerKickState::Update(DWORD dt)
 {
 	
 }

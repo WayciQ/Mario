@@ -31,7 +31,7 @@ PlayerWhippingState::PlayerWhippingState() {
 	}
 }
 
-void PlayerWhippingState::Update() {
+void PlayerWhippingState::Update(DWORD dt) {
 	if (player->canWhip && player->CurAnimation->isLastFrame)
 	{
 		player->canWhip = false;

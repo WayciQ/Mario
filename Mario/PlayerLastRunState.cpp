@@ -15,7 +15,7 @@ PlayerLastRunState::PlayerLastRunState() {
 PlayerLastRunState::~PlayerLastRunState(){}
 void PlayerLastRunState::HandleKeyBoard() {
 }
-void PlayerLastRunState::Update() {
+void PlayerLastRunState::Update(DWORD dt) {
 	if (!player->isWaittingPressBtn)
 	{
 		player->isWalkingComplete = false;

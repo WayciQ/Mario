@@ -44,7 +44,7 @@ void PlayerShootingFireState::HandleKeyBoard()
 {
 
 }
-void PlayerShootingFireState::Update() 
+void PlayerShootingFireState::Update(DWORD dt)
 {
 	if (player->countShoot <= 1 && player->countShoot > 0)
 	{

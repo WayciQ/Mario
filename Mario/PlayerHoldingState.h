@@ -5,7 +5,7 @@ class PlayerHoldingState : public PlayerState
 public:
 	PlayerHoldingState();
 	~PlayerHoldingState() {};
-	void Update();
+	void Update(DWORD dt);
 	void HandleKeyBoard();
 };
 
