@@ -30,7 +30,8 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
 		
 		ChangeAnimation(BLOCK_HITTED);
 		if (!isSpawnItem) {
-			auto item = Items::CreateItem(child, x, y - 16);
+
+			auto item = Items::CreateItem(child, x, y - 16, false);
 			grid->AddObjectToCell(item);
 			isSpawnItem = true;
 		}

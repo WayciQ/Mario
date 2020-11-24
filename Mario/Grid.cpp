@@ -122,7 +122,7 @@ void Grid::CalcObjectInViewPort()
 	unordered_set<GameObject*> resultItem;
 	LOOP(r, area.TopCell, area.BottomCell)
 	{
-		LOOP(c, area.LeftCell, area.RightCell+1)
+		LOOP(c, area.LeftCell, area.RightCell)
 		{
 			result.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 			result.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());

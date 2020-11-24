@@ -8,12 +8,12 @@ public:
 	Items() {};
 	~Items() {};
 	
-	static Item* CreateItem(TYPE type,float x,float y)
+	static Item* CreateItem(TYPE type,float x,float y,bool isStatic = true)
 	{
 		switch (type)
 		{
 		case COIN:
-			return new Coin(x,y);
+			return new Coin(x,y,isStatic);
 			break;
 		case RED_MUSHROOM:
 			return new Mushroom(type,x,y);
