@@ -55,12 +55,6 @@
     <Filter Include="GameObjects\Effect">
       <UniqueIdentifier>{c4b1edf3-d4c4-4fe5-8977-d52756f63b83}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects\Player\state\Special State">
-      <UniqueIdentifier>{97b6bedb-f2d6-4f3a-983d-e5e844d0c764}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObjects\Player\state\Normal State">
-      <UniqueIdentifier>{9189dca3-4a67-4f50-b5d1-e8235e7bda89}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -168,6 +162,45 @@
     <ClCompile Include="Item.cpp">
       <Filter>GameObjects\Item</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerDieState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFallingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHoldingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerJumpingShortState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerJumpingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerKickState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerLastRunState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRunningState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerShootingFireState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSittingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStandingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWhippingState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
     <ClCompile Include="BreakBrick.cpp">
       <Filter>GameObjects\Ground\Brick</Filter>
     </ClCompile>
@@ -185,45 +218,6 @@
     </ClCompile>
     <ClCompile Include="Mushroom.cpp">
       <Filter>GameObjects\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWhippingState.cpp">
-      <Filter>GameObjects\Player\state\Special State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerShootingFireState.cpp">
-      <Filter>GameObjects\Player\state\Special State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHoldingState.cpp">
-      <Filter>GameObjects\Player\state\Special State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStandingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWalkingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerSittingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerLastRunState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerKickState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerJumpingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerJumpingShortState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerFallingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerDieState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerFlyingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,7 +329,46 @@
     <ClInclude Include="Item.h">
       <Filter>GameObjects\Item</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerDieState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFallingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHoldingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerJumpingShortState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerJumpingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerKickState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLastRunState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRunningState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShootingFireState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSittingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStandingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkingState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWhippingState.h">
       <Filter>GameObjects\Player\state</Filter>
     </ClInclude>
     <ClInclude Include="BreakBrick.h">
@@ -364,45 +397,6 @@
     </ClInclude>
     <ClInclude Include="Weapons.h">
       <Filter>GameObjects\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWhippingState.h">
-      <Filter>GameObjects\Player\state\Special State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerShootingFireState.h">
-      <Filter>GameObjects\Player\state\Special State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHoldingState.h">
-      <Filter>GameObjects\Player\state\Special State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStandingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWalkingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerSittingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerLastRunState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerKickState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerJumpingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerJumpingShortState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFallingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerDieState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFlyingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

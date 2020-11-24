@@ -4,11 +4,11 @@
 class PlayerFallingState : public PlayerState
 {
 public:
-	PlayerFallingState();
-	~PlayerFallingState();
-	void Update(DWORD dt);
+	void Update();
 	void HandleKeyBoard();
 	void Render() {};
+	PlayerFallingState();
+	~PlayerFallingState();
 };
 
 

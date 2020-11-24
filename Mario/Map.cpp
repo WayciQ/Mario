@@ -96,6 +96,7 @@ void Map::Render() {
 }
  
 void Map::Update(float dt) {
+	
 }
 Map* Map::GetInstance()
 {

@@ -274,7 +274,7 @@ void PlayScene::Update(DWORD dt)
 	grid->UpdateCell();
 //	grid->UpdateStaticObject();
 	grid->CalcObjectInViewPort();
-	Map::GetInstance()->Update(dt);
+
 	player->Update(dt, &grid->GetObjectInViewPort());
 
 	for (size_t i = 1; i < grid->GetObjectInViewPort().size(); i++)

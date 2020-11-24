@@ -11,12 +11,7 @@ public:
 		isDead = false;
 	};
 	~Item() {};
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {
-		left = x;
-		top = y;
-		right = x + widthBBox;
-		bottom = y + heightBBox;
-	};
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
 	virtual void UpdatePosition(float dt) {};
 	virtual void Render() {
