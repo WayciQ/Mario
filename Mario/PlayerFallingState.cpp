@@ -3,13 +3,15 @@
 #include "Mario.h"
 #include "PlayerStandingState.h"
 #include "PlayerJumpingShortState.h"
+#include "PlayerFlyingState.h"
 
 PlayerFallingState::PlayerFallingState()
 {
-	
+	DebugOut(L"[info] FALLING: vx: %f\n", player->vx);
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
-	player->Allow[JUMPING_LONG] = false;
-	player->Allow[JUMPING_SHORT] = false;
+	player->Allow[JUMPING] = false;
+	player->Allow[JUMPING_SHORT] = true;
+	player->isJumpingShort = false;
 	switch (player->level)
 	{
 	case SMALL:
@@ -18,15 +20,15 @@ PlayerFallingState::PlayerFallingState()
 	case BIG:
 		break;
 	case RACCOON:
-		player->Allow[JUMPING_SHORT] = true;
 		player->Allow[WHIPPING] = true;
+		player->Allow[JUMPING_SHORT] = true;
 		break;
 	case FIRE:
 		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
 
-	if (player->isHolding)
+	if (player->isPicking)
 	{
 		if (player->nx > 0)
 		{
@@ -36,28 +38,26 @@ PlayerFallingState::PlayerFallingState()
 	}
 	else 
 	{
-		if (player->canFly)
+		if (player->isFlying)
 		{
 			if (player->nx > 0)
 				stateName = FLYING_FALL_RIGHT;
 			else
 				stateName = FLYING_FALL_LEFT;
 		}
-		else if (player->canShortJump)
-		{
-
-			if (player->nx > 0)
-				stateName = RACCON_WHIPING_FLY_RIGHT;
-			else
-				stateName = RACCON_WHIPING_FLY_LEFT;
-		}
-
 		else
 		{
 			if (player->nx > 0)
 				stateName = FALLING_RIGHT;
 			else
 				stateName = FALLING_LEFT;
+			/*if (player->Allow[JUMPING_SHORT] && player->isJumpingShort)
+			{
+				if (player->nx > 0)
+					stateName = RACCON_WHIPING_FLY_RIGHT;
+				else
+					stateName = RACCON_WHIPING_FLY_LEFT;
+			}*/
 		}
 
 		if (player->isSitting)
@@ -73,11 +73,8 @@ PlayerFallingState::PlayerFallingState()
 void PlayerFallingState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
-	if (!player->isJumping)
+	if (!player->isOnSky)
 	{
-		player->canFly = false;
-		player->canShortJump = false;
-		player->canFallJump = true;
 		if(player->vy == 0)
 			player->ChangeAnimation(new PlayerStandingState());
 	}
@@ -85,26 +82,24 @@ void PlayerFallingState::Update(DWORD dt)
 }
 void PlayerFallingState::HandleKeyBoard()
 {
-	if (player->level == RACCOON && player->Allow[JUMPING_SHORT])
+	if (keyCode[DIK_S] && player->Allow[FLYING] && player->isFlying)
 	{
-		if (!player->Allow[FLYING_PUSH])
+		if ((keyCode[DIK_RIGHT]))
 		{
-			if (keyCode[DIK_S] && player->isJumping && player->canFallJump)
-			{
-
-				player->canShortJump = false;
-				player->canFallJump = false;
-				player->ChangeAnimation(new PlayerJumpingShortState());
-			}
-			else
-				if (keyCode[DIK_X] && player->isJumping)
-				{			
-					player->vy = 0;
-					player->canShortJump = true;
-					player->ChangeAnimation(new PlayerFallingState());
-				}
+			player->vx = MARIO_WALKING_SPEED;
+			player->nx = 1;
+			player->ChangeAnimation(new PlayerFlyingState());
 		}
-		
+		else if ((keyCode[DIK_LEFT]))
+		{
+			player->vx = -MARIO_WALKING_SPEED;
+			player->nx = -1;
+			player->ChangeAnimation(new PlayerFlyingState());
+		}
+		else
+		{
+			player->ChangeAnimation(new PlayerFlyingState());
+		}
 	}
 	
 }

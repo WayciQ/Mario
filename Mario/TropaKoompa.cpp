@@ -42,8 +42,8 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			if  (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL)
 			{
-				player->canHolding = false;
-				player->isHolding = false;
+				player->canPicking = false;
+				player->isPicking = false;
 				TimeDead = 0;
 				Revival();
 			}
@@ -74,14 +74,14 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
-		if (player->isHolding)
+		if (player->isPicking)
 		{
 			UpdatePosition(dt);
 		}
 
-		if (!player->canHolding)
+		if (!player->canPicking)
 		{
-			if (player->isHolding)
+			if (player->isPicking)
 			{
 				player->ChangeAnimation(new PlayerKickState());
 				this->isKicked = true;
@@ -93,7 +93,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else {
 					this->vx = -2 * MARIO_WALKING_SPEED;
 				}
-				player->isHolding = false;
+				player->isPicking = false;
 			}
 		}
 	}

@@ -9,9 +9,10 @@
 
 PlayerJumpingState::PlayerJumpingState()
 {
-	player->Allow[WHIPPING] = false;
-	player->Allow[JUMPING_SHORT] = false;
 
+	player->Allow[WHIPPING] = false; 
+	player->Allow[FIRING_FIRE] = false;
+	DebugOut(L"[info] JUMPING: vx: %f\n", player->vx);
 	switch (player->level)
 	{
 	case BIG:
@@ -23,37 +24,44 @@ PlayerJumpingState::PlayerJumpingState()
 		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
-	
-	player->isJumping = true;
-	
-	if (player->canFly)
+
+	if (!player->isJumping)
 	{
+		if(!player->isOnSky)
+			player->vy = -MARIO_JUMP_SPEED_Y;
+	}
+	player->isOnSky = true;
+	player->isJumping = true;
+
+	if (!player->isJumpingShort && player->Allow[JUMPING_SHORT])
+	{
+		player->vy = -MARIO_JUMP_SPEED_Y;
+		player->isJumpingShort = true;
+		
+	}
+
+	
+	
+	if (player->isPicking)
+	{
+		if (player->nx > 0)
+		{
+			stateName = STANDING_PICK_RIGHT;
+		}
+		else stateName = STANDING_PICK_LEFT;
+	}
+	else {
+
 		if (player->isFlying)
 		{
 			if (player->nx > 0)
-				stateName = FLYING_PUSH_RIGHT;
-			else
-				stateName = FLYING_PUSH_LEFT;
+			{
+				stateName = FLYING_RIGHT;
+			}
+			else stateName = FLYING_LEFT;
 		}
 		else
 		{
-			if (player->nx > 0)
-				stateName = FLYING_RIGHT;
-			else
-				stateName = FLYING_LEFT;
-		}
-	}
-	else
-	{
-		if (player->isHolding)
-		{
-			if (player->nx > 0)
-			{
-				stateName = STANDING_PICK_RIGHT;
-			}
-			else stateName = STANDING_PICK_LEFT;
-		}
-		else {
 			if (player->nx > 0)
 			{
 				stateName = JUMPING_RIGHT;
@@ -63,9 +71,7 @@ PlayerJumpingState::PlayerJumpingState()
 				stateName = JUMPING_LEFT;
 			}
 		}
-		
 	}
-
 
 	if (player->isSitting)
 	{
@@ -78,49 +84,17 @@ PlayerJumpingState::PlayerJumpingState()
 }
 void PlayerJumpingState::HandleKeyBoard()
 {
-	if (keyCode[DIK_S])
+	if (keyCode[DIK_S] && player->Allow[JUMPING])
 	{
 		if (GetTickCount() - player->startJumping > MARIO_JUMP_TIME)
 		{
 			player->isJumpDone = true;
-			player->Allow[JUMPING_LONG] = false;
+			player->Allow[JUMPING] = false;
 		}
 		else
 		{
 			player->vy = -MARIO_JUMP_SPEED_Y;
-
 		}
-		if (keyCode[DIK_RIGHT]) {
-			player->nx = 1;
-			if (player->vx < MARIO_WALKING_SPEED) {
-				player->vx = MARIO_WALKING_SPEED / 2;
-			}
-			player->ChangeAnimation(new PlayerJumpingState());
-		}
-		else if (keyCode[DIK_LEFT])
-		{
-			player->nx = -1;
-			if (player->vx > -MARIO_WALKING_SPEED) {
-				player->vx = -MARIO_WALKING_SPEED / 2;
-			}
-			player->ChangeAnimation(new PlayerJumpingState());
-		}
-	}
-	else if (keyCode[DIK_X]  && player->Allow[FLYING_PUSH])
-	{
-		if (GetTickCount() - player->startJumping < MARIO_TIME_FLY)
-		{
-			player->vy = -MARIO_JUMP_SPEED_Y;
-			player->vx > -MARIO_WALKING_SPEED;
-			 player->isFlying = true;
-			
-		}
-		else {
-			
-			player->isFlying = false;
-			player->vy = 0;
-		} 
-		
 	}
 }
 
@@ -133,7 +107,6 @@ void PlayerJumpingState::Update(DWORD dt)
 		player->curY = player->y;
 		player->ChangeAnimation(new PlayerFallingState());
 	}
-	
 }
 
 PlayerJumpingState::~PlayerJumpingState()

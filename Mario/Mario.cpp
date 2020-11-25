@@ -10,6 +10,7 @@
 #include "PlayerJumpingShortState.h"
 #include "PlayerShootingFireState.h"
 #include "PlayerDieState.h"
+#include "PlayerFlyingState.h"
 #include "Goomba.h"
 #include "PlayerHoldingState.h"
 
@@ -84,7 +85,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (ny == -1)
 		{
 			vy = 0;
-			isJumping = false;
+			isOnSky = false;
 			curY = y;
 		}
 		
@@ -94,134 +95,16 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			switch (e->obj->tag)
 			{
 			case GROUND:
-			{
-				if (e->obj->type == BOX_GROUND)
-				{
-					if (e->nx != 0)
-					{
-						x += dx;
-					}
-					if (e->ny != 0)
-					{
-						vy = 0;
-					}
-
-				}
-				else
-				{
-					if (e->ny != 0)
-					{
-						vy = 0;
-					}
-				}
-				if (e->obj->type == BLOCK_QUESTION || e->obj->type == BLOCK_BREAKABLE)
-				{
-					if (e->ny == 1)
-					{
-						vy = 0;
-						e->obj->isDead = true;
-					}
-
-				}
-			}
+				UpdateWithGround(e);
 				break;
 			case ENEMY:
-			{
-				if (e->ny == -1)
-				{
-					if (!e->obj->isDead)
-					{
-						if (e->obj->typeParent != PLANT)
-						{
-							e->obj->vx = 0;
-							vy = -MARIO_JUMP_DEFLECT_SPEED;
-							e->obj->startTimeDead();
-							e->obj->isFlip = false;
-							e->obj->SetState(ENEMY_DIE_STAND);
-						}
-						else {
-							ChangeAnimation(new PlayerDieState());
-							y += dy;
-						}
-					}
-					else
-					{
-						if (e->obj->typeParent == KOOMPA)
-						{
-							vy = -MARIO_JUMP_DEFLECT_SPEED;
-							if (e->obj->isKicked)
-							{
-								e->obj->isKicked = false;
-								e->obj->vx = 0;
-								if (e->obj->isFlip)
-								{
-									SetState(ENEMY_DIE_FLIP);
-								}
-								else SetState(ENEMY_DIE_STAND);
-							}
-							else {
-								ChangeAnimation(new PlayerKickState());
-								e->obj->isKicked = true;
-								e->obj->canRespawn = false;
-								e->obj->tagChange = WEAPON;
-								if (player->nx > 0)
-								{
-									e->obj->vx = 2 * MARIO_WALKING_SPEED;
-								}
-								else {
-									e->obj->vx = -2 * MARIO_WALKING_SPEED;
-								}
-							}
-						}
-					}
-				}
-				if (e->nx != 0)
-				{
-					if (!untouchable)
-					{
-						if (!e->obj->isDead) {
-							ChangeAnimation(new PlayerDieState());
-						}
-						else {
-							if (e->obj->typeParent == KOOMPA)
-							{
-								if (e->obj->isKicked && e->obj->vx != 0)
-								{
-									ChangeAnimation(new PlayerDieState());
-								}
-								if (canHolding) {
-									isHolding = true;
-								}
-								else {
-									if (!e->obj->isKicked && e->nx != player->nx)
-									{
-										ChangeAnimation(new PlayerKickState());
-										e->obj->isDead = true;
-										e->obj->isKicked = true;
-										e->obj->tagChange = WEAPON;
-										e->obj->canRespawn = false;
-										if (player->nx > 0)
-										{
-											e->obj->vx = 2 * MARIO_WALKING_SPEED;
-										}
-										else {
-											e->obj->vx = -2 * MARIO_WALKING_SPEED;
-										}
-									}
-
-								}
-							}
-						}
-					}
-				}
-				if (e->ny == 1)
-				{
-					ChangeAnimation(new PlayerDieState());
-				}
+				UpdateWithEnemy(e);
+				break;
+			case ITEM:
+				UpdateWithItem(e);
+				break;
 			}
-			break;
-			}
-			if (e->obj->tagChange == WEAPON)
+			/*if (e->obj->tagChange == WEAPON)
 			{
 				if (e->nx != 0)
 				{
@@ -231,14 +114,159 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					y += dy;
 				}
-			}
+			}*/
 		}
 	}
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
+void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
+{
+	if (e->ny == -1)
+	{
+		if (!e->obj->isDead)
+		{
+			if (e->obj->typeParent != PLANT)
+			{
+				e->obj->vx = 0;
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				e->obj->startTimeDead();
+				e->obj->isFlip = false;
+				e->obj->SetState(ENEMY_DIE_STAND);
+			}
+			else {
+				ChangeAnimation(new PlayerDieState());
+				y += dy;
+			}
+		}
+		else
+		{
+			if (e->obj->typeParent == KOOMPA)
+			{
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				if (e->obj->isKicked)
+				{
+					e->obj->isKicked = false;
+					e->obj->vx = 0;
+					if (e->obj->isFlip)
+					{
+						SetState(ENEMY_DIE_FLIP);
+					}
+					else SetState(ENEMY_DIE_STAND);
+				}
+				else {
+					ChangeAnimation(new PlayerKickState());
+					e->obj->isKicked = true;
+					e->obj->canRespawn = false;
+					e->obj->tagChange = WEAPON;
+					if (player->nx > 0)
+					{
+						e->obj->vx = 2 * MARIO_WALKING_SPEED;
+					}
+					else {
+						e->obj->vx = -2 * MARIO_WALKING_SPEED;
+					}
+				}
+			}
+		}
+	}
+	if (e->nx != 0)
+	{
+		if (!untouchable)
+		{
+			if (!e->obj->isDead) {
+				ChangeAnimation(new PlayerDieState());
+			}
+			else {
+				if (e->obj->typeParent == KOOMPA)
+				{
+					if (e->obj->isKicked && e->obj->vx != 0)
+					{
+						ChangeAnimation(new PlayerDieState());
+					}
+					if (canPicking) {
+						isPicking = true;
+					}
+					else {
+						if (!e->obj->isKicked && e->nx != player->nx)
+						{
+							ChangeAnimation(new PlayerKickState());
+							e->obj->isDead = true;
+							e->obj->isKicked = true;
+							e->obj->tagChange = WEAPON;
+							e->obj->canRespawn = false;
+							if (player->nx > 0)
+							{
+								e->obj->vx = 2 * MARIO_WALKING_SPEED;
+							}
+							else {
+								e->obj->vx = -2 * MARIO_WALKING_SPEED;
+							}
+						}
 
+					}
+				}
+			}
+		}
+	}
+	if (e->ny == 1)
+	{
+		ChangeAnimation(new PlayerDieState());
+	}
+}
+void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
+{
+	e->obj->isDead = true;
+	switch (e->obj->type)
+	{
+	case LEAF:
+		if (level == SMALL)
+			SetLevel(BIG);
+		else SetLevel(RACCOON);
+		break;
+	case COIN:
+
+	case RED_MUSHROOM:
+		if (level == SMALL)
+			SetLevel(BIG);
+	case GREEN_MUSHROOM:
+
+	default:
+		break;
+	}
+}
+void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
+{
+	if (e->obj->type == BOX_GROUND)
+	{
+		if (e->nx != 0)
+		{
+			x += dx;
+		}
+		if (e->ny != 0)
+		{
+			vy = 0;
+		}
+
+	}
+	else
+	{
+		if (e->ny != 0)
+		{
+			vy = 0;
+		}
+	}
+	if (e->obj->type == BLOCK_QUESTION || e->obj->type == BLOCK_BREAKABLE)
+	{
+		if (e->ny == 1)
+		{
+			vy = 0;
+			e->obj->isDead = true;
+		}
+
+	}
+}
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (level == RACCOON || level == BIG || level == FIRE) {
@@ -352,9 +380,44 @@ void Mario::OnKeyDown(int key)
 		case DIK_S:
 		{
 			
-			if (!isJumping && Allow[JUMPING_LONG])
+			if (!isOnSky && Allow[JUMPING])
 			{
 				startJump();
+				if ((keyCode[DIK_RIGHT]))
+				{
+					nx = 1;
+					ChangeAnimation(new PlayerJumpingState());
+				}
+				else if ((keyCode[DIK_LEFT]))
+				{
+					nx = -1;
+					ChangeAnimation(new PlayerJumpingState());
+				}
+				else
+				{
+					ChangeAnimation(new PlayerJumpingState());
+				}
+			}
+			if (!isOnSky && Allow[FLYING])
+			{
+				startJump();
+				if ((keyCode[DIK_RIGHT]))
+				{
+					nx = 1;
+					ChangeAnimation(new PlayerFlyingState());
+				}
+				else if ((keyCode[DIK_LEFT]))
+				{
+					nx = -1;
+					ChangeAnimation(new PlayerFlyingState());
+				}
+				else
+				{
+					ChangeAnimation(new PlayerFlyingState());
+				}
+			}
+			if (!isJumpingShort && Allow[JUMPING_SHORT])
+			{
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
@@ -373,7 +436,8 @@ void Mario::OnKeyDown(int key)
 			break;
 		}
 		case DIK_X:
-		{	startJump();
+		{	
+			startJump();
 			if (!isJumping && Allow[JUMPING_SHORT])
 			{
 				if ((keyCode[DIK_RIGHT]))
@@ -389,6 +453,25 @@ void Mario::OnKeyDown(int key)
 				else
 				{
 					ChangeAnimation(new PlayerJumpingShortState());
+				}
+			}
+			if (!isOnSky && Allow[FLYING])
+			{
+				startJump();
+				isFlyingPush = true;
+				if ((keyCode[DIK_RIGHT]))
+				{
+					nx = 1;
+					ChangeAnimation(new PlayerFlyingState());
+				}
+				else if ((keyCode[DIK_LEFT]))
+				{
+					nx = -1;
+					ChangeAnimation(new PlayerFlyingState());
+				}
+				else
+				{
+					ChangeAnimation(new PlayerFlyingState());
 				}
 			}
 			break;
@@ -422,15 +505,14 @@ void Mario::OnKeyDown(int key)
 				}
 				break;
 			}
-			if (!canHolding)
+			if (!canPicking && Allow[PICKING])
 			{
-				canHolding = true;
+				canPicking = true;
 			}
 			break;
 		}
 		case DIK_DOWN:
 		{
-			
 			break;
 		}
 		case DIK_1: 
@@ -473,7 +555,8 @@ void Mario::OnKeyUp(int key) {
 	case DIK_A:
 	{
 		isWhipping = false;
-		canHolding = false;
+		canPicking = false;
+		player->Allow[RUNNING] = false;
 		break;
 	}
 	case DIK_RIGHT:

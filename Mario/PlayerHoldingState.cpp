@@ -12,7 +12,7 @@ void  PlayerHoldingState::HandleKeyBoard()
 
 }
 
-void PlayerHoldingState::Update(DWORD dt)
+void PlayerHoldingState::Update()
 {
 
 }

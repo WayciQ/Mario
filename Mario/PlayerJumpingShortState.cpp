@@ -3,7 +3,7 @@
 #include "Mario.h"
 PlayerJumpingShortState::PlayerJumpingShortState()
 {
-	player->Allow[JUMPING_LONG] = false;
+	player->Allow[JUMPING] = false;
 	
 	if (!player->isJumping)
 	{
@@ -16,25 +16,18 @@ PlayerJumpingShortState::PlayerJumpingShortState()
 	}
 
 	player->isJumping = true;
-	if (player->canFly)
+
+	if (player->nx > 0)
 	{
-		if (player->nx > 0)
-			stateName = FLYING_RIGHT;
-		else
-			stateName = FLYING_LEFT;
+		stateName = JUMPING_RIGHT;
 	}
-	
 	else
 	{
-		if (player->nx > 0)
-		{
-			stateName = JUMPING_RIGHT;
-		}
-		else
-		{
-			stateName = JUMPING_LEFT;
-		}
+		stateName = JUMPING_LEFT;
 	}
+
+		
+	
 }
 void PlayerJumpingShortState::Update(DWORD dt)
 {
@@ -42,12 +35,16 @@ void PlayerJumpingShortState::Update(DWORD dt)
 	
 	if (player->vy >= 0)
 	{
+		player->curY = player->y;
 		player->ChangeAnimation(new PlayerFallingState());
 	}
 }
 void PlayerJumpingShortState::HandleKeyBoard()
 {
-	
+	if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT])
+	{
+
+	}
 }
 PlayerJumpingShortState::~PlayerJumpingShortState(){}
 

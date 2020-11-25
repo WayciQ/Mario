@@ -6,10 +6,11 @@
 
 PlayerSittingState::PlayerSittingState()
 {
-	player->Allow[JUMPING_LONG] = true;
+	player->Allow[JUMPING] = true;
 	player->Allow[WALKING] = false;
 	player->Allow[WHIPPING] = false;
 	player->Allow[JUMPING_SHORT] = true;
+	DebugOut(L"[info] SITTING: vx: %f\n", player->vx);
 	player->isSitting = true;
 	player->vx = 0;
 	player->stateBoundingBox = MARIO_STATE_BIG_SIT_BOUNDING_BOX;

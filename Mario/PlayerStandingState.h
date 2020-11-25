@@ -3,10 +3,11 @@
 class PlayerStandingState : public PlayerState
 {
 public:
-	PlayerStandingState();
-	~PlayerStandingState();
 	void Update(DWORD dt);
 	void HandleKeyBoard();
 	void Render() {};
+	PlayerStandingState();
+	~PlayerStandingState();
+
 };
 

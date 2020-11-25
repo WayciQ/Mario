@@ -4,12 +4,13 @@
 #include "PlayerStandingState.h"
 #include "PlayerWhippingState.h"
 #include "PlayerLastRunState.h"
+#include "PlayerRunningState.h"
 #include "PlayerJumpingShortState.h"
 #include "Mario.h"
 PlayerWalkingState::PlayerWalkingState()
 {
 	player->Allow[RUNNING] = true;
-	player->Allow[JUMPING_LONG] = true; // can jump in walking state
+	player->Allow[JUMPING] = true; // can jump in walking state
 	player->Allow[JUMPING_SHORT] = true;
 	player->Allow[FIRING_FIRE] = false;
 	player->Allow[WHIPPING] = false;
@@ -28,79 +29,45 @@ PlayerWalkingState::PlayerWalkingState()
 		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
-
+	DebugOut(L"[info] WALKING: vx: %f\n", player->vx);
 	//flag
 	player->isWhipping = false;
 	player->isSitting = false;
 	player->isJumping = false;
-	player->canFly = false;
+	
 	// set bouding box
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
-
-	//set state by nx and vx
+	if (player->isPicking)
+	{
 		if (player->nx > 0)
 		{
-			player->vx = player->vx > player->SpeedX ? player->SpeedX : player->vx + MARIO_INERTIA_WALKING; // vx increase by inertia; max vx = speedPush
+			stateName = PICKING_RIGHT;
 		}
-		else
+		else stateName = PICKING_LEFT;
+	}
+	else
+	{
+		if (player->nx > 0)
 		{
-			//DebugOut(L"vx-left: %f\n", player->vx);
-			player->vx = player->vx < -player->SpeedX ? -player->SpeedX : player->vx - MARIO_INERTIA_WALKING; // vx decrease by inertia; max vx = speedPush
+			stateName = WALKING_RIGHT;
 		}
-
-		if (player->isHolding)
-		{
-			if (player->nx > 0)
-			{
-				stateName = PICKING_RIGHT;
-			}
-			else stateName = PICKING_LEFT;
-		}
-		else
-		{
-			if (abs(player->vx) <= MARIO_WALKING_SPEED)
-			{
-				if (player->nx > 0)
-				{
-					stateName = WALKING_RIGHT;
-				}
-				else stateName = WALKING_LEFT;
-			}
-			else if (abs(player->vx) > MARIO_WALKING_SPEED && abs(player->vx) <= MARIO_RUNNING_SPEED)
-			{
-				if (player->nx > 0)
-				{
-					stateName = WALKING_FAST_RIGHT;
-				}
-				else
-					stateName = WALKING_FAST_LEFT;
-			}
-			else
-			{
-				if (player->nx > 0)
-				{
-					stateName = RUNNING_RIGHT;
-					player->canFly = true;
-				}
-				else
-				{
-					player->canFly = true;
-					stateName = RUNNING_LEFT;
-				}
-			}
-		}
-
-		
+		else stateName = WALKING_LEFT;
+	}
 	
+	if (player->nx > 0)
+		player->vx = player->vx > MARIO_WALKING_SPEED ? MARIO_WALKING_SPEED : player->vx + MARIO_INERTIA_WALKING;
+	else 
+		player->vx = player->vx < -MARIO_WALKING_SPEED ? -MARIO_WALKING_SPEED : player->vx - MARIO_INERTIA_WALKING;
+
+	//player->maxSpeedX = MARIO_WALKING_SPEED;
 }
 
 
 void PlayerWalkingState::HandleKeyBoard()
 {
-	if (keyCode[DIK_A] &&(keyCode[DIK_LEFT] || keyCode[DIK_RIGHT]))
+	if (keyCode[DIK_A] && (keyCode[DIK_RIGHT] || keyCode[DIK_LEFT]) && !player->isPicking)
 	{
-		player->SpeedX = MARIO_RUNNING_SPEED;
-		player->ChangeAnimation(new PlayerWalkingState());
+		player->ChangeAnimation(new PlayerRunningState());
 	}
 	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT] )
 	{
@@ -110,17 +77,16 @@ void PlayerWalkingState::HandleKeyBoard()
 	{
 		if (!player->isWalkingComplete)
 		{
-			player->SpeedX = MARIO_WALKING_SPEED;
 			player->nx = -1;
 			player->ChangeAnimation(new PlayerWalkingState());
 		}
 		else player->ChangeAnimation(new PlayerLastRunState());
 	}
-	else if (keyCode[DIK_RIGHT] )
+	else if (keyCode[DIK_RIGHT])
 	{
 		if (!player->isWalkingComplete)
 		{
-			player->SpeedX = MARIO_WALKING_SPEED;
+			
 			player->nx = 1;
 			player->ChangeAnimation(new PlayerWalkingState());
 		}

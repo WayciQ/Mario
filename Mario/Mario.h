@@ -10,36 +10,42 @@ public:
 	float curY;
 	PlayerState* state;
 	TYPE level;
+	float  gravity;
 	bool untouchable;
 	DWORD untouchableTime;
-	DWORD gameTime;
-	float gravity;
-	float SpeedX;
+	float speedJump;
 	int stateBoundingBox;
-	int alpha,beta;
+	int alpha, beta;
 
 	bool isKicking;
-
 	bool isShooting;
 	bool canShoot;
 	int countShoot;
 
+	float maxSpeedX;
+
 	bool isSitting;
 
 	bool isJumping;
+	bool isJumpingShort;
+
 	bool isJumpDone;
 	int startJumping;
-	bool canShortJump;
+
 	bool canFallJump;
 
 	bool isWhipping;
 	bool canWhip;
 
-	bool canFly;
-	bool isFlying;
+	bool isRunning;
 
-	bool isHolding;
-	bool canHolding;
+	bool isOnSky;
+
+	bool isFlying;
+	bool isFlyingPush;
+
+	bool isPicking;
+	bool canPicking;
 
 	int startWalkingComplete;
 	int walkingDirection;
@@ -52,11 +58,15 @@ public:
 	static Mario* GetInstance();
 	STATEPLAYER GetState() { return state->stateName; }
 	Mario();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
-	virtual void Render();
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	void Render();
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	
 	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
+	void UpdateWithEnemy(LPCOLLISIONEVENT colliable_objects);
+	void UpdateWithGround(LPCOLLISIONEVENT colliable_objects);
+	void UpdateWithItem(LPCOLLISIONEVENT colliable_objects);
 	void SetLevel(TYPE level) { this->level = level; }
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);

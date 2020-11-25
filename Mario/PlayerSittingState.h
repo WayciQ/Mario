@@ -3,9 +3,9 @@
 class PlayerSittingState : public PlayerState
 {
 public:
-	PlayerSittingState();
-	~PlayerSittingState();
 	void Update(DWORD dt);
 	void HandleKeyBoard();
 	void Render() {};
+	PlayerSittingState();
+	~PlayerSittingState();
 };

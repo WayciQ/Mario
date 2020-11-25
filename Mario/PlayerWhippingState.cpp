@@ -8,7 +8,7 @@
 #include "Mario.h"
 
 PlayerWhippingState::PlayerWhippingState() {
-	player->Allow[JUMPING_LONG] = true;
+	player->Allow[JUMPING] = true;
 	player->Allow[WALKING] = true;
 	player->Allow[SITTING] = false;
 	if (!player->isWhipping)

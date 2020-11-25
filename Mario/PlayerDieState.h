@@ -3,9 +3,9 @@
 class PlayerDieState : public PlayerState
 {
 public:
-	~PlayerDieState() {};
 	PlayerDieState();
 	void Render() {};
+	~PlayerDieState() {};
 	void Update(DWORD dt);
 	void HandleKeyBoard() {};
 };

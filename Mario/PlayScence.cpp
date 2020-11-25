@@ -272,7 +272,7 @@ void PlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
 	grid->UpdateCell();
-//	grid->UpdateStaticObject();
+	//grid->UpdateStaticObject();
 	grid->CalcObjectInViewPort();
 	Map::GetInstance()->Update(dt);
 	player->Update(dt, &grid->GetObjectInViewPort());
@@ -293,7 +293,7 @@ void PlayScene::Update(DWORD dt)
 void PlayScene::Render()
 {
 	Map::GetInstance()->Render();
-	grid->RenderCell();
+	//grid->RenderCell();
 	player->Render();
 	for (auto& obj : grid->GetObjectInViewPort())
 	{

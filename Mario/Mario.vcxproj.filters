@@ -61,6 +61,12 @@
     <Filter Include="GameObjects\Player\state\Normal State">
       <UniqueIdentifier>{9189dca3-4a67-4f50-b5d1-e8235e7bda89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Player\state\Normal State\Walk-Run">
+      <UniqueIdentifier>{a32eb563-c78d-41c3-a9cb-71b9946f9897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Player\state\Normal State\JUMP-FLY">
+      <UniqueIdentifier>{445d4352-d82f-4c42-b652-033ebd5b89ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -198,13 +204,7 @@
     <ClCompile Include="PlayerStandingState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerWalkingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerSittingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerLastRunState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
     <ClCompile Include="PlayerKickState.cpp">
@@ -224,6 +224,15 @@
     </ClCompile>
     <ClCompile Include="PlayerFlyingState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRunningState.cpp">
+      <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerLastRunState.cpp">
+      <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWalkingState.cpp">
+      <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -377,13 +386,7 @@
     <ClInclude Include="PlayerStandingState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerWalkingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerSittingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerLastRunState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
     <ClInclude Include="PlayerKickState.h">
@@ -403,6 +406,15 @@
     </ClInclude>
     <ClInclude Include="PlayerFlyingState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRunningState.h">
+      <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLastRunState.h">
+      <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWalkingState.h">
+      <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

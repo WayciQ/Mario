@@ -5,18 +5,20 @@
 #include "PlayerSittingState.h"
 #include "PlayerWhippingState.h"
 #include "PlayerJumpingShortState.h"
-#include "PlayerJumpingState.h"
+#include "PlayerRunningState.h"
 PlayerStandingState::PlayerStandingState() {
 	
 	// allow state by level
-	player->Allow[JUMPING_LONG] = true; // allow jump in standing state
+	player->Allow[JUMPING] = true; // allow jump in standing state
 	player->Allow[WALKING] = true; // allow walk
 	player->Allow[JUMPING_SHORT] = true;
 	player->Allow[FLYING_PUSH] = false;
 	player->Allow[WHIPPING] = false;
 	player->Allow[SITTING] = true;
 	player->Allow[FIRING_FIRE] = false;
-
+	player->Allow[RUNNING] = false;
+	player->Allow[FLYING] = false;
+	DebugOut(L"[info] STANDING: vx: %f\n", player->vx);
 	switch (player->level)
 	{
 	case SMALL:
@@ -40,8 +42,11 @@ PlayerStandingState::PlayerStandingState() {
 	player->isSitting = false;
 	player->isJumping = false;
 	player->isShooting = false;
+	player->isFlying = false;
+	player->isJumpingShort = false;
+	player->isOnSky = false;
 	// set state by nx
-	if (player->isHolding)
+	if (player->isPicking)
 	{
 		if (player->nx > 0)
 		{

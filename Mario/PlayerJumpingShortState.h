@@ -3,10 +3,10 @@
 class PlayerJumpingShortState : public PlayerState
 {
 public: 
-	PlayerJumpingShortState();
-	~PlayerJumpingShortState();
 	void Update(DWORD dt);
 	void HandleKeyBoard();
 	void Render() {};
+	PlayerJumpingShortState();
+	~PlayerJumpingShortState();
 };
 

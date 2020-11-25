@@ -1,14 +1,12 @@
 #pragma once
-
 #include "PlayerState.h"
-
-class PlayerWalkingState : public PlayerState
+class PlayerRunningState : public PlayerState
 {
 public:
 	void Update(DWORD dt);
 	void HandleKeyBoard();
 	void Render() {};
-	PlayerWalkingState();
-	~PlayerWalkingState();
+	PlayerRunningState();
+	~PlayerRunningState();
 };
 
