@@ -1,9 +1,11 @@
 #pragma once
-#include "Brick.h"
-class SwitchBlock : public Brick
+#include "Item.h"
+class SwitchBlock : public Item
 {
+	bool isChange;
 public:
-	SwitchBlock();
+	SwitchBlock(float x, float y);
 	~SwitchBlock() {};
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 };
 

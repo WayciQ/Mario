@@ -1,25 +1,34 @@
 #pragma once
 #include "GameObject.h"
-#define SPEED_X 0.02
+#define SPEED_X 0.05f
 class BreakBrick : public GameObject
 {
+	DWORD timeDead;
 public:
 	Animation* CurAnimation;
-	BreakBrick(int nx, float vy,float x,float y) {
-		CurAnimation = Animations::GetInstance()->Get(808);
+	BreakBrick(int nx, float vy) {
+		CurAnimation = Animations::GetInstance()->Get(817);
 		this->nx = nx;
+		timeDead = GetTickCount();
+		bool isSpawnItem;
 		this->vy = vy;
+		vx = nx > 0 ? SPEED_X : -SPEED_X;
 	};
 	~BreakBrick() {};
 	void Render() {
 		CurAnimation->Render(x, y);
 	}
-	void Update(DWORD dt)
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		GameObject::Update(dt);
 		vy += WORLD_GRAVITY * dt;
 		y += dy;
-		vx = nx > 0 ? SPEED_X : -SPEED_X;
+		x += dx;
+		
+		if (GetTickCount() - timeDead >= 700)
+		{
+			isDead = true;
+		}
 
 		if (isDead)
 		{

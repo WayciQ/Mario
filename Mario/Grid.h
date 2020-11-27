@@ -25,13 +25,13 @@ public:
 	void Init();
 	void SetSizeCell(int s) { this->SizeCell = s;}
 	void LoadObjects(LPGAMEOBJECT& obj, float x, float y);
-	void AddItem( LPGAMEOBJECT obj, float x, float y);
+	void AddStaticObject( LPGAMEOBJECT obj, float x, float y);
 	void UpdateCell();
 	void UpdateStaticObject();
 	void RenderCell();
 	bool IsOnCam(LPGAMEOBJECT obj);
 	void RemoveDeadObject();
-	void AddObjectToCell(LPGAMEOBJECT obj);
+	void AddMovingObject(LPGAMEOBJECT obj);
 	void CalcObjectInViewPort();
 	vector<LPGAMEOBJECT> GetObjectInViewPort() { return CurObjectInViewPort; }
 	

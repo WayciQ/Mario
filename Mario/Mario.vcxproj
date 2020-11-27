@@ -171,7 +171,6 @@
     <ClCompile Include="PiranhaPlant.cpp" />
     <ClCompile Include="PlayerFlyingState.cpp" />
     <ClCompile Include="PlayerHoldingState.cpp" />
-    <ClCompile Include="PlayerJumpingShortState.cpp" />
     <ClCompile Include="PlayerKickState.cpp" />
     <ClCompile Include="PlayerRunningState.cpp" />
     <ClCompile Include="PlayerShootingFireState.cpp" />
@@ -231,7 +230,6 @@
     <ClInclude Include="PiranhaPlant.h" />
     <ClInclude Include="PlayerFlyingState.h" />
     <ClInclude Include="PlayerHoldingState.h" />
-    <ClInclude Include="PlayerJumpingShortState.h" />
     <ClInclude Include="PlayerKickState.h" />
     <ClInclude Include="PlayerRunningState.h" />
     <ClInclude Include="PlayerShootingFireState.h" />

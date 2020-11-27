@@ -3,11 +3,13 @@
 #define SPEED_MUSHROOM 0.05f
 Mushroom::Mushroom(TYPE type, float x, float y) : Item(x,y)
 {
+	isRespawn = true;
 	this->type = type;
+	posY = y;
 	widthBBox = heightBBox = 16;
 	CurAnimation = animationsSets->Get(type)->Get(BLOCK_STATIC);
 	nx = player->nx;
-	vy = -0.2f;
+	
 	if (nx > 0)
 	{
 		vx = SPEED_MUSHROOM;
@@ -18,61 +20,82 @@ Mushroom::Mushroom(TYPE type, float x, float y) : Item(x,y)
 }
 void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt);
-	vy += WORLD_GRAVITY * dt;
+	
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	if(isDead) canDel = true;
-
-	CalcPotentialCollisions(coObjects, coEvents);
-	if (coEvents.size() == 0)
+	if (isRespawn)
 	{
-		x += dx;
-		y += dy;
+		y -= 0.3;
+		vx = 0;
+		if (y <= posY - 17)
+		{
+			isRespawn = false;
+			if (nx > 0)
+			{
+				vx = SPEED_MUSHROOM;
+			}
+			else {
+				vx = -SPEED_MUSHROOM;
+			}
+		}
 	}
 	else
 	{
-		// block 
-		float min_tx, min_ty, nx = 0, ny;
+		GameObject::Update(dt);
+		vy += WORLD_GRAVITY * dt;
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
 
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		coEvents.clear();
 
-		/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
-		if (ny != 0) vy = 0;
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		if (isDead) canDel = true;
+		CalcPotentialCollisions(coObjects, coEvents);
+		if (coEvents.size() == 0)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->tag == GROUND)
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			// block 
+			float min_tx, min_ty, nx = 0, ny;
+
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+			x += min_tx * dx + nx * 0.4f;
+			y += min_ty * dy + ny * 0.4f;
+
+			/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
+			if (ny != 0) vy = 0;
+
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				if (e->obj->type == BOX_GROUND)
+				LPCOLLISIONEVENT e = coEventsResult[i];
+				if (e->obj->tag == GROUND)
 				{
-					if (e->nx != 0)
+					if (e->obj->type == BOX_GROUND)
 					{
-						x += dx;
+						if (e->nx != 0)
+						{
+							x += dx;
+						}
+						vy = 0;
 					}
-				}
-				else
-				{
-					if (e->nx != 0)
+					else
 					{
-						vx = -vx;
+						if (e->nx != 0)
+						{
+							vx = -vx;
+						}
+						vy = 0;
 					}
 
-					vy = 0;
 				}
 
 			}
-
 		}
+		// clean up collision events
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	
 }

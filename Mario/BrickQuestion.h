@@ -3,7 +3,7 @@
 class BrickQuestion : public Brick
 {
 	float curY;
-	bool isSpawnItem;
+	bool isDone;
 public:
 	BrickQuestion(float CurY, TYPE child);
 	~BrickQuestion(){}

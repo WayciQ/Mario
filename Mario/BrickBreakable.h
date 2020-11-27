@@ -3,9 +3,9 @@
 
 class BrickBreakable : public Brick
 {
-	
+	bool canBreak;
 public:
-	BrickBreakable();
+	BrickBreakable(TYPE child);
 	~BrickBreakable() {};
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 };

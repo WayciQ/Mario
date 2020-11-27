@@ -210,19 +210,7 @@
     <ClCompile Include="PlayerKickState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerJumpingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerJumpingShortState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerFallingState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerDieState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerFlyingState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
     <ClCompile Include="PlayerRunningState.cpp">
@@ -233,6 +221,15 @@
     </ClCompile>
     <ClCompile Include="PlayerWalkingState.cpp">
       <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerJumpingState.cpp">
+      <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFlyingState.cpp">
+      <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFallingState.cpp">
+      <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -392,19 +389,7 @@
     <ClInclude Include="PlayerKickState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerJumpingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerJumpingShortState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFallingState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerDieState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFlyingState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
     <ClInclude Include="PlayerRunningState.h">
@@ -415,6 +400,15 @@
     </ClInclude>
     <ClInclude Include="PlayerWalkingState.h">
       <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerJumpingState.h">
+      <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFlyingState.h">
+      <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFallingState.h">
+      <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

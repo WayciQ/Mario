@@ -195,7 +195,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case ITEM:
 		obj = Items::CreateItem(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
-		grid->AddItem(obj, x, y);
+		grid->AddStaticObject(obj, x, y);
 		break;
 	default:
 		
@@ -272,7 +272,6 @@ void PlayScene::Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
 	grid->UpdateCell();
-	//grid->UpdateStaticObject();
 	grid->CalcObjectInViewPort();
 	Map::GetInstance()->Update(dt);
 	player->Update(dt, &grid->GetObjectInViewPort());
@@ -293,7 +292,7 @@ void PlayScene::Update(DWORD dt)
 void PlayScene::Render()
 {
 	Map::GetInstance()->Render();
-	//grid->RenderCell();
+	grid->RenderCell();
 	player->Render();
 	for (auto& obj : grid->GetObjectInViewPort())
 	{

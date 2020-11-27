@@ -20,7 +20,7 @@ public:
 			return new BrickCloud();
 			break;
 		case BLOCK_BREAKABLE:
-			return new BrickBreakable();
+			return new BrickBreakable(child);
 			break;
 		case BLOCK_QUESTION:
 			return new BrickQuestion(CurY,child);

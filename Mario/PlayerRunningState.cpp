@@ -18,7 +18,9 @@ PlayerRunningState::PlayerRunningState() {
 			stateName = RUNNING_RIGHT;
 		}
 		else stateName = RUNNING_LEFT;
-		player->Allow[FLYING] = true;
+		if (player->level == RACCOON)
+			player->Allow[FLYING] = true;
+		else player->Allow[JUMPING] = true;
 	}
 	else 
 	{

@@ -5,7 +5,6 @@
 #include "PlayerWhippingState.h"
 #include "PlayerLastRunState.h"
 #include "PlayerRunningState.h"
-#include "PlayerJumpingShortState.h"
 #include "Mario.h"
 PlayerWalkingState::PlayerWalkingState()
 {

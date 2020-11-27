@@ -9,6 +9,7 @@ class Brick : public GameObject
 {
 	
 public:
+	bool isSpawnItem;
 	Animation* CurAnimation;
 	Brick();
 	~Brick() {};

@@ -5,38 +5,28 @@
 BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 {
 	isDead = false;
-	curY = CurY;
 	isSpawnItem = false;
 	this->child = Child;
-	vy = -BRICK_DEFLECT_SPEED;
 	this->type = BLOCK_QUESTION;
+	curY = CurY;
 	animation_set = animationsSets->Get(type);
 	ChangeAnimation(BLOCK_STATIC);
+	isDone = false;
 }
-void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
+void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt);
-	if (y > curY)
-	{
-		vy = 0;
-		y = curY;
-	}
-	if (y < curY - 1)
-	{
-		vy = BRICK_DEFLECT_SPEED;
-	}
 	if(isDead)
 	{
-		
 		ChangeAnimation(BLOCK_HITTED);
+		
 		if (!isSpawnItem) {
 
-			auto item = Items::CreateItem(child, x, y - 16, false);
-			grid->AddObjectToCell(item);
+			auto item = Items::CreateItem(child, x, y, false);
+			grid->AddMovingObject(item);
 			isSpawnItem = true;
 		}
-		y += dy;
 	}
 	
+
 }
 

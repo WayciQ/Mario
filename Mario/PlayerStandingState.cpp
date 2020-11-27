@@ -4,7 +4,6 @@
 #include "PlayerWalkingState.h"
 #include "PlayerSittingState.h"
 #include "PlayerWhippingState.h"
-#include "PlayerJumpingShortState.h"
 #include "PlayerRunningState.h"
 PlayerStandingState::PlayerStandingState() {
 	
@@ -76,10 +75,6 @@ void PlayerStandingState::HandleKeyBoard() {
 	else if (keyCode[DIK_DOWN] && player->Allow[SITTING]) // small level dosen't have state sit
 	{
 		player->ChangeAnimation(new PlayerSittingState());
-	}
-	else if (keyCode[DIK_X])
-	{
-		player->ChangeAnimation(new PlayerJumpingShortState()); 
 	}
 	
 }

@@ -75,41 +75,29 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 		DebugOut(L"[ERR] Invalid object TYPE: %d\n", obj->type);
 		break;
 	}
-}void Grid::AddItem( LPGAMEOBJECT obj, float x, float y)
-{
-	RECT e;
-	e.top =  y;
-	e.left = x;
-	e.right =x + obj->widthBBox;
-	e.bottom = y + obj->heightBBox;
-	auto area = FindCell(e);
-	
-	for (int r = area.TopCell; r <= area.BottomCell; r++)
-		for (int c = area.LeftCell; c <= area.RightCell; c++)
-		{
-			DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
-			Cells[r][c]->staticObjects.insert(obj);
-		}
-	obj->SetPosition(x, y);
-		
-	
 }
+
+
 void Grid::RenderCell()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
-	for (int r = 0; r < rows; r++) {
-		for (int c = 0; c < cols; c++)
+	auto area = FindCell(camera->GetBound());
+	for (int r = area.TopCell; r <= area.BottomCell; r++)
+	{
+		for (int c = area.LeftCell; c <= area.RightCell; c++)
 		{
 			RECT rect;
 			rect.left = Cells[r][c]->posX * SizeCell;
 			rect.top =	Cells[r][c]->posY* SizeCell;
 			rect.right = rect.left + SizeCell;
 			rect.bottom = rect.top + SizeCell;
-			alphaa = alphaa == 20 ? 40 : 20;
+			alphaa = alphaa == 60 ? 140 : 60;
 			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.right, rect.bottom, alphaa);
 		}
 	}
 }
+
+
 bool Grid::IsOnCam(LPGAMEOBJECT obj)
 {
 	return (obj->x > camera->cam_x && obj->x < camera->cam_x + camera->width && obj->y > camera->cam_y && obj->y < camera->cam_y + camera->height);
@@ -120,13 +108,15 @@ void Grid::CalcObjectInViewPort()
 	
 	unordered_set<GameObject*> result;
 	unordered_set<GameObject*> resultItem;
-	LOOP(r, area.TopCell, area.BottomCell)
+	for(int r = area.TopCell;r <= area.BottomCell;r++)
 	{
-		LOOP(c, area.LeftCell, area.RightCell)
+		//DebugOut(L"[info] Cell row [%d]\n", r);
+		for(int c = area.LeftCell; c <= area.RightCell;c++)
 		{
 			result.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 			result.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
-			//DebugOut(L"[info] Object in Cell  [%d]: %d\n",c,Cells[r][c]->movingObjects.size());
+			/*DebugOut(L"[info] Object in Cell  [%d]: %d\n",c,Cells[r][c]->movingObjects.size());*/
+			//DebugOut(L"[info] Cell column [%d]\n",c);
 			resultItem.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 		}
 	}
@@ -162,16 +152,16 @@ void Grid::UpdateStaticObject()
 				switch (obj->child)
 				{
 				case LEAF:
-					AddObjectToCell(item);
+					AddMovingObject(item);
 					break;
 				case RED_MUSHROOM:
-					AddObjectToCell(item);
+					AddMovingObject(item);
 					break;
 				case GREEN_MUSHROOM:
-					AddObjectToCell(item);
+					AddMovingObject(item);
 					break;
 				case COIN:
-					AddObjectToCell(item);
+					AddMovingObject(item);
 					break;
 				default:
 					break;
@@ -209,7 +199,27 @@ void Grid::UpdateCell()
 				return false;
 		});
 	}
-	
+	LOOP(r, area.TopCell, area.BottomCell)
+		LOOP(c, area.LeftCell, area.RightCell)
+	{
+		if (Cells[r][c]->staticObjects.size() == 0) continue;
+		//DebugOut(L"Obj in cell [%d] %d\n", c, Cells[r][c]->movingObjects.size());
+		RemoveObjectIf(Cells[r][c]->staticObjects, [&](auto& obj)
+			{
+				RECT e;
+				e.left = obj->x;
+				e.top = obj->y;
+				e.right = obj->x + obj->widthBBox;
+				e.bottom = obj->y + obj->heightBBox;
+				auto objArea = FindCell(e);
+				if (obj->canDel)
+				{
+					return true;
+					isDeadObject = true;
+				}
+				return false;
+			});
+	}
 	for (auto& obj : shouldBeUpdatedObjects)
 	{
 		RECT e;
@@ -229,7 +239,23 @@ void Grid::UpdateCell()
 	CalcObjectInViewPort();
 
 }
-void Grid::AddObjectToCell(LPGAMEOBJECT obj)
+void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
+{
+	RECT e;
+	e.top = y;
+	e.left = x;
+	e.right = x + obj->widthBBox;
+	e.bottom = y + obj->heightBBox;
+	auto area = FindCell(e);
+	for (int r = area.TopCell; r <= area.BottomCell; r++)
+		for (int c = area.LeftCell; c <= area.RightCell; c++)
+		{
+			//DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+			Cells[r][c]->staticObjects.insert(obj);
+		}
+	obj->SetPosition(x, y);
+}
+void Grid::AddMovingObject(LPGAMEOBJECT obj)
 {
 	RECT e;
 	e.left = obj->x;

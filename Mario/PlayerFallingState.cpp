@@ -2,7 +2,6 @@
 #include "PlayerJumpingState.h"
 #include "Mario.h"
 #include "PlayerStandingState.h"
-#include "PlayerJumpingShortState.h"
 #include "PlayerFlyingState.h"
 
 PlayerFallingState::PlayerFallingState()
@@ -10,7 +9,7 @@ PlayerFallingState::PlayerFallingState()
 	DebugOut(L"[info] FALLING: vx: %f\n", player->vx);
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	player->Allow[JUMPING] = false;
-	player->Allow[JUMPING_SHORT] = true;
+	player->Allow[JUMPING_SHORT] = false;
 	player->isJumpingShort = false;
 	switch (player->level)
 	{

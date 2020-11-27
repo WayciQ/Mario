@@ -79,7 +79,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 			if (canShoot)
 			{
 				auto w = Weapons::CreateWeapon(FIRE_FIRE, nx, ny, x, y, tag);
-				grid->AddObjectToCell(w);
+				grid->AddMovingObject(w);
 				isShoot = true;
 			}
 		}

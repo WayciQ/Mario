@@ -7,7 +7,6 @@
 #include "PlayerFallingState.h"
 #include "PlayerWalkingState.h"
 #include "PlayerSittingState.h"
-#include "PlayerJumpingShortState.h"
 #include "PlayerShootingFireState.h"
 #include "PlayerDieState.h"
 #include "PlayerFlyingState.h"
@@ -448,11 +447,11 @@ void Mario::OnKeyDown(int key)
 				else if ((keyCode[DIK_LEFT]))
 				{
 					nx = -1;
-					ChangeAnimation(new PlayerJumpingShortState());
+					ChangeAnimation(new PlayerJumpingState());
 				}
 				else
 				{
-					ChangeAnimation(new PlayerJumpingShortState());
+					ChangeAnimation(new PlayerJumpingState());
 				}
 			}
 			if (!isOnSky && Allow[FLYING])
