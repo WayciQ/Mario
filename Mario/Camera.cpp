@@ -2,6 +2,8 @@
 #include "Mario.h"
 Camera* Camera::__instance = NULL;
 
+#define CAMERA_SCREEN_HIGHT	248
+#define CAMERA_SCREEN_HIGHT_MAX	200
 Camera* Camera::GetInstance()
 {
 	if (__instance == NULL)

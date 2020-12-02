@@ -3,7 +3,6 @@
 #include "PlayerStandingState.h"
 #include "PlayerFallingState.h"
 #include "PlayerWhippingState.h"
-#include "PlayerJumpingShortState.h"
 #define MARIO_TIME_FLY 2000
 #define MARIO_JUMP_TIME 310
 

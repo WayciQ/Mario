@@ -40,7 +40,7 @@ void Render()
 	{
 		// Clear back buffer with a color
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
-
+		//
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		
 		Game::GetInstance()->GetCurrentScene()->Render();

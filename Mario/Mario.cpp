@@ -52,6 +52,12 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = false;
 	}
 
+	if (GetTickCount() - countTime > 1000)
+	{
+		playTime--;
+		countTime = GetTickCount();
+	}
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -133,6 +139,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 				e->obj->startTimeDead();
 				e->obj->isFlip = false;
 				e->obj->SetState(ENEMY_DIE_STAND);
+				score += 100;
 			}
 			else {
 				ChangeAnimation(new PlayerDieState());
@@ -153,6 +160,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 						SetState(ENEMY_DIE_FLIP);
 					}
 					else SetState(ENEMY_DIE_STAND);
+					score += 100;
 				}
 				else {
 					ChangeAnimation(new PlayerKickState());
@@ -166,6 +174,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 					else {
 						e->obj->vx = -2 * MARIO_WALKING_SPEED;
 					}
+					score += 100;
 				}
 			}
 		}
@@ -225,12 +234,16 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 		else SetLevel(RACCOON);
 		break;
 	case COIN:
-
+		score += 100;
+		money += 1;
+		break;
 	case RED_MUSHROOM:
 		if (level == SMALL)
 			SetLevel(BIG);
+		break;
 	case GREEN_MUSHROOM:
-
+		life += 1;
+		break;
 	default:
 		break;
 	}
@@ -262,6 +275,7 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 		{
 			vy = 0;
 			e->obj->isDead = true;
+			score += 20;
 		}
 
 	}
@@ -360,7 +374,7 @@ void Mario::Render() {
 			CurAnimation->Render(x, y, alpha);
 		}
 	
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 void Mario::ChangeAnimation(PlayerState* newState)
 {
@@ -583,5 +597,8 @@ void Mario::Revival(float x, float y)
 	ChangeAnimation(new PlayerStandingState());
 	SetPosition(x, y);
 	SetSpeed(0, 0);
-
+	life = 4;
+	score = 0;
+	playTime = 300;
+	money = 0;
 }

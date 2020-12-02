@@ -52,7 +52,11 @@ public:
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
 
-
+	int score;
+	DWORD playTime, countTime;
+	bool freeze;
+	int money;
+	int life;
 	Animation* CurAnimation;
 	unordered_map<STATEPLAYER, bool> Allow;
 	static Mario* GetInstance();

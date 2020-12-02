@@ -231,6 +231,8 @@
     <ClCompile Include="PlayerFallingState.cpp">
       <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
     </ClCompile>
+    <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -410,6 +412,8 @@
     <ClInclude Include="PlayerFallingState.h">
       <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
     </ClInclude>
+    <ClInclude Include="Portal.h" />
+    <ClInclude Include="ScoreBoard.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\Scene.txt">

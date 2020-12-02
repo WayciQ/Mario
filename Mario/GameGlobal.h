@@ -19,9 +19,7 @@ using namespace std;
 #define GAME_FILE_SECTION_SCENES 2
 
 #define SCREEN_WIDTH	350
-#define SCREEN_HEIGHT	240
-#define CAMERA_SCREEN_HIGHT	248
-#define CAMERA_SCREEN_HIGHT_MAX	200
+#define SCREEN_HEIGHT	270
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(100, 255, 255)
 #define WINDOW_CLASS_NAME L"Mario"
@@ -234,6 +232,7 @@ extern unordered_map<int, bool> keyCode; // manager info of keyboard have been p
 #define camera Camera::GetInstance()
 #define animationsSets AnimationSets::GetInstance()
 #define grid Grid::GetInstance()
+#define scoreBoard ScoreBoard::GetInstance()
 
 class GameGlobal
 {

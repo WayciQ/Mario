@@ -49,6 +49,7 @@ public:
 
 	void Load(LPCWSTR gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
+	int GetNumCurrentScene() { return current_scene; }
 	void SwitchScene(int scene_id);
 
 	static void SweptAABB(

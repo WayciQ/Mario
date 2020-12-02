@@ -11,7 +11,7 @@
 #include "Ground.h"
 #include "Enemies.h"
 #include "Items.h"
-
+#include "ScoreBoard.h"
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
 	key_handler = new PlayScenceKeyHandler(this);
@@ -262,9 +262,9 @@ void PlayScene::Load()
 		case SCENE_SECTION_MAPS: _ParseSection_MAPS(line); break;
 		}
 	}
-
+	 //Init();
 	f.close();
-
+	scoreBoard->Init();
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -287,17 +287,22 @@ void PlayScene::Update(DWORD dt)
 	}
 
 	Camera::GetInstance()->Update();
+	scoreBoard->Update(dt);
 }
 
 void PlayScene::Render()
 {
+	
+	//grid->RenderCell();
+	
 	Map::GetInstance()->Render();
-	grid->RenderCell();
-	player->Render();
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
 		obj->Render();
 	}
+	player->Render();
+	scoreBoard->Render();
+	
 }
 
 void PlayScene::Unload()
