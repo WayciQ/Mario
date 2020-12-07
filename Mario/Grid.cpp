@@ -4,7 +4,10 @@
 #include "Items.h"
 
 Grid* Grid::__instance = NULL;
-Grid::Grid() {}
+Grid::Grid() 
+{
+	
+}
 Area Grid::FindCell(RECT e)
 {
 	return {
@@ -17,6 +20,8 @@ Area Grid::FindCell(RECT e)
 
 void Grid::Init()
 {
+	
+	
 	Cells.clear();
 	for (int y = 0; y < rows; ++y)
 	{
@@ -82,22 +87,31 @@ void Grid::RenderCell()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
 	auto area = FindCell(camera->GetBound());
+	
+	RECT rect;
+
 	for (int r = area.TopCell; r <= area.BottomCell; r++)
 	{
 		for (int c = area.LeftCell; c <= area.RightCell; c++)
 		{
-			RECT rect;
-			rect.left = Cells[r][c]->posX * SizeCell;
-			rect.top =	Cells[r][c]->posY* SizeCell;
-			rect.right = rect.left + SizeCell;
-			rect.bottom = rect.top + SizeCell;
-			alphaa = alphaa == 60 ? 140 : 60;
-			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.right, rect.bottom, alphaa);
+			LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
+			string inforCell = "Static object" + to_string(Cells[r][c]->staticObjects.size()) + "\n";
+			inforCell += "Moving object" + to_string(Cells[r][c]->movingObjects.size()) + "\n";
+			inforCell += "Cell[ " + to_string(r) + "][" + to_string(c) + "]";
+			
+			SetRect(&rect, 
+					Cells[r][c]->posX * SizeCell,
+					Cells[r][c]->posY * SizeCell, 
+					Cells[r][c]->posX * SizeCell + SizeCell, 
+					Cells[r][c]->posY * SizeCell + SizeCell);
+			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + SizeCell, rect.top+1, 255);
+			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + 1, rect.top + SizeCell, 255);
+			
 		}
 	}
 }
 
-
+// test
 bool Grid::IsOnCam(LPGAMEOBJECT obj)
 {
 	return (obj->x > camera->cam_x && obj->x < camera->cam_x + camera->width && obj->y > camera->cam_y && obj->y < camera->cam_y + camera->height);
@@ -105,7 +119,6 @@ bool Grid::IsOnCam(LPGAMEOBJECT obj)
 void Grid::CalcObjectInViewPort()
 {
 	auto area = FindCell(camera->GetBound());
-	
 	unordered_set<GameObject*> result;
 	unordered_set<GameObject*> resultItem;
 	for(int r = area.TopCell;r <= area.BottomCell;r++)
@@ -115,9 +128,10 @@ void Grid::CalcObjectInViewPort()
 		{
 			result.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 			result.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
-			/*DebugOut(L"[info] Object in Cell  [%d]: %d\n",c,Cells[r][c]->movingObjects.size());*/
+			//DebugOut(L"[info] Object in Cell  [%d]: %d\n",c,Cells[r][c]->staticObjects.size());
 			//DebugOut(L"[info] Cell column [%d]\n",c);
 			resultItem.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
+			
 		}
 	}
 	ObjectHolder = { resultItem.begin(), resultItem.end() };

@@ -67,7 +67,6 @@ PlayerFallingState::PlayerFallingState()
 				stateName = SITTING_LEFT;
 		}
 	}
-	
 }
 void PlayerFallingState::Update(DWORD dt)
 {
@@ -99,6 +98,18 @@ void PlayerFallingState::HandleKeyBoard()
 		{
 			player->ChangeAnimation(new PlayerFlyingState());
 		}
+	}
+	else if (keyCode[DIK_RIGHT])
+	{
+		player->nx = 1;
+		player->vx = MARIO_WALKING_SPEED;
+		player->ChangeAnimation(new PlayerFallingState());
+	}
+	else if (keyCode[DIK_LEFT])
+	{
+		player->nx = -1;
+		player->vx = -MARIO_WALKING_SPEED;
+		player->ChangeAnimation(new PlayerFallingState());
 	}
 	
 }

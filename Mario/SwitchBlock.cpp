@@ -28,3 +28,13 @@ void SwitchBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	
 }
+void SwitchBlock::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
+	left = x;
+	top = y;
+	right = x + widthBBox;
+	bottom = y + heightBBox;
+	if (isDead) {
+		top = y + heightBBox;
+		heightBBox = 9;
+	}
+}

@@ -293,7 +293,7 @@ void PlayScene::Update(DWORD dt)
 void PlayScene::Render()
 {
 	
-	//grid->RenderCell();
+	
 	
 	Map::GetInstance()->Render();
 	for (auto& obj : grid->GetObjectInViewPort())
@@ -302,7 +302,7 @@ void PlayScene::Render()
 	}
 	player->Render();
 	scoreBoard->Render();
-	
+	grid->RenderCell();
 }
 
 void PlayScene::Unload()

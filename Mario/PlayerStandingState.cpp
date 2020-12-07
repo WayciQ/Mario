@@ -76,12 +76,11 @@ void PlayerStandingState::HandleKeyBoard() {
 	{
 		player->ChangeAnimation(new PlayerSittingState());
 	}
-	
 }
 
 void PlayerStandingState::Update(DWORD dt)
 {
-	this->HandleKeyBoard(); // loop
+	this->HandleKeyBoard();
 
 	if (player->vx < MARIO_INERTIA_WALKING && player->vx > -MARIO_INERTIA_WALKING)
 	{

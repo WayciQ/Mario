@@ -95,6 +95,18 @@ void PlayerJumpingState::HandleKeyBoard()
 			player->vy = -MARIO_JUMP_SPEED_Y;
 		}
 	}
+	else if (keyCode[DIK_RIGHT])
+	{
+		player->vx = MARIO_WALKING_SPEED;
+		player->nx = 1;
+		player->ChangeAnimation(new PlayerJumpingState());
+	}
+	else if (keyCode[DIK_LEFT])
+	{
+		player->vx = -MARIO_WALKING_SPEED;
+		player->nx = -1;
+		player->ChangeAnimation(new PlayerJumpingState());
+	}
 }
 
 void PlayerJumpingState::Update(DWORD dt)

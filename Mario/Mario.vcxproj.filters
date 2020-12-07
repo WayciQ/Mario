@@ -391,9 +391,6 @@
     <ClInclude Include="PlayerKickState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerDieState.h">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerRunningState.h">
       <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
     </ClInclude>
@@ -414,6 +411,9 @@
     </ClInclude>
     <ClInclude Include="Portal.h" />
     <ClInclude Include="ScoreBoard.h" />
+    <ClInclude Include="PlayerDieState.h">
+      <Filter>GameObjects\Player\state\Normal State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\Scene.txt">

@@ -260,7 +260,6 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 		{
 			vy = 0;
 		}
-
 	}
 	else
 	{
@@ -518,7 +517,7 @@ void Mario::OnKeyDown(int key)
 				}
 				break;
 			}
-			if (!canPicking && Allow[PICKING])
+			if (!canPicking  )
 			{
 				canPicking = true;
 			}

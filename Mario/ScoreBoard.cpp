@@ -37,11 +37,6 @@ void ScoreBoard::Init()
 		L"Super Mario Bros. 3", 
 		&font);
 
-	if (result != DI_OK)
-	{
-		return DebugOut(L"LOI\n");
-		return;
-	}
 	SetRect(&rect, POS_X + 39, POS_Y_TEX1, POS_X + SCREEN_WIDTH, POS_Y + 30);
 	information = "4                              01\n";
 	information +="4   1241241       121\n";
@@ -77,14 +72,14 @@ void ScoreBoard::Update(float dt)
 
 	information = scene + "                              " + money + "\n";
 	information += life +"   "+ scoregame +"     "+ timeString +"\n";
-
+	
 }
 void ScoreBoard::Render()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_HUB);
 	Game::GetInstance()->Draw(POS_X, POS_Y, bbox, 0, 0, camera->GetWidht(), 40, 255);
 	
-	LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
+	
 	HUB->Draw(POS_X, POS_Y);
 	Item1->Draw(POS_I1, POS_Y);
 	Item2->Draw(POS_I2, POS_Y);
@@ -99,6 +94,8 @@ void ScoreBoard::Render()
 	{
 		push->Draw(POS_X + 100, POS_Y + 7);
 	}
+	LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
+	
 	if (font)
 		font->DrawTextA(spriteHandler, information.c_str(), -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 }
