@@ -69,7 +69,7 @@ using namespace std;
 #define MARIO_RACCOON_FIGHT_HEIGHT 28
 #define MARIO_RACCOON_FIGHT_WIDTH_X 9
 
-#define MARIO_UNTOUCHABLE_TIME 3000
+#define MARIO_UNTOUCHABLE_TIME 1000
 #define MARIO_LAST_RUN_TIME 300
 
 #define MARIO_RACCOON_WHIP_WIDTH 9
@@ -214,6 +214,8 @@ extern enum TYPE {
 	GREEN_MUSHROOM,
 	LEAF,
 	BUTTON,
+	EFFECT_BIGBANG,
+	EFFECT_STAR,
 };
 extern enum TAG
 {
@@ -223,6 +225,7 @@ extern enum TAG
 	ITEM,
 	GROUND,
 	BOX,
+	EFFECT,
 };
 
 

@@ -1,13 +1,14 @@
 #pragma once
 #include "GameObject.h"
 #define SPEED_X 0.05f
+#define ANIMATION_BREAKBRICK 817
 class BreakBrick : public GameObject
 {
 	DWORD timeDead;
 public:
 	Animation* CurAnimation;
 	BreakBrick(int nx, float vy) {
-		CurAnimation = Animations::GetInstance()->Get(817);
+		CurAnimation = Animations::GetInstance()->Get(ANIMATION_BREAKBRICK);
 		this->nx = nx;
 		timeDead = GetTickCount();
 		bool isSpawnItem;

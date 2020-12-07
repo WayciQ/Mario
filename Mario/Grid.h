@@ -11,7 +11,6 @@ class Grid
 private:
 	static Grid* __instance;
 public:
-	
 	static Grid* GetInstance();
 	Grid();
 	~Grid() {};

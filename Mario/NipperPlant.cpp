@@ -1,5 +1,8 @@
 #include "NipperPlant.h"
 #include "Mario.h"
+#include "EffectBigBang.h"
+#include "Grid.h"
+
 
 #define PLANT_SPEED_UP 0.05f;
 NipperPlant::NipperPlant( float posx, float posy) : Enemy()
@@ -23,6 +26,8 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - TimeDead > 150)
 			{
+				auto effect = new EffectBigBang();
+				grid->AddStaticObject(effect, x, y);
 				canDel = true;
 				TimeDead = 0;
 			}

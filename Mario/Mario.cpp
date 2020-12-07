@@ -8,7 +8,7 @@
 #include "PlayerWalkingState.h"
 #include "PlayerSittingState.h"
 #include "PlayerShootingFireState.h"
-#include "PlayerDieState.h"
+#include "PlayerChangeLevelState.h"
 #include "PlayerFlyingState.h"
 #include "Goomba.h"
 #include "PlayerHoldingState.h"
@@ -52,7 +52,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = false;
 	}
 
-	if (GetTickCount() - countTime > 1000)
+	if (GetTickCount() - countTime > 1000 && !freeze)
 	{
 		playTime--;
 		countTime = GetTickCount();
@@ -113,7 +113,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->nx != 0)
 				{
-					ChangeAnimation(new PlayerDieState());
+					ChangeAnimation(new PlayerChangeLevelState());
 				}
 				if (e->ny != 0)
 				{
@@ -142,7 +142,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 				score += 100;
 			}
 			else {
-				ChangeAnimation(new PlayerDieState());
+				ChangeAnimation(new PlayerChangeLevelState(true));
 				y += dy;
 			}
 		}
@@ -184,14 +184,14 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 		if (!untouchable)
 		{
 			if (!e->obj->isDead) {
-				ChangeAnimation(new PlayerDieState());
+				ChangeAnimation(new PlayerChangeLevelState(true));
 			}
 			else {
 				if (e->obj->typeParent == KOOMPA)
 				{
 					if (e->obj->isKicked && e->obj->vx != 0)
 					{
-						ChangeAnimation(new PlayerDieState());
+						ChangeAnimation(new PlayerChangeLevelState(true));
 					}
 					if (canPicking) {
 						isPicking = true;
@@ -220,7 +220,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 	}
 	if (e->ny == 1)
 	{
-		ChangeAnimation(new PlayerDieState());
+		ChangeAnimation(new PlayerChangeLevelState(true));
 	}
 }
 void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
@@ -230,8 +230,8 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 	{
 	case LEAF:
 		if (level == SMALL)
-			SetLevel(BIG);
-		else SetLevel(RACCOON);
+			ChangeAnimation(new PlayerChangeLevelState(false));
+		else ChangeAnimation(new PlayerChangeLevelState(false,RACCOON));
 		break;
 	case COIN:
 		score += 100;
@@ -239,7 +239,11 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 		break;
 	case RED_MUSHROOM:
 		if (level == SMALL)
-			SetLevel(BIG);
+		{
+			player->y -= 20;
+			ChangeAnimation(new PlayerChangeLevelState(false));
+		}
+			
 		break;
 	case GREEN_MUSHROOM:
 		life += 1;
@@ -600,4 +604,5 @@ void Mario::Revival(float x, float y)
 	score = 0;
 	playTime = 300;
 	money = 0;
+	freeze = false;
 }

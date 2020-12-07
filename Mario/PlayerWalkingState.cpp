@@ -14,7 +14,6 @@ PlayerWalkingState::PlayerWalkingState()
 	player->Allow[FIRING_FIRE] = false;
 	player->Allow[WHIPPING] = false;
 	player->Allow[SITTING] = true;
-	player->Allow[PICKING] = false;
 	switch (player->level)
 	{
 	case SMALL:

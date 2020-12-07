@@ -148,7 +148,6 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BasGoomba.cpp" />
     <ClCompile Include="Box.cpp" />
-    <ClCompile Include="BreakBrick.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickBreakable.cpp" />
     <ClCompile Include="BrickCloud.cpp" />
@@ -158,6 +157,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Drain.cpp" />
+    <ClCompile Include="EffectBigBang.h" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -187,7 +187,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mario.cpp" />
-    <ClCompile Include="PlayerDieState.cpp" />
+    <ClCompile Include="PlayerChangeLevelState.cpp" />
     <ClCompile Include="PlayerFallingState.cpp" />
     <ClCompile Include="PlayerJumpingState.cpp" />
     <ClCompile Include="PlayerLastRunState.cpp" />
@@ -217,6 +217,7 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Drain.h" />
+    <ClInclude Include="EffectHit.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="Grid.h" />
@@ -248,7 +249,7 @@
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
-    <ClInclude Include="PlayerDieState.h" />
+    <ClInclude Include="PlayerChangeLevelState.h" />
     <ClInclude Include="PlayerFallingState.h" />
     <ClInclude Include="PlayerJumpingState.h" />
     <ClInclude Include="PlayerLastRunState.h" />

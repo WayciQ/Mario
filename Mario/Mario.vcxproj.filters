@@ -174,9 +174,6 @@
     <ClCompile Include="Item.cpp">
       <Filter>GameObjects\Item</Filter>
     </ClCompile>
-    <ClCompile Include="BreakBrick.cpp">
-      <Filter>GameObjects\Ground\Brick</Filter>
-    </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Game Components</Filter>
     </ClCompile>
@@ -210,9 +207,6 @@
     <ClCompile Include="PlayerKickState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerDieState.cpp">
-      <Filter>GameObjects\Player\state\Normal State</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerRunningState.cpp">
       <Filter>GameObjects\Player\state\Normal State\Walk-Run</Filter>
     </ClCompile>
@@ -233,6 +227,12 @@
     </ClCompile>
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
+    <ClCompile Include="EffectBigBang.h">
+      <Filter>GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChangeLevelState.cpp">
+      <Filter>GameObjects\Player\state\Normal State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -346,9 +346,6 @@
     <ClInclude Include="PlayerState.h">
       <Filter>GameObjects\Player\state</Filter>
     </ClInclude>
-    <ClInclude Include="BreakBrick.h">
-      <Filter>GameObjects\Ground\Brick</Filter>
-    </ClInclude>
     <ClInclude Include="Cell.h">
       <Filter>Game Components</Filter>
     </ClInclude>
@@ -411,7 +408,13 @@
     </ClInclude>
     <ClInclude Include="Portal.h" />
     <ClInclude Include="ScoreBoard.h" />
-    <ClInclude Include="PlayerDieState.h">
+    <ClInclude Include="BreakBrick.h">
+      <Filter>GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectHit.h">
+      <Filter>GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChangeLevelState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
   </ItemGroup>

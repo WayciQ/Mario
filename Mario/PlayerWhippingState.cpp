@@ -15,7 +15,6 @@ PlayerWhippingState::PlayerWhippingState() {
 	{
 		player->canWhip = true;
 	}
-	player->vx = 0;
 	player->isWhipping = true;
 
 	

@@ -1,5 +1,7 @@
 #include "Whip.h"
 #include "Mario.h"
+#include "EffectHit.h"
+#include "Grid.h"
 Whip::Whip()
 {
 	type = WHIP;
@@ -19,7 +21,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	
 
-	
+	auto Effect = new EffectHit();
 	vector<LPGAMEOBJECT> coEvents;
 	coEvents.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -40,6 +42,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coEvents.at(i)->vy = -0.2f;
 			coEvents.at(i)->vx = 0;
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
+			grid->AddStaticObject(Effect, x, y);
 			break;
 		case GROUND:
 			if (coEvents.at(i)->type == BLOCK_QUESTION || coEvents.at(i)->type == BLOCK_BREAKABLE)
