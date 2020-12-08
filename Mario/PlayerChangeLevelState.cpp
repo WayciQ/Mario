@@ -6,6 +6,7 @@
 PlayerChangeLevelState::PlayerChangeLevelState(bool isdead,TYPE typeChange)
 {
 	player->vx = 0;
+	player->freeze = true;
 	auto effect = new EffectBigBang();
 	if (player->level != SMALL)
 	{

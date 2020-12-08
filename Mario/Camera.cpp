@@ -34,7 +34,7 @@ void Camera::Update()
 	float cx, cy;
 	player->GetPosition(cx, cy);
 	cx -= SCREEN_WIDTH / 2;
-	
+	cy -= SCREEN_HEIGHT / 2;
 	if (cx <= 0)
 	{
 		cx = 0;
@@ -44,14 +44,16 @@ void Camera::Update()
 		cx = Map::GetInstance()->GetWidthMap() - width;
 	}
 	
-	if (cy <= CAMERA_SCREEN_HIGHT_MAX)
+	/*if (cy <= CAMERA_SCREEN_HIGHT_MAX)
 	{
 		cy -= SCREEN_HEIGHT / 2;
 		if (cy <= 70)
 			cy = 70;
 	}
-	else cy = CAMERA_SCREEN_HIGHT;
-
+	else */if(cy + height >= Map::GetInstance()->GetHeightMap())
+		cy = Map::GetInstance()->GetHeightMap() - height + 48;
+	else cy = CySceen;
+	
 	SetCamPos(cx, cy);
 }
 

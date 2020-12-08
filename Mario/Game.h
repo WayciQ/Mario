@@ -34,10 +34,10 @@ class Game
 
 
 	unordered_map<int, LPSCENE> scenes;
-	int current_scene;
+	int current_worldMap;
 
 	void _ParseSection_SETTINGS(string line);
-	void _ParseSection_SCENES(string line);
+	void _ParseSection_WORLDMAPS(string line);
 public:
 	void InitKeyboard();
 	void Init(HWND hWnd);
@@ -48,9 +48,9 @@ public:
 	void ProcessKeyboard();
 
 	void Load(LPCWSTR gameFile);
-	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
-	int GetNumCurrentScene() { return current_scene; }
-	void SwitchScene(int scene_id);
+	LPSCENE GetCurrentScene() { return scenes[current_worldMap]; }
+	int GetNumCurrentScene() { return current_worldMap; }
+	void SwitchWorldMap(int scene_id);
 
 	static void SweptAABB(
 		float ml,			// move left 

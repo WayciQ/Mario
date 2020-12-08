@@ -22,6 +22,7 @@ public:
 	RECT GetPositionTitle(int title);	// get RECT title need draw by value in titleMap maxtrix
 	void GetPositionCam(int& xs, int& ys, int& xe, int& ye); // get position start cam, end cam with xs - x start, xe - x end, ys - y start, ye - y end
 	void Render();
+	
 	void Update(float dt);
 	float GetWidthMap();	// get width map
 	float GetHeightMap();	// get height map

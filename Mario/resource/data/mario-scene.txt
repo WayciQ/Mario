@@ -1,0 +1,7 @@
+[SETTINGS]
+start	0
+#scene list
+[SCENES]
+0	resource\data\WorldMap-1_1.txt
+1	scene1.txt
+2	scene2.txt

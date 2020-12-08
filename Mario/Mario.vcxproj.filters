@@ -67,6 +67,9 @@
     <Filter Include="GameObjects\Player\state\Normal State\JUMP-FLY">
       <UniqueIdentifier>{445d4352-d82f-4c42-b652-033ebd5b89ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="resources\data\WorldMap1">
+      <UniqueIdentifier>{a533d6be-7847-485d-98b5-711db7142e0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -233,6 +236,7 @@
     <ClCompile Include="PlayerChangeLevelState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
+    <ClCompile Include="WorldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -417,18 +421,22 @@
     <ClInclude Include="PlayerChangeLevelState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
+    <ClInclude Include="WorldMapScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="resource\data\Scene.txt">
-      <Filter>resources\data</Filter>
-    </Text>
-    <Text Include="resource\data\mario-sample.txt">
-      <Filter>resources\data</Filter>
-    </Text>
     <Text Include="resource\data\map2.txt">
       <Filter>resources\data</Filter>
     </Text>
     <Text Include="resource\data\map1.txt">
+      <Filter>resources\data</Filter>
+    </Text>
+    <Text Include="resource\data\mario-scene.txt">
+      <Filter>resources\data</Filter>
+    </Text>
+    <Text Include="WorldMap-Mario-Bros-3.txt">
+      <Filter>resources\data</Filter>
+    </Text>
+    <Text Include="resource\data\WorldMap-1_1.txt">
       <Filter>resources\data</Filter>
     </Text>
   </ItemGroup>

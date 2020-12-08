@@ -12,7 +12,7 @@
 using namespace std;
 #define MAX_GAME_LINE 1024
 
-#define LOAD_DATA L"resource\\data\\mario-sample.txt"
+#define LOAD_DATA L"resource\\data\\mario-scene.txt"
 
 #define GAME_FILE_SECTION_UNKNOWN -1
 #define GAME_FILE_SECTION_SETTINGS 1
@@ -216,6 +216,7 @@ extern enum TYPE {
 	BUTTON,
 	EFFECT_BIGBANG,
 	EFFECT_STAR,
+	PORTAL,
 };
 extern enum TAG
 {

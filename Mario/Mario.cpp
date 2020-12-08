@@ -12,7 +12,8 @@
 #include "PlayerFlyingState.h"
 #include "Goomba.h"
 #include "PlayerHoldingState.h"
-
+#include "Portal.h"
+#include "Camera.h"
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -107,6 +108,9 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				break;
 			case ITEM:
 				UpdateWithItem(e);
+				break;
+			case BOX:
+				UpdateWithPortal(e);
 				break;
 			}
 			/*if (e->obj->tagChange == WEAPON)
@@ -282,6 +286,22 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 		}
 
 	}
+}
+void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
+{
+	if (dynamic_cast<Portal*>(e->obj))
+	{
+		Portal* p = dynamic_cast<Portal*>(e->obj);
+		scene_id =p->GetSceneId();
+
+		camera->SetCy(p->GetCy());
+		IsChangeScene = true;
+	}
+}
+void Mario::ChangeScene(int port)
+{
+	ChangeAnimation(new PlayerStandingState());
+	SetSpeed(0, 0);
 }
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

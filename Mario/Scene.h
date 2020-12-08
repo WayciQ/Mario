@@ -1,11 +1,19 @@
 #pragma once
 #include "KeyEventHandler.h"
+#include "GameGlobal.h"
 class Scene
 {
 protected:
 	KeyEventHandler* key_handler;
 	int id;
 	LPCWSTR sceneFilePath;
+	void _ParseSection_TEXTURES(string line) {};
+	void _ParseSection_SPRITES(string line) {};
+	void _ParseSection_ANIMATIONS(string line) {};
+	void _ParseSection_ANIMATION_SETS(string line) {};
+	void _ParseSection_OBJECTS(string line) {};
+	void _ParseSection_MAPS(string line) {};
+	void _ParseSection_SWITCHSCENE(string line) {};
 public:
 	Scene(int id, LPCWSTR filePath);
 

@@ -12,6 +12,7 @@
 #include "Enemies.h"
 #include "Items.h"
 #include "ScoreBoard.h"
+#include "Portal.h"
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
 	key_handler = new PlayScenceKeyHandler(this);
@@ -24,9 +25,7 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_MAPS	7
-
-#define OBJECT_TYPE_PORTAL	50
-
+#define SCENE_SECTION_SWITCH_SCENE		8
 #define MAX_SCENE_LINE 1024
 
 void PlayScene::_ParseSection_TEXTURES(string line)
@@ -55,6 +54,7 @@ void PlayScene::_ParseSection_MAPS(string line)
 	grid->cols = ((int)Map::GetInstance()->GetWidthMap() / (int)atoi(tokens[2].c_str())) + 1;
 	grid->rows = ((int)Map::GetInstance()->GetHeightMap() / (int)atoi(tokens[2].c_str())) + 1;
 	grid->Init();
+	camera->SetCy((float)atof(tokens[3].c_str()));
 }
 void PlayScene::_ParseSection_SPRITES(string line)
 {
@@ -197,6 +197,10 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		obj = Items::CreateItem(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
 		grid->AddStaticObject(obj, x, y);
 		break;
+	case BOX:
+		obj = new Portal((int)atof(tokens[3].c_str()), (float)atof(tokens[5].c_str()), (float)atof(tokens[6].c_str()), (float)atof(tokens[7].c_str()));
+		Portals[(int)atof(tokens[4].c_str())] = obj;
+		grid->AddStaticObject(obj, x, y);
 	default:
 		
 		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);
@@ -213,7 +217,12 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	
 	//DebugOut(L"[INFO] Object size: %d\n", HolderObjects.size());
 }
-
+void PlayScene::_ParseSection_SWITCHSCENE(string line)
+{
+	vector<string> tokens = split(line);
+	int id_scene = atoi(tokens[0].c_str());
+	Game::GetInstance()->SwitchWorldMap(id_scene);
+}
 void PlayScene::Load()
 {
 
@@ -248,6 +257,9 @@ void PlayScene::Load()
 		if (line == "[MAPS]") {
 			section = SCENE_SECTION_MAPS; continue;
 		}
+		if (line == "[SWITCHSCENE]") {
+			section = SCENE_SECTION_SWITCH_SCENE; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 		//
 		// data section
@@ -260,16 +272,19 @@ void PlayScene::Load()
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAPS: _ParseSection_MAPS(line); break;
+		case SCENE_SECTION_SWITCH_SCENE: _ParseSection_SWITCHSCENE(line); break;
 		}
 	}
 	 //Init();
 	f.close();
 	scoreBoard->Init();
+	
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
 void PlayScene::Update(DWORD dt)
 {
+	
 	vector<LPGAMEOBJECT> coObjects;
 	grid->UpdateCell();
 	grid->CalcObjectInViewPort();
@@ -280,10 +295,13 @@ void PlayScene::Update(DWORD dt)
 	{
 		coObjects.push_back(grid->GetObjectInViewPort()[i]);
 	}
-	
+	ChangeScene();
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
-		obj->Update(dt, &coObjects);
+		if (!player->freeze)
+		{
+			obj->Update(dt, &coObjects);
+		}
 	}
 
 	Camera::GetInstance()->Update();
@@ -315,7 +333,14 @@ void PlayScene::Unload()
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
-
+void PlayScene::ChangeScene() {
+	if (player->IsChangeScene) {
+		auto port = Portals[player->scene_id];
+		player->SetPosition(port->x, port->y);
+		player->IsChangeScene = false;
+	}
+	
+}
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	Mario* mario = ((PlayScene*)scene)->GetPlayer();

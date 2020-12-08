@@ -1,7 +1,6 @@
 #include "GameObject.h"
 #include "PlayerState.h"
 
-
 class Mario : public GameObject 
 {
 private:
@@ -51,7 +50,8 @@ public:
 	int walkingDirection;
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
-
+	bool IsChangeScene;
+	int scene_id = 1;
 	int score;
 	DWORD playTime, countTime;
 	bool freeze;
@@ -65,12 +65,13 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	
+	void ChangeScene(int port);
 	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
 	void UpdateWithEnemy(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithGround(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithItem(LPCOLLISIONEVENT colliable_objects);
+	void UpdateWithPortal(LPCOLLISIONEVENT colliable_objects);
 	void SetLevel(TYPE level) { this->level = level; }
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);

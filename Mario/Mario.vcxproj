@@ -201,6 +201,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Whip.cpp" />
+    <ClCompile Include="WorldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
@@ -265,12 +266,14 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Weapons.h" />
     <ClInclude Include="Whip.h" />
+    <ClInclude Include="WorldMapScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\map1.txt" />
     <Text Include="resource\data\map2.txt" />
-    <Text Include="resource\data\mario-sample.txt" />
-    <Text Include="resource\data\Scene.txt" />
+    <Text Include="resource\data\mario-scene.txt" />
+    <Text Include="resource\data\WorldMap-1_1.txt" />
+    <Text Include="WorldMap-Mario-Bros-3.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\textures\bbox.png" />

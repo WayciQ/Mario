@@ -1,5 +1,4 @@
 #pragma once
-#include "GameGlobal.h"
 #include "Map.h"
 #include "Mario.h"
 #include "Scene.h"
@@ -15,19 +14,19 @@ private:
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAPS(string line);
-
+	void _ParseSection_SWITCHSCENE(string line);
 public:
 
 	vector<LPGAMEOBJECT> HolderObjects;
 	vector<LPGAMEOBJECT> staticOnject;
+	unordered_map<int,LPGAMEOBJECT> Portals;
 	PlayScene(int id, LPCWSTR filePath);
-
+	void ChangeScene();
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload(); 
 	Mario* GetPlayer() { return P; }
-
 };
 class PlayScenceKeyHandler : public ScenceKeyHandler
 {
