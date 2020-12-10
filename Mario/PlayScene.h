@@ -4,6 +4,8 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "Grid.h"
+#include "Trigger.h"
+#include "Portal.h"
 class PlayScene :public Scene
 {
 private:
@@ -14,12 +16,13 @@ private:
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAPS(string line);
-	void _ParseSection_SWITCHSCENE(string line);
+	void _ParseSection_SETTINGS(string line);
 public:
 
 	vector<LPGAMEOBJECT> HolderObjects;
 	vector<LPGAMEOBJECT> staticOnject;
-	unordered_map<int,LPGAMEOBJECT> Portals;
+	vector<Portal*> listPortal;
+	vector<Trigger*> listTrigger;
 	PlayScene(int id, LPCWSTR filePath);
 	void ChangeScene();
 	virtual void Load();

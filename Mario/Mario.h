@@ -50,8 +50,13 @@ public:
 	int walkingDirection;
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
+
 	bool IsChangeScene;
+	bool IsTelePort;
 	int scene_id = 1;
+	int scene_trigger;
+	bool IsTouchTrigger;
+
 	int score;
 	DWORD playTime, countTime;
 	bool freeze;

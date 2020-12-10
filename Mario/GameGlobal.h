@@ -216,6 +216,7 @@ extern enum TYPE {
 	BUTTON,
 	EFFECT_BIGBANG,
 	EFFECT_STAR,
+	TRIGGER,
 	PORTAL,
 };
 extern enum TAG

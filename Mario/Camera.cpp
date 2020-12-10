@@ -44,16 +44,18 @@ void Camera::Update()
 		cx = Map::GetInstance()->GetWidthMap() - width;
 	}
 	
-	/*if (cy <= CAMERA_SCREEN_HIGHT_MAX)
+	if (cy <= CySceen-48)
 	{
 		cy -= SCREEN_HEIGHT / 2;
-		if (cy <= 70)
-			cy = 70;
+		if (cy <= 0)
+			cy = 0;
 	}
-	else */if(cy + height >= Map::GetInstance()->GetHeightMap())
+	else 
+		if(cy + height >= Map::GetInstance()->GetHeightMap())
 		cy = Map::GetInstance()->GetHeightMap() - height + 48;
 	else cy = CySceen;
-	
+	/*cy = 0;
+	cx = 0;*/
 	SetCamPos(cx, cy);
 }
 

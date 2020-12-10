@@ -13,6 +13,7 @@
 #include "Goomba.h"
 #include "PlayerHoldingState.h"
 #include "Portal.h"
+#include "Trigger.h"
 #include "Camera.h"
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
@@ -25,7 +26,7 @@ Mario* Mario::GetInstance()
 Mario::Mario() {
 	tag = PLAYER;
 	type = MARIO;
-	level = RACCOON;
+	level = SMALL;
 	gravity = WORLD_GRAVITY;
 }
 
@@ -293,13 +294,18 @@ void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
 	{
 		Portal* p = dynamic_cast<Portal*>(e->obj);
 		scene_id =p->GetSceneId();
-
-		camera->SetCy(p->GetCy());
+		IsChangeScene = true;
+	}
+	if (dynamic_cast<Trigger*>(e->obj))
+	{
+		Trigger* p = dynamic_cast<Trigger*>(e->obj);
+		scene_trigger = p->GetTriggerPort();
 		IsChangeScene = true;
 	}
 }
 void Mario::ChangeScene(int port)
 {
+	IsTouchTrigger = false;
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
 }
@@ -549,40 +555,56 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_DOWN:
 		{
+			
 			break;
 		}
 		case DIK_1: 
+		{
 			SetLevel(SMALL);
 			ChangeAnimation(new PlayerStandingState());
 			break;
+		}
 		case DIK_2:
+		{
 			SetLevel(BIG);
 			ChangeAnimation(new PlayerStandingState());
 			y -= 20;
 			break;
+		}
 		case DIK_3:
+		{
 			y -= 20;
 			SetLevel(RACCOON);
 			ChangeAnimation(new PlayerStandingState());
 			break;
+		}
 		case DIK_4:
+		{
 			y -= 20;
 			SetLevel(FIRE);
 			ChangeAnimation(new PlayerStandingState());
 			break;
+		}
 		case DIK_F1:
-			SetPosition(70,250);
+		{
+			SetPosition(70, 250);
 			break;
+		}
 		case DIK_F2:
+		{
 			SetPosition(900, 300);
 			break;
+		}
 		case DIK_F3:
+		{
 			SetPosition(2500, 400);
 			break;
+		}
 		case DIK_F4:
+		{
 			SetPosition(1616, 140);
 			break;
-		
+		}
 	}
 }
 void Mario::OnKeyUp(int key) {

@@ -232,28 +232,24 @@ void Game::Load(LPCWSTR gameFile)
 		switch (section)
 		{
 		case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
-		case GAME_FILE_SECTION_SCENES: _ParseSection_WORLDMAPS(line); break;
+		case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
 		}
 	}
 	f.close();
 
 	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
 
-	SwitchWorldMap(current_worldMap);
+	SwitchScene(current_scene);
 }
 
-void Game::SwitchWorldMap(int map_id)
+void Game::SwitchScene(int scene_id)
 {
-	DebugOut(L"[INFO] Switching to scene %d\n", map_id);
+	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
 
-	scenes[current_worldMap]->Unload();
-
-	Textures::GetInstance()->Clear();
-	Sprites::GetInstance()->Clear();
-	Animations::GetInstance()->Clear();
-	AnimationSets::GetInstance()->Clear();
-	current_worldMap = map_id;
-	LPSCENE s = scenes[map_id];
+	scenes[current_scene]->Unload();
+;
+	current_scene = scene_id;
+	LPSCENE s = scenes[scene_id];
 	Game::GetInstance()->SetKeyHandler(s->GetKeyEventHandler()); //nhan ban phim moi
 	s->Load();
 }
@@ -264,12 +260,12 @@ void Game::_ParseSection_SETTINGS(string line)
 
 	if (tokens.size() < 2) return;
 	if (tokens[0] == "start")
-		current_worldMap = atoi(tokens[1].c_str());
+		current_scene = atoi(tokens[1].c_str());
 	else
 		DebugOut(L"[ERROR] Unknown game setting %s\n", ToWSTR(tokens[0]).c_str());
 }
 
-void Game::_ParseSection_WORLDMAPS(string line)
+void Game::_ParseSection_SCENES(string line)
 {
 	vector<string> tokens = split(line);
 

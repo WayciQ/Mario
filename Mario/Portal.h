@@ -1,32 +1,34 @@
 #pragma once
-#include"GameObject.h"
+#include "GameObject.h"
 class Portal : public GameObject
 {
+private:
 	int scene_id;
-	float Cy;
 public:
-	Portal(int scene_id, float w, float h,float cy)
+	Portal(int scene_id, float w, float h)
 	{
 		this->type = PORTAL;
-		tag = BOX;
-		this->heightBBox = h;
-		this->widthBBox = w;
+		this->tag = BOX;
 		this->scene_id = scene_id;
-		Cy = cy;
-	};
-	void Render() {
+		this->widthBBox = w;
+		this->heightBBox = h;
+	}
+	~Portal(){}
+	void Update(WORD dt)
+	{
+
+	}
+	void Render()
+	{
 		RenderBoundingBox();
-	};
-	void GetBoundingBox(float& l, float& t, float& r, float& b)
+	}
+	void GetBoundingBox(float& l, float& t, float& b, float& r)
 	{
 		l = x;
 		t = y;
-		r = x + widthBBox;
 		b = y + heightBBox;
-	};
+		r = x + widthBBox;
+	}
 	int GetSceneId() { return scene_id; }
-	int GetCy() { return Cy; }
 };
-
-typedef Portal* LPPORTAL;
 

@@ -174,7 +174,6 @@
     <ClCompile Include="PlayerKickState.cpp" />
     <ClCompile Include="PlayerRunningState.cpp" />
     <ClCompile Include="PlayerShootingFireState.cpp" />
-    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="SwitchBlock.cpp" />
     <ClCompile Include="TropaKoompa.cpp" />
@@ -201,7 +200,6 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Whip.cpp" />
-    <ClCompile Include="WorldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
@@ -238,6 +236,7 @@
     <ClInclude Include="PlayerRunningState.h" />
     <ClInclude Include="PlayerShootingFireState.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="Trigger.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="SwitchBlock.h" />
     <ClInclude Include="TropaKoompa.h" />
@@ -266,14 +265,15 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Weapons.h" />
     <ClInclude Include="Whip.h" />
-    <ClInclude Include="WorldMapScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="resource\data\map1.txt" />
-    <Text Include="resource\data\map2.txt" />
     <Text Include="resource\data\mario-scene.txt" />
-    <Text Include="resource\data\WorldMap-1_1.txt" />
-    <Text Include="WorldMap-Mario-Bros-3.txt" />
+    <Text Include="resource\data\World1\world1-scene1.1.txt" />
+    <Text Include="resource\data\World1\world1-scene1.1_map.txt" />
+    <Text Include="resource\data\World1\world1-scene1.txt" />
+    <Text Include="resource\data\World1\world1-scene1_map.txt" />
+    <Text Include="resource\data\World1\world1_map.txt" />
+    <Text Include="resource\data\World1\worldMap1.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\textures\bbox.png" />

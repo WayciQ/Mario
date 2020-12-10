@@ -1,0 +1,14 @@
+#	id	file_path	transparent_color_r	g	b
+[TEXTURES]
+5	resource\textures\WorldMap1Title.png	0	0	255
+
+[MAPS]
+1	resource\data\World1\world1_map.txt	16	248
+
+[OBJECTS]
+# tag	x	y	type	extra_settings per object type
+# MARIO
+0	16	32	2
+# GROUND
+4	0	432	11	656	16
+4	656	416	11	496	32

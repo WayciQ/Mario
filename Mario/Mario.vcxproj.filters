@@ -67,8 +67,8 @@
     <Filter Include="GameObjects\Player\state\Normal State\JUMP-FLY">
       <UniqueIdentifier>{445d4352-d82f-4c42-b652-033ebd5b89ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="resources\data\WorldMap1">
-      <UniqueIdentifier>{a533d6be-7847-485d-98b5-711db7142e0e}</UniqueIdentifier>
+    <Filter Include="resources\data\World1">
+      <UniqueIdentifier>{70546198-a705-4611-a51d-88f67bbd168a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -228,7 +228,6 @@
     <ClCompile Include="PlayerFallingState.cpp">
       <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
     </ClCompile>
-    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="EffectBigBang.h">
       <Filter>GameObjects\Effect</Filter>
@@ -236,7 +235,6 @@
     <ClCompile Include="PlayerChangeLevelState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
-    <ClCompile Include="WorldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -410,7 +408,6 @@
     <ClInclude Include="PlayerFallingState.h">
       <Filter>GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
     </ClInclude>
-    <ClInclude Include="Portal.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="BreakBrick.h">
       <Filter>GameObjects\Effect</Filter>
@@ -421,23 +418,34 @@
     <ClInclude Include="PlayerChangeLevelState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
-    <ClInclude Include="WorldMapScene.h" />
+    <ClInclude Include="Portal.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Trigger.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="resource\data\map2.txt">
-      <Filter>resources\data</Filter>
-    </Text>
-    <Text Include="resource\data\map1.txt">
-      <Filter>resources\data</Filter>
-    </Text>
     <Text Include="resource\data\mario-scene.txt">
       <Filter>resources\data</Filter>
     </Text>
-    <Text Include="WorldMap-Mario-Bros-3.txt">
-      <Filter>resources\data</Filter>
+    <Text Include="resource\data\World1\world1-scene1_map.txt">
+      <Filter>resources\data\World1</Filter>
     </Text>
-    <Text Include="resource\data\WorldMap-1_1.txt">
-      <Filter>resources\data</Filter>
+    <Text Include="resource\data\World1\world1-scene1.txt">
+      <Filter>resources\data\World1</Filter>
+    </Text>
+    <Text Include="resource\data\World1\worldMap1.txt">
+      <Filter>resources\data\World1</Filter>
+    </Text>
+    <Text Include="resource\data\World1\world1_map.txt">
+      <Filter>resources\data\World1</Filter>
+    </Text>
+    <Text Include="resource\data\World1\world1-scene1.1.txt">
+      <Filter>resources\data\World1</Filter>
+    </Text>
+    <Text Include="resource\data\World1\world1-scene1.1_map.txt">
+      <Filter>resources\data\World1</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

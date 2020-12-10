@@ -4,7 +4,7 @@
 #include "Camera.h"
 Map* Map::__instance = NULL;
 Map::Map(){}
-#define SPRITE_MAP 9991
+#define ID_TEX_MAP 5
 void Map::LoadResourses(LPCWSTR gameFile) {
 	ifstream f;
 	f.open(gameFile);
@@ -44,11 +44,10 @@ RECT Map::GetPositionMap(int x, int y)
 RECT Map::GetPositionTitle(int title)
 {
 	RECT t;
-	title++;
-	int i = title / colTitle;		// get top
-	int j = title % colTitle;		// get left
-	t.left = j == 0 ?  TITLE_WIDTH * colTitle - TITLE_WIDTH: TITLE_WIDTH * j - TITLE_WIDTH; // if title % colTitle = 0 mean title is last colTitle else j = title % colTitle
-	t.top = title > colTitle ? i * TITLE_HEIGHT : 0; // if title / colTitle = 1  mean title is last colTitle
+	int i = title / colTitle;		// get row
+	int j = title % colTitle;		// get col
+	t.left =TITLE_WIDTH * j;		// 
+	t.top = title > colTitle-1 ? i * TITLE_HEIGHT : 0; // if title / colTitle = 1  mean title is last colTitle
 	t.right = t.left + TITLE_WIDTH;
 	t.bottom = t.top + TITLE_HEIGHT;
 	return t;
@@ -65,18 +64,22 @@ void Map::GetPositionCam(int &xs, int& ys, int& xe, int& ye)
 	int bottom = (int)cam.bottom;
 	int right = (int)cam.right;
 
-	xs = left == 0 ? 0 : left / TITLE_WIDTH;
+	/*xs = left == 0 ? 0 : left / TITLE_WIDTH;
 	ys = top < 16 ? 1 : top / TITLE_HEIGHT;
 	ye = bottom / TITLE_HEIGHT - 5;
-	xe = right == width ? col : right / TITLE_WIDTH - 1;
+	xe = right == width ? col : right / TITLE_WIDTH - 1;*/
+	xs = int(max(0, left / TITLE_WIDTH));
+	ys = int(max(0, top / TITLE_HEIGHT));
+	ye = int(min(row - 1, int(bottom / TITLE_HEIGHT)));
+	xe = int(min(col - 1, int(right / TITLE_WIDTH)));
 	//DebugOut(L"cam l:%d\n t:%d\n r:%d\n b:%d\n", xs, ys, xe, ye);
 }
 
 void Map::Render() {
 	RECT r;
 	RECT t;
-	Sprite * sprite = Sprites::GetInstance()->Get(SPRITE_MAP);
-
+	LPDIRECT3DTEXTURE9 Map = Textures::GetInstance()->Get(ID_TEX_MAP);
+	
 	int xs, ys, xe, ye;
 	GetPositionCam( xs, ys, xe, ye);
 	
@@ -88,14 +91,15 @@ void Map::Render() {
 			{
 				r = GetPositionMap(j, i);
 				t = GetPositionTitle(mapTitles[i][j]);
-				sprite->Draw(r.left, r.top, t.left, t.top, t.right, t.bottom);
+				
+				Game::GetInstance()->Draw(r.left, r.top, Map, t.left, t.top, t.right, t.bottom,255);
 			}
 		}
 	}
-		
 }
  
 void Map::Update(float dt) {
+
 }
 Map* Map::GetInstance()
 {
