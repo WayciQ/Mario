@@ -13,6 +13,7 @@ Camera* Camera::GetInstance()
 
 Camera::Camera()
 {
+
 	cam_x = 0;
 	cam_y = 0;
 	this->width = SCREEN_WIDTH;
@@ -33,29 +34,30 @@ void Camera::Update()
 {
 	float cx, cy;
 	player->GetPosition(cx, cy);
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
-	if (cx <= 0)
+	cx -= width / 2;
+	cy -= height / 2;
+	if (cx <= maxLeftCam)
 	{
-		cx = 0;
+		cx = maxLeftCam;
 	}
-	else if(cx + width >= Map::GetInstance()->GetWidthMap())
+	else if(cx + width >= maxRightCam )
 	{
-		cx = Map::GetInstance()->GetWidthMap() - width;
+		cx = maxRightCam - width;
 	}
 	
-	if (cy <= CySceen-48)
+	if (cy <= maxTopCam)
 	{
-		cy -= SCREEN_HEIGHT / 2;
-		if (cy <= 0)
-			cy = 0;
+		cy = maxTopCam;
+	}
+	else if (cy >= maxBottomCam)
+	{
+		cy = maxBottomCam;
 	}
 	else 
-		if(cy + height >= Map::GetInstance()->GetHeightMap())
-		cy = Map::GetInstance()->GetHeightMap() - height + 48;
-	else cy = CySceen;
-	/*cy = 0;
-	cx = 0;*/
+	{
+		if(cy >= maxBottomCam - SCREEN_HEIGHT / 2)
+			cy  = maxBottomCam;
+	}
 	SetCamPos(cx, cy);
 }
 

@@ -9,7 +9,7 @@ PlayerRunningState::PlayerRunningState() {
 	player->Allow[JUMPING_SHORT] = false;
 	player->Allow[FLYING_PUSH] = false;
 	player->Allow[PICKING] = false;
-	DebugOut(L"[info] RUNNING: vx: %f\n", player->vx);
+	//DebugOut(L"[info] RUNNING: vx: %f\n", player->vx);
 
 	if (abs(player->vx) >= MARIO_RUNNING_SPEED)
 	{

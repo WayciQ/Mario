@@ -63,7 +63,7 @@ void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void PiranhaPlant::UpdatePosition(DWORD dt)
 {
-	if (x > camera->cam_x && x < camera->cam_x + camera->width)
+	if (x > camera->cam_x && x < camera->cam_x + camera->GetWidth())
 	{
 
 		if (upDone && CurAnimation->isLastFrame)

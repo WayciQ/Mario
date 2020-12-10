@@ -25,17 +25,10 @@ PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_MAPS	7
 #define SCENE_SECTION_SWITCH_SCENE		8
-#define GAME_FILE_SECTION_SETTINGS 9
+#define SCENE_FILE_SECTION_SETTINGS 9
 #define MAX_SCENE_LINE 1024
 
-void PlayScene::_ParseSection_SETTINGS(string line)
-{
-	vector<string> tokens = split(line);
 
-	if (tokens.size() < 1) return;
-	if (tokens[0] == "cam")
-		camera->SetCy(int(atoi(tokens[1].c_str())));
-}
 void PlayScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
@@ -62,7 +55,6 @@ void PlayScene::_ParseSection_MAPS(string line)
 	grid->cols = ((int)Map::GetInstance()->GetWidthMap() / (int)atoi(tokens[2].c_str())) + 1;
 	grid->rows = ((int)Map::GetInstance()->GetHeightMap() / (int)atoi(tokens[2].c_str())) + 1;
 	grid->Init();
-	camera->SetCy((float)atof(tokens[3].c_str()));
 }
 void PlayScene::_ParseSection_SPRITES(string line)
 {
@@ -208,16 +200,33 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	case BOX:
 		switch (type)
 		{
-		case PORTAL:
-			/*obj = new Portal((int)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()), (float)atof(tokens[6].c_str()), (float)atof(tokens[7].c_str()));
-			Portals[(int)atof(tokens[4].c_str())] = obj;
-			grid->AddStaticObject(obj, x, y);
-			break;*/
 		case TRIGGER:
-			Trigger *trigger = new Trigger((int)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()), (float)atof(tokens[6].c_str()), (float)atof(tokens[7].c_str()));
-			listTrigger.push_back(trigger);
+		{
+			Trigger* trigger = new Trigger((int)atof(tokens[4].c_str()),
+				(int)atof(tokens[5].c_str()),
+				(int)atof(tokens[6].c_str()),
+				(int)atof(tokens[7].c_str()),
+				(int)atof(tokens[8].c_str()),
+				(int)atof(tokens[9].c_str()),
+				(int)atof(tokens[10].c_str()),
+				(int)atof(tokens[11].c_str()),
+				(int)atof(tokens[12].c_str()),
+				(int)atof(tokens[13].c_str()));
+
+			listTrigger[(int)atof(tokens[4].c_str())] = trigger;
 			grid->AddStaticObject(trigger, x, y);
 			break;
+		}
+		case PORTAL:
+		{
+			Portal* portal = new Portal((int)atof(tokens[4].c_str()),
+				(int)atof(tokens[5].c_str()),
+				(int)atof(tokens[6].c_str()),x,y);
+
+			listPortal[(int)atof(tokens[4].c_str())] = portal;
+			grid->AddStaticObject(portal, x, y);
+			break;
+		}
 		}
 		
 	default:
@@ -236,7 +245,17 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	
 	//DebugOut(L"[INFO] Object size: %d\n", HolderObjects.size());
 }
+void PlayScene::_ParseSection_SETTINGS(string line)
+{
+	vector<string> tokens = split(line);
 
+	if (tokens.size() < 1) return;
+
+	if (tokens[0] == "cam")
+	{
+		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())), int(atoi(tokens[4].c_str())));
+	}
+}
 void PlayScene::Load()
 {
 
@@ -254,7 +273,7 @@ void PlayScene::Load()
 		string line(str);
 
 		if (line[0] == '#') continue;	// skip comment lines	
-
+		
 		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
 		if (line == "[SPRITES]") {
 			section = SCENE_SECTION_SPRITES; continue;
@@ -271,6 +290,9 @@ void PlayScene::Load()
 		if (line == "[MAPS]") {
 			section = SCENE_SECTION_MAPS; continue;
 		}
+		if (line == "[SETTINGS]") {
+			section = SCENE_FILE_SECTION_SETTINGS; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 		//
 		// data section
@@ -283,6 +305,7 @@ void PlayScene::Load()
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_MAPS: _ParseSection_MAPS(line); break;
+		case SCENE_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
 		}
 	}
 	 //Init();
@@ -335,21 +358,28 @@ void PlayScene::Render()
 
 void PlayScene::Unload()
 {
-	for (int i = 0; i < HolderObjects.size(); i++)
-		delete HolderObjects[i];
-
-	HolderObjects.clear();
-	P = NULL;
-
+	
+	//P = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 void PlayScene::ChangeScene() {
+
+	if (player->IsChangePort) {
+		auto trigger = listTrigger.at(player->scene_trigger);
+		player->SetPosition(trigger->GetPosX(), 
+							trigger->GetPosY());
+		player->SetSpeed(0, 0);
+		camera->SetCamScene(trigger->leftScene,trigger->topScene,trigger->rightScene,trigger->bottomScene);
+		player->IsChangePort = false;
+	}
+
 	if (player->IsChangeScene) {
-		Game::GetInstance()->SwitchScene(player->scene_trigger);
-		player->ChangeScene(player->scene_trigger);
+		player->ChangeScene(player->scene_id);
 		player->IsChangeScene = false;
 	}
+	
 }
+
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	Mario* mario = ((PlayScene*)scene)->GetPlayer();

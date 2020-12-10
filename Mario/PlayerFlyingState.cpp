@@ -3,7 +3,7 @@
 #include "Mario.h"
 #define MARIO_FLY_TIME	5000
 PlayerFlyingState::PlayerFlyingState() {
-	DebugOut(L"[info] FLYING: vx: %f\n", player->vx);
+	//DebugOut(L"[info] FLYING: vx: %f\n", player->vx);
 
 	if (player->isFlying)
 	{

@@ -6,7 +6,7 @@
 
 PlayerFallingState::PlayerFallingState()
 {
-	DebugOut(L"[info] FALLING: vx: %f\n", player->vx);
+	//DebugOut(L"[info] FALLING: vx: %f\n", player->vx);
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	player->Allow[JUMPING] = false;
 	player->Allow[JUMPING_SHORT] = false;

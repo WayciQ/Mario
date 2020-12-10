@@ -4,7 +4,7 @@
 
 PlayerKickState::PlayerKickState()
 {
-	DebugOut(L"[info] KICKING: vx: %f\n", player->vx);
+	//DebugOut(L"[info] KICKING: vx: %f\n", player->vx);
 	player->isKicking = true;
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	if (player->nx > 0)

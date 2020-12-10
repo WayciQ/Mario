@@ -296,16 +296,18 @@ void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
 		scene_id =p->GetSceneId();
 		IsChangeScene = true;
 	}
+	else
 	if (dynamic_cast<Trigger*>(e->obj))
 	{
 		Trigger* p = dynamic_cast<Trigger*>(e->obj);
 		scene_trigger = p->GetTriggerPort();
-		IsChangeScene = true;
+		IsChangePort = true;
 	}
 }
 void Mario::ChangeScene(int port)
 {
 	IsTouchTrigger = false;
+	IsChangeScene = false;
 	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
 }

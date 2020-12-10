@@ -2,21 +2,18 @@
 #include "GameObject.h"
 class Portal : public GameObject
 {
-private:
+
 	int scene_id;
 public:
-	Portal(int scene_id, float w, float h)
+	Portal(int scene_id, float w, float h,float x,float y)
 	{
 		this->type = PORTAL;
-		this->tag = BOX;
+		tag = BOX;
 		this->scene_id = scene_id;
 		this->widthBBox = w;
 		this->heightBBox = h;
-	}
-	~Portal(){}
-	void Update(WORD dt)
-	{
-
+		this->x = x;
+		this->y = y;
 	}
 	void Render()
 	{
@@ -26,8 +23,8 @@ public:
 	{
 		l = x;
 		t = y;
-		b = y + heightBBox;
 		r = x + widthBBox;
+		b = y + heightBBox;
 	}
 	int GetSceneId() { return scene_id; }
 };

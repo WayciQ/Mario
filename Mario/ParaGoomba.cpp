@@ -161,7 +161,7 @@ void ParaGoomba::Revival()
 #define DISTANCE_FL 100
 void ParaGoomba::UpdatePosition(DWORD dt)
 {
-	if ((x > camera->cam_x || x < camera->cam_x + camera->width) && !jumped)
+	if ((x > camera->cam_x || x < camera->cam_x + camera->GetWidth()) && !jumped)
 	{	
 		if ((x > player->x + DISTANCE_FL))
 		{

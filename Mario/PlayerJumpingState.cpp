@@ -11,7 +11,7 @@ PlayerJumpingState::PlayerJumpingState()
 
 	player->Allow[WHIPPING] = false; 
 	player->Allow[FIRING_FIRE] = false;
-	DebugOut(L"[info] JUMPING: vx: %f\n", player->vx);
+	//DebugOut(L"[info] JUMPING: vx: %f\n", player->vx);
 	switch (player->level)
 	{
 	case BIG:

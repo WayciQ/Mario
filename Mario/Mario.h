@@ -51,6 +51,7 @@ public:
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
 
+	bool IsChangePort;
 	bool IsChangeScene;
 	bool IsTelePort;
 	int scene_id = 1;

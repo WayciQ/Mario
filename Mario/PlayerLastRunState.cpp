@@ -3,7 +3,7 @@
 #include "PlayerStandingState.h"
 #include "PlayerWalkingState.h"
 PlayerLastRunState::PlayerLastRunState() {
-	DebugOut(L"[info] LASTRUN: vx: %f\n", player->vx);
+	//DebugOut(L"[info] LASTRUN: vx: %f\n", player->vx);
 	player->vx = 0;
 	if (player->walkingDirection > 0) {
 		stateName = LAST_RIGHT;

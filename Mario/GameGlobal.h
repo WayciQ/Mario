@@ -18,10 +18,10 @@ using namespace std;
 #define GAME_FILE_SECTION_SETTINGS 1
 #define GAME_FILE_SECTION_SCENES 2
 
-#define SCREEN_WIDTH	350
-#define SCREEN_HEIGHT	270
+#define SCREEN_WIDTH	288
+#define SCREEN_HEIGHT	272
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(100, 255, 255)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(156, 252, 240)
 #define WINDOW_CLASS_NAME L"Mario"
 #define MAIN_WINDOW_TITLE L"Mario"
 #define MAX_FRAME_RATE 120
@@ -238,6 +238,7 @@ extern unordered_map<int, bool> keyCode; // manager info of keyboard have been p
 #define animationsSets AnimationSets::GetInstance()
 #define grid Grid::GetInstance()
 #define scoreBoard ScoreBoard::GetInstance()
+#define map Map::GetInstance()
 
 class GameGlobal
 {

@@ -1,13 +1,16 @@
 #pragma once
-#include"GameObject.h"
-#define HEIGHT_TRIGGER 32
-#define WIDTH_TRIGGER 16
+#include "GameObject.h"
 class Trigger : public GameObject
 {
 	int trigger_port;
 	int SideToIn;
+	float posX, posY;
+	
 public:
-	Trigger(int port, float w, float h, int SideToIn)
+	float topScene;
+	float leftScene;
+	float rightScene, bottomScene;
+	Trigger(int port, float w, float h, int SideToIn,float PosX, float PosY, float leftScene,float topScene, float rightScene,float  bottomScene)
 	{
 		this->type = TRIGGER;
 		tag = BOX;
@@ -15,6 +18,12 @@ public:
 		this->widthBBox = w;
 		this->trigger_port = port;
 		this->SideToIn = SideToIn;
+		this->posX = PosX;
+		this->posY = PosY;
+		this->leftScene = leftScene;
+		this->topScene = topScene;
+		this->rightScene = rightScene;
+		this->bottomScene = bottomScene;
 	};
 	void Render() {
 		RenderBoundingBox();
@@ -30,7 +39,8 @@ public:
 	int GetWayIn() {
 		return SideToIn;
 	}
+	float GetPosX() { return posX; }
+	float GetPosY() { return posY; }
+	float GetCamSet() { return topScene; }
 };
-
-typedef Trigger* LPPORTAL;
 

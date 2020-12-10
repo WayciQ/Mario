@@ -28,7 +28,7 @@ PlayerWalkingState::PlayerWalkingState()
 		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
-	DebugOut(L"[info] WALKING: vx: %f\n", player->vx);
+	//DebugOut(L"[info] WALKING: vx: %f\n", player->vx);
 	//flag
 	player->isWhipping = false;
 	player->isSitting = false;

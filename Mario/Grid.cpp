@@ -114,7 +114,7 @@ void Grid::RenderCell()
 // test
 bool Grid::IsOnCam(LPGAMEOBJECT obj)
 {
-	return (obj->x > camera->cam_x && obj->x < camera->cam_x + camera->width && obj->y > camera->cam_y && obj->y < camera->cam_y + camera->height);
+	return (obj->x > camera->cam_x && obj->x < camera->cam_x + camera->GetWidth() && obj->y > camera->cam_y && obj->y < camera->cam_y + camera->GetHeight());
 }
 void Grid::CalcObjectInViewPort()
 {

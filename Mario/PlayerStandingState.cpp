@@ -17,7 +17,7 @@ PlayerStandingState::PlayerStandingState() {
 	player->Allow[FIRING_FIRE] = false;
 	player->Allow[RUNNING] = false;
 	player->Allow[FLYING] = false;
-	DebugOut(L"[info] STANDING: vx: %f\n", player->vx);
+	//DebugOut(L"[info] STANDING: vx: %f\n", player->vx);
 	switch (player->level)
 	{
 	case SMALL:

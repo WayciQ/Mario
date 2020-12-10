@@ -4,7 +4,7 @@
 #define HEIGHT_SCORE_BROAD 28
 #define ID_TEX_HUB 7
 #define POS_X camera->cam_x
-#define POS_Y camera->cam_y + 200
+#define POS_Y camera->cam_y + 192
 #define POS_I1 POS_X + 160
 #define POS_I2 POS_X + 183
 #define POS_I3 POS_X + 206
@@ -77,7 +77,7 @@ void ScoreBoard::Update(float dt)
 void ScoreBoard::Render()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_HUB);
-	Game::GetInstance()->Draw(POS_X, POS_Y, bbox, 0, 0, camera->GetWidht(), 40, 255);
+	Game::GetInstance()->Draw(POS_X, POS_Y, bbox, 0, 0, camera->GetWidth(), 48, 255);
 	
 	
 	HUB->Draw(POS_X, POS_Y);

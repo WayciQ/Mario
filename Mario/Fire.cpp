@@ -171,7 +171,7 @@ void Fire::UpdatePosititon(DWORD dt)
 {
 	
 
-	if(x < camera-> cam_x || x > camera->cam_x + camera->width ||  y > camera->cam_y + camera->height)
+	if(x < camera-> cam_x || x > camera->cam_x + camera->GetWidth() ||  y > camera->cam_y + camera->GetHeight())
 	{
 		startTimeDead();
 		CurAnimation = animation_set->Get(BIGBANG);

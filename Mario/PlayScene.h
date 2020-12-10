@@ -21,8 +21,8 @@ public:
 
 	vector<LPGAMEOBJECT> HolderObjects;
 	vector<LPGAMEOBJECT> staticOnject;
-	vector<Portal*> listPortal;
-	vector<Trigger*> listTrigger;
+	unordered_map<int,Trigger*> listTrigger;
+	unordered_map<int, Portal*> listPortal;
 	PlayScene(int id, LPCWSTR filePath);
 	void ChangeScene();
 	virtual void Load();
