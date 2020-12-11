@@ -40,9 +40,15 @@ void Camera::Update()
 	{
 		cx = maxLeftCam;
 	}
-	else if(cx + width >= maxRightCam )
+	else if(cx >= maxRightCam )
 	{
-		cx = maxRightCam - width;
+		cx = maxRightCam ;
+	}
+	else 
+	{
+		if (cy >= maxRightCam - SCREEN_HEIGHT / 2)
+			cy = cx = maxRightCam;
+		;
 	}
 	
 	if (cy <= maxTopCam)

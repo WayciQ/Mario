@@ -12,6 +12,7 @@
 #include "Enemies.h"
 #include "Items.h"
 #include "ScoreBoard.h"
+
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
 	key_handler = new PlayScenceKeyHandler(this);
@@ -165,7 +166,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		}
 		obj = player;
 		P = (Mario*)obj;
-		player->Revival(x, y);
+		player->Revival(x, y, static_cast<TYPE>((int)atof(tokens[3].c_str())));
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case GROUND:
@@ -221,10 +222,18 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		{
 			Portal* portal = new Portal((int)atof(tokens[4].c_str()),
 				(int)atof(tokens[5].c_str()),
-				(int)atof(tokens[6].c_str()),x,y);
+				(int)atof(tokens[6].c_str()));
 
 			listPortal[(int)atof(tokens[4].c_str())] = portal;
 			grid->AddStaticObject(portal, x, y);
+			break;
+		}
+		case CHECKPOINT:
+		{
+			CheckPoint* point = new CheckPoint( );
+
+			listPoint.push_back(point);
+			grid->AddStaticObject(point, x, y);
 			break;
 		}
 		}
@@ -353,7 +362,7 @@ void PlayScene::Render()
 	}
 	player->Render();
 	scoreBoard->Render();
-	//grid->RenderCell();
+	 grid->RenderCell();
 }
 
 void PlayScene::Unload()
@@ -376,6 +385,7 @@ void PlayScene::ChangeScene() {
 	if (player->IsChangeScene) {
 		player->ChangeScene(player->scene_id);
 		player->IsChangeScene = false;
+		game->SwitchScene(player->scene_id);
 	}
 	
 }
@@ -397,5 +407,4 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	keyCode[KeyCode] = false;
 	mario->OnKeyUp(KeyCode);
 }
-
 

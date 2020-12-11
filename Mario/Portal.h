@@ -2,29 +2,26 @@
 #include "GameObject.h"
 class Portal : public GameObject
 {
-
 	int scene_id;
 public:
-	Portal(int scene_id, float w, float h,float x,float y)
+	Portal(int scene_id, float w, float h)
 	{
-		this->type = PORTAL;
+		type = PORTAL;
 		tag = BOX;
 		this->scene_id = scene_id;
-		this->widthBBox = w;
-		this->heightBBox = h;
-		this->x = x;
-		this->y = y;
+		widthBBox = w;
+		heightBBox = h;
 	}
 	void Render()
 	{
 		RenderBoundingBox();
 	}
-	void GetBoundingBox(float& l, float& t, float& b, float& r)
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	{
-		l = x;
-		t = y;
-		r = x + widthBBox;
-		b = y + heightBBox;
+		left = x;
+		top = y;
+		right = x + widthBBox;
+		bottom = y + heightBBox;
 	}
 	int GetSceneId() { return scene_id; }
 };

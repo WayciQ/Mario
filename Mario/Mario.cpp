@@ -10,6 +10,7 @@
 #include "PlayerShootingFireState.h"
 #include "PlayerChangeLevelState.h"
 #include "PlayerFlyingState.h"
+#include "PlayerWorlMapState.h"
 #include "Goomba.h"
 #include "PlayerHoldingState.h"
 #include "Portal.h"
@@ -39,10 +40,10 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += gravity*dt;
 	//DebugOut(L"state: %d\n", player->GetState());
 	
-	if(y > curY+15)
+	/*if(y > curY+15)
 	{
 		ChangeAnimation(new PlayerFallingState());
-	}
+	}*/
 	isWaittingPressBtn = GetTickCount() - startWalkingComplete <= MARIO_LAST_RUN_TIME;
 	/*if (isWaittingPressBtn) {
 		DebugOut(L"\n isWaittingPress:true - %d", GetTickCount() - startWalkingComplete);
@@ -405,7 +406,7 @@ void Mario::Render() {
 			CurAnimation->Render(x, y, alpha);
 		}
 	
-	//RenderBoundingBox();
+	 RenderBoundingBox();
 }
 void Mario::ChangeAnimation(PlayerState* newState)
 {
@@ -419,11 +420,13 @@ void Mario::ChangeAnimation(PlayerState* newState)
 
 void Mario::OnKeyDown(int key)
 {
-	switch (key)
+	if (typeScene != MARIO_MAP)
 	{
+		switch (key)
+		{
 		case DIK_S:
 		{
-			
+
 			if (!isOnSky && Allow[JUMPING])
 			{
 				startJump();
@@ -480,7 +483,7 @@ void Mario::OnKeyDown(int key)
 			break;
 		}
 		case DIK_X:
-		{	
+		{
 			startJump();
 			if (!isJumping && Allow[JUMPING_SHORT])
 			{
@@ -522,7 +525,7 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_A:
 		{
-			
+
 			switch (level)
 			{
 			case RACCOON:
@@ -549,7 +552,7 @@ void Mario::OnKeyDown(int key)
 				}
 				break;
 			}
-			if (!canPicking  )
+			if (!canPicking)
 			{
 				canPicking = true;
 			}
@@ -557,10 +560,10 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_DOWN:
 		{
-			
+
 			break;
 		}
-		case DIK_1: 
+		case DIK_1:
 		{
 			SetLevel(SMALL);
 			ChangeAnimation(new PlayerStandingState());
@@ -607,41 +610,72 @@ void Mario::OnKeyDown(int key)
 			SetPosition(1616, 140);
 			break;
 		}
+		}
+	}
+	else
+	{
+		if (keyCode[DIK_LEFT])
+		{
+			player->ChangeAnimation(new PlayerWorlMapState(-1));
+		}
+		else if (keyCode[DIK_RIGHT])
+		{
+			player->ChangeAnimation(new PlayerWorlMapState(1));
+		}
+		else if (keyCode[DIK_UP])
+		{
+			player->ChangeAnimation(new PlayerWorlMapState(-2));
+		}
+		else if (keyCode[DIK_DOWN])
+		{
+			player->ChangeAnimation(new PlayerWorlMapState(2));
+		}
 	}
 }
 void Mario::OnKeyUp(int key) {
-	switch (key)
+	if (typeScene != MARIO_MAP)
 	{
-	case DIK_A:
-	{
-		isWhipping = false;
-		canPicking = false;
-		player->Allow[RUNNING] = false;
-		break;
-	}
-	case DIK_RIGHT:
-		startWalkingDone();
-		walkingDirection = 1;
-		break;
-	case DIK_LEFT:
-		startWalkingDone();
-		walkingDirection = -1;
-		break;
-	case DIK_S:
-		isJumpDone = true;
-		player->canFallJump = true;
-		break;
-	case DIK_DOWN:
-		//isSitting = false;
-		break;
-	case DIK_X:
-		break;
+		switch (key)
+		{
+		case DIK_A:
+		{
+			isWhipping = false;
+			canPicking = false;
+			player->Allow[RUNNING] = false;
+			break;
+		}
+		case DIK_RIGHT:
+			startWalkingDone();
+			walkingDirection = 1;
+			break;
+		case DIK_LEFT:
+			startWalkingDone();
+			walkingDirection = -1;
+			break;
+		case DIK_S:
+			isJumpDone = true;
+			player->canFallJump = true;
+			break;
+		case DIK_DOWN:
+			//isSitting = false;
+			break;
+		case DIK_X:
+			break;
+		}
 	}
 	
+	
 }
-void Mario::Revival(float x, float y)
+void Mario::Revival(float x, float y,TYPE level)
 {
-	ChangeAnimation(new PlayerStandingState());
+	if (level != MARIO_MAP)
+	{
+		gravity = WORLD_GRAVITY;
+		ChangeAnimation(new PlayerStandingState());
+		this->level = level;
+	}
+	else ChangeAnimation(new PlayerWorlMapState(0));
+	typeScene = level;
 	SetPosition(x, y);
 	SetSpeed(0, 0);
 	life = 4;

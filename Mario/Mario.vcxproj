@@ -155,6 +155,7 @@
     <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="Bricks.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Drain.cpp" />
     <ClCompile Include="EffectBigBang.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="PlayerKickState.cpp" />
     <ClCompile Include="PlayerRunningState.cpp" />
     <ClCompile Include="PlayerShootingFireState.cpp" />
+    <ClCompile Include="PlayerWorlMapState.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="SwitchBlock.cpp" />
     <ClCompile Include="TropaKoompa.cpp" />
@@ -214,6 +216,7 @@
     <ClInclude Include="Bricks.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Drain.h" />
     <ClInclude Include="EffectHit.h" />
@@ -235,6 +238,7 @@
     <ClInclude Include="PlayerKickState.h" />
     <ClInclude Include="PlayerRunningState.h" />
     <ClInclude Include="PlayerShootingFireState.h" />
+    <ClInclude Include="PlayerWorlMapState.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Trigger.h" />
     <ClInclude Include="ScoreBoard.h" />

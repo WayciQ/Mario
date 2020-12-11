@@ -6,6 +6,7 @@
 #include "Grid.h"
 #include "Trigger.h"
 #include "Portal.h"
+#include "CheckPoint.h"
 class PlayScene :public Scene
 {
 private:
@@ -18,11 +19,11 @@ private:
 	void _ParseSection_MAPS(string line);
 	void _ParseSection_SETTINGS(string line);
 public:
-
 	vector<LPGAMEOBJECT> HolderObjects;
 	vector<LPGAMEOBJECT> staticOnject;
 	unordered_map<int,Trigger*> listTrigger;
 	unordered_map<int, Portal*> listPortal;
+	vector<CheckPoint*> listPoint;
 	PlayScene(int id, LPCWSTR filePath);
 	void ChangeScene();
 	virtual void Load();

@@ -5,17 +5,17 @@ class Camera
 {
 private:
 	static Camera* __instance;
-	int maxTopCam;
-	int maxLeftCam;
-	int maxRightCam;
-	int maxBottomCam;
+	
 	
 	int width; // width screen
 	int height; // height screen
 public:
 	float cam_x; // cam_x
 	float cam_y; // cam_y
-	
+	int maxTopCam;
+	int maxLeftCam;
+	int maxRightCam;
+	int maxBottomCam;
 	Camera();
 	~Camera();
 

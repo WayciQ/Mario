@@ -8,7 +8,9 @@ private:
 public:
 	float curY;
 	PlayerState* state;
+	
 	TYPE level;
+	TYPE typeScene;
 	float  gravity;
 	bool untouchable;
 	DWORD untouchableTime;
@@ -82,6 +84,6 @@ public:
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
 	void ChangeAnimation(PlayerState* newState);
-	void Revival(float x, float y);
+	void Revival(float x, float y,TYPE level);
 	void startTimeDead() { untouchableTime = GetTickCount(); untouchable = true; }
 };
