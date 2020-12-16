@@ -21,7 +21,7 @@ using namespace std;
 #define SCREEN_WIDTH	288
 #define SCREEN_HEIGHT	272
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
+#define BACKGROUND_COLOR map->backgroundcolor
 #define WINDOW_CLASS_NAME L"Mario"
 #define MAIN_WINDOW_TITLE L"Mario"
 #define MAX_FRAME_RATE 120

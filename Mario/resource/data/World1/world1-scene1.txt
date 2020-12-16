@@ -10,7 +10,7 @@
 0	4	131	1	132	2	231	4	232	5	233	6	234	7	235	9	236	10	330	17	331	18	332	12	333	13	334	20	335	21	336	25	337	26	338	28	339	29	338	31	339	32	431	41	432	42	433	44	434	45	237	47	238	48	531	53	532	54	533	50	534	51
 
 [MAPS]
-1	resource\data\World1\world1-scene1_map.txt	176	0	0
+1	resource\data\World1\world1-scene1_map.txt	176	0	0	156	252	240
 
 [OBJECTS]
 # tag	x	y	type	extra_settings per object type
@@ -126,8 +126,10 @@
 #1	1872	400	22
 #=== trigger ===
 #id	x	y	type	4-idPort	5-width	6-height	7-typeIn	8-posX	9-posY	10-leftScene	11-topScene	12-righttScene	13-botScene
-5	40	400	33	1	16	31	1	2176	464	2048	480	2560	480
+#5	40	400	33	1	16	31	1	2176	464	2048	480	2560	480
 5	2416	480	33	2	32	32	1	2416	368	0	0	2912	256
+
+5	50	400	34	0	16	32
 # === ITEM ===
 
 [SETTINGS]

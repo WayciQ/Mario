@@ -12,9 +12,10 @@ private:
 	int colTitle;		// col title
 	int** mapTitles;	// arr store
 	
-
+	
 
 public:
+	D3DCOLOR backgroundcolor;
 	float padding_left;
 	float padding_top;
 	Map();

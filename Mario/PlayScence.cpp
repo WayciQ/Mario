@@ -58,6 +58,10 @@ void PlayScene::_ParseSection_MAPS(string line)
 	grid->cols = (widthmap/(int)atoi(tokens[2].c_str())) -1 ;
 	grid->rows = ((int)map->GetHeightMap() / (int)atoi(tokens[2].c_str())) ;
 	grid->Init();
+	int R = atoi(tokens[5].c_str());
+	int G = atoi(tokens[6].c_str());
+	int B = atoi(tokens[7].c_str());
+	map->backgroundcolor = D3DCOLOR_XRGB(R, G, B);
 }
 void PlayScene::_ParseSection_SPRITES(string line)
 {
@@ -326,7 +330,7 @@ void PlayScene::Load()
 
 void PlayScene::Update(DWORD dt)
 {
-	
+	ChangeScene();
 	vector<LPGAMEOBJECT> coObjects;
 	grid->UpdateCell();
 	grid->CalcObjectInViewPort();
@@ -337,7 +341,8 @@ void PlayScene::Update(DWORD dt)
 	{
 		coObjects.push_back(grid->GetObjectInViewPort()[i]);
 	}
-	ChangeScene();
+	
+
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
 		if (!player->freeze)
@@ -364,8 +369,18 @@ void PlayScene::Render()
 
 void PlayScene::Unload()
 {
+	for (auto& obj : listPoint)
+		delete obj;
 	
-	//P = NULL;
+	for (int i = 0; i < listPortal.size(); i++)
+		delete listPortal[i];
+	
+	for (int i = 0; i < listTrigger.size(); i++)
+		delete listTrigger[i];
+	listPoint.clear();
+	listPortal.clear();
+	listTrigger.clear();
+	P = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 void PlayScene::ChangeScene() {
@@ -375,12 +390,13 @@ void PlayScene::ChangeScene() {
 		player->SetPosition(trigger->GetPosX(), 
 							trigger->GetPosY());
 		player->SetSpeed(0, 0);
+		player->IsTouchTrigger = false;
 		camera->SetCamScene(trigger->leftScene,trigger->topScene,trigger->rightScene,trigger->bottomScene);
 		player->IsChangeTrigger = false;
 	}
 
 	if (player->IsChangeScene) {
-		player->ChangeScene(player->scene_id);
+		
 		player->IsChangeScene = false;
 		game->SwitchScene(player->scene_id);
 	}

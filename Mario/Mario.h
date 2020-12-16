@@ -75,7 +75,7 @@ public:
 	void UpdateWithGround(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void ChangeScene(int port);
+	void ChangeScene(int Port);
 	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
 	void UpdateWithEnemy(LPCOLLISIONEVENT colliable_objects);
@@ -86,6 +86,6 @@ public:
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
 	void ChangeAnimation(PlayerState* newState);
-	void Revival(float x, float y,TYPE level);
+	void Revival(float x, float y, int isInScene);
 	void startTimeDead() { untouchableTime = GetTickCount(); untouchable = true; }
 };

@@ -66,10 +66,8 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 
-	
+	DebugOut(L"x: %f\ny:%f\n", x, y);
 	CalcPotentialCollisions(coObjects, coEvents);
-	
-
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -377,9 +375,6 @@ void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
 {
 	x += dx;
 	y += dy;
-	ChangeAnimation(new PlayerWorlMapState(0));
-	x = e->obj->x;
-	y = e->obj->y;
 	
 	if (IsCollisionAABB(GetRect(), e->obj->GetRect()))
 	{
@@ -391,24 +386,36 @@ void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
 			Portal* p = dynamic_cast<Portal*>(e->obj);
 			scene_id = p->GetSceneId();
 			IsTouchPort = true;
+			x = e->obj->x;
+			y = e->obj->y;
+			vx = 0;
+			vy = 0;
 		}
 		else if (dynamic_cast<SceneGate*>(e->obj))
 		{
+			vx = 0;
+			vy = 0;
 			x += dx;
 			SceneGate* p = dynamic_cast<SceneGate*>(e->obj);
 			scene_trigger = p->GetTriggerPort();
 			moveToTrigger = p->GetWayIn();
 			IsTouchTrigger = true;
 		}
+		else if (dynamic_cast<CheckPoint*>(e->obj))
+		{
+			vx = 0;
+			vy = 0;
+			x = e->obj->x;
+			y = e->obj->y;
+			IsTouchPort = false;
+		}
 	}
 	
 }
 void Mario::ChangeScene(int port)
 {
-	IsTouchTrigger = false;
-	IsChangeScene = false;
-	ChangeAnimation(new PlayerStandingState());
 	SetSpeed(0, 0);
+	ChangeAnimation(new PlayerStandingState());
 }
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -438,6 +445,13 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 					right = x + MARIO_BIG_BBOX_WIDTH;
 					bottom = y + MARIO_BIG_BBOX_HEIGHT;
 				}
+			}
+			else if (stateBoundingBox == MARIO_STATE_SMALL_BOUDING_BOX)
+			{
+				left = x;
+				top = y;
+				right = x + MARIO_SMALL_BBOX_WIDTH;
+				bottom = y + MARIO_SMALL_BBOX_HEIGHT;
 			}
 		}
 		else
@@ -476,6 +490,14 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 					bottom = y + MARIO_BIG_BBOX_HEIGHT;
 				}
 			}
+			else if (stateBoundingBox == MARIO_STATE_SMALL_BOUDING_BOX)
+			{
+				left = x;
+				top = y;
+				right = x + MARIO_SMALL_BBOX_WIDTH;
+				bottom = y + MARIO_SMALL_BBOX_HEIGHT;
+			}
+			
 		}
 		
 	}
@@ -524,6 +546,11 @@ void Mario::OnKeyDown(int key)
 		{
 		case DIK_S:
 		{
+			if (IsTouchPort)
+			{
+				IsChangeScene = true;
+				IsTouchPort = false;
+			}
 
 			if (!isOnSky && Allow[JUMPING])
 			{
@@ -776,16 +803,20 @@ void Mario::OnKeyUp(int key) {
 	
 	
 }
-void Mario::Revival(float x, float y,TYPE level)
+void Mario::Revival(float x, float y, int isInScene)
 {
-	if (level != PLAYER_IN_WORLD_MAP)
+	if (isInScene > 0)
 	{
 		gravity = WORLD_GRAVITY;
+		nx = 1;
 		ChangeAnimation(new PlayerStandingState());
-		this->level = level;
+		typeScene = level;
 	}
-	else ChangeAnimation(new PlayerWorlMapState(0));
-	typeScene = level;
+	else
+	{
+		ChangeAnimation(new PlayerWorlMapState(0));
+		typeScene = PLAYER_IN_WORLD_MAP;
+	}
 	SetPosition(x, y);
 	SetSpeed(0, 0);
 	life = 4;
