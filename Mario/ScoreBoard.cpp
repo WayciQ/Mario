@@ -37,7 +37,7 @@ void ScoreBoard::Init()
 		L"Super Mario Bros. 3", 
 		&font);
 
-	SetRect(&rect, POS_X + 39, POS_Y_TEX1, POS_X + SCREEN_WIDTH, POS_Y + 30);
+	SetRect(&rect, POS_X + 39 + map->padding_left, POS_Y_TEX1, POS_X + SCREEN_WIDTH, POS_Y + 30);
 	information = "4                              01\n";
 	information +="4   1241241       121\n";
 	auto sprites = Sprites::GetInstance();
@@ -77,23 +77,24 @@ void ScoreBoard::Update(float dt)
 void ScoreBoard::Render()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_HUB);
-	Game::GetInstance()->Draw(POS_X, POS_Y, bbox, 0, 0, camera->GetWidth(), 48, 255);
+	Game::GetInstance()->Draw(POS_X, POS_Y - map->padding_top, bbox, 0, 0, camera->GetWidth(), 48, 255);
 	
 	
-	HUB->Draw(POS_X, POS_Y);
-	Item1->Draw(POS_I1, POS_Y);
-	Item2->Draw(POS_I2, POS_Y);
-	Item3->Draw(POS_I3, POS_Y);
-	typePlayer->Draw(POS_X + 4, POS_Y + 15);
+	HUB->Draw(POS_X, POS_Y - map->padding_top);
+	Item1->Draw(POS_I1, POS_Y - map->padding_top);
+	Item2->Draw(POS_I2, POS_Y - map->padding_top);
+	Item3->Draw(POS_I3, POS_Y - map->padding_top);
+	typePlayer->Draw(POS_X + 4, POS_Y + 15 - map->padding_top);
 	for(int i = 0; i < NumSpeed; i++)
 	{
-		speed->Draw(POS_X + 53 + (i*8), POS_Y + 7);
+		speed->Draw(POS_X + 53 + (i*8), POS_Y + 7 - map->padding_top);
 	}
 	isDrawPush = isDrawPush ? false : true;
 	if (NumSpeed >= 6 && isDrawPush)
 	{
-		push->Draw(POS_X + 100, POS_Y + 7);
+		push->Draw(POS_X + 100, POS_Y + 7 - map->padding_top);
 	}
+
 	LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
 	
 	if (font)

@@ -38,7 +38,7 @@ RECT Map::GetPositionMap(int x, int y)
 {
 	RECT r;
 	r.left = x * TITLE_WIDTH;
-	r.top = y * TITLE_HEIGHT;
+	r.top =  y * TITLE_HEIGHT;
 	return r;
 }
 RECT Map::GetPositionTitle(int title)

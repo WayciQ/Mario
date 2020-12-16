@@ -16,6 +16,7 @@
 #include "Portal.h"
 #include "Trigger.h"
 #include "Camera.h"
+#include "CheckPoint.h"
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -32,6 +33,100 @@ Mario::Mario() {
 }
 
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	// Calculate dx, dy 
+	GameObject::Update(dt);
+	state->Update(dt);
+	// Simple fall down
+	vy += gravity*dt;
+	//DebugOut(L"state: %d\n", player->GetState());
+	
+	/*if(y > curY+15)
+	{
+		ChangeAnimation(new PlayerFallingState());
+	}*/
+	isWaittingPressBtn = GetTickCount() - startWalkingComplete <= MARIO_LAST_RUN_TIME;
+	/*if (isWaittingPressBtn) {
+		DebugOut(L"\n isWaittingPress:true - %d", GetTickCount() - startWalkingComplete);
+	}else DebugOut(L"\n isWaittingPress:false - %d", GetTickCount() - startWalkingComplete);*/
+	
+	if (GetTickCount() - untouchableTime >= MARIO_UNTOUCHABLE_TIME)
+	{
+		untouchableTime = 0;
+		untouchable = false;
+	}
+
+	if (GetTickCount() - countTime > 1000 && !freeze)
+	{
+		playTime--;
+		countTime = GetTickCount();
+	}
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
+
+	
+	CalcPotentialCollisions(coObjects, coEvents);
+	
+
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// block 
+		x += min_tx * dx + nx * 0.1f;		
+		y += min_ty * dy + ny * 0.1f;
+
+	
+		
+	
+		if (ny == 1)
+		{
+			vy = 0;
+			isJumpDone = true;
+		}
+		else if (ny == -1)
+		{
+			vy = 0;
+			isOnSky = false;
+			curY = y;
+		}
+		
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			switch (e->obj->tag)
+			{
+			case GROUND:
+				UpdateWithGround(e);
+				break;
+			case ENEMY:
+				UpdateWithEnemy(e);
+				break;
+			case ITEM:
+				UpdateWithItem(e);
+				break;
+			case BOX:
+				UpdateWithPortal(e);
+				break;
+			}
+			
+		}
+	}
+
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+}
+void Mario::UpdateWithGround(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	GameObject::Update(dt);
@@ -115,17 +210,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				UpdateWithPortal(e);
 				break;
 			}
-			/*if (e->obj->tagChange == WEAPON)
-			{
-				if (e->nx != 0)
-				{
-					ChangeAnimation(new PlayerChangeLevelState());
-				}
-				if (e->ny != 0)
-				{
-					y += dy;
-				}
-			}*/
+			
 		}
 	}
 
@@ -249,7 +334,6 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 			player->y -= 20;
 			ChangeAnimation(new PlayerChangeLevelState(false));
 		}
-			
 		break;
 	case GREEN_MUSHROOM:
 		life += 1;
@@ -291,19 +375,33 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 }
 void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
 {
-	if (dynamic_cast<Portal*>(e->obj))
+	x += dx;
+	y += dy;
+	ChangeAnimation(new PlayerWorlMapState(0));
+	x = e->obj->x;
+	y = e->obj->y;
+	
+	if (IsCollisionAABB(GetRect(), e->obj->GetRect()))
 	{
-		Portal* p = dynamic_cast<Portal*>(e->obj);
-		scene_id =p->GetSceneId();
-		IsChangeScene = true;
+		
+		if (dynamic_cast<Portal*>(e->obj))
+		{
+			y += dy;
+			x += dx;
+			Portal* p = dynamic_cast<Portal*>(e->obj);
+			scene_id = p->GetSceneId();
+			IsTouchPort = true;
+		}
+		else if (dynamic_cast<SceneGate*>(e->obj))
+		{
+			x += dx;
+			SceneGate* p = dynamic_cast<SceneGate*>(e->obj);
+			scene_trigger = p->GetTriggerPort();
+			moveToTrigger = p->GetWayIn();
+			IsTouchTrigger = true;
+		}
 	}
-	else
-	if (dynamic_cast<Trigger*>(e->obj))
-	{
-		Trigger* p = dynamic_cast<Trigger*>(e->obj);
-		scene_trigger = p->GetTriggerPort();
-		IsChangePort = true;
-	}
+	
 }
 void Mario::ChangeScene(int port)
 {
@@ -420,7 +518,7 @@ void Mario::ChangeAnimation(PlayerState* newState)
 
 void Mario::OnKeyDown(int key)
 {
-	if (typeScene != MARIO_MAP)
+	if (typeScene != PLAYER_IN_WORLD_MAP)
 	{
 		switch (key)
 		{
@@ -560,7 +658,11 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_DOWN:
 		{
-
+			if (IsTouchTrigger && moveToTrigger == 1)
+			{
+				IsChangeTrigger = true;
+				IsTouchTrigger = false;
+			}
 			break;
 		}
 		case DIK_1:
@@ -630,10 +732,18 @@ void Mario::OnKeyDown(int key)
 		{
 			player->ChangeAnimation(new PlayerWorlMapState(2));
 		}
+		else if (keyCode[DIK_S])
+		{
+			if (IsTouchPort)
+			{
+				IsChangeScene = true;
+				IsTouchPort = false;	
+			}
+		}
 	}
 }
 void Mario::OnKeyUp(int key) {
-	if (typeScene != MARIO_MAP)
+	if (typeScene != PLAYER_IN_WORLD_MAP)
 	{
 		switch (key)
 		{
@@ -668,7 +778,7 @@ void Mario::OnKeyUp(int key) {
 }
 void Mario::Revival(float x, float y,TYPE level)
 {
-	if (level != MARIO_MAP)
+	if (level != PLAYER_IN_WORLD_MAP)
 	{
 		gravity = WORLD_GRAVITY;
 		ChangeAnimation(new PlayerStandingState());

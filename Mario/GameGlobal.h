@@ -12,7 +12,7 @@
 using namespace std;
 #define MAX_GAME_LINE 1024
 
-#define LOAD_DATA L"resource\\data\\mario-scene.txt"
+#define GAME_DATA L"resource\\data\\mario-scene.txt"
 
 #define GAME_FILE_SECTION_UNKNOWN -1
 #define GAME_FILE_SECTION_SETTINGS 1
@@ -21,7 +21,7 @@ using namespace std;
 #define SCREEN_WIDTH	288
 #define SCREEN_HEIGHT	272
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(156, 252, 240)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 #define WINDOW_CLASS_NAME L"Mario"
 #define MAIN_WINDOW_TITLE L"Mario"
 #define MAX_FRAME_RATE 120
@@ -221,10 +221,10 @@ extern enum TYPE {
 	BUTTON,
 	EFFECT_BIGBANG,
 	EFFECT_STAR,
-	TRIGGER,
+	SCENE_GATE,
 	PORTAL,
 	CHECKPOINT,
-	MARIO_MAP
+	PLAYER_IN_WORLD_MAP,
 };
 extern enum TAG
 {

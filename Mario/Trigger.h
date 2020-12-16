@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-class Trigger : public GameObject
+class SceneGate : public GameObject
 {
 	int trigger_port;
 	int SideToIn;
@@ -10,9 +10,9 @@ public:
 	float topScene;
 	float leftScene;
 	float rightScene, bottomScene;
-	Trigger(int port, float w, float h, int SideToIn,float PosX, float PosY, float leftScene,float topScene, float rightScene,float  bottomScene)
+	SceneGate(int port, float w, float h, int SideToIn,float PosX, float PosY, float leftScene,float topScene, float rightScene,float  bottomScene)
 	{
-		this->type = TRIGGER;
+		this->type = SCENE_GATE;
 		tag = BOX;
 		this->heightBBox = h;
 		this->widthBBox = w;

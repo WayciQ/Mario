@@ -70,6 +70,9 @@
     <Filter Include="resources\data\World1">
       <UniqueIdentifier>{70546198-a705-4611-a51d-88f67bbd168a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\GATE">
+      <UniqueIdentifier>{d0a3dd41-083d-437c-8c93-1932e2844fdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -236,7 +239,6 @@
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
     <ClCompile Include="PlayerWorlMapState.cpp" />
-    <ClCompile Include="CheckPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -420,14 +422,16 @@
     <ClInclude Include="PlayerChangeLevelState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
-    <ClInclude Include="Trigger.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerWorlMapState.h" />
-    <ClInclude Include="Portal.h">
-      <Filter>GameObjects</Filter>
+    <ClInclude Include="CheckPoint.h">
+      <Filter>GameObjects\GATE</Filter>
     </ClInclude>
-    <ClInclude Include="CheckPoint.h" />
+    <ClInclude Include="Trigger.h">
+      <Filter>GameObjects\GATE</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>GameObjects\GATE</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">

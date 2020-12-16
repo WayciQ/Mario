@@ -94,17 +94,12 @@ void Grid::RenderCell()
 	{
 		for (int c = area.LeftCell; c <= area.RightCell; c++)
 		{
-			LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
-			string inforCell = "Static object" + to_string(Cells[r][c]->staticObjects.size()) + "\n";
-			inforCell += "Moving object" + to_string(Cells[r][c]->movingObjects.size()) + "\n";
-			inforCell += "Cell[ " + to_string(r) + "][" + to_string(c) + "]";
-			
 			SetRect(&rect, 
 					Cells[r][c]->posX * SizeCell,
 					Cells[r][c]->posY * SizeCell, 
 					Cells[r][c]->posX * SizeCell + SizeCell, 
 					Cells[r][c]->posY * SizeCell + SizeCell);
-			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + SizeCell, rect.top+1, 255);
+			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + SizeCell, rect.top + 1, 255);
 			Game::GetInstance()->Draw(rect.left, rect.top, bbox, rect.left, rect.top, rect.left + 1, rect.top + SizeCell, 255);
 			
 		}
@@ -238,7 +233,7 @@ void Grid::UpdateCell()
 	{
 		RECT e;
 		e.left = obj->x;
-		e.top = obj->y;
+		e.top = obj->y;	
 		e.right = obj->x + obj->widthBBox;
 		e.bottom = obj->y + obj->heightBBox;
 		auto objArea = FindCell(e);

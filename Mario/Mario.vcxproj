@@ -155,7 +155,6 @@
     <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="Bricks.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Drain.cpp" />
     <ClCompile Include="EffectBigBang.h" />

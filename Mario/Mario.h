@@ -53,13 +53,14 @@ public:
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
 
-	bool IsChangePort;
+	bool IsChangeTrigger;
 	bool IsChangeScene;
 	bool IsTelePort;
 	int scene_id = 1;
 	int scene_trigger;
 	bool IsTouchTrigger;
-
+	int moveToTrigger;
+	bool IsTouchPort;
 	int score;
 	DWORD playTime, countTime;
 	bool freeze;
@@ -71,6 +72,7 @@ public:
 	STATEPLAYER GetState() { return state->stateName; }
 	Mario();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	void UpdateWithGround(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void ChangeScene(int port);

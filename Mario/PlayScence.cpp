@@ -51,10 +51,12 @@ void PlayScene::_ParseSection_MAPS(string line)
 	if (tokens.size() < 2) return;
 	int mapId = atoi(tokens[0].c_str());
 	wstring path = ToWSTR(tokens[1]);
-	Map::GetInstance()->LoadResourses(path.c_str());
+	map->LoadResourses(path.c_str());
+	map->SetPadding((float)atoi(tokens[3].c_str()), (float)atoi(tokens[4].c_str()));
 	grid->SetSizeCell((int)atoi(tokens[2].c_str()));
-	grid->cols = ((int)Map::GetInstance()->GetWidthMap() / (int)atoi(tokens[2].c_str())) + 1;
-	grid->rows = ((int)Map::GetInstance()->GetHeightMap() / (int)atoi(tokens[2].c_str())) + 1;
+	int widthmap = (int)map->GetWidthMap();
+	grid->cols = (widthmap/(int)atoi(tokens[2].c_str())) -1 ;
+	grid->rows = ((int)map->GetHeightMap() / (int)atoi(tokens[2].c_str())) ;
 	grid->Init();
 }
 void PlayScene::_ParseSection_SPRITES(string line)
@@ -201,9 +203,9 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	case BOX:
 		switch (type)
 		{
-		case TRIGGER:
+		case SCENE_GATE:
 		{
-			Trigger* trigger = new Trigger((int)atof(tokens[4].c_str()),
+			SceneGate* trigger = new SceneGate((int)atof(tokens[4].c_str()),
 				(int)atof(tokens[5].c_str()),
 				(int)atof(tokens[6].c_str()),
 				(int)atof(tokens[7].c_str()),
@@ -230,9 +232,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		}
 		case CHECKPOINT:
 		{
-			CheckPoint* point = new CheckPoint( );
-
-			listPoint.push_back(point);
+			CheckPoint* point = new CheckPoint();
 			grid->AddStaticObject(point, x, y);
 			break;
 		}
@@ -352,9 +352,6 @@ void PlayScene::Update(DWORD dt)
 
 void PlayScene::Render()
 {
-	
-	
-	
 	Map::GetInstance()->Render();
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
@@ -362,7 +359,7 @@ void PlayScene::Render()
 	}
 	player->Render();
 	scoreBoard->Render();
-	 grid->RenderCell();
+	//grid->RenderCell();
 }
 
 void PlayScene::Unload()
@@ -373,13 +370,13 @@ void PlayScene::Unload()
 }
 void PlayScene::ChangeScene() {
 
-	if (player->IsChangePort) {
+	if (player->IsChangeTrigger) {
 		auto trigger = listTrigger.at(player->scene_trigger);
 		player->SetPosition(trigger->GetPosX(), 
 							trigger->GetPosY());
 		player->SetSpeed(0, 0);
 		camera->SetCamScene(trigger->leftScene,trigger->topScene,trigger->rightScene,trigger->bottomScene);
-		player->IsChangePort = false;
+		player->IsChangeTrigger = false;
 	}
 
 	if (player->IsChangeScene) {

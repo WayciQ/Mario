@@ -145,9 +145,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	game->Init(hWnd);
 	game->InitKeyboard();
-	game->Load(LOAD_DATA);
+	game->Load(GAME_DATA);
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*3, SCREEN_HEIGHT*3, SWP_NOMOVE | SWP_SHOWWINDOW | SWP_NOZORDER);
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT*2, SWP_NOMOVE | SWP_SHOWWINDOW | SWP_NOZORDER);
 
 	Run();
 

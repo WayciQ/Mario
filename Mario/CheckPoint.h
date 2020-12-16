@@ -3,9 +3,23 @@
 class CheckPoint : public GameObject
 {
 public:
-	CheckPoint() {}
+	CheckPoint() {
+		tag = BOX;
+		type = CHECKPOINT;
+		
+		widthBBox = 16;
+		heightBBox = 16;
+	}
 	~CheckPoint(){}
-	void GetBoundingBox(float& left, float& top, float& right, float& bottom){}
-	void Render() {}
+	void Render() {
+		RenderBoundingBox();
+	};
+	void GetBoundingBox(float& l, float& t, float& r, float& b)
+	{
+		l = x;
+		t = y;
+		r = x + widthBBox;
+		b = y + heightBBox;
+	};
 };
 

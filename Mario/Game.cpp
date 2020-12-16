@@ -50,7 +50,8 @@ void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top,
 {
 	float cx, cy;
 	Camera::GetInstance()->GetCamPos(cx, cy);
-	D3DXVECTOR3 p(floor(x - cx), floor(y - cy), 0);
+
+	D3DXVECTOR3 p(floor(x - cx + map->padding_left), floor(y - cy + map->padding_top), 0);
 
 	RECT r;
 	r.left = left;

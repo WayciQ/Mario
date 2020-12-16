@@ -21,7 +21,7 @@ private:
 public:
 	vector<LPGAMEOBJECT> HolderObjects;
 	vector<LPGAMEOBJECT> staticOnject;
-	unordered_map<int,Trigger*> listTrigger;
+	unordered_map<int,SceneGate*> listTrigger;
 	unordered_map<int, Portal*> listPortal;
 	vector<CheckPoint*> listPoint;
 	PlayScene(int id, LPCWSTR filePath);
