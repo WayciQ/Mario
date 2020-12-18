@@ -53,9 +53,9 @@ public:
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
 
+	
 	bool IsChangeTrigger;
 	bool IsChangeScene;
-	bool IsTelePort;
 	int scene_id = 1;
 	int scene_trigger;
 	bool IsTouchTrigger;
@@ -75,10 +75,12 @@ public:
 	void ChangeScene(int Port);
 	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
+
 	void UpdateWithEnemy(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithGround(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithItem(LPCOLLISIONEVENT colliable_objects);
-	void UpdateWithPortal(LPCOLLISIONEVENT colliable_objects);
+	void UpdateWithGate(LPCOLLISIONEVENT colliable_objects);
+
 	void SetLevel(TYPE level) { this->level = level; }
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);

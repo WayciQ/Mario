@@ -228,6 +228,7 @@ extern enum TYPE {
 	CHECKPOINT,
 	PLAYER_IN_WORLD_MAP,
 	CARD,
+	CARD_HUB,
 };
 extern enum TAG
 {

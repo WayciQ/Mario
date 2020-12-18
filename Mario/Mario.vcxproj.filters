@@ -150,9 +150,6 @@
     <ClCompile Include="BrickCloud.cpp">
       <Filter>GameObjects\Ground\Brick</Filter>
     </ClCompile>
-    <ClCompile Include="Bricks.cpp">
-      <Filter>GameObjects\Ground\Brick</Filter>
-    </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>GameObjects\Enemy\Goomba</Filter>
     </ClCompile>
@@ -238,11 +235,13 @@
     <ClCompile Include="PlayerChangeLevelState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
-    <ClCompile Include="Card.cpp" />
     <ClCompile Include="PlayerWorlMapState.cpp">
       <Filter>GameObjects\Player\state</Filter>
     </ClCompile>
     <ClCompile Include="Information.cpp" />
+    <ClCompile Include="Card.cpp">
+      <Filter>GameObjects\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -435,11 +434,13 @@
     <ClInclude Include="Portal.h">
       <Filter>GameObjects\GATE</Filter>
     </ClInclude>
-    <ClInclude Include="Card.h" />
     <ClInclude Include="PlayerWorlMapState.h">
       <Filter>GameObjects\Player\state</Filter>
     </ClInclude>
     <ClInclude Include="Information.h" />
+    <ClInclude Include="Card.h">
+      <Filter>GameObjects\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">

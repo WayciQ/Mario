@@ -33,7 +33,8 @@ public:
 	int GetScorePoint() { return scorePoint; }
 	void LifeEarn(int lifec) { life += lifec; }
 	int GetLife() { return life; }
-	int AddCard(STATEOBJECT typeCard) {
+	void AddCard(STATEOBJECT typeCard) {
+
 		switch (countCard)
 		{
 		case 0:
@@ -44,13 +45,18 @@ public:
 			break;
 		case 2:
 			card_3 = typeCard;
+
 			break;
-		case 3:
-			CalsCard();
-			ResetListCard();
 		default:
 			DebugOut(L"Cannot Add Card\n");
 			break;
+		}
+		if (countCard >= 2) {
+			CalsCard();
+			ResetListCard();
+		}
+		else {
+			countCard++;
 		}
 	}
 	void ResetListCard() {
@@ -72,16 +78,16 @@ public:
 		}
 	}
 	void CalsCard() {
-		if (card_1 != card_2 && card_1 != card_3) {
+		if (card_1 != card_2 || card_1 != card_3 || card_2 != card_3) {
 			LifeEarn(1);
 		}
-		else if (card_1 == card_2 == card_3 == CARD_MUSHROOM) {
+		else if (card_1 == card_2 && card_1 == card_3 && card_1 == CARD_MUSHROOM) {
 			LifeEarn(2);
 		}
-		else if (card_1 == card_2 == card_3 == CARD_FLOWER) {
+		else if (card_1 == card_2 && card_1 == card_3 && card_1 == CARD_FLOWER) {
 			LifeEarn(3);
 		}
-		else if (card_1 == card_2 == card_3 == CARD_STAR) {
+		else if (card_1 == card_2 && card_1 == card_3 && card_1 == CARD_STAR) {
 			LifeEarn(5);
 		}
 	}

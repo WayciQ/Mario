@@ -73,9 +73,9 @@ void ScoreBoard::Update(float dt)
 
 	information = scene + "                              " + money + "\n";
 	information += life +"   "+ scoregame +"     "+ timeString +"\n";
-	Item1 = animationsSets->Get(CARD)->Get(player->infor->GetCard(1));
-	Item2 = animationsSets->Get(CARD)->Get(player->infor->GetCard(2));
-	Item3 = animationsSets->Get(CARD)->Get(player->infor->GetCard(2));
+	Item1 = animationsSets->Get(CARD_HUB)->Get(player->infor->GetCard(1));
+	Item2 = animationsSets->Get(CARD_HUB)->Get(player->infor->GetCard(2));
+	Item3 = animationsSets->Get(CARD_HUB)->Get(player->infor->GetCard(3));
 }
 void ScoreBoard::Render()
 {

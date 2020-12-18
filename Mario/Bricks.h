@@ -4,6 +4,7 @@
 #include "BrickNormal.h"
 #include "BrickQuestion.h"
 #include "SwitchBlock.h"
+#include "Card.h"
 class Bricks
 {
 public:
@@ -27,6 +28,9 @@ public:
 			break;
 		case BUTTON:
 			return new SwitchBlock();
+			break;
+		case CARD:
+			return new Card();
 			break;
 		default:
 			return NULL;

@@ -1,13 +1,14 @@
 #pragma once
-#include "Item.h"
-class Card : public Item
+#include "Brick.h"
+class Card : public Brick
 {
 	DWORD timeChange;
+	int getCard;
+	STATEOBJECT typeCard;
 public:
-	Card(float x, float y);
+	Card();
 	~Card() {};
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
-	void UpdatePosition(float dt) {};
-
+	STATEOBJECT GetTypeCard() { return typeCard; }
 };
 

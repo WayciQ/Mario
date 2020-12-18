@@ -153,7 +153,6 @@
     <ClCompile Include="BrickCloud.cpp" />
     <ClCompile Include="BrickNormal.cpp" />
     <ClCompile Include="BrickQuestion.cpp" />
-    <ClCompile Include="Bricks.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Coin.cpp" />

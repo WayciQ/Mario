@@ -4,11 +4,12 @@ Brick::Brick() {
 	tag = GROUND;
 	typeParent = BLOCK;
 	isDead = false;
+	widthBBox = heightBBox = 16;
 }
 void Brick::Render()
 {
 	CurAnimation->Render(x, y, 255);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 void Brick::ChangeAnimation(STATEOBJECT state)
 {
@@ -18,6 +19,6 @@ void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = x + BRICK_BBOX_WIDTH;
-	b = y + BRICK_BBOX_HEIGHT;
+	r = x + widthBBox;
+	b = y + heightBBox;
 }

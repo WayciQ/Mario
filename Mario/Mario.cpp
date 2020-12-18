@@ -17,6 +17,7 @@
 #include "Trigger.h"
 #include "Camera.h"
 #include "CheckPoint.h"
+#include "Card.h"
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -67,7 +68,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 
-	DebugOut(L"x: %f\ny:%f\n", x, y);
+	//DebugOut(L"x: %f\ny:%f\n", x, y);
 	CalcPotentialCollisions(coObjects, coEvents);
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -115,7 +116,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				UpdateWithItem(e);
 				break;
 			case BOX:
-				UpdateWithPortal(e);
+				UpdateWithGate(e);
 				break;
 			}
 			
@@ -226,6 +227,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 {
 	e->obj->isDead = true;
+	e->obj->canDel = true;
 	switch (e->obj->type)
 	{
 	case LEAF:
@@ -246,9 +248,9 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 		break;
 	case GREEN_MUSHROOM:
 		infor->LifeEarn(1);
+
 		break;
-	default:
-		break;
+	
 	}
 }
 void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
@@ -271,6 +273,7 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 			vy = 0;
 		}
 	}
+
 	if (e->obj->type == BLOCK_QUESTION || e->obj->type == BLOCK_BREAKABLE)
 	{
 		if (e->ny == 1)
@@ -281,8 +284,17 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 		}
 
 	}
+	if (dynamic_cast<Card*>(e->obj)) {
+		e->obj->isDead = true;
+		e->obj->canDel = true;
+		Card* card = dynamic_cast<Card*>(e->obj);
+		infor->AddCard(card->GetTypeCard());
+		nx = 1;
+		ChangeAnimation(new PlayerWalkingState());
+		//game->SwitchScene(0);
+	}
 }
-void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
+void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 {
 	x += dx;
 	y += dy;
@@ -324,8 +336,6 @@ void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
 }
 void Mario::ChangeScene(int port)
 {
-	SetSpeed(0, 0);
-	ChangeAnimation(new PlayerStandingState());
 }
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

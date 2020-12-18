@@ -11,6 +11,7 @@ BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 	curY = CurY;
 	animation_set = animationsSets->Get(type);
 	ChangeAnimation(BLOCK_STATIC);
+	
 	isDone = false;
 }
 void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
