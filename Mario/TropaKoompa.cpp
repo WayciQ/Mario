@@ -78,7 +78,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			UpdatePosition(dt);
 		}
-
+		
 		if (!player->canPicking)
 		{
 			if (player->isPicking)
@@ -135,7 +135,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.04f;
+		y += min_ty * dy + ny * 0.4f;
 
 		if (ny == -1) {
 			if (!jumped && !isFlip)
@@ -145,22 +145,20 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->tag == GROUND)
-			{
-				if (e->obj->type == BOX_GROUND)
-				{
-					if (e->nx != 0)
-					{
+			
+			if (e->obj->tag == GROUND) {
+				if (e->obj->type == GROUND_BOX) {
+					
+					if (e->nx != 0) {
 						x += dx;
 					}
+					
 				}
-				else if (e->obj->type == BLOCK_QUESTION && isDead)
-				{
+				else if (e->obj->type == BLOCK_QUESTION && isDead) {
 					e->obj->isDead = true;
 					vx = -vx;
 				}
-				else
-				{
+				else {
 					if (e->nx != 0)
 					{
 						this->nx = -this->nx;
@@ -180,29 +178,24 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}*/
 						vx = -vx;
 					}
-					if (e->ny == 1)
-					{
+					if (e->ny == 1) {
 						vy = 0;
 					}
 				}
 				
 			}
-			else
-			{
-				if (tagChange == WEAPON && isKicked)
-				{
+			else {
+				if (tagChange == WEAPON && isKicked) {
 					e->obj->startTimeDead();
 					e->obj->isFlip = true;
 					e->obj->vy = -0.2f;
 					e->obj->vx = 0;
 					e->obj->SetState(ENEMY_DIE_FLIP);
 				}
-				if (e->nx != 0)
-				{
+				if (e->nx != 0) {
 					x += dx;
 				}
-				if (e->ny != 0)
-				{
+				if (e->ny != 0) {
 					y += dy;
 				}
 			}
@@ -210,6 +203,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	
 }
 
 void TropaKoompa::SetState(STATEOBJECT state)
@@ -233,5 +227,5 @@ void TropaKoompa::Revival()
 	canRespawn = false;
 	isKicked = false;
 	jumped = true;
-	SetState(ENEMY_WALKING_RIGHT);
+	SetState(ENEMY_WALKING_LEFT);
 }

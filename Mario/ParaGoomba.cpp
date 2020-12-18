@@ -84,7 +84,7 @@ void ParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->tag == GROUND)
 			{
-				if (e->obj->type == BOX_GROUND)
+				if (e->obj->type == GROUND_BOX)
 				{
 					if (e->nx != 0)
 					{
@@ -158,7 +158,7 @@ void ParaGoomba::Revival()
 	SetState(ENEMY_WALKING_RIGHT);
 
 }
-#define DISTANCE_FL 100
+
 void ParaGoomba::UpdatePosition(DWORD dt)
 {
 	if ((x > camera->cam_x || x < camera->cam_x + camera->GetWidth()) && !jumped)

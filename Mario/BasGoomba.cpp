@@ -9,6 +9,7 @@ BasGoomba::BasGoomba() : Goomba()
 void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
+	UpdatePosition(dt);
 	vy += WORLD_GRAVITY * dt;
 	ChangeAnimation();
 	if (isDead)
@@ -65,7 +66,7 @@ void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->tag == GROUND)
 			{
-				if (e->obj->type == BOX_GROUND)
+				if (e->obj->type == GROUND_BOX)
 				{
 					if (e->nx != 0)
 					{

@@ -1,10 +1,10 @@
 #pragma once
-#include "Item.h"
-class SwitchBlock : public Item
+#include "Brick.h"
+class SwitchBlock : public Brick
 {
 	bool isChange;
 public:
-	SwitchBlock(float x, float y);
+	SwitchBlock();
 	~SwitchBlock() {};
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

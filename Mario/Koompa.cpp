@@ -58,4 +58,15 @@ void Koompa::UpdatePosition(DWORD dt)
 	}
 	vy = 0;
 	SetPosition(posX, posY);
+	
+}
+void Koompa::UpdateLocation()
+{
+	/*if (x > maxRight) {
+		SetState(ENEMY_WALKING_LEFT);
+	}
+	else if (x < maxLeft) {
+		SetState(ENEMY_WALKING_RIGHT);
+	}*/
+		
 }

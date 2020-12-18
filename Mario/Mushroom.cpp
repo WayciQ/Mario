@@ -73,7 +73,7 @@ void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (e->obj->tag == GROUND)
 				{
-					if (e->obj->type == BOX_GROUND)
+					if (e->obj->type == GROUND_BOX)
 					{
 						if (e->nx != 0)
 						{

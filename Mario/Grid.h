@@ -20,7 +20,7 @@ public:
 	vector<vector<Cell*>> Cells;
 	vector<LPGAMEOBJECT> CurObjectInViewPort;
 	vector<LPGAMEOBJECT> ObjectHolder;
-	Area FindCell(RECT e);
+	Area GetCell(RECT e);
 	void Init();
 	void SetSizeCell(int s) { this->SizeCell = s;}
 	void LoadObjects(LPGAMEOBJECT& obj, float x, float y);

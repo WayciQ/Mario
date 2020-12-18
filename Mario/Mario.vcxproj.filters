@@ -238,7 +238,11 @@
     <ClCompile Include="PlayerChangeLevelState.cpp">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerWorlMapState.cpp" />
+    <ClCompile Include="Card.cpp" />
+    <ClCompile Include="PlayerWorlMapState.cpp">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClCompile>
+    <ClCompile Include="Information.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -422,7 +426,6 @@
     <ClInclude Include="PlayerChangeLevelState.h">
       <Filter>GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerWorlMapState.h" />
     <ClInclude Include="CheckPoint.h">
       <Filter>GameObjects\GATE</Filter>
     </ClInclude>
@@ -432,6 +435,11 @@
     <ClInclude Include="Portal.h">
       <Filter>GameObjects\GATE</Filter>
     </ClInclude>
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="PlayerWorlMapState.h">
+      <Filter>GameObjects\Player\state</Filter>
+    </ClInclude>
+    <ClInclude Include="Information.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">

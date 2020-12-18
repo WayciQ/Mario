@@ -30,6 +30,7 @@ Mario::Mario() {
 	type = MARIO;
 	level = SMALL;
 	gravity = WORLD_GRAVITY;
+	infor = new Information();
 }
 
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -58,7 +59,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (GetTickCount() - countTime > 1000 && !freeze)
 	{
-		playTime--;
+		infor->CalcTimeGame(-1);
 		countTime = GetTickCount();
 	}
 
@@ -124,97 +125,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
-void Mario::UpdateWithGround(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-	// Calculate dx, dy 
-	GameObject::Update(dt);
-	state->Update(dt);
-	// Simple fall down
-	vy += gravity*dt;
-	//DebugOut(L"state: %d\n", player->GetState());
-	
-	/*if(y > curY+15)
-	{
-		ChangeAnimation(new PlayerFallingState());
-	}*/
-	isWaittingPressBtn = GetTickCount() - startWalkingComplete <= MARIO_LAST_RUN_TIME;
-	/*if (isWaittingPressBtn) {
-		DebugOut(L"\n isWaittingPress:true - %d", GetTickCount() - startWalkingComplete);
-	}else DebugOut(L"\n isWaittingPress:false - %d", GetTickCount() - startWalkingComplete);*/
-	
-	if (GetTickCount() - untouchableTime >= MARIO_UNTOUCHABLE_TIME)
-	{
-		untouchableTime = 0;
-		untouchable = false;
-	}
 
-	if (GetTickCount() - countTime > 1000 && !freeze)
-	{
-		playTime--;
-		countTime = GetTickCount();
-	}
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-
-	
-	CalcPotentialCollisions(coObjects, coEvents);
-	
-
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		// block 
-		x += min_tx * dx + nx * 0.1f;		
-		y += min_ty * dy + ny * 0.1f;
-		
-		if (ny == 1)
-		{
-			vy = 0;
-			isJumpDone = true;
-		}
-		else if (ny == -1)
-		{
-			vy = 0;
-			isOnSky = false;
-			curY = y;
-		}
-		
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			switch (e->obj->tag)
-			{
-			case GROUND:
-				UpdateWithGround(e);
-				break;
-			case ENEMY:
-				UpdateWithEnemy(e);
-				break;
-			case ITEM:
-				UpdateWithItem(e);
-				break;
-			case BOX:
-				UpdateWithPortal(e);
-				break;
-			}
-			
-		}
-	}
-
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-}
 void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 {
 	if (e->ny == -1)
@@ -228,7 +139,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 				e->obj->startTimeDead();
 				e->obj->isFlip = false;
 				e->obj->SetState(ENEMY_DIE_STAND);
-				score += 100;
+				infor->ScoreEarn(100);
 			}
 			else {
 				ChangeAnimation(new PlayerChangeLevelState(true));
@@ -249,7 +160,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 						SetState(ENEMY_DIE_FLIP);
 					}
 					else SetState(ENEMY_DIE_STAND);
-					score += 100;
+					infor->ScoreEarn(100);
 				}
 				else {
 					ChangeAnimation(new PlayerKickState());
@@ -263,7 +174,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 					else {
 						e->obj->vx = -2 * MARIO_WALKING_SPEED;
 					}
-					score += 100;
+					infor->ScoreEarn(100);
 				}
 			}
 		}
@@ -323,8 +234,8 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 		else ChangeAnimation(new PlayerChangeLevelState(false,RACCOON));
 		break;
 	case COIN:
-		score += 100;
-		money += 1;
+		infor->ScoreEarn(100);
+		infor->LifeEarn(1);
 		break;
 	case RED_MUSHROOM:
 		if (level == SMALL)
@@ -334,7 +245,7 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 		}
 		break;
 	case GREEN_MUSHROOM:
-		life += 1;
+		infor->LifeEarn(1);
 		break;
 	default:
 		break;
@@ -342,7 +253,7 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 }
 void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 {
-	if (e->obj->type == BOX_GROUND)
+	if (e->obj->type == GROUND_BOX)
 	{
 		if (e->nx != 0)
 		{
@@ -366,7 +277,7 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 		{
 			vy = 0;
 			e->obj->isDead = true;
-			score += 20;
+			infor->ScoreEarn(20);
 		}
 
 	}
@@ -410,7 +321,6 @@ void Mario::UpdateWithPortal(LPCOLLISIONEVENT e)
 			IsTouchPort = false;
 		}
 	}
-	
 }
 void Mario::ChangeScene(int port)
 {
@@ -819,9 +729,5 @@ void Mario::Revival(float x, float y, int isInScene)
 	}
 	SetPosition(x, y);
 	SetSpeed(0, 0);
-	life = 4;
-	score = 0;
-	playTime = 300;
-	money = 0;
 	freeze = false;
 }

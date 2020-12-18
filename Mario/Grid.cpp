@@ -8,7 +8,7 @@ Grid::Grid()
 {
 	
 }
-Area Grid::FindCell(RECT e)
+Area Grid::GetCell(RECT e)
 {
 	return {
 		int(max(0		, e.top / SizeCell)),
@@ -19,9 +19,7 @@ Area Grid::FindCell(RECT e)
 }
 
 void Grid::Init()
-{
-	
-	
+{	
 	Cells.clear();
 	for (int y = 0; y < rows; ++y)
 	{
@@ -41,7 +39,7 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 	e.left = x;
 	e.right =x+ obj->GetRect().right;
 	e.bottom = y+ obj->GetRect().bottom;
-	auto area = FindCell(e);
+	auto area = GetCell(e);
 	switch (obj->tag)
 	{
 	case GROUND:
@@ -86,7 +84,7 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 void Grid::RenderCell()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
-	auto area = FindCell(camera->GetBound());
+	auto area = GetCell(camera->GetBound());
 	
 	RECT rect;
 
@@ -113,7 +111,7 @@ bool Grid::IsOnCam(LPGAMEOBJECT obj)
 }
 void Grid::CalcObjectInViewPort()
 {
-	auto area = FindCell(camera->GetBound());
+	auto area = GetCell(camera->GetBound());
 	unordered_set<GameObject*> result;
 	unordered_set<GameObject*> resultItem;
 	for(int r = area.TopCell;r <= area.BottomCell;r++)
@@ -146,7 +144,7 @@ void RemoveObjectIf(unordered_set<T>& container, Pred  del)
 }
 void Grid::UpdateStaticObject()
 {
-	auto area = FindCell(camera->GetBound());
+	auto area = GetCell(camera->GetBound());
 	
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell)
@@ -182,7 +180,7 @@ void Grid::UpdateStaticObject()
 }
 void Grid::UpdateCell()
 {
-	auto area = FindCell(camera->GetBound());
+	auto area = GetCell(camera->GetBound());
 	unordered_set<LPGAMEOBJECT> shouldBeUpdatedObjects;
 	bool isDeadObject = false;
 	LOOP(r, area.TopCell, area.BottomCell)
@@ -197,7 +195,7 @@ void Grid::UpdateCell()
 				e.top = obj->y;
 				e.right = obj->x + obj->widthBBox;
 				e.bottom = obj->y + obj->heightBBox;
-				auto objArea = FindCell(e);
+				auto objArea = GetCell(e);
 				if (obj->canDel) isDeadObject = true;
 				if (objArea.TopCell != r || objArea.RightCell != c)
 				{
@@ -220,7 +218,7 @@ void Grid::UpdateCell()
 				e.top = obj->y;
 				e.right = obj->x + obj->widthBBox;
 				e.bottom = obj->y + obj->heightBBox;
-				auto objArea = FindCell(e);
+				auto objArea = GetCell(e);
 				if (obj->canDel)
 				{
 					return true;
@@ -236,7 +234,7 @@ void Grid::UpdateCell()
 		e.top = obj->y;	
 		e.right = obj->x + obj->widthBBox;
 		e.bottom = obj->y + obj->heightBBox;
-		auto objArea = FindCell(e);
+		auto objArea = GetCell(e);
 		LOOP(r, objArea.TopCell, objArea.BottomCell)
 			LOOP(c, objArea.LeftCell, objArea.RightCell)
 			{
@@ -255,7 +253,7 @@ void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
 	e.left = x;
 	e.right = x + obj->widthBBox;
 	e.bottom = y + obj->heightBBox;
-	auto area = FindCell(e);
+	auto area = GetCell(e);
 	for (int r = area.TopCell; r <= area.BottomCell; r++)
 		for (int c = area.LeftCell; c <= area.RightCell; c++)
 		{
@@ -271,7 +269,7 @@ void Grid::AddMovingObject(LPGAMEOBJECT obj)
 	e.top = obj->y;
 	e.right = obj->x + obj->widthBBox;
 	e.bottom = obj->y + obj->heightBBox;
-	auto area = FindCell(e);
+	auto area = GetCell(e);
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell)
 			Cells[r][c]->movingObjects.insert(obj);
@@ -280,7 +278,7 @@ void Grid::AddMovingObject(LPGAMEOBJECT obj)
 
 void Grid::RemoveDeadObject() 
 {
-	auto area = FindCell(camera->GetBound());
+	auto area = GetCell(camera->GetBound());
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell)
 	{

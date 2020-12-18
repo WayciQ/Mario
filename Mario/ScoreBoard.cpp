@@ -15,6 +15,7 @@
 ScoreBoard* ScoreBoard::__instance = NULL;
 ScoreBoard::ScoreBoard() {
 	isDrawPush = true;
+	
 }
 void ScoreBoard::Init()
 {
@@ -42,25 +43,25 @@ void ScoreBoard::Init()
 	information +="4   1241241       121\n";
 	auto sprites = Sprites::GetInstance();
 	HUB = sprites->Get(90000);
-	Item1 = sprites->Get(90002);
-	Item2 = sprites->Get(90003);
-	Item3 = sprites->Get(90004);
+	Item1 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
+	Item2 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
+	Item3 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
 	typePlayer = sprites->Get(92001);
 	speed = sprites->Get(91001);
 	push = sprites->Get(91002);
 }
 void ScoreBoard::Update(float dt)
 {
-	string scoregame = to_string(player->score);
+	string scoregame = to_string(player->infor->GetScorePoint());
 	while (scoregame.length() < 7)
 		scoregame = "0" + scoregame;
-	string timeString = to_string(player->playTime);
+	string timeString = to_string(player->infor->GetGameTime());
 	while (timeString.length() < 3)
 		timeString = "0" + timeString;
 
-	string life = to_string(player->life);
+	string life = to_string(player->infor->GetLife());
 
-	string money = to_string(player->money);
+	string money = to_string(player->infor->GetMoney());
 	while (money.length() < 2)
 		money = "  " + money;
 
@@ -68,11 +69,13 @@ void ScoreBoard::Update(float dt)
 
 	float vx,vy;
 		player->GetSpeed(vx,vy);
-		NumSpeed = NumSpeed > 6 ? 6 : int(vx / 0.03);
+		NumSpeed = NumSpeed > 6 ? 6 : abs(int(vx / 0.03));
 
 	information = scene + "                              " + money + "\n";
 	information += life +"   "+ scoregame +"     "+ timeString +"\n";
-	
+	Item1 = animationsSets->Get(CARD)->Get(player->infor->GetCard(1));
+	Item2 = animationsSets->Get(CARD)->Get(player->infor->GetCard(2));
+	Item3 = animationsSets->Get(CARD)->Get(player->infor->GetCard(2));
 }
 void ScoreBoard::Render()
 {
@@ -81,9 +84,9 @@ void ScoreBoard::Render()
 	
 	
 	HUB->Draw(POS_X, POS_Y - map->padding_top);
-	Item1->Draw(POS_I1, POS_Y - map->padding_top);
-	Item2->Draw(POS_I2, POS_Y - map->padding_top);
-	Item3->Draw(POS_I3, POS_Y - map->padding_top);
+	Item1->Render(POS_I1, POS_Y - map->padding_top);
+	Item2->Render(POS_I2, POS_Y - map->padding_top);
+	Item3->Render(POS_I3, POS_Y - map->padding_top);
 	typePlayer->Draw(POS_X + 4, POS_Y + 15 - map->padding_top);
 	for(int i = 0; i < NumSpeed; i++)
 	{

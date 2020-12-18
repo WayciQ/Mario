@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "PlayerState.h"
-
+#include "Information.h"
 class Mario : public GameObject 
 {
 private:
@@ -61,18 +61,15 @@ public:
 	bool IsTouchTrigger;
 	int moveToTrigger;
 	bool IsTouchPort;
-	int score;
-	DWORD playTime, countTime;
+	DWORD countTime;
+	Information* infor;
 	bool freeze;
-	int money;
-	int life;
 	Animation* CurAnimation;
 	unordered_map<STATEPLAYER, bool> Allow;
 	static Mario* GetInstance();
 	STATEPLAYER GetState() { return state->stateName; }
 	Mario();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
-	void UpdateWithGround(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void ChangeScene(int Port);

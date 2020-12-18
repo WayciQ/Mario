@@ -55,7 +55,7 @@ void PlayScene::_ParseSection_MAPS(string line)
 	map->SetPadding((float)atoi(tokens[3].c_str()), (float)atoi(tokens[4].c_str()));
 	grid->SetSizeCell((int)atoi(tokens[2].c_str()));
 	int widthmap = (int)map->GetWidthMap();
-	grid->cols = (widthmap/(int)atoi(tokens[2].c_str())) -1 ;
+	grid->cols = (widthmap/(int)atoi(tokens[2].c_str()));
 	grid->rows = ((int)map->GetHeightMap() / (int)atoi(tokens[2].c_str())) ;
 	grid->Init();
 	int R = atoi(tokens[5].c_str());
@@ -190,15 +190,17 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		case DRAIN:
 			obj = new Drain( (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
-		case BOX_GROUND:
+		case GROUND_BOX:
 			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
 		}
+		GroundObject.push_back(obj);
 		grid->LoadObjects(obj,x,y);
 		break;
 	case ENEMY:
 		obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
 		grid->LoadObjects(obj,x,y);
+		EnemyObject.push_back(obj);
 		break;
 	case ITEM:
 		obj = Items::CreateItem(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
@@ -263,11 +265,16 @@ void PlayScene::_ParseSection_SETTINGS(string line)
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 1) return;
-
+	if (tokens[0] == "time")
+	{
+		player->infor->SetGameTime(int(atoi(tokens[1].c_str())));
+	}
 	if (tokens[0] == "cam")
 	{
 		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())), int(atoi(tokens[4].c_str())));
 	}
+
+	
 }
 void PlayScene::Load()
 {
@@ -364,7 +371,7 @@ void PlayScene::Render()
 	}
 	player->Render();
 	scoreBoard->Render();
-	//grid->RenderCell();
+	grid->RenderCell();
 }
 
 void PlayScene::Unload()

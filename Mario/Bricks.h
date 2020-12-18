@@ -25,9 +25,9 @@ public:
 		case BLOCK_QUESTION:
 			return new BrickQuestion(CurY,child);
 			break;
-		/*case BUTTON:
+		case BUTTON:
 			return new SwitchBlock();
-			break;*/
+			break;
 		default:
 			return NULL;
 			break;

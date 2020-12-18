@@ -100,7 +100,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				switch (e->obj->tag)
 				{
 				case GROUND:
-					if (e->obj->type != BOX_GROUND)
+					if (e->obj->type != GROUND_BOX)
 					{
 						if (e->nx != 0)
 						{

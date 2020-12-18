@@ -40,7 +40,7 @@ void Camera::Update()
 	{
 		cx = maxLeftCam;
 	}
-	else if(cx + width >= maxRightCam )
+	else if(cx >= maxRightCam )
 	{
 		cx = maxRightCam;
 	}

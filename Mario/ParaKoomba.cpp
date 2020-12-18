@@ -11,7 +11,7 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt);
 	vy += WORLD_GRAVITY * dt;
 	
-
+	
 	if (isDead)
 	{
 		if (canRespawn)
@@ -65,7 +65,7 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			UpdatePosition(dt);
 		}
-
+		
 		if (!player->canPicking)
 		{
 			if (player->isPicking)
@@ -85,13 +85,8 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		}
 	}
-	else
-	{
-		if(nx >0)
-		{
-			SetState(ENEMY_WALKING_RIGHT);
-		}
-		else SetState(ENEMY_WALKING_LEFT);
+	else {
+		UpdateLocation();
 	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -100,13 +95,11 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
-	if (coEvents.size() == 0)
-	{
+	if (coEvents.size() == 0) {
 		x += dx;
 		y += dy;
 	}
-	else
-	{
+	else {
 		// block 
 		float min_tx, min_ty, nx = 0, ny;
 
@@ -116,13 +109,15 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += min_ty * dy + ny * 0.00004f;
 
 		if (ny != 0) vy = 0;
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
+		for (UINT i = 0; i < coEventsResult.size(); i++) {
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->tag == GROUND)
-			{
-				if (e->obj->type == BOX_GROUND)
+			if (e->obj->tag == GROUND) {
+				if (e->obj->type == GROUND_BOX)
 				{
+					if (e->ny != 0) {
+						maxLeft = e->obj->x;
+						maxRight = e->obj->x + e->obj->widthBBox - widthBBox;
+					}
 					if (e->nx != 0)
 					{
 						x += dx;
@@ -170,6 +165,7 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	
 }
 
 void ParaKoompa::SetState(STATEOBJECT state)

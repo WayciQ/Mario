@@ -1,6 +1,6 @@
 #include "SwitchBlock.h"
 #include "Grid.h"
-SwitchBlock::SwitchBlock(float x,float y):Item(x, y)
+SwitchBlock::SwitchBlock()
 {
 	this->type = BUTTON;
 	widthBBox = heightBBox = 16;

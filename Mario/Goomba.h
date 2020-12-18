@@ -6,7 +6,7 @@
 #define GOOMBA_BBOX_HEIGHT 15
 #define GOOMBA_BBOX_HEIGHT_DIE 9
 #define GOOMBA_TIME_DIE 300
-
+#define DISTANCE_FL 100
 class Goomba : public Enemy
 {
 public:
@@ -14,7 +14,7 @@ public:
 	~Goomba() {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
-	virtual void UpdatePosition(DWORD dt) {};
+	virtual void UpdatePosition(DWORD dt);
 	virtual void Revival() {};
 	virtual void SetState(STATEOBJECT state);
 };

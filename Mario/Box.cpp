@@ -3,7 +3,7 @@
 Box::Box(float w, float h)
 {
 	tag = GROUND;
-	type = BOX_GROUND;
+	type = GROUND_BOX;
 	widthBBox = w;
 	heightBBox = h;
 }

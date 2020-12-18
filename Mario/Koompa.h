@@ -8,12 +8,16 @@
 
 class Koompa : public Enemy
 {
+	
 public:
+	int maxLeft, maxRight;
 	Koompa();
 	~Koompa() {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
+	virtual void CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
 	virtual void UpdatePosition(DWORD dt);
+	virtual void UpdateLocation();
 	virtual void Revival() {};
 	virtual void SetState(STATEOBJECT state);
 	virtual void Render() { Enemy::Render(); };
