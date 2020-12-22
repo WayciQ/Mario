@@ -330,17 +330,16 @@ void PlayScene::Load()
 	 //Init();
 	f.close();
 	scoreBoard->Init();
-	
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
 void PlayScene::Update(DWORD dt)
 {
 	ChangeScene();
-
 	vector<LPGAMEOBJECT> coObjects;
 
 	grid->UpdateCellInViewPort();
+	//player->CollisonGroundWall(dt, &GroundObject);
 	player->Update(dt, &grid->GetObjectInViewPort());
 
 	for (size_t i = 1; i < grid->GetObjectInViewPort().size(); i++)

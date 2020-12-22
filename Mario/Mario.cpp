@@ -1,3 +1,4 @@
+
 #include "Mario.h"
 #include "PlayerState.h"
 #include "PlayerKickState.h"
@@ -19,7 +20,7 @@
 #include "CheckPoint.h"
 #include "Card.h"
 #include "PlayerEndSceneState.h"
-Mario* Mario:: __instance = NULL;
+Mario * Mario::__instance = NULL;
 Mario* Mario::GetInstance()
 {
 	if (__instance == NULL)
@@ -41,9 +42,9 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt);
 	state->Update(dt);
 	// Simple fall down
-	vy += gravity*dt;
+	vy += gravity * dt;
 	//DebugOut(L"state: %d\n", player->GetState());
-	
+
 	/*if(y > curY+15)
 	{
 		ChangeState(new PlayerFallingState());
@@ -52,7 +53,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	/*if (isWaittingPressBtn) {
 		DebugOut(L"\n isWaittingPress:true - %d", GetTickCount() - startWalkingComplete);
 	}else DebugOut(L"\n isWaittingPress:false - %d", GetTickCount() - startWalkingComplete);*/
-	
+
 	if (GetTickCount() - untouchableTime >= MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchableTime = 0;
@@ -84,16 +85,16 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block 
-		x += min_tx * dx + nx * 0.1f;		
+		x += min_tx * dx + nx * 0.1f;
 		y += min_ty * dy + ny * 0.1f;
 
-	
-		
-	
+
+
+
 		if (ny == 1)
 		{
-			vy = 0;
 			isJumpDone = true;
+			vy = 0;
 		}
 		else if (ny == -1)
 		{
@@ -101,7 +102,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isOnSky = false;
 			curY = y;
 		}
-		
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -111,7 +112,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				UpdateWithGround(e);
 				break;
 			case ENEMY:
-				if(!untouchable)UpdateWithEnemy(e);
+				if (!untouchable)UpdateWithEnemy(e);
 				break;
 			case ITEM:
 				UpdateWithItem(e);
@@ -120,7 +121,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				UpdateWithGate(e);
 				break;
 			}
-			
+
 		}
 	}
 
@@ -128,7 +129,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
-void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
+void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 {
 	if (e->ny == -1)
 	{
@@ -144,7 +145,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 				infor->ScoreEarn(100);
 			}
 			else {
-				ChangeState(new PlayerChangeLevelState(true,level));
+				ChangeState(new PlayerChangeLevelState(true, level));
 				y += dy;
 			}
 		}
@@ -193,7 +194,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 				{
 					if (e->obj->isKicked && e->obj->vx != 0)
 					{
-						ChangeState(new PlayerChangeLevelState(true,level));
+						ChangeState(new PlayerChangeLevelState(true, level));
 					}
 					if (canPicking) {
 						isPicking = true;
@@ -214,7 +215,6 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 								e->obj->vx = -2 * MARIO_WALKING_SPEED;
 							}
 						}
-
 					}
 				}
 			}
@@ -222,34 +222,35 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 	}
 	if (e->ny == 1)
 	{
-		ChangeState(new PlayerChangeLevelState(true,level));
+		ChangeState(new PlayerChangeLevelState(true, level));
 	}
 }
-void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
-{
+void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
+{ 
 	e->obj->isDead = true;
 	e->obj->canDel = true;
 	switch (e->obj->type)
 	{
 	case LEAF:
-		ChangeState(new PlayerChangeLevelState(false,RACCOON));
+		ChangeState(new PlayerChangeLevelState(false, RACCOON));
 		break;
 	case COIN:
 		infor->ScoreEarn(100);
-		infor->LifeEarn(1);
+		infor->MoneyEarn(1);
 		break;
 	case RED_MUSHROOM:
-			ChangeState(new PlayerChangeLevelState(false, BIG));
+		ChangeState(new PlayerChangeLevelState(false, BIG));
 		break;
 	case GREEN_MUSHROOM:
 		infor->LifeEarn(1);
 		break;
 	}
 }
-void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
+void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 {
-	if (e->obj->type == GROUND_BOX)
+	switch (e->obj->type)
 	{
+	case GROUND_BOX:
 		if (e->nx != 0)
 		{
 			x += dx;
@@ -258,25 +259,20 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 		{
 			vy = 0;
 		}
-	}
-	else
-	{
-		if (e->ny != 0)
-		{
-			vy = 0;
-		}
-	}
-
-	if (e->obj->type == BLOCK_QUESTION || e->obj->type == BLOCK_BREAKABLE)
-	{
+		break;
+	case BLOCK_QUESTION: case BLOCK_BREAKABLE:
 		if (e->ny == 1)
 		{
 			vy = 0;
 			e->obj->isDead = true;
 			infor->ScoreEarn(20);
 		}
-
+	default:
+		break;
 	}
+	
+
+	
 	if (dynamic_cast<Card*>(e->obj)) {
 		e->obj->isDead = true;
 		e->obj->canDel = true;
@@ -289,10 +285,10 @@ void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 {
 	x += dx;
 	y += dy;
-	
+
 	if (IsCollisionAABB(GetRect(), e->obj->GetRect()))
 	{
-		
+
 		if (dynamic_cast<Portal*>(e->obj))
 		{
 			y += dy;
@@ -331,7 +327,7 @@ void Mario::ChangeScene(int port)
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (level == RACCOON || level == BIG || level == FIRE) {
-		
+
 		if (level != RACCOON)
 		{
 			if (stateBoundingBox == MARIO_STATE_BIG_SIT_BOUNDING_BOX && isSitting) {
@@ -379,10 +375,10 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 				{
 					left = x + MARIO_RACCOON_FIGHT_WIDTH_X;
 					top = y + MARIO_BIG_SIT_BBOX_TOP;
-					right = x +MARIO_RACCOON_FIGHT_WIDTH_X + MARIO_BIG_BBOX_WIDTH;
+					right = x + MARIO_RACCOON_FIGHT_WIDTH_X + MARIO_BIG_BBOX_WIDTH;
 					bottom = y + MARIO_BIG_BBOX_HEIGHT;
 				}
-				
+
 			}
 			else if (stateBoundingBox == MARIO_STATE_BIG_BOUNDING_BOX)
 			{
@@ -390,7 +386,7 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 				{
 					left = x;
 					top = y;
-					right = x + MARIO_BIG_BBOX_WIDTH ;
+					right = x + MARIO_BIG_BBOX_WIDTH;
 					bottom = y + MARIO_BIG_BBOX_HEIGHT;
 				}
 				else
@@ -408,36 +404,36 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 				right = x + MARIO_SMALL_BBOX_WIDTH;
 				bottom = y + MARIO_SMALL_BBOX_HEIGHT;
 			}
-			
+
 		}
-		
+
 	}
-	else  {
+	else {
 		left = x;
 		top = y;
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
 	}
-	 
+
 }
 #define MARIO_X_WHIP x - 9
 void Mario::Render() {
-		state->Render();
-		if (untouchable)
-		{
-			alpha = alpha == 255 ? 125 : 255;
-		}
-		else alpha = 255;
-		if (GetState() == WHIPPING_LEFT)
-		{
-			CurAnimation->Render(MARIO_X_WHIP, y, alpha);
-		}
-		else
-		{
-			CurAnimation->Render(x, y, alpha);
-		}
-	
-	 RenderBoundingBox();
+	state->Render();
+	if (untouchable)
+	{
+		alpha = alpha == 255 ? 125 : 255;
+	}
+	else alpha = 255;
+	if (GetState() == WHIPPING_LEFT)
+	{
+		CurAnimation->Render(MARIO_X_WHIP, y, alpha);
+	}
+	else
+	{
+		CurAnimation->Render(x, y, alpha);
+	}
+
+	RenderBoundingBox();
 }
 void Mario::ChangeState(PlayerState* newState)
 {
@@ -675,7 +671,7 @@ void Mario::OnKeyDown(int key)
 			if (IsTouchPort)
 			{
 				IsChangeScene = true;
-				IsTouchPort = false;	
+				IsTouchPort = false;
 			}
 		}
 	}
@@ -689,6 +685,7 @@ void Mario::OnKeyUp(int key) {
 		{
 			isWhipping = false;
 			canPicking = false;
+			isRunning = false;
 			player->Allow[RUNNING] = false;
 			break;
 		}
@@ -702,7 +699,6 @@ void Mario::OnKeyUp(int key) {
 			break;
 		case DIK_S:
 			isJumpDone = true;
-			player->canFallJump = true;
 			break;
 		case DIK_DOWN:
 			//isSitting = false;
@@ -711,8 +707,8 @@ void Mario::OnKeyUp(int key) {
 			break;
 		}
 	}
-	
-	
+
+
 }
 void Mario::Revival(float x, float y, int isInScene)
 {

@@ -14,7 +14,7 @@ public:
 	}
 	void Render()
 	{
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	{

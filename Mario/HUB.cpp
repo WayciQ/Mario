@@ -15,11 +15,8 @@
 HUB* HUB::__instance = NULL;
 HUB::HUB() {
 	isDrawPush = true;
-	
-}
-void HUB::Init()
-{
-	
+	information = "4                              01\n";
+	information += "4   1241241       121\n";
 	font = NULL;
 	LPDIRECT3DDEVICE9 d3ddv = Game::GetInstance()->GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 buffer = Game::GetInstance()->GetBackBuffer();
@@ -35,12 +32,11 @@ void HUB::Init()
 		OUT_CHARACTER_PRECIS, //OutputPrecision
 		ANTIALIASED_QUALITY, // Quality
 		FF_DONTCARE, // PitchAndFamily,
-		L"Super Mario Bros. 3", 
+		L"Super Mario Bros. 3",
 		&font);
 
-	SetRect(&rect, POS_X + 39 + map->padding_left, POS_Y_TEX1, POS_X + SCREEN_WIDTH, POS_Y + 30);
-	information = "4                              01\n";
-	information +="4   1241241       121\n";
+	
+
 	auto sprites = Sprites::GetInstance();
 	hub = sprites->Get(90000);
 	Item1 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
@@ -49,6 +45,10 @@ void HUB::Init()
 	typePlayer = sprites->Get(92001);
 	speed = sprites->Get(91001);
 	push = sprites->Get(91002);
+}
+void HUB::Init()
+{
+	SetRect(&rect, POS_X + 39 + map->padding_left, POS_Y_TEX1, POS_X + SCREEN_WIDTH, POS_Y + 30);
 }
 void HUB::Update(float dt)
 {
@@ -68,8 +68,10 @@ void HUB::Update(float dt)
 	string scene = to_string(game->GetNumCurrentScene());
 
 	float vx,vy;
-		player->GetSpeed(vx,vy);
-		NumSpeed = NumSpeed > 6 ? 6 : abs(int(vx / 0.03));
+	player->GetSpeed(vx, vy);
+	if (player->isRunning)
+		NumSpeed = NumSpeed > 6 ? 6 : abs(int(vx/ 0.03));
+	else NumSpeed = 0;
 
 	information = scene + "                              " + money + "\n";
 	information += life +"   "+ scoregame +"     "+ timeString +"\n";

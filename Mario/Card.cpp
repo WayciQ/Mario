@@ -1,5 +1,5 @@
 #include "Card.h"
-#define TIME_CHANGE 5000
+#define TIME_CHANGE 2000
 Card::Card() {
 	getCard = 0;
 	widthBBox = heightBBox = 32;

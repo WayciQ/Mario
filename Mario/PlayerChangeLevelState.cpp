@@ -14,31 +14,35 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isdead,TYPE typeChange)
 	if (isdead) {
 		
 		player->freeze = true;
-		player->startTimeDead();
 		player->startTimeFreeze();
 		switch (player->level)
 		{
 		case RACCOON:
-			player->level = BIG;
+			player->startTimeDead();
+			player->SetLevel(BIG);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
 			break;
 		case BIG:
+			player->startTimeDead();
 			isChange = true;
 			upsize = false;
 			stateName = player->nx > 0 ? DOWN_SIZE_RIGHT : DOWN_SIZE_LEFT;
 			break;
 		case FIRE:
-			player->level = BIG;
+			player->startTimeDead();
+			player->SetLevel(BIG);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
 			break;
 		case SMALL:
+			player->Allow[WALKING] = false;
+			player->Allow[JUMPING] = false;
 			stateName = DIE;
 			player->isDead = true;
-			player->vy = -MARIO_JUMP_DEFLECT_SPEED;
+			player->vy = -MARIO_JUMP_SPEED_Y;
 		}
 	}
 	else {
@@ -46,12 +50,12 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isdead,TYPE typeChange)
 		if (player->level == SMALL) {
 			isChange = true;
 			upsize = true;
-			player->level = BIG;
+			player->SetLevel(BIG);
 			player->y -= 20;
 			stateName = player->nx > 0 ? UP_SIZE_RIGHT : UP_SIZE_LEFT;
 		}
 		else {
-			player->level = typeChange;
+			player->SetLevel(typeChange);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
@@ -85,7 +89,7 @@ void PlayerChangeLevelState::Update(DWORD dt)
 				player->ChangeState(new PlayerChangeLevelState(false, BIG));
 			}
 			else {
-				player->level = SMALL;
+				player->SetLevel(SMALL);
 			}
 			isChange = false;
 		}
@@ -95,5 +99,10 @@ void PlayerChangeLevelState::Update(DWORD dt)
 	if (GetTickCount() - player->FreezeTime > 500)
 	{
 		player->freeze = false;
+	}
+	if (player->isDead && player->vy > 0) {
+		player->infor->LifeEarn(-1);
+		player->scene_id = 0;
+		game->SwitchScene(player->scene_id);
 	}
 }

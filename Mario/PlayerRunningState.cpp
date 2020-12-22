@@ -31,7 +31,7 @@ PlayerRunningState::PlayerRunningState() {
 		else stateName = WALKING_FAST_LEFT;
 	}
 	
-
+	player->isRunning = true;
 	if (player->level == RACCOON)
 	{
 		player->Allow[FLYING_PUSH] = true;
