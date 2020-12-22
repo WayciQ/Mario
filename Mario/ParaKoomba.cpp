@@ -70,7 +70,7 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (player->isPicking)
 			{
-				player->ChangeAnimation(new PlayerKickState());
+				player->ChangeState(new PlayerKickState());
 				this->isKicked = true;
 				canRespawn = false;
 				if (player->nx == 1)
@@ -135,8 +135,15 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (!isDead)
 						{
 							this->nx = -this->nx;
+							if (this->nx > 0) {
+								SetState(ENEMY_WALKING_RIGHT);
+							}
+							else {
+								SetState(ENEMY_WALKING_LEFT);
+							}
 						}
-						vx = -vx;
+						else vx = -vx;
+						
 					}
 				}
 

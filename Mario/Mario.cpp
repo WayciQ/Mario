@@ -18,6 +18,7 @@
 #include "Camera.h"
 #include "CheckPoint.h"
 #include "Card.h"
+#include "PlayerEndSceneState.h"
 Mario* Mario:: __instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -45,7 +46,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	/*if(y > curY+15)
 	{
-		ChangeAnimation(new PlayerFallingState());
+		ChangeState(new PlayerFallingState());
 	}*/
 	isWaittingPressBtn = GetTickCount() - startWalkingComplete <= MARIO_LAST_RUN_TIME;
 	/*if (isWaittingPressBtn) {
@@ -110,7 +111,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				UpdateWithGround(e);
 				break;
 			case ENEMY:
-				UpdateWithEnemy(e);
+				if(!untouchable)UpdateWithEnemy(e);
 				break;
 			case ITEM:
 				UpdateWithItem(e);
@@ -143,7 +144,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 				infor->ScoreEarn(100);
 			}
 			else {
-				ChangeAnimation(new PlayerChangeLevelState(true));
+				ChangeState(new PlayerChangeLevelState(true,level));
 				y += dy;
 			}
 		}
@@ -164,7 +165,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 					infor->ScoreEarn(100);
 				}
 				else {
-					ChangeAnimation(new PlayerKickState());
+					ChangeState(new PlayerKickState());
 					e->obj->isKicked = true;
 					e->obj->canRespawn = false;
 					e->obj->tagChange = WEAPON;
@@ -185,14 +186,14 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 		if (!untouchable)
 		{
 			if (!e->obj->isDead) {
-				ChangeAnimation(new PlayerChangeLevelState(true));
+				ChangeState(new PlayerChangeLevelState(true, level));
 			}
 			else {
 				if (e->obj->typeParent == KOOMPA)
 				{
 					if (e->obj->isKicked && e->obj->vx != 0)
 					{
-						ChangeAnimation(new PlayerChangeLevelState(true));
+						ChangeState(new PlayerChangeLevelState(true,level));
 					}
 					if (canPicking) {
 						isPicking = true;
@@ -200,7 +201,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 					else {
 						if (!e->obj->isKicked && e->nx != player->nx)
 						{
-							ChangeAnimation(new PlayerKickState());
+							ChangeState(new PlayerKickState());
 							e->obj->isDead = true;
 							e->obj->isKicked = true;
 							e->obj->tagChange = WEAPON;
@@ -221,7 +222,7 @@ void Mario::UpdateWithEnemy( LPCOLLISIONEVENT e)
 	}
 	if (e->ny == 1)
 	{
-		ChangeAnimation(new PlayerChangeLevelState(true));
+		ChangeState(new PlayerChangeLevelState(true,level));
 	}
 }
 void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
@@ -231,26 +232,18 @@ void Mario::UpdateWithItem( LPCOLLISIONEVENT e)
 	switch (e->obj->type)
 	{
 	case LEAF:
-		if (level == SMALL)
-			ChangeAnimation(new PlayerChangeLevelState(false));
-		else ChangeAnimation(new PlayerChangeLevelState(false,RACCOON));
+		ChangeState(new PlayerChangeLevelState(false,RACCOON));
 		break;
 	case COIN:
 		infor->ScoreEarn(100);
 		infor->LifeEarn(1);
 		break;
 	case RED_MUSHROOM:
-		if (level == SMALL)
-		{
-			player->y -= 20;
-			ChangeAnimation(new PlayerChangeLevelState(false));
-		}
+			ChangeState(new PlayerChangeLevelState(false, BIG));
 		break;
 	case GREEN_MUSHROOM:
 		infor->LifeEarn(1);
-
 		break;
-	
 	}
 }
 void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
@@ -289,9 +282,7 @@ void Mario::UpdateWithGround( LPCOLLISIONEVENT e)
 		e->obj->canDel = true;
 		Card* card = dynamic_cast<Card*>(e->obj);
 		infor->AddCard(card->GetTypeCard());
-		nx = 1;
-		ChangeAnimation(new PlayerWalkingState());
-		//game->SwitchScene(0);
+		ChangeState(new PlayerEndSceneState());
 	}
 }
 void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
@@ -320,7 +311,7 @@ void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 			vy = 0;
 			x += dx;
 			SceneGate* p = dynamic_cast<SceneGate*>(e->obj);
-			scene_trigger = p->GetTriggerPort();
+			gateScene = p->GetTriggerPort();
 			moveToTrigger = p->GetWayIn();
 			IsTouchTrigger = true;
 		}
@@ -448,7 +439,7 @@ void Mario::Render() {
 	
 	 RenderBoundingBox();
 }
-void Mario::ChangeAnimation(PlayerState* newState)
+void Mario::ChangeState(PlayerState* newState)
 {
 	delete state;
 	state = newState;
@@ -478,16 +469,16 @@ void Mario::OnKeyDown(int key)
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{
 					nx = -1;
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 				else
 				{
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 			}
 			if (!isOnSky && Allow[FLYING])
@@ -496,16 +487,16 @@ void Mario::OnKeyDown(int key)
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
-					ChangeAnimation(new PlayerFlyingState());
+					ChangeState(new PlayerFlyingState());
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{
 					nx = -1;
-					ChangeAnimation(new PlayerFlyingState());
+					ChangeState(new PlayerFlyingState());
 				}
 				else
 				{
-					ChangeAnimation(new PlayerFlyingState());
+					ChangeState(new PlayerFlyingState());
 				}
 			}
 			if (!isJumpingShort && Allow[JUMPING_SHORT])
@@ -513,16 +504,16 @@ void Mario::OnKeyDown(int key)
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{
 					nx = -1;
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 				else
 				{
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 			}
 			break;
@@ -535,16 +526,16 @@ void Mario::OnKeyDown(int key)
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{
 					nx = -1;
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 				else
 				{
-					ChangeAnimation(new PlayerJumpingState());
+					ChangeState(new PlayerJumpingState());
 				}
 			}
 			if (!isOnSky && Allow[FLYING])
@@ -554,16 +545,16 @@ void Mario::OnKeyDown(int key)
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
-					ChangeAnimation(new PlayerFlyingState());
+					ChangeState(new PlayerFlyingState());
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{
 					nx = -1;
-					ChangeAnimation(new PlayerFlyingState());
+					ChangeState(new PlayerFlyingState());
 				}
 				else
 				{
-					ChangeAnimation(new PlayerFlyingState());
+					ChangeState(new PlayerFlyingState());
 				}
 			}
 			break;
@@ -577,22 +568,22 @@ void Mario::OnKeyDown(int key)
 				if (!isWhipping && Allow[WHIPPING]) {
 					if (keyCode[DIK_RIGHT]) {
 						nx = 1;
-						ChangeAnimation(new PlayerWhippingState());
+						ChangeState(new PlayerWhippingState());
 					}
 					else if (keyCode[DIK_LEFT]) {
 						nx = -1;
-						ChangeAnimation(new PlayerWhippingState());
+						ChangeState(new PlayerWhippingState());
 					}
 					else
 					{
-						ChangeAnimation(new PlayerWhippingState());
+						ChangeState(new PlayerWhippingState());
 					}
 				}
 				break;
 			case FIRE:
 				if (!isShooting && Allow[FIRING_FIRE]) {
 					{
-						ChangeAnimation(new PlayerShootingFireState());
+						ChangeState(new PlayerShootingFireState());
 					}
 				}
 				break;
@@ -615,13 +606,13 @@ void Mario::OnKeyDown(int key)
 		case DIK_1:
 		{
 			SetLevel(SMALL);
-			ChangeAnimation(new PlayerStandingState());
+			ChangeState(new PlayerStandingState());
 			break;
 		}
 		case DIK_2:
 		{
 			SetLevel(BIG);
-			ChangeAnimation(new PlayerStandingState());
+			ChangeState(new PlayerStandingState());
 			y -= 20;
 			break;
 		}
@@ -629,14 +620,14 @@ void Mario::OnKeyDown(int key)
 		{
 			y -= 20;
 			SetLevel(RACCOON);
-			ChangeAnimation(new PlayerStandingState());
+			ChangeState(new PlayerStandingState());
 			break;
 		}
 		case DIK_4:
 		{
 			y -= 20;
 			SetLevel(FIRE);
-			ChangeAnimation(new PlayerStandingState());
+			ChangeState(new PlayerStandingState());
 			break;
 		}
 		case DIK_F1:
@@ -665,19 +656,19 @@ void Mario::OnKeyDown(int key)
 	{
 		if (keyCode[DIK_LEFT])
 		{
-			player->ChangeAnimation(new PlayerWorlMapState(-1));
+			player->ChangeState(new PlayerWorlMapState(-1));
 		}
 		else if (keyCode[DIK_RIGHT])
 		{
-			player->ChangeAnimation(new PlayerWorlMapState(1));
+			player->ChangeState(new PlayerWorlMapState(1));
 		}
 		else if (keyCode[DIK_UP])
 		{
-			player->ChangeAnimation(new PlayerWorlMapState(-2));
+			player->ChangeState(new PlayerWorlMapState(-2));
 		}
 		else if (keyCode[DIK_DOWN])
 		{
-			player->ChangeAnimation(new PlayerWorlMapState(2));
+			player->ChangeState(new PlayerWorlMapState(2));
 		}
 		else if (keyCode[DIK_S])
 		{
@@ -729,12 +720,12 @@ void Mario::Revival(float x, float y, int isInScene)
 	{
 		gravity = WORLD_GRAVITY;
 		nx = 1;
-		ChangeAnimation(new PlayerStandingState());
+		ChangeState(new PlayerStandingState());
 		typeScene = level;
 	}
 	else
 	{
-		ChangeAnimation(new PlayerWorlMapState(0));
+		ChangeState(new PlayerWorlMapState(0));
 		typeScene = PLAYER_IN_WORLD_MAP;
 	}
 	SetPosition(x, y);

@@ -16,7 +16,6 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt);
 	vy += WORLD_GRAVITY * dt;
 
-	
 
 	if (isDead)
 	{
@@ -83,7 +82,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (player->isPicking)
 			{
-				player->ChangeAnimation(new PlayerKickState());
+				player->ChangeState(new PlayerKickState());
 				this->isKicked = true;
 				canRespawn = false;
 				if (player->nx == 1)
@@ -162,21 +161,21 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->nx != 0)
 					{
 						this->nx = -this->nx;
-						/*if (!isDead && jumped)
+						if (!isDead && jumped)
 						{
 							if (this->nx < 0)
-								state = ENEMY_WALKING_LEFT;
+								SetState(ENEMY_WALKING_LEFT);
 							else
-								state = ENEMY_WALKING_RIGHT;
+								SetState(ENEMY_WALKING_RIGHT);
 						}
 						else if (!isDead && !jumped)
 						{
 							if (this->nx > 0)
-								state = ENEMY_JUMPING_LEFT;
+								SetState(ENEMY_JUMPING_LEFT);
 							else
-								state = ENEMY_JUMPING_RIGHT;
-						}*/
-						vx = -vx;
+								SetState(ENEMY_JUMPING_RIGHT);
+						}else
+							vx = -vx;
 					}
 					if (e->ny == 1) {
 						vy = 0;

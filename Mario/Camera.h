@@ -22,7 +22,7 @@ public:
 	void SetCamPos(float x, float y) { this->cam_x = x; this->cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
 	void SetRect(int width, int height) { width = width; height = height; };
-	RECT GetBound(); // get RECT topScene
+	RECT GetBBox(); // get RECT topScene
 	
 	int GetHeight() { return height; }
 	int GetWidth() { return width; }

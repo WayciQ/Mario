@@ -9,7 +9,6 @@ BasGoomba::BasGoomba() : Goomba()
 void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
-	UpdatePosition(dt);
 	vy += WORLD_GRAVITY * dt;
 	ChangeAnimation();
 	if (isDead)

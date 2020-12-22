@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BasGoomba.cpp" />
+    <ClCompile Include="BoomerangScene.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickBreakable.cpp" />
@@ -170,13 +171,15 @@
     <ClCompile Include="ParaGoomba.cpp" />
     <ClCompile Include="ParaKoomba.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
+    <ClCompile Include="PlayerEndSceneState.cpp" />
     <ClCompile Include="PlayerFlyingState.cpp" />
     <ClCompile Include="PlayerHoldingState.cpp" />
     <ClCompile Include="PlayerKickState.cpp" />
+    <ClCompile Include="PlayerRaccoonJumpTail.cpp" />
     <ClCompile Include="PlayerRunningState.cpp" />
     <ClCompile Include="PlayerShootingFireState.cpp" />
     <ClCompile Include="PlayerWorlMapState.cpp" />
-    <ClCompile Include="ScoreBoard.cpp" />
+    <ClCompile Include="HUB.cpp" />
     <ClCompile Include="SwitchBlock.cpp" />
     <ClCompile Include="TropaKoompa.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -206,6 +209,7 @@
   <ItemGroup>
     <ClInclude Include="Animations.h" />
     <ClInclude Include="BasGoomba.h" />
+    <ClInclude Include="BoomerangScene.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BreakBrick.h" />
     <ClInclude Include="Brick.h" />
@@ -235,15 +239,18 @@
     <ClInclude Include="ParaGoomba.h" />
     <ClInclude Include="ParaKoomba.h" />
     <ClInclude Include="PiranhaPlant.h" />
+    <ClInclude Include="PlayerEndSceneState.h" />
     <ClInclude Include="PlayerFlyingState.h" />
     <ClInclude Include="PlayerHoldingState.h" />
     <ClInclude Include="PlayerKickState.h" />
+    <ClInclude Include="PlayerRaccoonJumpTail.h" />
     <ClInclude Include="PlayerRunningState.h" />
     <ClInclude Include="PlayerShootingFireState.h" />
     <ClInclude Include="PlayerWorlMapState.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="SceneGrass.h" />
     <ClInclude Include="Trigger.h" />
-    <ClInclude Include="ScoreBoard.h" />
+    <ClInclude Include="HUB.h" />
     <ClInclude Include="SwitchBlock.h" />
     <ClInclude Include="TropaKoompa.h" />
     <ClInclude Include="Utils.h" />

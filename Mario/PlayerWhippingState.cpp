@@ -42,7 +42,7 @@ void PlayerWhippingState::Render()
 		player->Allow[WHIPPING] = true;
 		player->CurAnimation->isLastFrame = false;
 		player->CurAnimation->currentFrame = -1;
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeState(new PlayerStandingState());
 	}
 }
 void PlayerWhippingState::HandleKeyBoard() {

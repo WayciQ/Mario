@@ -66,20 +66,20 @@ void PlayerWalkingState::HandleKeyBoard()
 {
 	if (keyCode[DIK_A] && (keyCode[DIK_RIGHT] || keyCode[DIK_LEFT]) && !player->isPicking)
 	{
-		player->ChangeAnimation(new PlayerRunningState());
+		player->ChangeState(new PlayerRunningState());
 	}
 	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT] )
 	{
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeState(new PlayerStandingState());
 	}
 	else if (keyCode[DIK_LEFT])
 	{
 		if (!player->isWalkingComplete)
 		{
 			player->nx = -1;
-			player->ChangeAnimation(new PlayerWalkingState());
+			player->ChangeState(new PlayerWalkingState());
 		}
-		else player->ChangeAnimation(new PlayerLastRunState());
+		else player->ChangeState(new PlayerLastRunState());
 	}
 	else if (keyCode[DIK_RIGHT])
 	{
@@ -87,9 +87,9 @@ void PlayerWalkingState::HandleKeyBoard()
 		{
 			
 			player->nx = 1;
-			player->ChangeAnimation(new PlayerWalkingState());
+			player->ChangeState(new PlayerWalkingState());
 		}
-		else player->ChangeAnimation(new PlayerLastRunState());
+		else player->ChangeState(new PlayerLastRunState());
 	}
 	
 	
@@ -108,7 +108,7 @@ void PlayerWalkingState::Update(DWORD dt)
 		else {
 			// continue walking in before direction
 			player->isWalkingComplete = false;
-			player->ChangeAnimation(new PlayerStandingState());
+			player->ChangeState(new PlayerStandingState());
 		}
 	}
 	else

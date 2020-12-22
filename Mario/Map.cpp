@@ -55,7 +55,7 @@ RECT Map::GetPositionTitle(int title)
 }
 void Map::GetPositionCam(int &xs, int& ys, int& xe, int& ye)
 {
-	RECT cam = Camera::GetInstance()->GetBound();
+	RECT cam = Camera::GetInstance()->GetBBox();
 
 	int width = GetWidthMap();
 

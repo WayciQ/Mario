@@ -26,17 +26,22 @@ PlayerJumpingState::PlayerJumpingState()
 
 	if (!player->isJumping)
 	{
-		if(!player->isOnSky)
-			player->vy = -MARIO_JUMP_SPEED_Y;
+		
 	}
 	player->isOnSky = true;
 	player->isJumping = true;
 
 	if (!player->isJumpingShort && player->Allow[JUMPING_SHORT])
 	{
-		player->vy = -MARIO_JUMP_SPEED_Y;
+		//player->vy = -MARIO_JUMP_SPEED_Y;
+		//player->gravity = 0.0001;
 		player->isJumpingShort = true;
-		
+		if (player->nx > 0) {
+			stateName = JUMPING_RIGHT;
+		}
+		else {
+			stateName = JUMPING_LEFT;
+		}
 	}
 
 	
@@ -99,13 +104,13 @@ void PlayerJumpingState::HandleKeyBoard()
 	{
 		player->vx = MARIO_WALKING_SPEED;
 		player->nx = 1;
-		player->ChangeAnimation(new PlayerJumpingState());
+		player->ChangeState(new PlayerJumpingState());
 	}
 	else if (keyCode[DIK_LEFT])
 	{
 		player->vx = -MARIO_WALKING_SPEED;
 		player->nx = -1;
-		player->ChangeAnimation(new PlayerJumpingState());
+		player->ChangeState(new PlayerJumpingState());
 	}
 }
 
@@ -116,7 +121,7 @@ void PlayerJumpingState::Update(DWORD dt)
 	if (player->vy >= 0 || player->isJumpDone)
 	{
 		player->curY = player->y;
-		player->ChangeAnimation(new PlayerFallingState());
+		player->ChangeState(new PlayerFallingState());
 	}
 }
 

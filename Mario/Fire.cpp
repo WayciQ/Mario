@@ -169,14 +169,12 @@ void Fire::CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
 
 void Fire::UpdatePosititon(DWORD dt)
 {
-	
 
 	if(x < camera-> cam_x || x > camera->cam_x + camera->GetWidth() ||  y > camera->cam_y + camera->GetHeight())
 	{
 		startTimeDead();
 		CurAnimation = animation_set->Get(BIGBANG);
 	}
-
 	GameObject::Update(dt);
 }
 Fire::~Fire()

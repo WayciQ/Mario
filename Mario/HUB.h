@@ -1,9 +1,9 @@
 #pragma once
 #include "Sprites.h"
 #include "Animations.h"
-class ScoreBoard
+class HUB
 {
-	static ScoreBoard* __instance;
+	static HUB* __instance;
 	ID3DXFont* font;
 	RECT rect;
 	string information;
@@ -11,19 +11,19 @@ class ScoreBoard
 	Animation* Item2;
 	Animation* Item3;
 	LPSPRITE typePlayer;
-	LPSPRITE HUB;
+	LPSPRITE hub;
 	LPSPRITE speed;
 	int NumSpeed;
 	LPSPRITE push;
 	bool isDrawPush;
 public:
 	
-	static ScoreBoard* GetInstance();
-	ScoreBoard();
+	static HUB* GetInstance();
+	HUB();
 	void Init();
 	void Update(float dt);
 	void Render();
-	~ScoreBoard() {};
+	~HUB() {};
 
 };
 

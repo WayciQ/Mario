@@ -53,6 +53,6 @@ void PlayerFlyingState::Update(DWORD dt)
 	if (player->isJumpDone || player->vy >=0)
 	{
 		player->curY = player->y;
-		player->ChangeAnimation(new PlayerFallingState());
+		player->ChangeState(new PlayerFallingState());
 	}
 }

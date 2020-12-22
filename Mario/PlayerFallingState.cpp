@@ -74,7 +74,7 @@ void PlayerFallingState::Update(DWORD dt)
 	if (!player->isOnSky)
 	{
 		if(player->vy == 0)
-			player->ChangeAnimation(new PlayerStandingState());
+			player->ChangeState(new PlayerStandingState());
 	}
 	
 }
@@ -86,30 +86,30 @@ void PlayerFallingState::HandleKeyBoard()
 		{
 			player->vx = MARIO_WALKING_SPEED;
 			player->nx = 1;
-			player->ChangeAnimation(new PlayerFlyingState());
+			player->ChangeState(new PlayerFlyingState());
 		}
 		else if ((keyCode[DIK_LEFT]))
 		{
 			player->vx = -MARIO_WALKING_SPEED;
 			player->nx = -1;
-			player->ChangeAnimation(new PlayerFlyingState());
+			player->ChangeState(new PlayerFlyingState());
 		}
 		else
 		{
-			player->ChangeAnimation(new PlayerFlyingState());
+			player->ChangeState(new PlayerFlyingState());
 		}
 	}
 	else if (keyCode[DIK_RIGHT])
 	{
 		player->nx = 1;
 		player->vx = MARIO_WALKING_SPEED;
-		player->ChangeAnimation(new PlayerFallingState());
+		player->ChangeState(new PlayerFallingState());
 	}
 	else if (keyCode[DIK_LEFT])
 	{
 		player->nx = -1;
 		player->vx = -MARIO_WALKING_SPEED;
-		player->ChangeAnimation(new PlayerFallingState());
+		player->ChangeState(new PlayerFallingState());
 	}
 	
 }

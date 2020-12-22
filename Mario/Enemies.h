@@ -4,6 +4,7 @@
 #include "NipperPlant.h"
 #include "PiranhaPlant.h"
 #include "BasGoomba.h"
+#include "BoomerangScene.h"
 class Enemies
 {
 public:
@@ -33,6 +34,9 @@ public:
 			break;
 		case PIRANHA_PLANT:
 			return new PiranhaPlant(type, x, y);
+			break;
+		case BOOMERANG:
+			return new BoomerangScene();
 			break;
 		default:
 			return NULL;

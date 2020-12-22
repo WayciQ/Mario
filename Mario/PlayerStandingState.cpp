@@ -67,15 +67,15 @@ void PlayerStandingState::HandleKeyBoard() {
 	
 	if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
 	{
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeState(new PlayerStandingState());
 	}
 	else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT])
 	{
-		player->ChangeAnimation(new PlayerWalkingState());
+		player->ChangeState(new PlayerWalkingState());
 	}
 	else if (keyCode[DIK_DOWN] && player->Allow[SITTING]) // small level dosen't have state sit
 	{
-		player->ChangeAnimation(new PlayerSittingState());
+		player->ChangeState(new PlayerSittingState());
 	}
 }
 

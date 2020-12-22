@@ -2,7 +2,7 @@
 Drain::Drain(float w, float h)
 {
 	tag = GROUND;
-	type = DRAIN;
+	type = GRASS;
 	this->widthBBox = w;
 	this->heightBBox = h;
 }

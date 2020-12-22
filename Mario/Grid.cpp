@@ -37,9 +37,10 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 	RECT e;
 	e.top = y;
 	e.left = x;
-	e.right =x+ obj->GetRect().right;
-	e.bottom = y+ obj->GetRect().bottom;
+	e.right =x + obj->widthBBox;
+	e.bottom = y + obj->heightBBox;
 	auto area = GetCell(e);
+	HandleGameOBject.push_back(obj);
 	switch (obj->tag)
 	{
 	case GROUND:
@@ -84,7 +85,7 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 void Grid::RenderCell()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_BBOX);
-	auto area = GetCell(camera->GetBound());
+	auto area = GetCell(camera->GetBBox());
 	
 	RECT rect;
 
@@ -105,13 +106,10 @@ void Grid::RenderCell()
 }
 
 // test
-bool Grid::IsOnCam(LPGAMEOBJECT obj)
-{
-	return (obj->x > camera->cam_x && obj->x < camera->cam_x + camera->GetWidth() && obj->y > camera->cam_y && obj->y < camera->cam_y + camera->GetHeight());
-}
+
 void Grid::CalcObjectInViewPort()
 {
-	auto area = GetCell(camera->GetBound());
+	auto area = GetCell(camera->GetBBox());
 	unordered_set<GameObject*> result;
 	unordered_set<GameObject*> resultItem;
 	for(int r = area.TopCell;r <= area.BottomCell;r++)
@@ -127,7 +125,7 @@ void Grid::CalcObjectInViewPort()
 			
 		}
 	}
-	ObjectHolder = { resultItem.begin(), resultItem.end() };
+	CurStaticObjectInViewPort = { resultItem.begin(), resultItem.end() };
 	CurObjectInViewPort = { result.begin(), result.end() };
 	//DebugOut(L"[info] Cell left: [%d], top: [%d], right: [%d] bottom: [%d]\n", area.LeftCell, area.TopCell, area.RightCell, area.BottomCell);
 	//DebugOut(L"[info] Object in viewport: %d\n", CurObjectInViewPort.size());
@@ -142,45 +140,10 @@ void RemoveObjectIf(unordered_set<T>& container, Pred  del)
 		else                       it++;
 	}
 }
-void Grid::UpdateStaticObject()
-{
-	auto area = GetCell(camera->GetBound());
-	
-	LOOP(r, area.TopCell, area.BottomCell)
-		LOOP(c, area.LeftCell, area.RightCell)
-	{
-		for (auto& obj : Cells[r][c]->staticObjects)
-		{
-			if (obj->isDead && obj->child != 0)
-			{
-				LPGAMEOBJECT item;
-				item = Items::CreateItem(obj->child, obj->x, obj->y);
-				item->SetPosition(obj->x, obj->y);
-				switch (obj->child)
-				{
-				case LEAF:
-					AddMovingObject(item);
-					break;
-				case RED_MUSHROOM:
-					AddMovingObject(item);
-					break;
-				case GREEN_MUSHROOM:
-					AddMovingObject(item);
-					break;
-				case COIN:
-					AddMovingObject(item);
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
 
-}
-void Grid::UpdateCell()
+void Grid::UpdateCellInViewPort()
 {
-	auto area = GetCell(camera->GetBound());
+	auto area = GetCell(camera->GetBBox());
 	unordered_set<LPGAMEOBJECT> shouldBeUpdatedObjects;
 	bool isDeadObject = false;
 	LOOP(r, area.TopCell, area.BottomCell)
@@ -222,7 +185,7 @@ void Grid::UpdateCell()
 				if (obj->canDel)
 				{
 					return true;
-					isDeadObject = true;
+					//isDeadObject = true;
 				}
 				return false;
 			});
@@ -246,6 +209,12 @@ void Grid::UpdateCell()
 	CalcObjectInViewPort();
 
 }
+void Grid::RespawnObject() {
+	/*for (auto& obj : HandleGameOBject)
+	{
+		if(obj->)
+	}*/
+}
 void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
 {
 	RECT e;
@@ -264,21 +233,15 @@ void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
 }
 void Grid::AddMovingObject(LPGAMEOBJECT obj)
 {
-	RECT e;
-	e.left = obj->x;
-	e.top = obj->y;
-	e.right = obj->x + obj->widthBBox;
-	e.bottom = obj->y + obj->heightBBox;
-	auto area = GetCell(e);
+	auto area = GetCell(obj->GetRect());
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell)
 			Cells[r][c]->movingObjects.insert(obj);
-
 }
 
 void Grid::RemoveDeadObject() 
 {
-	auto area = GetCell(camera->GetBound());
+	auto area = GetCell(camera->GetBBox());
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell)
 	{

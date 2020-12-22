@@ -20,7 +20,7 @@ void PlayerLastRunState::Update(DWORD dt) {
 	if (!player->isWaittingPressBtn)
 	{
 		player->isWalkingComplete = false;
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeState(new PlayerStandingState());
 		return;
 	}
 }

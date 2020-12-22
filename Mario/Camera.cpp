@@ -19,7 +19,7 @@ Camera::Camera()
 	this->width = SCREEN_WIDTH;
 	this->height = SCREEN_HEIGHT;
 }
-RECT Camera::GetBound()
+RECT Camera::GetBBox()
 {
 	RECT bound;
 

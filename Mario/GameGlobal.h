@@ -100,7 +100,7 @@ extern enum STATEPLAYER {
 	JUMPING_RIGHT,
 	JUMPING_LEFT, 
 
-	JUMP_SIT_RIGHT,
+	WAVING_TAIL,
 	JUMP_SIT_LEFT,
 
 	FALLING,
@@ -197,7 +197,7 @@ extern enum TYPE {
 	FIRE,
 	BLOCK,
 	WHIP,
-	DRAIN,
+	GRASS,
 	WEAPON_MARIO,
 	GROUND_BOX,
 	FIRE_FIRE,
@@ -229,6 +229,7 @@ extern enum TYPE {
 	PLAYER_IN_WORLD_MAP,
 	CARD,
 	CARD_HUB,
+	BOOMERANG
 };
 extern enum TAG
 {
@@ -248,7 +249,7 @@ extern unordered_map<int, bool> keyCode; // manager info of keyboard have been p
 #define camera Camera::GetInstance()
 #define animationsSets AnimationSets::GetInstance()
 #define grid Grid::GetInstance()
-#define scoreBoard ScoreBoard::GetInstance()
+#define scoreBoard HUB::GetInstance()
 #define map Map::GetInstance()
 
 class GameGlobal

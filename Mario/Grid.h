@@ -16,22 +16,24 @@ public:
 	~Grid() {};
 	//RECT rect;
 	int rows, cols;
+	
 	int SizeCell;
 	vector<vector<Cell*>> Cells;
 	vector<LPGAMEOBJECT> CurObjectInViewPort;
-	vector<LPGAMEOBJECT> ObjectHolder;
+	vector<LPGAMEOBJECT> CurStaticObjectInViewPort;
+	vector<LPGAMEOBJECT> HandleGameOBject;
 	Area GetCell(RECT e);
 	void Init();
 	void SetSizeCell(int s) { this->SizeCell = s;}
 	void LoadObjects(LPGAMEOBJECT& obj, float x, float y);
 	void AddStaticObject( LPGAMEOBJECT obj, float x, float y);
-	void UpdateCell();
-	void UpdateStaticObject();
+	void UpdateCellInViewPort();
+	void RespawnObject();
 	void RenderCell();
-	bool IsOnCam(LPGAMEOBJECT obj);
 	void RemoveDeadObject();
 	void AddMovingObject(LPGAMEOBJECT obj);
 	void CalcObjectInViewPort();
 	vector<LPGAMEOBJECT> GetObjectInViewPort() { return CurObjectInViewPort; }
+	vector<LPGAMEOBJECT> GetStaticObjectInViewPort() { return CurStaticObjectInViewPort; }
 };
 

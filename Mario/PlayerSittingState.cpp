@@ -34,20 +34,20 @@ void PlayerSittingState::HandleKeyBoard()
 			{
 				
 				player->nx = -1;
-				player->ChangeAnimation(new PlayerWalkingState());
+				player->ChangeState(new PlayerWalkingState());
 			}
 			else if (keyCode[DIK_RIGHT])
 			{
 				
 				player->nx = 1;
-				player->ChangeAnimation(new PlayerWalkingState());
+				player->ChangeState(new PlayerWalkingState());
 			}
 		
 	}
 	else
 	{
 
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeState(new PlayerStandingState());
 	}
 	
 		

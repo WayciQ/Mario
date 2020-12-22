@@ -49,23 +49,23 @@ void PlayerRunningState::HandleKeyBoard() {
 	{
 		if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
 		{
-			player->ChangeAnimation(new PlayerStandingState());
+			player->ChangeState(new PlayerStandingState());
 		}
 		else if (keyCode[DIK_LEFT])
 		{
 			player->nx = -1;
-			player->ChangeAnimation(new PlayerRunningState());
+			player->ChangeState(new PlayerRunningState());
 
 		}
 		else if (keyCode[DIK_RIGHT])
 		{
 			player->nx = 1;
-			player->ChangeAnimation(new PlayerRunningState());
+			player->ChangeState(new PlayerRunningState());
 		}
 	}
 	else
 	{
-		player->ChangeAnimation(new PlayerWalkingState());
+		player->ChangeState(new PlayerWalkingState());
 	}
 }
 

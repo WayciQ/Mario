@@ -63,7 +63,7 @@ void PlayerShootingFireState::Render()
 	if (player->CurAnimation->isLastFrame) {
 		player->CurAnimation->isLastFrame = false;
 		player->CurAnimation->currentFrame = -1;
-		player->ChangeAnimation(new PlayerStandingState());
+		player->ChangeState(new PlayerStandingState());
 	}
 }
 PlayerShootingFireState::~PlayerShootingFireState(){}

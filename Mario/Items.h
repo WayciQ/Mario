@@ -1,6 +1,7 @@
 #include "Coin.h"
 #include "Leaf.h"
 #include "Mushroom.h"
+#include "SwitchBlock.h"
 class Items
 {
 public:
@@ -23,7 +24,9 @@ public:
 		case LEAF:
 			return new Leaf(x,y);
 			break;
-		
+		case BUTTON:
+			return new SwitchBlock(x,y);
+			break;
 		default:
 			break;
 		}

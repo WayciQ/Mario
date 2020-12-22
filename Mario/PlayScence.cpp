@@ -6,12 +6,12 @@
 #include "Sprites.h"
 #include "Weapons.h"
 #include "Bricks.h"
-#include "Drain.h"
+#include "SceneGrass.h"
 #include "Box.h"
 #include "Ground.h"
 #include "Enemies.h"
 #include "Items.h"
-#include "ScoreBoard.h"
+#include "HUB.h"
 
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
@@ -185,10 +185,9 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		case BLOCK:
 		
 			obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())), y, static_cast<TYPE>((int)atof(tokens[5].c_str())));
-			
 			break;
-		case DRAIN:
-			obj = new Drain( (float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+		case GRASS:
+			obj = new SceneGrass();
 			break;
 		case GROUND_BOX:
 			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
@@ -338,10 +337,10 @@ void PlayScene::Load()
 void PlayScene::Update(DWORD dt)
 {
 	ChangeScene();
+
 	vector<LPGAMEOBJECT> coObjects;
-	grid->UpdateCell();
-	grid->CalcObjectInViewPort();
-	Map::GetInstance()->Update(dt);
+
+	grid->UpdateCellInViewPort();
 	player->Update(dt, &grid->GetObjectInViewPort());
 
 	for (size_t i = 1; i < grid->GetObjectInViewPort().size(); i++)
@@ -354,11 +353,11 @@ void PlayScene::Update(DWORD dt)
 	{
 		if (!player->freeze)
 		{
-			obj->Update(dt, &coObjects);
+			obj->Update(dt,&GroundObject);
 		}
 	}
 
-	Camera::GetInstance()->Update();
+	camera->Update();
 	scoreBoard->Update(dt);
 }
 
@@ -384,6 +383,11 @@ void PlayScene::Unload()
 	
 	for (int i = 0; i < listTrigger.size(); i++)
 		delete listTrigger[i];
+
+	/*for (int i = 0; i < GroundObject.size(); i++)
+		delete GroundObject[i];*/
+
+//	GroundObject.clear();
 	listPoint.clear();
 	listPortal.clear();
 	listTrigger.clear();
@@ -393,7 +397,7 @@ void PlayScene::Unload()
 void PlayScene::ChangeScene() {
 
 	if (player->IsChangeTrigger) {
-		auto trigger = listTrigger.at(player->scene_trigger);
+		auto trigger = listTrigger.at(player->gateScene);
 		player->SetPosition(trigger->GetPosX(), 
 							trigger->GetPosY());
 		player->SetSpeed(0, 0);

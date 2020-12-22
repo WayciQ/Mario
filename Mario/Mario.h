@@ -13,7 +13,7 @@ public:
 	TYPE typeScene;
 	float  gravity;
 	bool untouchable;
-	DWORD untouchableTime;
+	DWORD untouchableTime,FreezeTime;
 	float speedJump;
 	int stateBoundingBox;
 	int alpha, beta;
@@ -53,11 +53,10 @@ public:
 	bool isWalkingComplete;
 	bool isWaittingPressBtn;
 
-	
 	bool IsChangeTrigger;
 	bool IsChangeScene;
 	int scene_id = 1;
-	int scene_trigger;
+	int gateScene;
 	bool IsTouchTrigger;
 	int moveToTrigger;
 	bool IsTouchPort;
@@ -84,7 +83,8 @@ public:
 	void SetLevel(TYPE level) { this->level = level; }
 	void OnKeyUp(int key);
 	void OnKeyDown(int key);
-	void ChangeAnimation(PlayerState* newState);
+	void ChangeState(PlayerState* newState);
 	void Revival(float x, float y, int isInScene);
 	void startTimeDead() { untouchableTime = GetTickCount(); untouchable = true; }
+	void startTimeFreeze() { FreezeTime = GetTickCount(); untouchable = true; }
 };

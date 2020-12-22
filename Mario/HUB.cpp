@@ -1,4 +1,4 @@
-#include "ScoreBoard.h"
+#include "HUB.h"
 #include "Mario.h"
 #include "Camera.h"
 #define HEIGHT_SCORE_BROAD 28
@@ -12,12 +12,12 @@
 #define POS_Y_TP POS_Y + 16
 #define POS_Y_TEX1 POS_Y + 6
 #define POS_Y_TEX2 POS_Y + 15
-ScoreBoard* ScoreBoard::__instance = NULL;
-ScoreBoard::ScoreBoard() {
+HUB* HUB::__instance = NULL;
+HUB::HUB() {
 	isDrawPush = true;
 	
 }
-void ScoreBoard::Init()
+void HUB::Init()
 {
 	
 	font = NULL;
@@ -42,7 +42,7 @@ void ScoreBoard::Init()
 	information = "4                              01\n";
 	information +="4   1241241       121\n";
 	auto sprites = Sprites::GetInstance();
-	HUB = sprites->Get(90000);
+	hub = sprites->Get(90000);
 	Item1 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
 	Item2 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
 	Item3 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
@@ -50,7 +50,7 @@ void ScoreBoard::Init()
 	speed = sprites->Get(91001);
 	push = sprites->Get(91002);
 }
-void ScoreBoard::Update(float dt)
+void HUB::Update(float dt)
 {
 	string scoregame = to_string(player->infor->GetScorePoint());
 	while (scoregame.length() < 7)
@@ -77,13 +77,13 @@ void ScoreBoard::Update(float dt)
 	Item2 = animationsSets->Get(CARD_HUB)->Get(player->infor->GetCard(2));
 	Item3 = animationsSets->Get(CARD_HUB)->Get(player->infor->GetCard(3));
 }
-void ScoreBoard::Render()
+void HUB::Render()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_HUB);
 	Game::GetInstance()->Draw(POS_X, POS_Y - map->padding_top, bbox, 0, 0, camera->GetWidth(), 48, 255);
 	
 	
-	HUB->Draw(POS_X, POS_Y - map->padding_top);
+	hub->Draw(POS_X, POS_Y - map->padding_top);
 	Item1->Render(POS_I1, POS_Y - map->padding_top);
 	Item2->Render(POS_I2, POS_Y - map->padding_top);
 	Item3->Render(POS_I3, POS_Y - map->padding_top);
@@ -104,9 +104,9 @@ void ScoreBoard::Render()
 		font->DrawTextA(spriteHandler, information.c_str(), -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 }
 
-ScoreBoard* ScoreBoard::GetInstance()
+HUB* HUB::GetInstance()
 {
 	if (__instance == NULL)
-		__instance = new ScoreBoard();
+		__instance = new HUB();
 	return __instance;
 }
