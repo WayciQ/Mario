@@ -43,10 +43,11 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isdead,TYPE typeChange)
 			stateName = DIE;
 			player->isDead = true;
 			player->vy = -MARIO_JUMP_SPEED_Y;
+			break;
 		}
 	}
 	else {
-		player->startTimeDead();
+		player->isDead = false;
 		if (player->level == SMALL) {
 			isChange = true;
 			upsize = true;
@@ -55,6 +56,7 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isdead,TYPE typeChange)
 			stateName = player->nx > 0 ? UP_SIZE_RIGHT : UP_SIZE_LEFT;
 		}
 		else {
+			
 			player->SetLevel(typeChange);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
@@ -99,10 +101,13 @@ void PlayerChangeLevelState::Update(DWORD dt)
 	if (GetTickCount() - player->FreezeTime > 500)
 	{
 		player->freeze = false;
+
+		if (player->isDead && player->vy > 0) {
+			player->infor->LifeEarn(-1);
+			player->scene_id = 0;
+			game->SwitchScene(player->scene_id);
+		}
+		
 	}
-	if (player->isDead && player->vy > 0) {
-		player->infor->LifeEarn(-1);
-		player->scene_id = 0;
-		game->SwitchScene(player->scene_id);
-	}
+	
 }

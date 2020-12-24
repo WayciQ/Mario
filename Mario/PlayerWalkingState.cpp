@@ -28,8 +28,7 @@ PlayerWalkingState::PlayerWalkingState()
 		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
-	//DebugOut(L"[info] WALKING: vx: %f\n", player->vx);
-	//flag
+
 	player->isWhipping = false;
 	player->isSitting = false;
 	player->isJumping = false;
@@ -58,7 +57,6 @@ PlayerWalkingState::PlayerWalkingState()
 	else 
 		player->vx = player->vx < -MARIO_WALKING_SPEED ? -MARIO_WALKING_SPEED : player->vx - MARIO_INERTIA_WALKING;
 
-	//player->maxSpeedX = MARIO_WALKING_SPEED;
 }
 
 

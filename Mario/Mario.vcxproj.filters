@@ -511,6 +511,9 @@
     <Text Include="resource\data\World1\world1_map.txt">
       <Filter>Framework\resources\data\World1</Filter>
     </Text>
+    <Text Include="resource\data\World1\maptest.txt">
+      <Filter>Framework\resources\data\World1</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\textures\bbox.png">

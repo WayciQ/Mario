@@ -26,14 +26,15 @@ public:
 	bool isSitting;
 
 	bool isJumping;
-	bool isJumpingShort;
+	bool isFalling;
 
 	bool isJumpDone;
-	int startJumping;
-
+	DWORD startJumping;
+	DWORD startTimeFly;
+	bool isWavingTail;
 	bool isWhipping;
 	bool canWhip;
-
+	
 	bool isRunning;
 
 	bool isOnSky;
@@ -69,7 +70,7 @@ public:
 	void ChangeScene(int Port);
 	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
-
+	STATEPLAYER GetState() { return state->stateName; }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	void CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void UpdateWithEnemy(LPCOLLISIONEVENT colliable_objects);
@@ -83,4 +84,5 @@ public:
 	void Revival(float x, float y, int isInScene);
 	void startTimeDead() { untouchableTime = GetTickCount(); untouchable = true; }
 	void startTimeFreeze() { FreezeTime = GetTickCount(); untouchable = true; }
+	void StartTimeFly() { startTimeFly = GetTickCount(); isFlying = true; }
 };

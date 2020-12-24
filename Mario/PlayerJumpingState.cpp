@@ -8,44 +8,24 @@
 
 PlayerJumpingState::PlayerJumpingState()
 {
-
+	player->Allow[RACCON_WHIPING_FLY] = false;
 	player->Allow[WHIPPING] = false; 
 	player->Allow[FIRING_FIRE] = false;
-	//DebugOut(L"[info] JUMPING: vx: %f\n", player->vx);
 	switch (player->level)
 	{
 	case BIG:
 		break;
 	case RACCOON:
 		player->Allow[WHIPPING] = true;
+		
 		break;
 	case FIRE:
 		player->Allow[FIRING_FIRE] = true;
 		break;
 	}
-
-	if (!player->isJumping)
-	{
-		
-	}
-	player->isOnSky = true;
 	player->isJumping = true;
+	player->isOnSky = true;
 
-	if (!player->isJumpingShort && player->Allow[JUMPING_SHORT])
-	{
-		//player->vy = -MARIO_JUMP_SPEED_Y;
-		//player->gravity = 0.0001;
-		player->isJumpingShort = true;
-		if (player->nx > 0) {
-			stateName = JUMPING_RIGHT;
-		}
-		else {
-			stateName = JUMPING_LEFT;
-		}
-	}
-
-	
-	
 	if (player->isPicking)
 	{
 		if (player->nx > 0)
@@ -56,24 +36,13 @@ PlayerJumpingState::PlayerJumpingState()
 	}
 	else {
 
-		if (player->isFlying)
+		if (player->nx > 0)
 		{
-			if (player->nx > 0)
-			{
-				stateName = FLYING_RIGHT;
-			}
-			else stateName = FLYING_LEFT;
+			stateName = JUMPING_RIGHT;
 		}
 		else
 		{
-			if (player->nx > 0)
-			{
-				stateName = JUMPING_RIGHT;
-			}
-			else
-			{
-				stateName = JUMPING_LEFT;
-			}
+			stateName = JUMPING_LEFT;
 		}
 	}
 
@@ -84,16 +53,16 @@ PlayerJumpingState::PlayerJumpingState()
 		else
 			stateName = SITTING_LEFT;
 	}
+
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 }
 void PlayerJumpingState::HandleKeyBoard()
 {
-	if (keyCode[DIK_S] && player->Allow[JUMPING])
+	if (keyCode[DIK_S])
 	{
 		if (GetTickCount() - player->startJumping > MARIO_JUMP_TIME)
 		{
 			player->isJumpDone = true;
-			player->Allow[JUMPING] = false;
 		}
 		else
 		{
@@ -120,7 +89,6 @@ void PlayerJumpingState::Update(DWORD dt)
 	
 	if (player->vy >= 0 || player->isJumpDone)
 	{
-		player->curY = player->y;
 		player->ChangeState(new PlayerFallingState());
 	}
 }

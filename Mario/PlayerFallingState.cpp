@@ -3,14 +3,15 @@
 #include "Mario.h"
 #include "PlayerStandingState.h"
 #include "PlayerFlyingState.h"
-
+#include "PlayerRaccoonJumpTail.h"
 PlayerFallingState::PlayerFallingState()
 {
 	//DebugOut(L"[info] FALLING: vx: %f\n", player->vx);
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	player->Allow[JUMPING] = false;
-	player->Allow[JUMPING_SHORT] = false;
-	player->isJumpingShort = false;
+	player->isJumpDone = true;
+	player->isFalling = true;
+	player->isWavingTail = false;
 	switch (player->level)
 	{
 	case SMALL:
@@ -20,7 +21,6 @@ PlayerFallingState::PlayerFallingState()
 		break;
 	case RACCOON:
 		player->Allow[WHIPPING] = true;
-		player->Allow[JUMPING_SHORT] = true;
 		break;
 	case FIRE:
 		player->Allow[FIRING_FIRE] = true;
@@ -50,13 +50,6 @@ PlayerFallingState::PlayerFallingState()
 				stateName = FALLING_RIGHT;
 			else
 				stateName = FALLING_LEFT;
-			/*if (player->Allow[JUMPING_SHORT] && player->isJumpingShort)
-			{
-				if (player->nx > 0)
-					stateName = RACCON_WHIPING_FLY_RIGHT;
-				else
-					stateName = RACCON_WHIPING_FLY_LEFT;
-			}*/
 		}
 
 		if (player->isSitting)
@@ -73,8 +66,9 @@ void PlayerFallingState::Update(DWORD dt)
 	this->HandleKeyBoard();
 	if (!player->isOnSky)
 	{
-		if(player->vy == 0)
+		if (player->vy == 0) {
 			player->ChangeState(new PlayerStandingState());
+		}
 	}
 	
 }
@@ -84,13 +78,11 @@ void PlayerFallingState::HandleKeyBoard()
 	{
 		if ((keyCode[DIK_RIGHT]))
 		{
-			player->vx = MARIO_WALKING_SPEED;
 			player->nx = 1;
 			player->ChangeState(new PlayerFlyingState());
 		}
 		else if ((keyCode[DIK_LEFT]))
 		{
-			player->vx = -MARIO_WALKING_SPEED;
 			player->nx = -1;
 			player->ChangeState(new PlayerFlyingState());
 		}
@@ -102,16 +94,13 @@ void PlayerFallingState::HandleKeyBoard()
 	else if (keyCode[DIK_RIGHT])
 	{
 		player->nx = 1;
-		player->vx = MARIO_WALKING_SPEED;
 		player->ChangeState(new PlayerFallingState());
 	}
 	else if (keyCode[DIK_LEFT])
 	{
 		player->nx = -1;
-		player->vx = -MARIO_WALKING_SPEED;
 		player->ChangeState(new PlayerFallingState());
 	}
-	
 }
 
 PlayerFallingState::~PlayerFallingState()

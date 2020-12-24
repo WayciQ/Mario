@@ -1,4 +1,4 @@
-#include "PlayerRunningState.h"
+ #include "PlayerRunningState.h"
 #include "PlayerWalkingState.h"
 #include "PlayerStandingState.h"
 #include "PlayerJumpingState.h"
@@ -6,11 +6,18 @@
 #include "Mario.h"
 PlayerRunningState::PlayerRunningState() {
 	player->Allow[JUMPING] = false;
-	player->Allow[JUMPING_SHORT] = false;
 	player->Allow[FLYING_PUSH] = false;
 	player->Allow[PICKING] = false;
-	//DebugOut(L"[info] RUNNING: vx: %f\n", player->vx);
-
+	player->isOnSky = false;
+	
+	if (player->level == RACCOON) {
+		player->Allow[JUMPING] = false;
+		player->Allow[FLYING] = true;
+	}
+	else {
+		player->Allow[JUMPING] = true;
+		player->Allow[FLYING] = false;
+	}
 	if (abs(player->vx) >= MARIO_RUNNING_SPEED)
 	{
 		if (player->nx > 0)
@@ -18,9 +25,6 @@ PlayerRunningState::PlayerRunningState() {
 			stateName = RUNNING_RIGHT;
 		}
 		else stateName = RUNNING_LEFT;
-		if (player->level == RACCOON)
-			player->Allow[FLYING] = true;
-		else player->Allow[JUMPING] = true;
 	}
 	else 
 	{
@@ -29,17 +33,15 @@ PlayerRunningState::PlayerRunningState() {
 			stateName = WALKING_FAST_RIGHT;
 		}
 		else stateName = WALKING_FAST_LEFT;
+		
 	}
-	
-	player->isRunning = true;
-	if (player->level == RACCOON)
-	{
-		player->Allow[FLYING_PUSH] = true;
+
+	if (player->isRunning) {
+		if (player->nx > 0)
+			player->vx = player->vx > MARIO_RUNNING_SPEED ? MARIO_RUNNING_SPEED : player->vx + MARIO_INERTIA_WALKING;
+		else
+			player->vx = player->vx < -MARIO_RUNNING_SPEED ? -MARIO_RUNNING_SPEED : player->vx - MARIO_INERTIA_WALKING;
 	}
-	if (player->nx > 0)
-		player->vx = player->vx > MARIO_RUNNING_SPEED ? MARIO_RUNNING_SPEED : player->vx + MARIO_INERTIA_WALKING;
-	else
-		player->vx = player->vx < -MARIO_RUNNING_SPEED ? -MARIO_RUNNING_SPEED : player->vx - MARIO_INERTIA_WALKING;
 	
 }
 
@@ -47,6 +49,7 @@ void PlayerRunningState::HandleKeyBoard() {
 
 	if (keyCode[DIK_A])
 	{
+		player->isRunning = true;
 		if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
 		{
 			player->ChangeState(new PlayerStandingState());
@@ -63,14 +66,27 @@ void PlayerRunningState::HandleKeyBoard() {
 			player->ChangeState(new PlayerRunningState());
 		}
 	}
-	else
-	{
-		player->ChangeState(new PlayerWalkingState());
+	else {
+		player->isRunning = false;
+		if (player->nx > 0)
+		{
+			player->vx = player->vx <= 0 ? 0 : player->vx - MARIO_INERTIA_WALKING;
+		}
+		else
+		{
+			player->vx = player->vx >= 0 ? 0 : player->vx + MARIO_INERTIA_WALKING;
+
+		}
+		player->ChangeState(new PlayerRunningState());
 	}
 }
 
 void PlayerRunningState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
+	if (abs(player->vx) <= MARIO_WALKING_SPEED)
+	{
+		player->ChangeState(new PlayerStandingState());
+	}
 }
 PlayerRunningState::~PlayerRunningState(){}

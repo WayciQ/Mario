@@ -49,43 +49,6 @@ void PlayerWorlMapState::HandleKeyBoard()
 }
 void PlayerWorlMapState::Update(DWORD dt)
 {
-
-	/*switch (move)
-	{
-	case 0:
-		player->vy = 0;
-		player->vx = 0;
-		break;
-	case 1:
-		
-		if (player->x >= posX)
-		{
-			player->x = posX; 
-			player->vx = 0;
-		}
-		break;
-	case -1:
-		if (player->x <= posX)
-		{
-			player->x = posX; 
-			player->vx = 0;
-		}
-		break;
-	case 2:
-		if (player->y >= posY)
-		{
-			player->y = posY; 
-			player->vy = 0;
-		}
-		break;
-	case -2:
-		if (player->y <= posY)
-		{
-			player->y = posY;
-			player->vy = 0;
-		}
-		break;
-	}*/
 	
 }
 PlayerWorlMapState::~PlayerWorlMapState(){}

@@ -1,6 +1,7 @@
 [SETTINGS]
-start	0
+start	3
 #scene list
 [SCENES]
 0	resource\data\World1\worldMap1.txt
 1	resource\data\World1\world1-scene1.txt
+3	resource\data\World1\maptest.txt

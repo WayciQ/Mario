@@ -15,8 +15,10 @@ PlayerStandingState::PlayerStandingState() {
 	player->Allow[WHIPPING] = false;
 	player->Allow[SITTING] = true;
 	player->Allow[FIRING_FIRE] = false;
+	player->Allow[RACCON_WHIPING_FLY] = false;
 	player->Allow[RUNNING] = false;
 	player->Allow[FLYING] = false;
+	player->gravity = 0.001;
 	//DebugOut(L"[info] STANDING: vx: %f\n", player->vx);
 	switch (player->level)
 	{
@@ -42,7 +44,7 @@ PlayerStandingState::PlayerStandingState() {
 	player->isJumping = false;
 	player->isShooting = false;
 	player->isFlying = false;
-	player->isJumpingShort = false;
+	player->isFalling = false;
 	player->isOnSky = false;
 	player->freeze = false;
 	// set state by nx
@@ -60,7 +62,6 @@ PlayerStandingState::PlayerStandingState() {
 			stateName = STANDING_RIGHT;
 		else stateName = STANDING_LEFT;
 	}
-
 }
 
 void PlayerStandingState::HandleKeyBoard() {

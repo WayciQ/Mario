@@ -281,6 +281,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt" />
+    <Text Include="resource\data\World1\maptest.txt" />
     <Text Include="resource\data\World1\world1-scene1.txt" />
     <Text Include="resource\data\World1\world1-scene1_map.txt" />
     <Text Include="resource\data\World1\world1_map.txt" />

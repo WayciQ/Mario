@@ -20,6 +20,7 @@
 #include "CheckPoint.h"
 #include "Card.h"
 #include "PlayerEndSceneState.h"
+#include "PlayerRaccoonJumpTail.h"
 Mario * Mario::__instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -89,14 +90,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += min_ty * dy + ny * 0.1f;
 
 
-
-
-		if (ny == 1)
-		{
-			isJumpDone = true;
-			vy = 0;
-		}
-		else if (ny == -1)
+		if (ny == -1)
 		{
 			vy = 0;
 			isOnSky = false;
@@ -248,6 +242,10 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 }
 void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 {
+	if (e->ny == 1) {
+		vy = 0;
+		isJumpDone = true;
+	}
 	switch (e->obj->type)
 	{
 	case GROUND_BOX:
@@ -424,6 +422,7 @@ void Mario::Render() {
 		alpha = alpha == 255 ? 125 : 255;
 	}
 	else alpha = 255;
+
 	if (GetState() == WHIPPING_LEFT)
 	{
 		CurAnimation->Render(MARIO_X_WHIP, y, alpha);
@@ -453,12 +452,6 @@ void Mario::OnKeyDown(int key)
 		{
 		case DIK_S:
 		{
-			if (IsTouchPort)
-			{
-				IsChangeScene = true;
-				IsTouchPort = false;
-			}
-
 			if (!isOnSky && Allow[JUMPING])
 			{
 				startJump();
@@ -477,9 +470,10 @@ void Mario::OnKeyDown(int key)
 					ChangeState(new PlayerJumpingState());
 				}
 			}
+
 			if (!isOnSky && Allow[FLYING])
 			{
-				startJump();
+				StartTimeFly();
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
@@ -495,49 +489,30 @@ void Mario::OnKeyDown(int key)
 					ChangeState(new PlayerFlyingState());
 				}
 			}
-			if (!isJumpingShort && Allow[JUMPING_SHORT])
+			if (player->Allow[RACCON_WHIPING_FLY])
 			{
 				if ((keyCode[DIK_RIGHT]))
 				{
-					nx = 1;
-					ChangeState(new PlayerJumpingState());
+					player->nx = 1;
+					player->ChangeState(new PlayerRaccoonJumpTail());
 				}
 				else if ((keyCode[DIK_LEFT]))
 				{
-					nx = -1;
-					ChangeState(new PlayerJumpingState());
+					player->nx = -1;
+					player->ChangeState(new PlayerRaccoonJumpTail());
 				}
 				else
 				{
-					ChangeState(new PlayerJumpingState());
+					player->ChangeState(new PlayerRaccoonJumpTail());
 				}
 			}
 			break;
 		}
 		case DIK_X:
 		{
-			startJump();
-			if (!isJumping && Allow[JUMPING_SHORT])
-			{
-				if ((keyCode[DIK_RIGHT]))
-				{
-					nx = 1;
-					ChangeState(new PlayerJumpingState());
-				}
-				else if ((keyCode[DIK_LEFT]))
-				{
-					nx = -1;
-					ChangeState(new PlayerJumpingState());
-				}
-				else
-				{
-					ChangeState(new PlayerJumpingState());
-				}
-			}
 			if (!isOnSky && Allow[FLYING])
 			{
-				startJump();
-				isFlyingPush = true;
+				StartTimeFly();
 				if ((keyCode[DIK_RIGHT]))
 				{
 					nx = 1;
@@ -690,18 +665,28 @@ void Mario::OnKeyUp(int key) {
 			break;
 		}
 		case DIK_RIGHT:
+		{
 			startWalkingDone();
 			walkingDirection = 1;
 			break;
+		}
 		case DIK_LEFT:
+		{
 			startWalkingDone();
 			walkingDirection = -1;
 			break;
+		}
 		case DIK_S:
-			isJumpDone = true;
+		{
+			if (isJumping) {
+				isJumpDone = true;
+			}
+			if(level == RACCOON && !isFlying && !isWavingTail)
+				Allow[RACCON_WHIPING_FLY] = true;
+			
 			break;
+		}
 		case DIK_DOWN:
-			//isSitting = false;
 			break;
 		case DIK_X:
 			break;

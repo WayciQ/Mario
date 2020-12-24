@@ -3,56 +3,48 @@
 #include "Mario.h"
 #define MARIO_FLY_TIME	5000
 PlayerFlyingState::PlayerFlyingState() {
-	//DebugOut(L"[info] FLYING: vx: %f\n", player->vx);
-
-	if (player->isFlying)
-	{
-		player->vy = -0.2f;
-	}
+	player->Allow[JUMPING] = false;
 	player->isOnSky = true;
 	player->isFlying = true;
+	player->vy = -0.25f;
+
+	if (player->nx > 0)
+	{
+		stateName = FLYING_RIGHT;
+	}
+	else stateName = FLYING_LEFT;
 	
-	if (player->isFlyingPush && player->level == RACCOON)
-	{
-		if (player->nx > 0)
-		{
-			stateName = FLYING_PUSH_RIGHT;
-		}
-		else stateName = FLYING_PUSH_LEFT;
-	}
-	else
-	{
-		if (player->nx > 0)
-		{
-			stateName = FLYING_RIGHT;
-		}
-		else stateName = FLYING_LEFT;
-	}
 }
 
 void PlayerFlyingState::HandleKeyBoard() 
 {
-	if (GetTickCount() - player->startJumping > 4000)
+	if (keyCode[DIK_S])
 	{
-		player->isJumpDone = true;
-		player->isFlying = false;
-		
+		/*player->ChangeState(new PlayerFlyingState());*/
 	}
-	else {
-		if (keyCode[DIK_X])
+	else if (keyCode[DIK_X])
+	{
+		if (GetTickCount() - player->startJumping > 5000)
 		{
-			player->vy = -MARIO_JUMP_SPEED_Y;
+			player->isJumpDone = true;
+			player->isFlying = false;
+
 		}
+		else player->vy = -MARIO_JUMP_SPEED_Y;
 	}
-	
 }
 
 void PlayerFlyingState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
-	if (player->isJumpDone || player->vy >=0)
-	{
-		player->curY = player->y;
+	if (player->vy >= 0) {
 		player->ChangeState(new PlayerFallingState());
 	}
+
+	if (GetTickCount() - player->startTimeFly > 4000)
+	{
+		player->Allow[FLYING] = false;
+		player->isFlying = false;
+	}
+
 }

@@ -2,7 +2,6 @@
 #include "PlayerState.h"
 class PlayerRaccoonJumpTail : public PlayerState
 {
-	DWORD timeWaving;
 public:
 	PlayerRaccoonJumpTail();
 	~PlayerRaccoonJumpTail();

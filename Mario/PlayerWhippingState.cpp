@@ -16,7 +16,6 @@ PlayerWhippingState::PlayerWhippingState() {
 		player->canWhip = true;
 	}
 	player->isWhipping = true;
-
 	
 	auto w = Weapons::CreateWeapon(WHIP, player->nx, player->ny, player->x, player->y);
 	grid->AddMovingObject(w);
