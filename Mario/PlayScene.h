@@ -20,8 +20,8 @@ private:
 	void _ParseSection_SETTINGS(string line);
 public:
 	vector<LPGAMEOBJECT> HolderObjects;
-	vector<LPGAMEOBJECT> EnemyObject;
-	vector<LPGAMEOBJECT> GroundObject;
+	vector<LPGAMEOBJECT> listEnemyObject;
+	vector<LPGAMEOBJECT> listGroundObject;
 	unordered_map<int,SceneGate*> listTrigger;
 	unordered_map<int, Portal*> listPortal;
 	vector<CheckPoint*> listPoint;

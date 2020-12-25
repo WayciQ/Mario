@@ -6,7 +6,7 @@
 #define GOOMBA_BBOX_HEIGHT 15
 #define GOOMBA_BBOX_HEIGHT_DIE 9
 #define GOOMBA_TIME_DIE 300
-#define DISTANCE_FL 100
+#define DISTANCE_FL 130
 class Goomba : public Enemy
 {
 public:

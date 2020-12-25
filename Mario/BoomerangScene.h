@@ -6,7 +6,7 @@ class BoomerangScene : public Enemy
 	float maxRight;
 public:
 	BoomerangScene() {
-		widthBBox = heightBBox = 16;
+		SetBBox(16, 16);
 		type = BOOMERANG;
 		CurAnimation = animationsSets->Get(BOOMERANG)->Get(ENEMY_WALKING_RIGHT);
 		vx = 0.02f;

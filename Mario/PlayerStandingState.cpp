@@ -18,7 +18,7 @@ PlayerStandingState::PlayerStandingState() {
 	player->Allow[RACCON_WHIPING_FLY] = false;
 	player->Allow[RUNNING] = false;
 	player->Allow[FLYING] = false;
-	player->gravity = 0.001;
+	player->gravity = WORLD_GRAVITY;
 	//DebugOut(L"[info] STANDING: vx: %f\n", player->vx);
 	switch (player->level)
 	{

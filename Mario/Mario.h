@@ -54,6 +54,7 @@ public:
 	bool IsChangeScene;
 	int scene_id = 1;
 	int gateScene;
+
 	bool IsTouchTrigger;
 	int moveToTrigger;
 	bool IsTouchPort;
@@ -72,7 +73,6 @@ public:
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
 	STATEPLAYER GetState() { return state->stateName; }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
-	void CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void UpdateWithEnemy(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithGround(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithItem(LPCOLLISIONEVENT colliable_objects);
@@ -82,7 +82,7 @@ public:
 	void OnKeyDown(int key);
 	void ChangeState(PlayerState* newState);
 	void Revival(float x, float y, int isInScene);
-	void startTimeDead() { untouchableTime = GetTickCount(); untouchable = true; }
-	void startTimeFreeze() { FreezeTime = GetTickCount(); untouchable = true; }
+	void startTimeChangeState() { untouchableTime = GetTickCount(); untouchable = true; }
+	void startTimeFreeze() { FreezeTime = GetTickCount(); freeze = true; }
 	void StartTimeFly() { startTimeFly = GetTickCount(); isFlying = true; }
 };

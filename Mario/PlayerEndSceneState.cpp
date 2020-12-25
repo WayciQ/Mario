@@ -14,7 +14,7 @@ PlayerEndSceneState::PlayerEndSceneState() {
 }
 void PlayerEndSceneState::Update(DWORD dt) {
 	if (player->x > map->GetWidthMap()) {
-		player->scene_id = 0;
-		game->SwitchScene(player->scene_id);
+		player->infor->SetSceneId(0);
+		player->IsChangeScene = true;
 	}
 }

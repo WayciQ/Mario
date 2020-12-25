@@ -9,8 +9,7 @@ public:
 		type = PORTAL;
 		tag = BOX;
 		this->scene_id = scene_id;
-		widthBBox = w;
-		heightBBox = h;
+		SetBBox(w, h);
 	}
 	void Render()
 	{

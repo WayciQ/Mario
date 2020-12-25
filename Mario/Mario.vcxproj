@@ -147,12 +147,9 @@
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BasGoomba.cpp" />
-    <ClCompile Include="BoomerangScene.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickBreakable.cpp" />
-    <ClCompile Include="BrickCloud.cpp" />
-    <ClCompile Include="BrickNormal.cpp" />
     <ClCompile Include="BrickQuestion.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Card.cpp" />
@@ -281,7 +278,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt" />
-    <Text Include="resource\data\World1\maptest.txt" />
     <Text Include="resource\data\World1\world1-scene1.txt" />
     <Text Include="resource\data\World1\world1-scene1_map.txt" />
     <Text Include="resource\data\World1\world1_map.txt" />

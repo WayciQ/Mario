@@ -12,6 +12,8 @@ private:
 	STATEOBJECT card_2;
 	STATEOBJECT card_3;
 	int countCard;
+	int scene_id;
+	int gate_id;
 public:
 	Information() {
 		world_id = 1;
@@ -21,9 +23,15 @@ public:
 		life = 4;
 		card_1 = card_2 = card_3 = CARD_EMPTY;
 		countCard = 0;
+		scene_id = 0;
+		gate_id = 0;
 	}
 	int GetWoldId() { return world_id; }
 	void SetWorldId(int id) { world_id = id; }
+	int GetSceneId() { return scene_id; }
+	void SetSceneId(int id) { scene_id = id; }
+	int GetGateId() { return gate_id; }
+	void SetGateId(int id) { gate_id = id; }
 	int GetGameTime() { return timeGame; }
 	void CalcTimeGame(int time) { timeGame += time; }
 	void SetGameTime(int time) { timeGame = time; }

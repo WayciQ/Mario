@@ -17,7 +17,7 @@ PlayerShootingFireState::PlayerShootingFireState()
 
 	if (player->canShoot)
 	{
-		auto w = Weapons::CreateWeapon(FIRE_FIRE, player->nx, player->ny, player->x, player->y);
+		auto w = Weapons::CreateWeapon(FIRE_FIRE, player->nx, player->ny, player->x, player->y,PLAYER);
 		grid->AddMovingObject(w);
 	}
 	if (!player->isJumping)

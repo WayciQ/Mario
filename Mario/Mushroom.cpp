@@ -9,7 +9,6 @@ Mushroom::Mushroom(TYPE type, float x, float y) : Item(x,y)
 	widthBBox = heightBBox = 16;
 	CurAnimation = animationsSets->Get(type)->Get(BLOCK_STATIC);
 	nx = player->nx;
-	
 	if (nx > 0)
 	{
 		vx = SPEED_MUSHROOM;
@@ -20,8 +19,6 @@ Mushroom::Mushroom(TYPE type, float x, float y) : Item(x,y)
 }
 void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
-
 	if (isRespawn)
 	{
 		y -= 0.3;

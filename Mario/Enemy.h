@@ -11,6 +11,7 @@ class Enemy : public GameObject
 public:
 	Enemy() {
 		tag = ENEMY;
+		tagChange = ENEMY;
 		isDead = false;
 	}
 	Animation* CurAnimation;

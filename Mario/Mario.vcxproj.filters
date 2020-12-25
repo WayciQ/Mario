@@ -144,12 +144,6 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClCompile>
-    <ClCompile Include="BrickNormal.cpp">
-      <Filter>Framework\GameObjects\Ground\Brick</Filter>
-    </ClCompile>
-    <ClCompile Include="BrickCloud.cpp">
-      <Filter>Framework\GameObjects\Ground\Brick</Filter>
-    </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Framework\GameObjects\Enemy\Goomba</Filter>
     </ClCompile>
@@ -231,9 +225,6 @@
     <ClCompile Include="PlayerChangeLevelState.cpp">
       <Filter>Framework\GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
-    <ClCompile Include="Card.cpp">
-      <Filter>Framework\GameObjects\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Framework\ManagerScene</Filter>
     </ClCompile>
@@ -276,8 +267,8 @@
     <ClCompile Include="PlayerEndSceneState.cpp">
       <Filter>Framework\GameObjects\Player\state\SceneState</Filter>
     </ClCompile>
-    <ClCompile Include="BoomerangScene.cpp">
-      <Filter>Framework\GameObjects\Enemy</Filter>
+    <ClCompile Include="Card.cpp">
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -440,9 +431,6 @@
     <ClInclude Include="Portal.h">
       <Filter>Framework\GameObjects\GATE</Filter>
     </ClInclude>
-    <ClInclude Include="Card.h">
-      <Filter>Framework\GameObjects\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>Framework\ManagerScene</Filter>
     </ClInclude>
@@ -494,6 +482,9 @@
     <ClInclude Include="BoomerangScene.h">
       <Filter>Framework\GameObjects\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">
@@ -509,9 +500,6 @@
       <Filter>Framework\resources\data\World1</Filter>
     </Text>
     <Text Include="resource\data\World1\world1_map.txt">
-      <Filter>Framework\resources\data\World1</Filter>
-    </Text>
-    <Text Include="resource\data\World1\maptest.txt">
       <Filter>Framework\resources\data\World1</Filter>
     </Text>
   </ItemGroup>

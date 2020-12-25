@@ -3,7 +3,7 @@
 BasGoomba::BasGoomba() : Goomba()
 {
 	this->type = BASIC_GOOMBA;
-	this->nx = 1;
+	this->nx = -1;
 	Revival();
 }
 void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -25,7 +25,7 @@ void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
-
+		SetBBox(0, 0);
 	}
 
 
@@ -80,26 +80,23 @@ void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 
 				}
-
 			}
 			if (e->obj->tag == ENEMY)
 			{
-				if (e->nx != 0)
-				{
-					x += dx;
-				}
-				if (e->ny != 0)
-				{
-					y += dy;
-				}
-				/*if (e->obj->tagChange == WEAPON && e->obj->isKicked)
-				{
+				if (e->obj->tagChange == WEAPON && e->obj->isKicked) {
 					startTimeDead();
 					isFlip = true;
 					vy = -0.2f;
 					vx = 0;
 					SetState(ENEMY_DIE_FLIP);
-				}*/
+				}
+
+				if (e->nx != 0) {
+					x += dx;
+				}
+				if (e->ny != 0) {
+					y += dy;
+				}
 			}
 			
 		}
@@ -112,6 +109,7 @@ void BasGoomba::Revival()
 	isDead = false;
 	canDel = false;
 	canRespawn = false;
-	vx = GOOMBA_WALKING_SPEED;
-	SetState(ENEMY_WALKING_RIGHT);
+	vx = -GOOMBA_WALKING_SPEED;
+	nx = -1;
+	SetState(ENEMY_WALKING_LEFT);
 }

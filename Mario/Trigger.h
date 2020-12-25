@@ -2,7 +2,7 @@
 #include "GameObject.h"
 class SceneGate : public GameObject
 {
-	int trigger_port;
+	int gate_id;
 	int SideToIn;
 	float posX, posY;
 	
@@ -14,9 +14,8 @@ public:
 	{
 		this->type = SCENE_GATE;
 		tag = BOX;
-		this->heightBBox = h;
-		this->widthBBox = w;
-		this->trigger_port = port;
+		SetBBox(w, h);
+		this->gate_id = port;
 		this->SideToIn = SideToIn;
 		this->posX = PosX;
 		this->posY = PosY;
@@ -35,7 +34,7 @@ public:
 		r = x + widthBBox;
 		b = y + heightBBox;
 	};
-	int GetTriggerPort() { return trigger_port; }
+	int GetGateId() { return gate_id; }
 	int GetWayIn() {
 		return SideToIn;
 	}

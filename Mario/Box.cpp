@@ -4,8 +4,7 @@ Box::Box(float w, float h)
 {
 	tag = GROUND;
 	type = GROUND_BOX;
-	widthBBox = w;
-	heightBBox = h;
+	SetBBox(w, h);
 }
 
 Box::~Box() {}

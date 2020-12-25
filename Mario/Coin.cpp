@@ -5,7 +5,7 @@ Coin::Coin(float x, float y, STATEOBJECT state, bool isStatic) : Item(x, y)
 {
 	this->isStatic = isStatic;
 	type = COIN;
-	widthBBox = heightBBox = 16;
+	SetBBox(16, 16);
 	CurAnimation = animationsSets->Get(COIN)->Get(state);
 	
 	time = GetTickCount();

@@ -49,7 +49,7 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 		for (int r = area.TopCell; r <= area.BottomCell; r++)
 			for (int c = area.LeftCell; c <= area.RightCell; c++)
 			{
-				DebugOut(L"[INFO] object static TYPE: %d is add in Cell [%d] [%d]\n", obj->type,r,c);
+				DebugOut(L"[INFO] object static TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
 				Cells[r][c]->staticObjects.insert(obj);
 			}
 		obj->SetPosition(x, y);
@@ -60,7 +60,7 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 		for (int r = area.TopCell; r <= area.BottomCell; r++)
 			for (int c = area.LeftCell; c <= area.RightCell; c++)
 			{
-				DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+				//DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
 				Cells[r][c]->movingObjects.insert(obj);
 			}
 		obj->SetPosition(x, y);
@@ -70,7 +70,16 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 		for (int r = area.TopCell; r <= area.BottomCell; r++)
 			for (int c = area.LeftCell; c <= area.RightCell; c++)
 			{
-				DebugOut(L"[INFO] object Hidden TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+				//DebugOut(L"[INFO] object Hidden TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+				Cells[r][c]->staticObjects.insert(obj);
+			}
+		obj->SetPosition(x, y);
+		break;
+	case BOX:
+		for (int r = area.TopCell; r <= area.BottomCell; r++)
+			for (int c = area.LeftCell; c <= area.RightCell; c++)
+			{
+				DebugOut(L"[INFO] object static TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
 				Cells[r][c]->staticObjects.insert(obj);
 			}
 		obj->SetPosition(x, y);
@@ -121,11 +130,11 @@ void Grid::CalcObjectInViewPort()
 			result.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
 			//DebugOut(L"[info] Object in Cell  [%d]: %d\n",c,Cells[r][c]->staticObjects.size());
 			//DebugOut(L"[info] Cell column [%d]\n",c);
-			resultItem.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
+			resultItem.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
 			
 		}
 	}
-	CurStaticObjectInViewPort = { resultItem.begin(), resultItem.end() };
+	CurMovingObjectInViewPort = { resultItem.begin(), resultItem.end() };
 	CurObjectInViewPort = { result.begin(), result.end() };
 	//DebugOut(L"[info] Cell left: [%d], top: [%d], right: [%d] bottom: [%d]\n", area.LeftCell, area.TopCell, area.RightCell, area.BottomCell);
 	//DebugOut(L"[info] Object in viewport: %d\n", CurObjectInViewPort.size());

@@ -1,4 +1,3 @@
-
 #include "Mario.h"
 #include "PlayerState.h"
 #include "PlayerKickState.h"
@@ -86,16 +85,11 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block 
-		x += min_tx * dx + nx * 0.1f;
-		y += min_ty * dy + ny * 0.1f;
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 
 
-		if (ny == -1)
-		{
-			vy = 0;
-			isOnSky = false;
-			curY = y;
-		}
+		
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -129,7 +123,7 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 	{
 		if (!e->obj->isDead)
 		{
-			if (e->obj->typeParent != PLANT)
+			if (e->obj->typeParent != PLANT || e->obj->tagChange != WEAPON)
 			{
 				e->obj->vx = 0;
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -139,8 +133,9 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 				infor->ScoreEarn(100);
 			}
 			else {
-				ChangeState(new PlayerChangeLevelState(true, level));
+				ChangeState(new PlayerChangeLevelState(true));
 				y += dy;
+				x += dx;
 			}
 		}
 		else
@@ -176,75 +171,85 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+	if (e->ny == 1)
+	{
+		y += dy;
+		ChangeState(new PlayerChangeLevelState(true));
+	}
 	if (e->nx != 0)
 	{
-		if (!untouchable)
-		{
-			if (!e->obj->isDead) {
-				ChangeState(new PlayerChangeLevelState(true, level));
-			}
-			else {
-				if (e->obj->typeParent == KOOMPA)
+		if (!e->obj->isDead) {
+			ChangeState(new PlayerChangeLevelState(true));
+		}
+		else {
+			if (e->obj->typeParent == KOOMPA)
+			{
+				if (e->obj->isKicked && e->obj->vx != 0)
 				{
-					if (e->obj->isKicked && e->obj->vx != 0)
+					ChangeState(new PlayerChangeLevelState(true));
+				}
+				if (canPicking) {
+					isPicking = true;
+				}
+				else {
+					if (!e->obj->isKicked && e->nx != player->nx)
 					{
-						ChangeState(new PlayerChangeLevelState(true, level));
-					}
-					if (canPicking) {
-						isPicking = true;
-					}
-					else {
-						if (!e->obj->isKicked && e->nx != player->nx)
+						ChangeState(new PlayerKickState());
+						e->obj->isDead = true;
+						e->obj->isKicked = true;
+						e->obj->tagChange = WEAPON;
+						e->obj->canRespawn = false;
+						if (player->nx > 0)
 						{
-							ChangeState(new PlayerKickState());
-							e->obj->isDead = true;
-							e->obj->isKicked = true;
-							e->obj->tagChange = WEAPON;
-							e->obj->canRespawn = false;
-							if (player->nx > 0)
-							{
-								e->obj->vx = 2 * MARIO_WALKING_SPEED;
-							}
-							else {
-								e->obj->vx = -2 * MARIO_WALKING_SPEED;
-							}
+							e->obj->vx = 2 * MARIO_WALKING_SPEED;
+						}
+						else {
+							e->obj->vx = -2 * MARIO_WALKING_SPEED;
 						}
 					}
 				}
 			}
 		}
 	}
-	if (e->ny == 1)
-	{
-		ChangeState(new PlayerChangeLevelState(true, level));
-	}
+	
 }
 void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
-{ 
+{
+	
 	e->obj->isDead = true;
-	e->obj->canDel = true;
-	switch (e->obj->type)
-	{
-	case LEAF:
-		ChangeState(new PlayerChangeLevelState(false, RACCOON));
-		break;
-	case COIN:
-		infor->ScoreEarn(100);
-		infor->MoneyEarn(1);
-		break;
-	case RED_MUSHROOM:
-		ChangeState(new PlayerChangeLevelState(false, BIG));
-		break;
-	case GREEN_MUSHROOM:
-		infor->LifeEarn(1);
-		break;
+	if (e->nx != 0 || e->ny != 0) {
+		switch (e->obj->type)
+		{
+		case LEAF:
+			ChangeState(new PlayerChangeLevelState(false, RACCOON));
+			break;
+		case COIN:
+			x += dx;
+			y += dy;
+			infor->ScoreEarn(100);
+			infor->MoneyEarn(1);
+			break;
+		case RED_MUSHROOM:
+			ChangeState(new PlayerChangeLevelState(false));
+			break;
+		case GREEN_MUSHROOM:
+			infor->LifeEarn(1);
+			break;
+		}
 	}
+	
 }
 void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 {
 	if (e->ny == 1) {
 		vy = 0;
 		isJumpDone = true;
+	}
+	if (e->ny == -1)
+	{
+		vy = 0;
+		isOnSky = false;
+		curY = y;
 	}
 	switch (e->obj->type)
 	{
@@ -262,14 +267,22 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		if (e->ny == 1)
 		{
 			vy = 0;
-			e->obj->isDead = true;
+			e->obj->startTimeDead();
 			infor->ScoreEarn(20);
 		}
+		break;
+	case BUTTON:
+		if (e->ny == -1) {
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			e->obj->startTimeDead();
+		}
+		if (e->nx != 0) {
+			x += dx;
+		}
+		break;
 	default:
 		break;
 	}
-	
-
 	
 	if (dynamic_cast<Card*>(e->obj)) {
 		e->obj->isDead = true;
@@ -283,7 +296,6 @@ void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 {
 	x += dx;
 	y += dy;
-
 	if (IsCollisionAABB(GetRect(), e->obj->GetRect()))
 	{
 
@@ -292,7 +304,7 @@ void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 			y += dy;
 			x += dx;
 			Portal* p = dynamic_cast<Portal*>(e->obj);
-			scene_id = p->GetSceneId();
+			infor->SetSceneId(p->GetSceneId());
 			IsTouchPort = true;
 			x = e->obj->x;
 			y = e->obj->y;
@@ -305,7 +317,7 @@ void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 			vy = 0;
 			x += dx;
 			SceneGate* p = dynamic_cast<SceneGate*>(e->obj);
-			gateScene = p->GetTriggerPort();
+			infor->SetGateId(p->GetGateId());
 			moveToTrigger = p->GetWayIn();
 			IsTouchTrigger = true;
 		}
@@ -432,7 +444,7 @@ void Mario::Render() {
 		CurAnimation->Render(x, y, alpha);
 	}
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 void Mario::ChangeState(PlayerState* newState)
 {
@@ -565,9 +577,36 @@ void Mario::OnKeyDown(int key)
 			}
 			break;
 		}
-		case DIK_DOWN:
+		case DIK_LEFT:
+		{
+			if (IsTouchTrigger && moveToTrigger == -1)
+			{
+				IsChangeTrigger = true;
+				IsTouchTrigger = false;
+			}
+			break;
+		}
+		case DIK_RIGHT:
 		{
 			if (IsTouchTrigger && moveToTrigger == 1)
+			{
+				IsChangeTrigger = true;
+				IsTouchTrigger = false;
+			}
+			break;
+		}
+		case DIK_UP:
+		{
+			if (IsTouchTrigger && moveToTrigger == -2)
+			{
+				IsChangeTrigger = true;
+				IsTouchTrigger = false;
+			}
+			break;
+		}
+		case DIK_DOWN:
+		{
+			if (IsTouchTrigger && moveToTrigger == 2)
 			{
 				IsChangeTrigger = true;
 				IsTouchTrigger = false;
@@ -603,22 +642,52 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_F1:
 		{
-			SetPosition(70, 250);
+			SetPosition(70, 384);
 			break;
 		}
 		case DIK_F2:
 		{
-			SetPosition(900, 300);
+			SetPosition(578, 272);
 			break;
 		}
 		case DIK_F3:
 		{
-			SetPosition(2500, 400);
+			SetPosition(720, 384);
 			break;
 		}
 		case DIK_F4:
 		{
-			SetPosition(1616, 140);
+			SetPosition(1376, 112);
+			break;
+		}
+		case DIK_F5:
+		{
+			SetPosition(1216, 400);
+			break;
+		}
+		case DIK_F6:
+		{
+			SetPosition(2352, 80);
+			break;
+		}
+		case DIK_F7:
+		{
+			SetPosition(2416, 368);
+			break;
+		}
+		case DIK_F8:
+		{
+			player->ChangeState(new PlayerChangeLevelState(false));
+			break;
+		}
+		case DIK_F9:
+		{
+			player->ChangeState(new PlayerChangeLevelState(false,RACCOON));
+			break;
+		}
+		case DIK_F10:
+		{
+			player->ChangeState(new PlayerChangeLevelState(true));
 			break;
 		}
 		}

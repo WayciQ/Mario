@@ -6,8 +6,7 @@ public:
 	CheckPoint() {
 		tag = BOX;
 		type = CHECKPOINT;
-		widthBBox = 16;
-		heightBBox = 16;
+		SetBBox(16, 16);
 	}
 	~CheckPoint(){}
 	void Render() {

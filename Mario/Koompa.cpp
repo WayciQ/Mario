@@ -23,9 +23,11 @@ void Koompa::SetState(STATEOBJECT state)
 	switch (state)
 	{
 	case ENEMY_WALKING_RIGHT:
+		nx = 1;
 		vx = KOOMBA_WALKING_SPEED;
 		break;
 	case ENEMY_WALKING_LEFT:
+		nx = -1;
 		vx = -KOOMBA_WALKING_SPEED;
 		break;
 	case ENEMY_DIE_STAND:
@@ -62,11 +64,11 @@ void Koompa::UpdatePosition(DWORD dt)
 }
 void Koompa::UpdateLocation()
 {
-	/*if (x > maxRight) {
+	if (x > maxRight - widthBBox - 5) {
 		SetState(ENEMY_WALKING_LEFT);
 	}
 	else if (x < maxLeft) {
 		SetState(ENEMY_WALKING_RIGHT);
-	}*/
+	}
 		
 }

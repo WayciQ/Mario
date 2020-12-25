@@ -20,8 +20,6 @@ void Whip::GetBoundingBox(float& l, float& t, float& r, float& b)
 void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	
-
-	auto Effect = new EffectHit();
 	vector<LPGAMEOBJECT> coEvents;
 	coEvents.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -42,13 +40,12 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coEvents.at(i)->vy = -0.2f;
 			coEvents.at(i)->vx = 0;
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
-			grid->AddStaticObject(Effect, x, y);
+			//grid->AddStaticObject(Effect, x, y);
 			break;
 		case GROUND:
 			if (coEvents.at(i)->type == BLOCK_QUESTION || coEvents.at(i)->type == BLOCK_BREAKABLE)
 			{
-				coEvents.at(i)->isDead = true;
-				canDel = true;
+				coEvents.at(i)->startTimeDead();
 			}
 			break;
 		}
@@ -58,20 +55,24 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Whip::UpdatePosititon(DWORD dt)
 {
 	int curFrame = player->CurAnimation->currentFrame;
+	
 	int posX, posY;
-	if (curFrame == 0)
+	/*if (curFrame == 0)
 	{
 		posX = player->nx > 0 ? player->x  : player->x + 15;
 	}
-	else if (curFrame == 3)
+	else*/ 
+	if (curFrame == 3)
 	{
-		posX = player->nx > 0 ? player->x + 25 : player->x - 9;
+		posX = player->nx > 0 ? player->x + 24 : player->x - 8;
 	}
-	else posX = player->x + 15;
+	else posX = player->nx > 0 ? player->x + 8 : player->x + 8;
+
 	posY = player->y + 18;
 	SetPosition(posX, posY);
-	if (player->CurAnimation->isLastFrame)	
+	if (player->CurAnimation->isLastFrame )
 		canDel = true;
+
 }
 void Whip::Render() {
 	UpdatePosititon(dt);

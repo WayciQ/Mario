@@ -22,17 +22,17 @@ Fire::Fire(int nx, int ny, float x, float y, TAG tag)
 	if (nx > 0)
 	{
 		ChangeAnimation(FIRE_FIRE_RIGHT);
-		vx = tag == ENEMY ? FIRE_SPEED_PLANT_X : player->vx + FIRE_SPEED_X;
+		vx = this->tag == ENEMY ? FIRE_SPEED_PLANT_X : player->vx + FIRE_SPEED_X;
 	}
 	else 
 	{
 		ChangeAnimation(FIRE_FIRE_LEFT);
-		vx = tag == ENEMY ? -FIRE_SPEED_PLANT_X : player->vx -FIRE_SPEED_X;
+		vx = this->tag == ENEMY ? -FIRE_SPEED_PLANT_X : player->vx -FIRE_SPEED_X;
 	}
 
 	if (ny < 0)
 	{
-		vy = tag == ENEMY ? -FIRE_SPEED_PLANT_Y : player->vx -FIRE_SPEED_Y;
+		vy = this->tag == ENEMY ? -FIRE_SPEED_PLANT_Y : player->vy -FIRE_SPEED_Y;
 	}
 	else if (ny == 0)
 	{
@@ -40,7 +40,7 @@ Fire::Fire(int nx, int ny, float x, float y, TAG tag)
 	}
 	else
 	{
-		vy = tag == ENEMY ? FIRE_SPEED_PLANT_Y : player->vx+ FIRE_SPEED_Y;
+		vy = this->tag == ENEMY ? FIRE_SPEED_PLANT_Y : player->vy + FIRE_SPEED_Y;
 	}
 	
 	
@@ -69,8 +69,11 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			TimeDead = 0;
 		}
 	}
+
 	if (fireFrom == PLAYER) {
+
 		vy += WORLD_GRAVITY * dt;
+		tagChange = WEAPON;
 		tag = WEAPON;
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
@@ -109,13 +112,6 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							e->obj->isDead = true;
 							startTimeDead();
 						}
-						/*if (e->obj->type == BLOCK_QUESTION)
-						{
-							vy = 0;
-							
-
-						}*/
-
 					}
 					else {
 						if (e->nx != 0)
@@ -154,16 +150,11 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
 	else {
+		tag = ENEMY;
 		tagChange = WEAPON;
 		x += dx;
 		y += dy;
 	}
-	
-}
-void Fire::CollisonGroundWall(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
-{
-	
-	
 	
 }
 
@@ -175,7 +166,6 @@ void Fire::UpdatePosititon(DWORD dt)
 		startTimeDead();
 		CurAnimation = animation_set->Get(BIGBANG);
 	}
-	GameObject::Update(dt);
 }
 Fire::~Fire()
 {

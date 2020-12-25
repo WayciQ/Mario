@@ -53,6 +53,12 @@ void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					startTimeDead();
 					SetState(ENEMY_DIE_FLIP);
 				}
+				if (e->nx != 0) {
+					x += dx;
+				}
+				if (e->ny != 0) {
+					y += dy;
+				}
 			}
 		}
 	}

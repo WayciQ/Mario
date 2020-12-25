@@ -82,7 +82,6 @@ void PlayScene::_ParseSection_SPRITES(string line)
 		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
 		return;
 	}
-
 	Sprites::GetInstance()->Add(ID, l, t, r, b, tex);
 }
 
@@ -176,7 +175,6 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case GROUND:
-		
 		switch (type)
 		{
 		case GROUND_LAND:
@@ -193,13 +191,13 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
 		}
-		GroundObject.push_back(obj);
+		listGroundObject.push_back(obj);
 		grid->LoadObjects(obj,x,y);
 		break;
 	case ENEMY:
 		obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
 		grid->LoadObjects(obj,x,y);
-		EnemyObject.push_back(obj);
+		//listEnemyObject.push_back(obj);
 		break;
 	case ITEM:
 		obj = Items::CreateItem(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
@@ -220,7 +218,6 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 				(int)atof(tokens[11].c_str()),
 				(int)atof(tokens[12].c_str()),
 				(int)atof(tokens[13].c_str()));
-
 			listTrigger[(int)atof(tokens[4].c_str())] = trigger;
 			grid->AddStaticObject(trigger, x, y);
 			break;
@@ -337,25 +334,23 @@ void PlayScene::Update(DWORD dt)
 {
 	ChangeScene();
 	vector<LPGAMEOBJECT> coObjects;
-
+	coObjects.clear();
 	grid->UpdateCellInViewPort();
-	//player->CollisonGroundWall(dt, &GroundObject);
-	player->Update(dt, &grid->GetObjectInViewPort());
+	//player->CollisonGroundWall(dt, &listGroundObject);
 
-	for (size_t i = 1; i < grid->GetObjectInViewPort().size(); i++)
-	{
-		coObjects.push_back(grid->GetObjectInViewPort()[i]);
+	for (auto& obj : listGroundObject) {
+		coObjects.push_back(obj);
 	}
-	
-
+	for (auto& obj : grid->GetMovingObjectInViewPort()) {
+		coObjects.push_back(obj);
+	}
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
-		if (!player->freeze)
-		{
-			obj->Update(dt,&GroundObject);
-		}
+		
+		obj->Update(dt, &coObjects);
+		
 	}
-
+	player->Update(dt, &grid->GetObjectInViewPort());
 	camera->Update();
 	scoreBoard->Update(dt);
 }
@@ -363,13 +358,14 @@ void PlayScene::Update(DWORD dt)
 void PlayScene::Render()
 {
 	Map::GetInstance()->Render();
+
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
 		obj->Render();
 	}
 	player->Render();
 	scoreBoard->Render();
-	grid->RenderCell();
+	//grid->RenderCell();
 }
 
 void PlayScene::Unload()
@@ -383,10 +379,10 @@ void PlayScene::Unload()
 	for (int i = 0; i < listTrigger.size(); i++)
 		delete listTrigger[i];
 
-	/*for (int i = 0; i < GroundObject.size(); i++)
-		delete GroundObject[i];*/
+	for (auto& obj : listGroundObject)
+		delete obj;
 
-//	GroundObject.clear();
+	listGroundObject.clear();
 	listPoint.clear();
 	listPortal.clear();
 	listTrigger.clear();
@@ -396,7 +392,7 @@ void PlayScene::Unload()
 void PlayScene::ChangeScene() {
 
 	if (player->IsChangeTrigger) {
-		auto trigger = listTrigger.at(player->gateScene);
+		auto trigger = listTrigger.at(player->infor->GetGateId());
 		player->SetPosition(trigger->GetPosX(), 
 							trigger->GetPosY());
 		player->SetSpeed(0, 0);
@@ -406,11 +402,10 @@ void PlayScene::ChangeScene() {
 	}
 
 	if (player->IsChangeScene) {
-		
+			
 		player->IsChangeScene = false;
-		game->SwitchScene(player->scene_id);
+		game->SwitchScene(player->infor->GetSceneId());
 	}
-	
 }
 
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)

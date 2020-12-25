@@ -2,7 +2,8 @@
 #define TIME_CHANGE 2000
 Card::Card() {
 	getCard = 0;
-	widthBBox = heightBBox = 32;
+
+	SetBBox(32, 32);
 	this->type = CARD;
 	timeChange = GetTickCount();
 	animation_set = animationsSets->Get(type);

@@ -5,16 +5,112 @@ TropaKoompa::TropaKoompa() : Koompa()
 {
 	this->type = TROPA_KOOMPA;
 	jumped = false;
-	nx = 1;
+	nx = -1;
 	isDead = false;
 	canRespawn = false;
 	isKicked = false;
-	SetState(ENEMY_WALKING_LEFT);
+	SetState(ENEMY_JUMPING_LEFT);
 }
 void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::Update(dt);
 	vy += WORLD_GRAVITY * dt;
+
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		// block 
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
+		if (ny == -1) {
+			if (!jumped && !isFlip)
+				vy = -0.25f;
+			else vy = 0;
+		};
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			
+			if (e->obj->tag == GROUND) {
+				if (e->ny == -1 && jumped) {
+					maxLeft = e->obj->x;
+					maxRight = e->obj->x + e->obj->widthBBox - widthBBox;
+				}
+				if (e->obj->type == GROUND_BOX) {
+					
+					if (e->nx != 0) {
+						x += dx;
+					}
+					
+				}
+				else if ((e->obj->type == BLOCK_QUESTION || e->obj->type == BLOCK_BREAKABLE) && isDead) {
+					if (e->nx != 0) {
+						e->obj->startTimeDead();
+						vx = -vx;
+					}
+				}
+				else {
+					if (e->nx != 0)
+					{
+						this->nx = -this->nx;
+						if (!isDead && jumped)
+						{
+							if (this->nx < 0)
+								SetState(ENEMY_WALKING_LEFT);
+							else
+								SetState(ENEMY_WALKING_RIGHT);
+						}
+						else if (!isDead && !jumped)
+						{
+							if (this->nx > 0)
+								SetState(ENEMY_JUMPING_LEFT);
+							else
+								SetState(ENEMY_JUMPING_RIGHT);
+						}else
+							vx = -vx;
+					}
+					if (e->ny == 1) {
+						vy = 0;
+					}
+				}
+				
+			}
+			else {
+				if (e->obj->tag == ENEMY && e->obj->tagChange == WEAPON && e->obj->isKicked) {
+					startTimeDead();
+					isFlip = true;
+					vy = -0.2f;
+					vx = 0;
+					SetState(ENEMY_DIE_FLIP);
+				}
+				if (e->nx != 0) {
+					x += dx;
+				}
+				if (e->ny != 0) {
+					y += dy;
+				}
+			}
+		}
+	}
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 
 	if (isDead)
@@ -39,14 +135,14 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					state = KOOMPA_RESPAWN_FLIP;
 				}
 			}
-			if  (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL)
+			if (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL)
 			{
 				player->canPicking = false;
 				player->isPicking = false;
 				TimeDead = 0;
 				Revival();
 			}
-			
+
 		}
 		else {
 			if (isKicked)
@@ -77,7 +173,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			UpdatePosition(dt);
 		}
-		
+
 		if (!player->canPicking)
 		{
 			if (player->isPicking)
@@ -113,96 +209,6 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else SetState(ENEMY_JUMPING_LEFT);
 		}
 	}
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		// block 
-		float min_tx, min_ty, nx = 0, ny;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-		if (ny == -1) {
-			if (!jumped && !isFlip)
-				vy = -0.25f;
-			else vy = 0;
-		};
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			
-			if (e->obj->tag == GROUND) {
-				if (e->obj->type == GROUND_BOX) {
-					
-					if (e->nx != 0) {
-						x += dx;
-					}
-					
-				}
-				else if (e->obj->type == BLOCK_QUESTION && isDead) {
-					e->obj->isDead = true;
-					vx = -vx;
-				}
-				else {
-					if (e->nx != 0)
-					{
-						this->nx = -this->nx;
-						if (!isDead && jumped)
-						{
-							if (this->nx < 0)
-								SetState(ENEMY_WALKING_LEFT);
-							else
-								SetState(ENEMY_WALKING_RIGHT);
-						}
-						else if (!isDead && !jumped)
-						{
-							if (this->nx > 0)
-								SetState(ENEMY_JUMPING_LEFT);
-							else
-								SetState(ENEMY_JUMPING_RIGHT);
-						}else
-							vx = -vx;
-					}
-					if (e->ny == 1) {
-						vy = 0;
-					}
-				}
-				
-			}
-			else {
-				if (tagChange == WEAPON && isKicked) {
-					e->obj->startTimeDead();
-					e->obj->isFlip = true;
-					e->obj->vy = -0.2f;
-					e->obj->vx = 0;
-					e->obj->SetState(ENEMY_DIE_FLIP);
-				}
-				if (e->nx != 0) {
-					x += dx;
-				}
-				if (e->ny != 0) {
-					y += dy;
-				}
-			}
-		}
-	}
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-	
 }
 
 void TropaKoompa::SetState(STATEOBJECT state)

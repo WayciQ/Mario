@@ -1,6 +1,5 @@
 #pragma once
 #include "Koompa.h"
-#define KOOMPA_TIME_REVIVAL 5000
 class ParaKoompa : public Koompa
 {	
 public:

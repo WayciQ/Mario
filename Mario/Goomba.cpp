@@ -3,9 +3,10 @@
 #include "Mario.h"
 Goomba::Goomba() : Enemy()
 {
-	typeParent = GOOMBA;
-	widthBBox = GOOMBA_BBOX_WIDTH;
-	heightBBox = GOOMBA_BBOX_HEIGHT;
+	typeParent = GOOMBA; 
+	SetBBox(GOOMBA_BBOX_WIDTH, GOOMBA_BBOX_HEIGHT);
+	tagChange = ENEMY;
+	tag = ENEMY;
 }
 void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

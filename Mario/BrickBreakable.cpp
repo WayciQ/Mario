@@ -4,7 +4,7 @@
 #include "Grid.h"
 BrickBreakable::BrickBreakable(TYPE child)
 {
-	widthBBox = heightBBox = 16;
+	SetBBox(16, 16);
 	if (child == COIN)
 	{
 		canBreak = true;
@@ -48,17 +48,18 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			ChangeAnimation(BLOCK_HITTED);
 			if (!isSpawnItem)
 			{
-				auto item = Items::CreateItem(child, x, y - 16, false);
-				grid->AddStaticObject(item,x, y - 16);
+				if (child == BUTTON) {
+					auto item = Items::CreateItem(child, x, y - 16, false);
+					grid->AddStaticObject(item, x, y - 16);
+				}
+				else {
+					auto item = Items::CreateItem(child, x, y, false);
+					grid->AddStaticObject(item,x, y);
+				}
 				isSpawnItem = true;
 			}
 		}
 	}
 
-	if (canDel)
-	{
-		
-		
-	}
 }
 

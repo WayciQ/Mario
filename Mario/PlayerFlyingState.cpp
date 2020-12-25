@@ -28,9 +28,16 @@ void PlayerFlyingState::HandleKeyBoard()
 		{
 			player->isJumpDone = true;
 			player->isFlying = false;
-
 		}
 		else player->vy = -MARIO_JUMP_SPEED_Y;
+	}
+	else if (keyCode[DIK_LEFT]) {
+		player->nx = -1;
+		player->vx = -MARIO_RUNNING_SPEED;
+	}
+	else if (keyCode[DIK_RIGHT]) {
+		player->nx = 1;
+		player->vx = MARIO_RUNNING_SPEED;
 	}
 }
 

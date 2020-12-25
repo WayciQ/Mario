@@ -4,11 +4,9 @@
 #define KOOMBA_BBOX_WIDTH 16
 #define KOOMBA_BBOX_HEIGHT 27
 #define KOOMBA_BBOX_HEIGHT_DIE 16
-#define KOOMPA_TIME_REVIVAL 5000
-
+#define KOOMPA_TIME_REVIVAL 7000
 class Koompa : public Enemy
 {
-	
 public:
 	int maxLeft, maxRight;
 	Koompa();

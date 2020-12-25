@@ -10,8 +10,9 @@ ParaGoomba::ParaGoomba() : Goomba()
 	isDead = false;
 	canDel = false;
 	canRespawn = false;
-	vx = GOOMBA_WALKING_SPEED;
-	SetState(ENEMY_JUMPING_RIGHT);
+	nx = -1;
+	vx = -GOOMBA_WALKING_SPEED;
+	SetState(ENEMY_JUMPING_LEFT);
 }
 
 void ParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -112,31 +113,26 @@ void ParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						vx = -vx;
 					}
-
 				}
 
 			}
 			if (e->obj->tag == ENEMY)
 			{
-				if (e->nx != 0)
-				{
-					x += dx;
-				
-				}
-				if (e->ny != 0)
-				{
-					y += dy;
-				}
-				/*if (e->obj->tagChange == WEAPON && e->obj->isKicked)
-				{
+				if (e->obj->tagChange == WEAPON && e->obj->isKicked) {
 					startTimeDead();
 					isFlip = true;
 					vy = -0.2f;
 					vx = 0;
 					SetState(ENEMY_DIE_FLIP);
-				}*/
+				}
+
+				if (e->nx != 0) {
+					x += dx;
+				}
+				if (e->ny != 0) {
+					y += dy;
+				}
 			}
-			
 		}
 	}
 	// clean up collision events
@@ -155,7 +151,7 @@ void ParaGoomba::Revival()
 	vx = GOOMBA_WALKING_SPEED;
 	nx = 1;
 	jumped = true;
-	SetState(ENEMY_WALKING_RIGHT);
+	SetState(ENEMY_WALKING_LEFT);
 
 }
 
@@ -167,12 +163,10 @@ void ParaGoomba::UpdatePosition(DWORD dt)
 		{
 			vx = -GOOMBA_WALKING_SPEED;
 		}
-		else if((x < player->x - DISTANCE_FL)) {
+		else if ((x < player->x - DISTANCE_FL)) {
 			vx = GOOMBA_WALKING_SPEED;
 		}
 	}
-
-	GameObject::Update(dt);
 }
 void ParaGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

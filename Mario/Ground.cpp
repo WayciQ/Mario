@@ -3,8 +3,7 @@ Ground::Ground(float w, float h)
 {
 	tag = GROUND;
 	type = GROUND_LAND;
-	this->widthBBox = w;
-	this->heightBBox = h;
+	SetBBox(w, h);
 }
 void Ground::Render()
 {

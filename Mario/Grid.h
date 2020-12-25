@@ -20,7 +20,7 @@ public:
 	int SizeCell;
 	vector<vector<Cell*>> Cells;
 	vector<LPGAMEOBJECT> CurObjectInViewPort;
-	vector<LPGAMEOBJECT> CurStaticObjectInViewPort;
+	vector<LPGAMEOBJECT> CurMovingObjectInViewPort;
 	vector<LPGAMEOBJECT> HandleGameOBject;
 	Area GetCell(RECT e);
 	void Init();
@@ -34,6 +34,6 @@ public:
 	void AddMovingObject(LPGAMEOBJECT obj);
 	void CalcObjectInViewPort();
 	vector<LPGAMEOBJECT> GetObjectInViewPort() { return CurObjectInViewPort; }
-	vector<LPGAMEOBJECT> GetStaticObjectInViewPort() { return CurStaticObjectInViewPort; }
+	vector<LPGAMEOBJECT> GetMovingObjectInViewPort() { return CurMovingObjectInViewPort; }
 };
 
