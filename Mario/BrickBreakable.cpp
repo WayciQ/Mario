@@ -4,7 +4,7 @@
 #include "Grid.h"
 BrickBreakable::BrickBreakable(TYPE child)
 {
-	SetBBox(16, 16);
+	SetBBox(BBOX_16, BBOX_16);
 	if (child == COIN)
 	{
 		canBreak = true;

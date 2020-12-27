@@ -6,6 +6,7 @@ class BoomerangScene : public Enemy
 	float maxRight;
 public:
 	BoomerangScene() {
+		tag = ENEMY;
 		SetBBox(16, 16);
 		type = BOOMERANG;
 		CurAnimation = animationsSets->Get(BOOMERANG)->Get(ENEMY_WALKING_RIGHT);
@@ -21,8 +22,11 @@ public:
 		{
 			if (IsCollisionAABB(GetRect(), coObjects->at(i)->GetRect()))
 			{
-				maxLeft = coObjects->at(i)->x;
-				maxRight = coObjects->at(i)->x + widthBBox;
+				if (coObjects->at(i)->tag == BOX) {
+
+					maxLeft = coObjects->at(i)->x;
+					maxRight = coObjects->at(i)->x + widthBBox;
+				}
 			}
 		}
 		
@@ -48,6 +52,7 @@ public:
 	void Render()
 	{
 		CurAnimation->Render(x, y, 255);
+		RenderBoundingBox();
 	}
 };
 

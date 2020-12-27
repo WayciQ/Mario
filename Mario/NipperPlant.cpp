@@ -56,9 +56,6 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->nx != 0) {
 					x += dx;
 				}
-				if (e->ny != 0) {
-					y += dy;
-				}
 			}
 
 

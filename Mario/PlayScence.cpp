@@ -179,6 +179,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		{
 		case GROUND_LAND:
 			obj = new Ground((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+			listGroundObject.push_back(obj);
 			break;
 		case BLOCK:
 		
@@ -191,7 +192,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
 		}
-		listGroundObject.push_back(obj);
+		
 		grid->LoadObjects(obj,x,y);
 		break;
 	case ENEMY:
@@ -341,14 +342,13 @@ void PlayScene::Update(DWORD dt)
 	for (auto& obj : listGroundObject) {
 		coObjects.push_back(obj);
 	}
-	for (auto& obj : grid->GetMovingObjectInViewPort()) {
+	for (auto& obj : grid->GetObjectInViewPort()) {
 		coObjects.push_back(obj);
 	}
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
-		
-		obj->Update(dt, &coObjects);
-		
+		if(!player->freeze)
+			obj->Update(dt, &coObjects);
 	}
 	player->Update(dt, &grid->GetObjectInViewPort());
 	camera->Update();
@@ -365,7 +365,7 @@ void PlayScene::Render()
 	}
 	player->Render();
 	scoreBoard->Render();
-	//grid->RenderCell();
+	grid->RenderCell();
 }
 
 void PlayScene::Unload()

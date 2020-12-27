@@ -35,7 +35,33 @@ Mario::Mario() {
 	gravity = WORLD_GRAVITY;
 	infor = new Information();
 }
+void Mario::HandleObject(LPGAMEOBJECT obj)
+{
+	if (obj->tag == ITEM) {
+		switch (obj->type)
+		{
+		case LEAF:
+				ChangeState(new PlayerChangeLevelState(false, RACCOON));
+			break;
+		case COIN:
+				y += dy;
+			infor->ScoreEarn(100);
+			infor->MoneyEarn(1);
+			break;
+		case RED_MUSHROOM:
+			x += 4;
+			ChangeState(new PlayerChangeLevelState(false));
+			break;
+		case GREEN_MUSHROOM:
+			infor->LifeEarn(1);
+			break;
+		}
+		obj->isDead = true;
+	}
 
+	
+	
+}
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
@@ -75,6 +101,14 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			if (IsCollisionAABB(GetRect(), coObjects->at(i)->GetRect()))
+			{
+				HandleObject(coObjects->at(i));
+			}
+
+		}
 		x += dx;
 		y += dy;
 	}
@@ -88,22 +122,20 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-
-		
-
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			switch (e->obj->tag)
 			{
+			case ITEM:
+				UpdateWithItem(e);
+				break;
 			case GROUND:
 				UpdateWithGround(e);
 				break;
 			case ENEMY:
-				if (!untouchable)UpdateWithEnemy(e);
-				break;
-			case ITEM:
-				UpdateWithItem(e);
+				if (!untouchable)
+					UpdateWithEnemy(e);
 				break;
 			case BOX:
 				UpdateWithGate(e);
@@ -123,19 +155,18 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 	{
 		if (!e->obj->isDead)
 		{
-			if (e->obj->typeParent != PLANT || e->obj->tagChange != WEAPON)
+			if (e->obj->typeParent == PLANT || e->obj->tagChange == WEAPON)
 			{
+				ChangeState(new PlayerChangeLevelState(true));
+			}
+			else {
+
 				e->obj->vx = 0;
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				e->obj->startTimeDead();
 				e->obj->isFlip = false;
 				e->obj->SetState(ENEMY_DIE_STAND);
 				infor->ScoreEarn(100);
-			}
-			else {
-				ChangeState(new PlayerChangeLevelState(true));
-				y += dy;
-				x += dx;
 			}
 		}
 		else
@@ -173,8 +204,10 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 	}
 	if (e->ny == 1)
 	{
-		y += dy;
-		ChangeState(new PlayerChangeLevelState(true));
+		if (!e->obj->isDead) {
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			ChangeState(new PlayerChangeLevelState(true));
+		}
 	}
 	if (e->nx != 0)
 	{
@@ -215,29 +248,13 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 }
 void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 {
-	
-	e->obj->isDead = true;
-	if (e->nx != 0 || e->ny != 0) {
-		switch (e->obj->type)
-		{
-		case LEAF:
-			ChangeState(new PlayerChangeLevelState(false, RACCOON));
-			break;
-		case COIN:
-			x += dx;
-			y += dy;
-			infor->ScoreEarn(100);
-			infor->MoneyEarn(1);
-			break;
-		case RED_MUSHROOM:
-			ChangeState(new PlayerChangeLevelState(false));
-			break;
-		case GREEN_MUSHROOM:
-			infor->LifeEarn(1);
-			break;
-		}
+	if (e->ny != 0) {
+		y += dy;
+		vy = 0;
 	}
-	
+	if (e->nx != 0) {
+		x += dx;
+	}
 }
 void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 {
@@ -251,6 +268,7 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		isOnSky = false;
 		curY = y;
 	}
+	
 	switch (e->obj->type)
 	{
 	case GROUND_BOX:
@@ -270,6 +288,9 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 			e->obj->startTimeDead();
 			infor->ScoreEarn(20);
 		}
+		if (e->nx != 0) {
+			vx = 0;
+		}
 		break;
 	case BUTTON:
 		if (e->ny == -1) {
@@ -277,10 +298,8 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 			e->obj->startTimeDead();
 		}
 		if (e->nx != 0) {
-			x += dx;
+			vx = 0;
 		}
-		break;
-	default:
 		break;
 	}
 	
@@ -331,9 +350,7 @@ void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 		}
 	}
 }
-void Mario::ChangeScene(int port)
-{
-}
+
 void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (level == RACCOON || level == BIG || level == FIRE) {

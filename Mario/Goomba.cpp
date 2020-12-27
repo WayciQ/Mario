@@ -30,7 +30,6 @@ void Goomba::UpdatePosition(DWORD dt)
 		}
 	}
 
-	GameObject::Update(dt);
 }
 void Goomba::SetState(STATEOBJECT state)
 {

@@ -74,6 +74,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		vy += WORLD_GRAVITY * dt;
 		tagChange = WEAPON;
+		typeParent = MARIO;
 		tag = WEAPON;
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
@@ -152,6 +153,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else {
 		tag = ENEMY;
 		tagChange = WEAPON;
+		typeParent = PLANT;
 		x += dx;
 		y += dy;
 	}

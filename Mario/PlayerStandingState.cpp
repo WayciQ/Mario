@@ -70,7 +70,7 @@ void PlayerStandingState::HandleKeyBoard() {
 	{
 		player->ChangeState(new PlayerStandingState());
 	}
-	else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT])
+	else if (keyCode[DIK_LEFT] || keyCode[DIK_RIGHT] && player->Allow[WALKING])
 	{
 		player->ChangeState(new PlayerWalkingState());
 	}

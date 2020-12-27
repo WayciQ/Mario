@@ -194,7 +194,7 @@ void Grid::UpdateCellInViewPort()
 				if (obj->canDel)
 				{
 					return true;
-					//isDeadObject = true;
+					isDeadObject = true;
 				}
 				return false;
 			});

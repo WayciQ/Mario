@@ -35,12 +35,11 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		switch(coEvents.at(i)->tag)
 		{
 		case ENEMY:
+			coEvents.at(i)->vx = 0;
 			coEvents.at(i)->startTimeDead();
 			coEvents.at(i)->isFlip = true;
 			coEvents.at(i)->vy = -0.2f;
-			coEvents.at(i)->vx = 0;
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
-			//grid->AddStaticObject(Effect, x, y);
 			break;
 		case GROUND:
 			if (coEvents.at(i)->type == BLOCK_QUESTION || coEvents.at(i)->type == BLOCK_BREAKABLE)

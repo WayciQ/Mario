@@ -8,7 +8,6 @@ private:
 public:
 	float curY;
 	PlayerState* state;
-	
 	TYPE level;
 	TYPE typeScene;
 	float  gravity;
@@ -68,11 +67,11 @@ public:
 	Mario();
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void ChangeScene(int Port);
 	void startWalkingDone() { startWalkingComplete = GetTickCount(); }
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
 	STATEPLAYER GetState() { return state->stateName; }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	void HandleObject(LPGAMEOBJECT object);
 	void UpdateWithEnemy(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithGround(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithItem(LPCOLLISIONEVENT colliable_objects);

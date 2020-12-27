@@ -7,6 +7,7 @@ BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 	isDead = false;
 	isSpawnItem = false;
 	this->child = Child;
+	this->tag = GROUND;
 	this->type = BLOCK_QUESTION;
 	curY = CurY;
 	animation_set = animationsSets->Get(type);
@@ -16,10 +17,23 @@ BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 }
 void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	GameObject::Update(dt);
+	
+	
 	if(isDead)
 	{
-		ChangeAnimation(BLOCK_HITTED);
 		
+		if (!isDone) {
+		
+			y += dy;
+			vy = -0.3f;
+			isDone = true;
+		}
+		else {
+			vy = 0;
+		}
+
+		ChangeAnimation(BLOCK_HITTED);
 		if (!isSpawnItem) {
 
 			auto item = Items::CreateItem(child, x, y, false);
@@ -27,7 +41,10 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isSpawnItem = true;
 		}
 	}
-	
+
+	if (y >= curY) {
+		y = curY;
+	}
 
 }
 
