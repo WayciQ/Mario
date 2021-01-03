@@ -2,21 +2,27 @@
 #include "BreakBrick.h"
 #include "Items.h"
 #include "Grid.h"
-BrickBreakable::BrickBreakable(TYPE child)
+BrickBreakable::BrickBreakable(int curY,TYPE child,int Num)
 {
 	SetBBox(BBOX_16, BBOX_16);
 	if (child == COIN)
 	{
+		NumberHit = 1;
 		canBreak = true;
 		isKicked = false;
 	}
-	else
+	else {
+		NumberHit = Num;
 		canBreak = false;
+	}
+	
 	this->child = child;
 	this->type = BLOCK_BREAKABLE;
 	animation_set = animationsSets->Get(type);
 	ChangeAnimation(BLOCK_STATIC);
 	isSpawnItem = false;
+	isDone = false;
+	this->curY = curY;
 }
 
 void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -45,21 +51,44 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			canDel = true;
 		}
 		else {
-			ChangeAnimation(BLOCK_HITTED);
-			if (!isSpawnItem)
-			{
-				if (child == BUTTON) {
-					auto item = Items::CreateItem(child, x, y - 16, false);
-					grid->AddStaticObject(item, x, y - 16);
+			if (NumberHit >= 1) {
+				if (!isDone) {
+					y -= 1;
+					if (y <= curY - 8) {
+						isDone = true;
+					}
 				}
 				else {
-					auto item = Items::CreateItem(child, x, y, false);
-					grid->AddStaticObject(item,x, y);
+					y += 1;
 				}
-				isSpawnItem = true;
+				
+			}
+			if (y >= curY) {
+				
+				y = curY;
+				if (NumberHit >= 1) {
+					isDone = false;
+					isDead = false;
+					NumberHit--;
+				}
+			}
+			if (NumberHit < 1) {
+				ChangeAnimation(BLOCK_HITTED);
+				if (!isSpawnItem)
+				{
+					if (child == BUTTON) {
+						auto item = Items::CreateItem(child, x, y - 16, false);
+						grid->AddStaticObject(item, x, y - 16);
+					}
+					else {
+						auto item = Items::CreateItem(child, x, y, false);
+						grid->AddStaticObject(item, x, y);
+					}
+					isSpawnItem = true;
+				}
 			}
 		}
 	}
-
+	
 }
 

@@ -270,6 +270,7 @@
     <ClCompile Include="Card.cpp">
       <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClCompile>
+    <ClCompile Include="Boomerang.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -485,6 +486,7 @@
     <ClInclude Include="Card.h">
       <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClInclude>
+    <ClInclude Include="Boomerang.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">
@@ -500,6 +502,12 @@
       <Filter>Framework\resources\data\World1</Filter>
     </Text>
     <Text Include="resource\data\World1\world1_map.txt">
+      <Filter>Framework\resources\data\World1</Filter>
+    </Text>
+    <Text Include="resource\data\World1\world1-scene4.txt">
+      <Filter>Framework\resources\data\World1</Filter>
+    </Text>
+    <Text Include="resource\data\World1\world1-scene4_map.txt">
       <Filter>Framework\resources\data\World1</Filter>
     </Text>
   </ItemGroup>

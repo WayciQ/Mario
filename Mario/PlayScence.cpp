@@ -182,8 +182,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			listGroundObject.push_back(obj);
 			break;
 		case BLOCK:
-		
-			obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())), y, static_cast<TYPE>((int)atof(tokens[5].c_str())));
+			obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())), y, static_cast<TYPE>((int)atof(tokens[5].c_str())), static_cast<TYPE>((int)atof(tokens[6].c_str())));
 			break;
 		case GRASS:
 			obj = new SceneGrass();
@@ -268,7 +267,7 @@ void PlayScene::_ParseSection_SETTINGS(string line)
 	}
 	if (tokens[0] == "cam")
 	{
-		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())), int(atoi(tokens[4].c_str())));
+		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())) - camera->GetWidth(), int(atoi(tokens[4].c_str())));
 	}
 
 	
@@ -345,12 +344,13 @@ void PlayScene::Update(DWORD dt)
 	for (auto& obj : grid->GetObjectInViewPort()) {
 		coObjects.push_back(obj);
 	}
+	player->Update(dt, &coObjects);
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
 		if(!player->freeze)
 			obj->Update(dt, &coObjects);
 	}
-	player->Update(dt, &grid->GetObjectInViewPort());
+	
 	camera->Update();
 	scoreBoard->Update(dt);
 }
@@ -397,7 +397,7 @@ void PlayScene::ChangeScene() {
 							trigger->GetPosY());
 		player->SetSpeed(0, 0);
 		player->IsTouchTrigger = false;
-		camera->SetCamScene(trigger->leftScene,trigger->topScene,trigger->rightScene,trigger->bottomScene);
+		camera->SetCamScene(trigger->leftScene,trigger->topScene,trigger->rightScene - camera->GetWidth(),trigger->bottomScene);
 		player->IsChangeTrigger = false;
 	}
 

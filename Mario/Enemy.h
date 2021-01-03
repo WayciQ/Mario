@@ -3,8 +3,8 @@
 
 #define TIME_UP 200
 #define PLANT_SPEED_UP 0.05f
-#define PLANE_BBOX_HEIGHT 16
-#define PLANE_BBOX_WIDTH 32
+#define PLANE_BBOX_HEIGHT 32
+#define PLANE_BBOX_WIDTH 16
 class Enemy : public GameObject
 {
 	

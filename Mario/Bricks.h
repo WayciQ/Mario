@@ -9,7 +9,7 @@ class Bricks
 public:
 	Bricks() {};
 	~Bricks() {};
-	static Brick* CreateBrick(TYPE type, float CurY = NULL, TYPE child = MARIO)
+	static Brick* CreateBrick(TYPE type, float CurY = NULL, TYPE child = MARIO, int NumHit = 1)
 	{
 		switch (type)
 		{
@@ -20,7 +20,7 @@ public:
 			return new BrickCloud();
 			break;
 		case BLOCK_BREAKABLE:
-			return new BrickBreakable(child);
+			return new BrickBreakable(CurY,child, NumHit);
 			break;
 		case BLOCK_QUESTION:
 			return new BrickQuestion(CurY,child);

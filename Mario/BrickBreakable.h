@@ -4,8 +4,11 @@
 class BrickBreakable : public Brick
 {
 	bool canBreak;
+	bool isDone;
+	float curY;
+	int NumberHit;
 public:
-	BrickBreakable(TYPE child);
+	BrickBreakable(int curY,TYPE child,int Num);
 	~BrickBreakable() {};
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 };

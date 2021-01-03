@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BasGoomba.cpp" />
+    <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickBreakable.cpp" />
@@ -206,6 +207,7 @@
   <ItemGroup>
     <ClInclude Include="Animations.h" />
     <ClInclude Include="BasGoomba.h" />
+    <ClInclude Include="Boomerang.h" />
     <ClInclude Include="BoomerangScene.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BreakBrick.h" />
@@ -280,6 +282,8 @@
     <Text Include="resource\data\mario-scene.txt" />
     <Text Include="resource\data\World1\world1-scene1.txt" />
     <Text Include="resource\data\World1\world1-scene1_map.txt" />
+    <Text Include="resource\data\World1\world1-scene4.txt" />
+    <Text Include="resource\data\World1\world1-scene4_map.txt" />
     <Text Include="resource\data\World1\world1_map.txt" />
     <Text Include="resource\data\World1\worldMap1.txt" />
   </ItemGroup>

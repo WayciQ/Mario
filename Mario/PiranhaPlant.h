@@ -8,6 +8,7 @@ class PiranhaPlant: public Enemy
 	float YY;
 	bool upDone;
 	bool isUp;
+	bool isDown;
 public:
 	PiranhaPlant(TYPE type, float posx,float posy);
 	~PiranhaPlant() {};

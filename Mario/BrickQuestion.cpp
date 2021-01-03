@@ -17,20 +17,19 @@ BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 }
 void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	GameObject::Update(dt);
+	//GameObject::Update(dt);
 	
 	
 	if(isDead)
-	{
-		
+	{	
 		if (!isDone) {
-		
-			y += dy;
-			vy = -0.3f;
-			isDone = true;
+			y -= 1;
+			if (y <= curY - 8) {
+				isDone = true;
+			}
 		}
 		else {
-			vy = 0;
+			y += 1;
 		}
 
 		ChangeAnimation(BLOCK_HITTED);

@@ -107,21 +107,21 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				HandleObject(coObjects->at(i));
 			}
-
 		}
 		x += dx;
 		y += dy;
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny;
+		float min_tx, min_ty, nx = 0, ny = 0;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
 		// block 
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
-
+		if (ny == -1) {
+			isOnSky = false;
+		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -141,10 +141,8 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				UpdateWithGate(e);
 				break;
 			}
-
 		}
 	}
-
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
@@ -160,7 +158,6 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 				ChangeState(new PlayerChangeLevelState(true));
 			}
 			else {
-
 				e->obj->vx = 0;
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				e->obj->startTimeDead();
@@ -250,10 +247,16 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 {
 	if (e->ny != 0) {
 		y += dy;
-		vy = 0;
+		x += dx;
 	}
 	if (e->nx != 0) {
 		x += dx;
+		if (!isOnSky) {
+			vy = 0;
+		}
+		else {
+			y += dy;
+		}
 	}
 }
 void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
@@ -265,9 +268,11 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 	if (e->ny == -1)
 	{
 		vy = 0;
+		
 		isOnSky = false;
 		curY = y;
 	}
+	
 	
 	switch (e->obj->type)
 	{
@@ -301,6 +306,10 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 			vx = 0;
 		}
 		break;
+	default:
+		if (e->nx != 0) {
+			vx = 0;
+		}
 	}
 	
 	if (dynamic_cast<Card*>(e->obj)) {
@@ -313,15 +322,16 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 }
 void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 {
-	x += dx;
-	y += dy;
+	
+		x += dx;
+		y += dy;
+	
 	if (IsCollisionAABB(GetRect(), e->obj->GetRect()))
 	{
 
 		if (dynamic_cast<Portal*>(e->obj))
 		{
-			y += dy;
-			x += dx;
+			
 			Portal* p = dynamic_cast<Portal*>(e->obj);
 			infor->SetSceneId(p->GetSceneId());
 			IsTouchPort = true;
@@ -332,9 +342,18 @@ void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 		}
 		else if (dynamic_cast<SceneGate*>(e->obj))
 		{
-			vx = 0;
-			vy = 0;
-			x += dx;
+			if (e->nx != 0) {
+				x += dx;
+			}
+			if (e->ny != 0) {
+				x += dx;
+				if (!isOnSky) {
+					vy = 0;
+				}
+				else {
+					y += dy;
+				}
+			}
 			SceneGate* p = dynamic_cast<SceneGate*>(e->obj);
 			infor->SetGateId(p->GetGateId());
 			moveToTrigger = p->GetWayIn();

@@ -9,6 +9,7 @@ NipperPlant::NipperPlant( float posx, float posy) : Enemy()
 {
 	isUp = true;
 	startTimeUp = 0;
+	SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
 	this->type = NIPPER_PLANT;
 	typeParent = PLANT;
 	PosX = posx;
@@ -42,7 +43,6 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (coEvents.size() != 0)
 	{
-
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -57,26 +57,24 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					x += dx;
 				}
 			}
-
-
 		}
 	}
-
-
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 void NipperPlant::UpdatePosition(DWORD dt)
 {
-	x = PosX + 8;
+	x = PosX + 6;
 	if (startTimeUp < 0)
 	{
 		startTimeUp = TIME_UP;
 		isUp = isUp ? false : true;
 	}
 	else startTimeUp--;
+
 	if (isUp)
 	{
+		SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
 		vy = PLANT_SPEED_UP;
 	}
 	else {
@@ -87,13 +85,15 @@ void NipperPlant::UpdatePosition(DWORD dt)
 	{
 		y = PosY - 24;
 	}
-	else if (y >= PosY)
-		y = PosY;
+	else if (y >= PosY) {
+		y = PosY; 
+		SetBBox(0, 0);
+	}
+		
 }
 
 void NipperPlant::Render()
 {
-	
 	ChangeAnimation();
 	CurAnimation->Render(x, y, 225);
 	Sprites::GetInstance()->Get(54000)->Draw(PosX, PosY);
@@ -101,7 +101,7 @@ void NipperPlant::Render()
 void NipperPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
-	top = y;
-	right = x + PLANE_BBOX_HEIGHT;
-	bottom = y + PLANE_BBOX_WIDTH;
+	top = y; 
+	right = x + widthBBox;
+	bottom = y + heightBBox;
 }

@@ -10,6 +10,7 @@ PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 	isShoot = false;
 	this->type = type;
 	PosX = posx;
+	SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
 	YY = posy;
 	typeParent = PLANT;
 	PosY = type == PIRANHA_PLANT ? posy + 8 : posy;
@@ -89,6 +90,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 		
 		if (isUp)
 		{
+			SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
 			vy = -PLANT_SPEED_UP;
 			upDone = false;
 		}
@@ -143,6 +145,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 	{
 		y = PosY;
 		isShoot = false;
+		SetBBox(1, 1);
 	}
 		
 
@@ -163,6 +166,7 @@ void PiranhaPlant::GetBoundingBox(float& left, float& top, float& right, float& 
 {
 	left = x;
 	top = y;
-	right = x + PLANE_BBOX_HEIGHT;
-	bottom = y + PLANE_BBOX_WIDTH;
+	right = x + widthBBox;
+	bottom = y + heightBBox;
+	
 }

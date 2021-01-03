@@ -5,6 +5,7 @@ class NipperPlant : public Enemy
 	int startTimeUp;
 	float PosX, PosY;
 	bool isUp;
+	bool isDown;
 public:
 	NipperPlant(float x, float y);
 	~NipperPlant() {}
