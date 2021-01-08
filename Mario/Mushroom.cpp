@@ -60,7 +60,7 @@ void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 			x += min_tx * dx + nx * 0.4f;
-			y += min_ty * dy + ny * 0.4f;
+			//y += min_ty * dy + ny * 0.4f;
 
 			/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
 			if (ny != 0) vy = 0;
@@ -87,6 +87,10 @@ void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vy = 0;
 					}
 
+				}
+				else {
+					x += dx;
+					y += dy;
 				}
 
 			}

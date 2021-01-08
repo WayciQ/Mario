@@ -268,6 +268,7 @@ void PlayScene::_ParseSection_SETTINGS(string line)
 	if (tokens[0] == "cam")
 	{
 		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())) - camera->GetWidth(), int(atoi(tokens[4].c_str())));
+		camera->SetCamMove(int(atoi(tokens[5].c_str())));
 	}
 
 	
@@ -351,7 +352,7 @@ void PlayScene::Update(DWORD dt)
 			obj->Update(dt, &coObjects);
 	}
 	
-	camera->Update();
+	camera->Update(dt);
 	scoreBoard->Update(dt);
 }
 
@@ -402,7 +403,6 @@ void PlayScene::ChangeScene() {
 	}
 
 	if (player->IsChangeScene) {
-			
 		player->IsChangeScene = false;
 		game->SwitchScene(player->infor->GetSceneId());
 	}

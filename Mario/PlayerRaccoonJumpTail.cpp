@@ -3,8 +3,8 @@
 #include "Mario.h"
 PlayerRaccoonJumpTail::PlayerRaccoonJumpTail() {
 	player->Allow[JUMPING] = false;
-	player->Allow[RACCON_WHIPING_FLY] = false;
-	player->gravity = 0.0001f;
+	//player->Allow[RACCON_WHIPING_FLY] = false;
+	
 	if (player->nx > 0) {
 		stateName = RACCON_WHIPING_FLY_RIGHT;
 	}
@@ -19,7 +19,12 @@ void PlayerRaccoonJumpTail::Update(DWORD dt) {
 }
 
 void PlayerRaccoonJumpTail::HandleKeyBoard() {
-	if (!keyCode[DIK_S]) {
+	
+	if (keyCode[DIK_S] && player->Allow[RACCON_WHIPING_FLY]) {
+		player->vy = 0.003;
+		player->ChangeState(new PlayerRaccoonJumpTail());
+	}
+	else {
 		player->gravity = WORLD_GRAVITY;
 		player->ChangeState(new PlayerFallingState());
 	}

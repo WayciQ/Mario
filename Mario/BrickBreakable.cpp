@@ -61,7 +61,6 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else {
 					y += 1;
 				}
-				
 			}
 			if (y >= curY) {
 				
