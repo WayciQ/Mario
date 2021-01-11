@@ -1,7 +1,7 @@
 #include "BrickQuestion.h"
 #include "Items.h"
 #include "Grid.h"
-#define BRICK_DEFLECT_SPEED 0.05f
+
 BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 {
 	isDead = false;
@@ -12,7 +12,7 @@ BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 	curY = CurY;
 	animation_set = animationsSets->Get(type);
 	ChangeAnimation(BLOCK_STATIC);
-	SetBBox(16, 16);
+	SetBBox(UNIT_GAME, UNIT_GAME);
 	isDone = false;
 }
 void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -24,13 +24,13 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		ChangeAnimation(BLOCK_HITTED);
 		if (!isDone) {
-			y -= 1;
-			if (y <= curY - 8) {
+			y -= 3;
+			if (y <= curY - 24) {
 				isDone = true;
 			}
 		}
 		else {
-			y += 1;
+			y += 3;
 		}
 
 		if (!isSpawnItem && child == COIN) {

@@ -3,7 +3,7 @@ BlockMove::BlockMove(float w, float h) {
 	tag = GROUND;
 	type = GROUND_LAND;
 	SetBBox(w, h);
-	vx = -0.2f;
+	vx = -MARIO_JUMP_DEFLECT_SPEED;
 	vy = 0;
 }
 

@@ -115,7 +115,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		// block 
-		x += min_tx * dx + nx * 0.4f;
+		x += min_tx * dx + nx * 1.2f;
 		//y += min_ty * dy + ny * 0.1f;
 		if (ny == -1) {
 			currentLocationY = y;
@@ -489,7 +489,7 @@ void Mario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	}
 
 }
-#define MARIO_X_WHIP x - 9
+#define MARIO_X_WHIP x - 27
 void Mario::Render() {
 	state->Render();
 	if (untouchable)
@@ -686,56 +686,56 @@ void Mario::OnKeyDown(int key)
 		{
 			SetLevel(BIG);
 			ChangeState(new PlayerStandingState());
-			y -= 20;
+			y -= 60;
 			break;
 		}
 		case DIK_3:
 		{
-			y -= 20;
+			y -= 60;
 			SetLevel(RACCOON);
 			ChangeState(new PlayerStandingState());
 			break;
 		}
 		case DIK_4:
 		{
-			y -= 20;
+			y -= 60;
 			SetLevel(FIRE);
 			ChangeState(new PlayerStandingState());
 			break;
 		}
 		case DIK_F1:
 		{
-			SetPosition(50, 300);
+			SetPosition(150, 900);
 			break;
 		}
 		case DIK_F2:
 		{
-			SetPosition(578, 272);
+			SetPosition(1734, 816);
 			break;
 		}
 		case DIK_F3:
 		{
-			SetPosition(720, 384);
+			SetPosition(2160, 1152);
 			break;
 		}
 		case DIK_F4:
 		{
-			SetPosition(1376, 112);
+			SetPosition(4128, 336);
 			break;
 		}
 		case DIK_F5:
 		{
-			SetPosition(2616, 400);
+			SetPosition(7848, 1200);
 			break;
 		}
 		case DIK_F6:
 		{
-			SetPosition(2352, 80);
+			SetPosition(7056, 240);
 			break;
 		}
 		case DIK_F7:
 		{
-			SetPosition(2416, 368);
+			SetPosition(7248, 1104);
 			break;
 		}
 		case DIK_F8:
@@ -752,10 +752,6 @@ void Mario::OnKeyDown(int key)
 		{
 			player->ChangeState(new PlayerChangeLevelState(true));
 			break;
-		}
-		case 10:
-		{
-			
 		}
 		break;
 		}

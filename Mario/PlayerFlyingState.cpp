@@ -6,7 +6,7 @@ PlayerFlyingState::PlayerFlyingState() {
 	player->Allow[JUMPING] = false;
 	player->isOnSky = true;
 	player->isFlying = true;
-	player->vy = -0.25f;
+	player->vy = -0.75f;
 
 	if (player->nx > 0)
 	{

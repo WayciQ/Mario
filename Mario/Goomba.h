@@ -1,12 +1,12 @@
 #pragma once
 #include "enemy.h"
 
-#define GOOMBA_WALKING_SPEED 0.05;
-#define GOOMBA_BBOX_WIDTH 16
-#define GOOMBA_BBOX_HEIGHT 15
-#define GOOMBA_BBOX_HEIGHT_DIE 9
+#define GOOMBA_WALKING_SPEED 0.15;
+#define GOOMBA_BBOX_WIDTH 48
+#define GOOMBA_BBOX_HEIGHT 45
+#define GOOMBA_BBOX_HEIGHT_DIE 27
 #define GOOMBA_TIME_DIE 300
-#define DISTANCE_FL 130
+#define DISTANCE_FL 390
 class Goomba : public Enemy
 {
 public:

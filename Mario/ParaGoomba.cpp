@@ -1,8 +1,8 @@
 #include "ParaGoomba.h"
 #include "Camera.h"
 #include "Mario.h"
-#define PARA_GOOMBA_BBOX_WIDTH 21
-#define PARA_GOOMBA_BBOX_HEIGHT 24
+#define PARA_GOOMBA_BBOX_WIDTH 63
+#define PARA_GOOMBA_BBOX_HEIGHT 72
 ParaGoomba::ParaGoomba() : Goomba()
 {
 	this->type = PARA_GOOMBA;

@@ -6,7 +6,7 @@ public:
 	CheckPoint() {
 		tag = BOX;
 		type = CHECKPOINT;
-		SetBBox(16, 16);
+		SetBBox(UNIT_GAME, UNIT_GAME);
 	}
 	~CheckPoint(){}
 	void Render() {

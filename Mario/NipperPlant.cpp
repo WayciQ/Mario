@@ -4,7 +4,7 @@
 #include "Grid.h"
 
 
-#define PLANT_SPEED_UP 0.05f;
+#define PLANT_SPEED_UP 0.15f;
 NipperPlant::NipperPlant( float posx, float posy) : Enemy()
 {
 	isUp = true;

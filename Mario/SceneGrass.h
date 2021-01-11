@@ -7,7 +7,7 @@ public:
 	SceneGrass() {
 		type = GROUND_LAND;
 		tag = GROUND;
-		SetBBox(14, 14);
+		SetBBox(42, 42);
 		CurAnimation = Animations::GetInstance()->Get(70000);
 	}
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {

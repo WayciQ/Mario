@@ -75,7 +75,7 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (e->obj->tag == ENEMY ) {
 					e->obj->startTimeDead();
 					e->obj->isFlip = true;
-					e->obj->vy = -0.2f;
+					e->obj->vy = -MARIO_JUMP_DEFLECT_SPEED;
 					e->obj->vx = 0;
 					e->obj->SetState(ENEMY_DIE_FLIP);
 					if (e->nx != 0) {
@@ -191,7 +191,7 @@ void ParaKoompa::SetState(STATEOBJECT state)
 void ParaKoompa::Revival()
 {
 	nx = -1;
-	y -= 20;
+	y -= 60;
 	isDead = false;
 	canRespawn = false;
 	isKicked = false;

@@ -1,13 +1,13 @@
 #include "Leaf.h"
 #define SPEED_X_LEAF 0.5f
-#define SPEED_Y_LEAF 0.09f
-#define LEAF_MOVE 15
+#define SPEED_Y_LEAF 0.15f
+#define LEAF_MOVE 45
 
 Leaf::Leaf(float x, float y) :Item(x, y)
 {
 	tag = ITEM;
 	type = LEAF;
-	SetBBox(16, 16);
+	SetBBox(UNIT_GAME, UNIT_GAME);
 	CenX = x;
 	CenY = y;
 	CurAnimation = animationsSets->Get(LEAF)->Get(FIRE_FIRE_RIGHT);
@@ -21,11 +21,11 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!isFalling)
 	{
 		y += dy;
-		vy = -0.2f;
-		if (y <= CenY - 48)
+		vy = -0.4f;
+		if (y <= CenY - 144)
 		{
 			isFalling = true;
-			x = CenX + 16;
+			x = CenX + 48;
 			CenX = x;
 			vy = 0;
 			
@@ -36,7 +36,7 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += SPEED_Y_LEAF;
 		//x += sin(y);
 		x = CenX + LEAF_MOVE * cos(y);
-		if (x <= CenX - 10)
+		if (x <= CenX - 30)
 		{
 			CurAnimation = animationsSets->Get(LEAF)->Get(FIRE_FIRE_LEFT);
 		}
