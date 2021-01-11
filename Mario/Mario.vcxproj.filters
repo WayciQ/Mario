@@ -266,6 +266,7 @@
     </ClCompile>
     <ClCompile Include="Card.cpp">
       <Filter>Framework\GameObjects\Ground\Brick</Filter>
+<<<<<<< HEAD
     </ClCompile>
 <<<<<<< HEAD
     <ClCompile Include="Textures.cpp">
@@ -278,6 +279,10 @@
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClCompile>
 =======
+    <ClCompile Include="Boomerang.cpp" />
+>>>>>>> parent of 58ab2d9... add blockMove
+=======
+    </ClCompile>
     <ClCompile Include="Boomerang.cpp" />
 >>>>>>> parent of 58ab2d9... add blockMove
   </ItemGroup>
@@ -491,6 +496,7 @@
     </ClInclude>
     <ClInclude Include="Card.h">
       <Filter>Framework\GameObjects\Ground\Brick</Filter>
+<<<<<<< HEAD
     </ClInclude>
 <<<<<<< HEAD
     <ClInclude Include="Effects.h">
@@ -506,6 +512,10 @@
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
 =======
+    <ClInclude Include="Boomerang.h" />
+>>>>>>> parent of 58ab2d9... add blockMove
+=======
+    </ClInclude>
     <ClInclude Include="Boomerang.h" />
 >>>>>>> parent of 58ab2d9... add blockMove
   </ItemGroup>
