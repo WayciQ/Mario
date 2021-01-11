@@ -18,6 +18,6 @@ public:
 	}
 	void Render() {
 		CurAnimation->Render(x, y);
-		//RenderBoundingBox();
+		RenderBoundingBox();
 	}
 };

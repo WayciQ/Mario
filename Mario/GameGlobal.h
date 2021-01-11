@@ -232,7 +232,8 @@ extern enum TYPE {
 	PLAYER_IN_WORLD_MAP,
 	CARD,
 	CARD_HUB,
-	BOOMERANG
+	BOOMERANG,
+	NUMBER_SCENE,
 };
 extern enum TAG
 {

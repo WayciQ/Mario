@@ -12,7 +12,7 @@
 #include "Enemies.h"
 #include "Items.h"
 #include "HUB.h"
-
+#include "Effects.h"
 PlayScene::PlayScene(int id, LPCWSTR filePath) : Scene(id, filePath)
 {
 	key_handler = new PlayScenceKeyHandler(this);
@@ -239,7 +239,10 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			break;
 		}
 		}
-		
+	case EFFECT:
+		obj = Effects::CreateEffect(static_cast<TYPE>(type));
+		grid->AddStaticObject(obj, x, y);
+		break;
 	default:
 		
 		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);
@@ -270,7 +273,9 @@ void PlayScene::_ParseSection_SETTINGS(string line)
 		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())) - camera->GetWidth(), int(atoi(tokens[4].c_str())));
 		camera->SetCamMove(int(atoi(tokens[5].c_str())));
 	}
-
+	if (tokens[0] == "scene") {
+		TypeScene = int(atoi(tokens[1].c_str()));
+	}
 	
 }
 void PlayScene::Load()
@@ -327,7 +332,8 @@ void PlayScene::Load()
 	}
 	 //Init();
 	f.close();
-	scoreBoard->Init();
+	if(TypeScene > 0)
+		scoreBoard->Init();
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -365,8 +371,11 @@ void PlayScene::Render()
 		obj->Render();
 	}
 	player->Render();
-	scoreBoard->Render();
-	grid->RenderCell();
+	if (TypeScene != 0) {
+		scoreBoard->Render();
+	}
+	
+	//grid->RenderCell();
 }
 
 void PlayScene::Unload()
@@ -413,6 +422,11 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	Mario* mario = ((PlayScene*)scene)->GetPlayer();
 	keyCode[KeyCode] = true;
 	mario->OnKeyDown(KeyCode);
+	
+	if (((PlayScene*)scene)->GetTypeScene() == 0) {
+		if(KeyCode == DIK_W)
+		game->SwitchScene(0);
+	}
 }
 
 void PlayScenceKeyHandler::KeyState(BYTE* states)

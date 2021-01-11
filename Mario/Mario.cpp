@@ -506,7 +506,6 @@ void Mario::Render() {
 	{
 		CurAnimation->Render(x, y, alpha);
 	}
-
 	//RenderBoundingBox();
 }
 void Mario::ChangeState(PlayerState* newState)

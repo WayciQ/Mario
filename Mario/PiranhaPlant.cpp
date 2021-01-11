@@ -161,7 +161,7 @@ void PiranhaPlant::Render()
 {
 	ChangeAnimation();
 	CurAnimation->Render(x, y, 225);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	Sprites::GetInstance()->Get(54001)->Draw(PosX, YY);
 }
 void PiranhaPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)

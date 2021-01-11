@@ -159,6 +159,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Drain.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectBigBang.h" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Grid.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="NipperPlant.cpp" />
+    <ClCompile Include="Number.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
     <ClCompile Include="ParaKoomba.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
@@ -230,7 +232,9 @@
     <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Drain.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectHit.h" />
+    <ClInclude Include="Effects.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="Grid.h" />
@@ -243,6 +247,7 @@
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="NipperPlant.h" />
+    <ClInclude Include="Number.h" />
     <ClInclude Include="ParaGoomba.h" />
     <ClInclude Include="ParaKoomba.h" />
     <ClInclude Include="PiranhaPlant.h" />
@@ -287,6 +292,8 @@
     <ClInclude Include="Whip.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="resource\data\IntroScene-map.txt" />
+    <Text Include="resource\data\IntroScene.txt" />
     <Text Include="resource\data\mario-scene.txt" />
     <Text Include="resource\data\World1\world1-scene1.txt" />
     <Text Include="resource\data\World1\world1-scene1_map.txt" />

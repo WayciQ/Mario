@@ -105,9 +105,6 @@
     <ClCompile Include="Mario.cpp">
       <Filter>Framework\GameObjects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Game Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Sprites.cpp">
       <Filter>Game Graphics</Filter>
     </ClCompile>
@@ -285,6 +282,15 @@
     <ClCompile Include="BoomerangWeapon.cpp">
       <Filter>Framework\GameObjects\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>GameController</Filter>
+    </ClCompile>
+    <ClCompile Include="Number.cpp">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -428,9 +434,6 @@
     <ClInclude Include="BreakBrick.h">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="EffectHit.h">
-      <Filter>Framework\GameObjects\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerChangeLevelState.h">
       <Filter>Framework\GameObjects\Player\state\Normal State</Filter>
     </ClInclude>
@@ -515,6 +518,18 @@
     <ClInclude Include="IntroScene.h">
       <Filter>Framework\ManagerScene\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Effects.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectHit.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Number.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">
@@ -537,6 +552,12 @@
     </Text>
     <Text Include="resource\data\World1\world1-scene4_map.txt">
       <Filter>Framework\resources\data\World1</Filter>
+    </Text>
+    <Text Include="resource\data\IntroScene.txt">
+      <Filter>Framework\resources\data</Filter>
+    </Text>
+    <Text Include="resource\data\IntroScene-map.txt">
+      <Filter>Framework\resources\data</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

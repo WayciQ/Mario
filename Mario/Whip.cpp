@@ -72,6 +72,6 @@ void Whip::UpdatePosititon(DWORD dt)
 }
 void Whip::Render() {
 	UpdatePosititon(dt);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 Whip::~Whip(){}

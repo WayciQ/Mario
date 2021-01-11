@@ -8,7 +8,7 @@ Brick::Brick() {
 }
 void Brick::Render()
 {
-	CurAnimation->Render(x, y, 255);
+	CurAnimation->Render(x, y);
 	//RenderBoundingBox();
 }
 void Brick::ChangeAnimation(STATEOBJECT state)

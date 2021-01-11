@@ -17,6 +17,7 @@ private:
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAPS(string line);
+	int TypeScene;
 	void _ParseSection_SETTINGS(string line);
 public:
 	vector<LPGAMEOBJECT> HolderObjects;
@@ -26,6 +27,7 @@ public:
 	unordered_map<int, Portal*> listPortal;
 	vector<CheckPoint*> listPoint;
 	PlayScene(int id, LPCWSTR filePath);
+	int GetTypeScene() { return TypeScene; }
 	void ChangeScene();
 	virtual void Load();
 	virtual void Update(DWORD dt);

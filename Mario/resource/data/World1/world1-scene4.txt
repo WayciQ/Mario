@@ -154,3 +154,4 @@
 [SETTINGS]
 cam	0	0	2064	0	1
 time	300
+scene	2
