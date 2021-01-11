@@ -67,7 +67,7 @@ void ParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		x += min_tx * dx + nx * 0.4f;
-		//y += min_ty * dy + ny * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 
 		/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
 		if (ny == -1) {
@@ -116,7 +116,7 @@ void ParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
-			else if (e->obj->tag == ENEMY)
+			if (e->obj->tag == ENEMY)
 			{
 				if (e->obj->tagChange == WEAPON && e->obj->isKicked) {
 					startTimeDead();
@@ -129,9 +129,6 @@ void ParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->nx != 0) {
 					x += dx;
 				}
-			}
-			else if (e->obj->tag == ITEM) {
-				x += dx;
 			}
 		}
 	}

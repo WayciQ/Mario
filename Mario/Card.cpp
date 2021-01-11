@@ -1,6 +1,4 @@
 #include "Card.h"
-#include "Grid.h"
-#include "Alert.h"
 #define TIME_CHANGE 2000
 Card::Card() {
 	getCard = 0;
@@ -37,9 +35,4 @@ void Card::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		break;
 	}
 	CurAnimation = animation_set->Get(typeCard);
-	
-	/*if (isDead) {
-		auto a = new Alert(typeCard,x,y);
-		grid->AddStaticObject(a, x, y);
-	}*/
 }

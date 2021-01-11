@@ -49,6 +49,9 @@
     <Filter Include="Framework\GameObjects\Ground">
       <UniqueIdentifier>{4c9d328e-872d-45e3-9a0a-674c7a7ef0ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\GameObjects\Ground\Brick">
+      <UniqueIdentifier>{69cfe26d-10a0-4740-8bdc-7d2a412827a7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Framework\GameObjects\Weapon">
       <UniqueIdentifier>{b5fb76bf-780b-42c5-8b55-87e5f3821726}</UniqueIdentifier>
     </Filter>
@@ -94,9 +97,6 @@
     <Filter Include="Framework\GameObjects\Player\state\SceneState">
       <UniqueIdentifier>{eca2179a-0483-4ed1-85e0-87d3d72225a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\GameObjects\Ground\Block">
-      <UniqueIdentifier>{69cfe26d-10a0-4740-8bdc-7d2a412827a7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -133,13 +133,13 @@
       <Filter>Framework\GameObjects\Ground</Filter>
     </ClCompile>
     <ClCompile Include="BrickQuestion.cpp">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClCompile>
     <ClCompile Include="BrickBreakable.cpp">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClCompile>
     <ClCompile Include="Brick.cpp">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClCompile>
     <ClCompile Include="Goomba.cpp">
       <Filter>Framework\GameObjects\Enemy\Goomba</Filter>
@@ -175,7 +175,7 @@
       <Filter>Framework\GameObjects\Item</Filter>
     </ClCompile>
     <ClCompile Include="SwitchBlock.cpp">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClCompile>
     <ClCompile Include="Mushroom.cpp">
       <Filter>Framework\GameObjects\Item</Filter>
@@ -265,23 +265,9 @@
       <Filter>Framework\GameObjects\Player\state\SceneState</Filter>
     </ClCompile>
     <ClCompile Include="Card.cpp">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClCompile>
-    <ClCompile Include="Alert.cpp">
-      <Filter>Framework\GameObjects\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="BlockMove.cpp">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="BoomerangEnemy.cpp">
-      <Filter>Framework\GameObjects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="IntroScene.cpp">
-      <Filter>Framework\ManagerScene\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="BoomerangWeapon.cpp">
-      <Filter>Framework\GameObjects\Weapon</Filter>
-    </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Textures.cpp">
       <Filter>GameController</Filter>
     </ClCompile>
@@ -291,6 +277,9 @@
     <ClCompile Include="Effect.cpp">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="Boomerang.cpp" />
+>>>>>>> parent of 58ab2d9... add blockMove
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -330,22 +319,25 @@
       <Filter>Framework\GameObjects\Ground</Filter>
     </ClInclude>
     <ClInclude Include="BrickQuestion.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClInclude>
     <ClInclude Include="BrickBreakable.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClInclude>
     <ClInclude Include="BrickNormal.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClInclude>
     <ClInclude Include="BrickCloud.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClInclude>
     <ClInclude Include="Bricks.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Framework\GameObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>Framework\GameObjects\Enemy\Goomba</Filter>
@@ -387,7 +379,7 @@
       <Filter>Framework\GameObjects\Item</Filter>
     </ClInclude>
     <ClInclude Include="SwitchBlock.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClInclude>
     <ClInclude Include="Mushroom.h">
       <Filter>Framework\GameObjects\Item</Filter>
@@ -498,26 +490,9 @@
       <Filter>Framework\GameObjects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Card.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
+      <Filter>Framework\GameObjects\Ground\Brick</Filter>
     </ClInclude>
-    <ClInclude Include="Alert.h">
-      <Filter>Framework\GameObjects\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockMove.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="BoomerangEnemy.h">
-      <Filter>Framework\GameObjects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Framework\GameObjects\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="BoomerangWeapon.h">
-      <Filter>Framework\GameObjects\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="IntroScene.h">
-      <Filter>Framework\ManagerScene\Scenes</Filter>
-    </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Effects.h">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
@@ -530,6 +505,9 @@
     <ClInclude Include="Effect.h">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="Boomerang.h" />
+>>>>>>> parent of 58ab2d9... add blockMove
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">

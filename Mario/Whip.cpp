@@ -56,7 +56,11 @@ void Whip::UpdatePosititon(DWORD dt)
 	int curFrame = player->CurAnimation->currentFrame;
 	
 	int posX, posY;
-	
+	/*if (curFrame == 0)
+	{
+		posX = player->nx > 0 ? player->x  : player->x + 15;
+	}
+	else*/ 
 	if (curFrame == 3)
 	{
 		posX = player->nx > 0 ? player->x + 24 : player->x - 8;
@@ -65,7 +69,6 @@ void Whip::UpdatePosititon(DWORD dt)
 
 	posY = player->y + 18;
 	SetPosition(posX, posY);
-
 	if (player->CurAnimation->isLastFrame )
 		canDel = true;
 

@@ -905,6 +905,11 @@
 1	160	112	39
 
 [SETTINGS]
+<<<<<<< HEAD
 cam	0	0	288	0	0
 time	500
 scene	1
+=======
+cam	0	0	0	0
+time	500
+>>>>>>> parent of 58ab2d9... add blockMove

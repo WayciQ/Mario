@@ -6,7 +6,7 @@ class Mario : public GameObject
 private:
 	static Mario* __instance;
 public:
-	float currentLocationY;
+	float curY;
 	PlayerState* state;
 	TYPE level;
 	TYPE typeScene;
@@ -71,7 +71,7 @@ public:
 	void startJump() { startJumping = GetTickCount(); isJumpDone = false; }
 	STATEPLAYER GetState() { return state->stateName; }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
-	void CollisionAtCreate(LPGAMEOBJECT object);
+	void HandleObject(LPGAMEOBJECT object);
 	void UpdateWithEnemy(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithGround(LPCOLLISIONEVENT colliable_objects);
 	void UpdateWithItem(LPCOLLISIONEVENT colliable_objects);

@@ -33,11 +33,11 @@ void PlayerFlyingState::HandleKeyBoard()
 	}
 	else if (keyCode[DIK_LEFT]) {
 		player->nx = -1;
-		player->vx = -MARIO_WALKING_SPEED;
+		player->vx = -MARIO_RUNNING_SPEED;
 	}
 	else if (keyCode[DIK_RIGHT]) {
 		player->nx = 1;
-		player->vx = MARIO_WALKING_SPEED;
+		player->vx = MARIO_RUNNING_SPEED;
 	}
 }
 
@@ -48,7 +48,7 @@ void PlayerFlyingState::Update(DWORD dt)
 		player->ChangeState(new PlayerFallingState());
 	}
 
-	if (GetTickCount() - player->startTimeFly > MARIO_FLY_TIME)
+	if (GetTickCount() - player->startTimeFly > 4000)
 	{
 		player->Allow[FLYING] = false;
 		player->isFlying = false;

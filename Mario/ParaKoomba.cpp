@@ -28,7 +28,7 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		x += min_tx * dx + nx * 0.4f;
-		//y += min_ty * dy + ny * 0.004f;
+		y += min_ty * dy + ny * 0.004f;
 
 		if (ny != 0) vy = 0;
 		for (UINT i = 0; i < coEventsResult.size(); i++) {
@@ -72,22 +72,21 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
-			else if (e->obj->tag == ENEMY ) {
-					e->obj->startTimeDead();
-					e->obj->isFlip = true;
-					e->obj->vy = -0.2f;
-					e->obj->vx = 0;
-					e->obj->SetState(ENEMY_DIE_FLIP);
-					if (e->nx != 0) {
-						x += dx;
-					}
-					if (e->ny != 0) {
-						y += dy;
-					}
+			else
+			{
+				if (e->obj->tag == ENEMY && e->obj->tagChange == WEAPON &&	e->obj->isKicked) {
+					startTimeDead();
+					isFlip = true;
+					vy = -0.2f;
+					vx = 0;
+					SetState(ENEMY_DIE_FLIP);
 				}
-			else if (e->obj->tag == ITEM) {
-				x += dx;
+
+				if (e->nx != 0) {
+					x += dx;
+				}
 			}
+			
 		}
 	}
 	// clean up collision events
@@ -96,7 +95,14 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (canRespawn)
 		{
-			if (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL - 2000)
+			if (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL)
+			{
+				player->canPicking = false;
+				player->isPicking = false;
+				TimeDead = 0;
+				Revival();
+			}
+			if (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL - 1000)
 			{
 
 				if (!isFlip)
@@ -107,17 +113,8 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					state = KOOMPA_RESPAWN_FLIP;
 				}
-				vx = 0;
 			}
-			if (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL)
-			{
-				player->canPicking = false;
-				player->isPicking = false;
-				TimeDead = 0;
-				Revival();
-			}
-			
-			
+
 		}
 		else {
 			if (isKicked)
