@@ -5,7 +5,7 @@ Coin::Coin(float x, float y, STATEOBJECT state, bool isStatic) : Item(x, y)
 {
 	this->isStatic = isStatic;
 	type = COIN;
-	SetBBox(UNIT_GAME, UNIT_GAME);
+	SetBBox(16, 16);
 	CurAnimation = animationsSets->Get(COIN)->Get(state);
 	
 	time = GetTickCount();
@@ -18,7 +18,7 @@ Coin::Coin(float x, float y, STATEOBJECT state, bool isStatic) : Item(x, y)
 	else
 	{
 		isCoinChange = true;
-		vy = -MARIO_JUMP_SPEED_Y;
+		vy = -0.3f;
 	}
 	
 }

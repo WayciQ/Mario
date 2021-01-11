@@ -4,7 +4,7 @@
 
 #define BRICK_BBOX_WIDTH  16
 #define BRICK_BBOX_HEIGHT 16
-#define BRICK_DEFLECT_SPEED 0.6f
+
 class Brick : public GameObject
 {
 	

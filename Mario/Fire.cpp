@@ -2,12 +2,12 @@
 #include "Camera.h"
 #include "Mario.h"
 
-#define FIRE_WIDTH		24
-#define FIRE_HEIGHT		24
-#define FIRE_SPEED_X	0.36f
-#define FIRE_SPEED_Y	0.45f
-#define FIRE_SPEED_PLANT_X	0.15f
-#define FIRE_SPEED_PLANT_Y	0.15f
+#define FIRE_WIDTH		8
+#define FIRE_HEIGHT		8
+#define FIRE_SPEED_X	0.12f
+#define FIRE_SPEED_Y	0.15f
+#define FIRE_SPEED_PLANT_X	0.05f
+#define FIRE_SPEED_PLANT_Y	0.05f
 
 Fire::Fire(int nx, int ny, float x, float y, TAG tag)
 {
@@ -91,8 +91,8 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float min_tx, min_ty, nx = 0, ny;
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-			x += min_tx * dx + nx * 1.2f;
-			y += min_ty * dy + ny * 1.2f;
+			x += min_tx * dx + nx * 0.01f;
+			y += min_ty * dy + ny * 0.001f;
 
 			if (ny == -1)
 			{
@@ -129,7 +129,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						e->obj->startTimeDead();
 						e->obj->isFlip = true;
 						e->obj->SetState(ENEMY_DIE_FLIP);
-						e->obj->vy = -MARIO_JUMP_DEFLECT_SPEED;
+						e->obj->vy = -0.2f;
 						e->obj->vx = 0;
 						startTimeDead();
 						vx = 0;

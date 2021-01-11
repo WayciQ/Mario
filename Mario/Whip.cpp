@@ -2,12 +2,10 @@
 #include "Mario.h"
 #include "EffectHit.h"
 #include "Grid.h"
-#define WHIP_WIDTH 27
-#define WHIP_HEIGHT 21
 Whip::Whip()
 {
 	type = WHIP;
-	SetBBox(WHIP_WIDTH, WHIP_HEIGHT);
+	SetBBox(9, 7);
 	SetPosition(player->x, player->y);
 }
 
@@ -40,7 +38,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coEvents.at(i)->vx = 0;
 			coEvents.at(i)->startTimeDead();
 			coEvents.at(i)->isFlip = true;
-			coEvents.at(i)->vy = -MARIO_JUMP_DEFLECT_SPEED;
+			coEvents.at(i)->vy = -0.2f;
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
 			break;
 		case GROUND:
@@ -61,11 +59,11 @@ void Whip::UpdatePosititon(DWORD dt)
 	
 	if (curFrame == 3)
 	{
-		posX = player->nx > 0 ? player->x + 72 : player->x - 24;
+		posX = player->nx > 0 ? player->x + 24 : player->x - 8;
 	}
-	else posX = player->nx > 0 ? player->x + 24 : player->x + 24;
+	else posX = player->nx > 0 ? player->x + 8 : player->x + 8;
 
-	posY = player->y + 34;
+	posY = player->y + 18;
 	SetPosition(posX, posY);
 
 	if (player->CurAnimation->isLastFrame )

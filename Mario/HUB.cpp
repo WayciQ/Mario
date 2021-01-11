@@ -1,17 +1,17 @@
 #include "HUB.h"
 #include "Mario.h"
 #include "Camera.h"
-#define HEIGHT_SCORE_BROAD 44
+#define HEIGHT_SCORE_BROAD 28
 #define ID_TEX_HUB 7
 #define POS_X camera->cam_x
-#define POS_Y camera->cam_y + 576
-#define POS_I1 POS_X + 480
-#define POS_I2 POS_X + 549
-#define POS_I3 POS_X + 618
-#define POS_X_TP POS_X + 12
-#define POS_Y_TP POS_Y + 48
-#define POS_Y_TEX1 POS_Y + 18
-#define POS_Y_TEX2 POS_Y + 45
+#define POS_Y camera->cam_y + 192
+#define POS_I1 POS_X + 160
+#define POS_I2 POS_X + 183
+#define POS_I3 POS_X + 206
+#define POS_X_TP POS_X + 4
+#define POS_Y_TP POS_Y + 16
+#define POS_Y_TEX1 POS_Y + 6
+#define POS_Y_TEX2 POS_Y + 15
 HUB* HUB::__instance = NULL;
 HUB::HUB() {
 	isDrawPush = true;
@@ -23,7 +23,7 @@ HUB::HUB() {
 	AddFontResourceEx(L"resource\\font\\Super-Mario-Bros--3.ttf", FR_PRIVATE, NULL);
 	HRESULT result = D3DXCreateFont(
 		d3ddv,		// d3d divice
-		27,			//	Height
+		9,			//	Height
 		0,			//	Width
 		FW_NORMAL,	//	Weight
 		1,			//MipLevels
@@ -48,7 +48,7 @@ HUB::HUB() {
 }
 void HUB::Init()
 {
-	SetRect(&rect, POS_X + 117 + map->padding_left, POS_Y_TEX1, POS_X + SCREEN_WIDTH, POS_Y + 90);
+	SetRect(&rect, POS_X + 39 + map->padding_left, POS_Y_TEX1, POS_X + SCREEN_WIDTH, POS_Y + 30);
 }
 void HUB::Update(float dt)
 {
@@ -74,7 +74,7 @@ void HUB::Update(float dt)
 	else NumSpeed = 0;
 
 	information = scene + "                              " + money + "\n";
-	information += life +"   "+ scoregame +"      "+ timeString +"\n";
+	information += life +"   "+ scoregame +"     "+ timeString +"\n";
 	Item1 = animationsSets->Get(CARD_HUB)->Get(player->infor->GetCard(1));
 	Item2 = animationsSets->Get(CARD_HUB)->Get(player->infor->GetCard(2));
 	Item3 = animationsSets->Get(CARD_HUB)->Get(player->infor->GetCard(3));
@@ -89,15 +89,15 @@ void HUB::Render()
 	Item1->Render(POS_I1, POS_Y - map->padding_top);
 	Item2->Render(POS_I2, POS_Y - map->padding_top);
 	Item3->Render(POS_I3, POS_Y - map->padding_top);
-	typePlayer->Draw(POS_X + 12, POS_Y + 45 - map->padding_top);
+	typePlayer->Draw(POS_X + 4, POS_Y + 15 - map->padding_top);
 	for(int i = 0; i < NumSpeed; i++)
 	{
-		speed->Draw(POS_X + 159 + (i*8), POS_Y + 21 - map->padding_top);
+		speed->Draw(POS_X + 53 + (i*8), POS_Y + 7 - map->padding_top);
 	}
 	isDrawPush = isDrawPush ? false : true;
 	if (NumSpeed >= 6 && isDrawPush)
 	{
-		push->Draw(POS_X + 300, POS_Y + 21 - map->padding_top);
+		push->Draw(POS_X + 100, POS_Y + 7 - map->padding_top);
 	}
 
 	LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();

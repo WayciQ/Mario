@@ -4,7 +4,7 @@ Brick::Brick() {
 	tag = GROUND;
 	typeParent = BLOCK;
 	isDead = false;
-	SetBBox(UNIT_GAME, UNIT_GAME);
+	SetBBox(16, 16);
 }
 void Brick::Render()
 {

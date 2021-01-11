@@ -1,12 +1,12 @@
 #include "Mushroom.h"
 #include "Mario.h"
-#define SPEED_MUSHROOM 0.15f
+#define SPEED_MUSHROOM 0.05f
 Mushroom::Mushroom(TYPE type, float x, float y) : Item(x,y)
 {
 	isRespawn = true;
 	this->type = type;
 	posY = y;
-	SetBBox(UNIT_GAME, UNIT_GAME);
+	widthBBox = heightBBox = 16;
 	CurAnimation = animationsSets->Get(type)->Get(BLOCK_STATIC);
 	nx = player->nx;
 	if (nx > 0)

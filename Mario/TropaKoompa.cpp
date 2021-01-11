@@ -36,12 +36,12 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		x += min_tx * dx + nx * 1.2f;
+		x += min_tx * dx + nx * 0.4f;
 		//y += min_ty * dy + ny * 0.4f;
 
 		if (ny == -1) {
 			if (!jumped && !isFlip)
-				vy = -0.75;
+				vy = -0.25f;
 			else vy = 0;
 		};
 		for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -95,7 +95,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (e->obj->tag == ENEMY) {
 				e->obj->startTimeDead();
 				e->obj->isFlip = true;
-				e->obj->vy = -MARIO_JUMP_DEFLECT_SPEED;
+				e->obj->vy = -0.2f;
 				e->obj->vx = 0;
 				e->obj->SetState(ENEMY_DIE_FLIP);
 				if (e->nx != 0) {
@@ -229,7 +229,7 @@ void TropaKoompa::SetState(STATEOBJECT state)
 }
 void TropaKoompa::Revival()
 {
-	y -= 60;
+	y -=20;
 	nx = 1;
 	isDead = false;
 	canRespawn = false;

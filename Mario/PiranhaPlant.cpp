@@ -13,7 +13,7 @@ PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 	SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
 	YY = posy;
 	typeParent = PLANT;
-	PosY = type == PIRANHA_PLANT ? posy + 24 : posy;
+	PosY = type == PIRANHA_PLANT ? posy + 8 : posy;
 	SetState(PLANT_FIRE_DOWN_RIGHT);
 }
 
@@ -111,7 +111,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 			nx = 1;
 			if (player->y >= this->y)
 			{
-				ny = player->y < this->y + 93 ? 0 : 1;
+				ny = player->y < this->y + 31 ? 0 : 1;
 				SetState(PLANT_FIRE_DOWN_RIGHT);
 			}
 			else
@@ -125,7 +125,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 			nx = -1;
 			if (player->y >= this->y) {
 
-				ny = ny = player->y < this->y + 93 ? 0 : 1;
+				ny = ny = player->y < this->y + 31 ? 0 : 1;
 				SetState(PLANT_FIRE_DOWN_LEFT);
 			}
 			else
@@ -134,10 +134,10 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 				SetState(PLANT_FIRE_UP_LEFT);
 			}
 		}
-		if (y <= PosY - 93)
+		if (y <= PosY - 31)
 		{
 			upDone = true;
-			y = PosY - 93;
+			y = PosY - 31;
 		}
 	}
 	else vy = PLANT_SPEED_UP;

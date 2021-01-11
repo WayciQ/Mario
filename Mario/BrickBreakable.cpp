@@ -4,7 +4,7 @@
 #include "Grid.h"
 BrickBreakable::BrickBreakable(int curY,TYPE child,int Num)
 {
-	SetBBox(UNIT_GAME, UNIT_GAME);
+	SetBBox(BBOX_16, BBOX_16);
 	if (child == COIN)
 	{
 		NumberHit = 1;
@@ -41,25 +41,25 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				BreakBrick* brick = new BreakBrick(1, -0.2f);
 				grid->AddStaticObject(brick, x, y);
-				brick = new BreakBrick(1, -0.9f);
+				brick = new BreakBrick(1, -0.3f);
 				grid->AddStaticObject(brick, x, y);
-				brick = new BreakBrick(-1, -0.6f);
+				brick = new BreakBrick(-1, -0.2f);
 				grid->AddStaticObject(brick, x, y);
-				brick = new BreakBrick(-1, -0.9f);
-				grid->AddStaticObject(brick, x + 24, y);
+				brick = new BreakBrick(-1, -0.3f);
+				grid->AddStaticObject(brick, x + 8, y);
 			}
 			canDel = true;
 		}
 		else {
 			if (NumberHit >= 1) {
 				if (!isDone) {
-					y -= 3;
-					if (y <= curY - 24) {
+					y -= 1;
+					if (y <= curY - 8) {
 						isDone = true;
 					}
 				}
 				else {
-					y += 3;
+					y += 1;
 				}
 			}
 			if (y >= curY) {
@@ -76,8 +76,8 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (!isSpawnItem)
 				{
 					if (child == BUTTON) {
-						auto item = Items::CreateItem(child, x, y - 48, false);
-						grid->AddStaticObject(item, x, y - 48);
+						auto item = Items::CreateItem(child, x, y - 16, false);
+						grid->AddStaticObject(item, x, y - 16);
 					}
 					else {
 						auto item = Items::CreateItem(child, x, y, false);
