@@ -8,6 +8,10 @@ SwitchBlock::SwitchBlock(float x, float y) : Item(x,y)
 	SetBBox(UNIT_GAME, UNIT_GAME);
 	animation_set = animationsSets->Get(BUTTON);
 	CurAnimation = animation_set->Get(BLOCK_STATIC);
+=======
+	SetBBox(16, 16);
+	CurAnimation = animationsSets->Get(BUTTON)->Get(BLOCK_STATIC);
+>>>>>>> parent of 4733a1e... push main
 	isChange = false;
 }
 void SwitchBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
