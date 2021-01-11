@@ -249,15 +249,6 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);
 		return;
 	}
-	
-	/*if (tag != PLAYER)
-	{
-		int type_ani = static_cast<TYPE>(type) == BLOCK ? atoi(tokens[4].c_str()) : atoi(tokens[3].c_str());
-		TYPE types = static_cast<TYPE>(type_ani);
-		LPANIMATION_SET ani_set = animation_sets->Get(types);
-		obj->SetAnimationSet(ani_set);
-	}*/
-	
 	//DebugOut(L"[INFO] Object size: %d\n", HolderObjects.size());
 }
 void PlayScene::_ParseSection_SETTINGS(string line)
