@@ -10,7 +10,7 @@
 class PlayScene :public Scene
 {
 private:
-	Mario* P;
+	Mario* Player;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -33,7 +33,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload(); 
-	Mario* GetPlayer() { return P; }
+	Mario* GetPlayer() { return Player; }
 };
 class PlayScenceKeyHandler : public ScenceKeyHandler
 {

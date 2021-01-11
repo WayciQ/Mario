@@ -164,13 +164,13 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	switch (tag)
 	{
 	case PLAYER:
-		if (P != NULL)
+		if (Player != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
 		obj = player;
-		P = (Mario*)obj;
+		Player = (Mario*)obj;
 		player->Revival(x, y, static_cast<TYPE>((int)atof(tokens[3].c_str())));
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
@@ -238,10 +238,17 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			grid->AddStaticObject(point, x, y);
 			break;
 		}
+		default:
+
+			DebugOut(L"[ERR] port object TAG: %d\n", object_TAG);
+			return;
 		}
+		break;
 	case EFFECT:
+	{
 		obj = Effects::CreateEffect(static_cast<TYPE>(type));
 		grid->AddStaticObject(obj, x, y);
+	}
 		break;
 	default:
 		
@@ -249,13 +256,13 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		return;
 	}
 	
-	if (tag != PLAYER)
+	/*if (tag != PLAYER)
 	{
 		int type_ani = static_cast<TYPE>(type) == BLOCK ? atoi(tokens[4].c_str()) : atoi(tokens[3].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);
-	}
+	}*/
 	
 	//DebugOut(L"[INFO] Object size: %d\n", HolderObjects.size());
 }
@@ -396,7 +403,7 @@ void PlayScene::Unload()
 	listPoint.clear();
 	listPortal.clear();
 	listTrigger.clear();
-	P = NULL;
+	Player = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 void PlayScene::ChangeScene() {
