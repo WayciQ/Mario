@@ -19,7 +19,7 @@ using namespace std;
 #define GAME_FILE_SECTION_SCENES 2
 
 #define SCREEN_WIDTH	786
-#define SCREEN_HEIGHT	720
+#define SCREEN_HEIGHT	816
 
 #define BACKGROUND_COLOR map->backgroundcolor
 #define WINDOW_CLASS_NAME L"Mario"

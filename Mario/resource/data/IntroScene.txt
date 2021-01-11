@@ -653,13 +653,13 @@
 
 #id	link	sizecell	paddingleft	paddingTop	R	G	B(background)
 [MAPS]
-1	resource\data\IntroScene-map.txt	48	0	48	0	0	0
+1	resource\data\IntroScene-map.txt	48	0	0	0	0	0
 
 [OBJECTS]
 # tag	x	y	type	extra_settings per object type
 # MARIO
 0	0	-96	-1
-6	336	288	40
+6	336	336	40
 [SETTINGS]
 cam	0	0	864	0	0
 time	500

@@ -88,14 +88,14 @@
     <Filter Include="Framework\ManagerScene">
       <UniqueIdentifier>{c7bf16e7-264e-41f6-9276-2376b8683c2b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\ManagerScene\Scenes">
-      <UniqueIdentifier>{3ba35051-946f-4eb0-a107-835130ccc23b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework\GameObjects\Player\state\SceneState">
       <UniqueIdentifier>{eca2179a-0483-4ed1-85e0-87d3d72225a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Framework\GameObjects\Ground\Block">
       <UniqueIdentifier>{69cfe26d-10a0-4740-8bdc-7d2a412827a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\ManagerScene\Scenes">
+      <UniqueIdentifier>{3ba35051-946f-4eb0-a107-835130ccc23b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
