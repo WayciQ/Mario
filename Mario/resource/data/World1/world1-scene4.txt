@@ -155,4 +155,8 @@
 <<<<<<< HEAD
 cam	0	0	2064	0	1
 time	300
+scene	2
+=======
+cam	0	0	2064	0
+time	300
 >>>>>>> parent of 58ab2d9... add blockMove
