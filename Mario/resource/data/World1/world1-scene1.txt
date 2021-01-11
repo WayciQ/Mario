@@ -208,18 +208,7 @@
 3	2304	592	26
 3	2272	608	26
 3	2288	38	26
-
 [SETTINGS]
-<<<<<<< HEAD
-<<<<<<< HEAD
 cam	0	0	2944	256	0
 time	300
 scene	2
-=======
-cam	0	0	2944	256
-time	300
->>>>>>> parent of 58ab2d9... add blockMove
-=======
-cam	0	0	2944	256
-time	300
->>>>>>> parent of 58ab2d9... add blockMove

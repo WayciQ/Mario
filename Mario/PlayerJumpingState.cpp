@@ -10,7 +10,8 @@ PlayerJumpingState::PlayerJumpingState()
 {
 	player->Allow[RACCON_WHIPING_FLY] = false;
 	player->Allow[WHIPPING] = false; 
-	player->Allow[FIRING_FIRE] = false;
+	player->Allow[FIRING_FIRE] = false;/*
+	player->Allow[FALLING] = false;*/
 	switch (player->level)
 	{
 	case BIG:

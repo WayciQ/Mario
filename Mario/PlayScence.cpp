@@ -55,8 +55,8 @@ void PlayScene::_ParseSection_MAPS(string line)
 	map->SetPadding((float)atoi(tokens[3].c_str()), (float)atoi(tokens[4].c_str()));
 	grid->SetSizeCell((int)atoi(tokens[2].c_str()));
 	int widthmap = (int)map->GetWidthMap();
-	grid->cols = (widthmap / (int)atoi(tokens[2].c_str()));
-	grid->rows = ((int)map->GetHeightMap() / (int)atoi(tokens[2].c_str()));
+	grid->cols = (widthmap/(int)atoi(tokens[2].c_str()));
+	grid->rows = ((int)map->GetHeightMap() / (int)atoi(tokens[2].c_str())) ;
 	grid->Init();
 	int R = atoi(tokens[5].c_str());
 	int G = atoi(tokens[6].c_str());
@@ -164,13 +164,13 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	switch (tag)
 	{
 	case PLAYER:
-		if (Player != NULL)
+		if (P != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
 		obj = player;
-		Player = (Mario*)obj;
+		P = (Mario*)obj;
 		player->Revival(x, y, static_cast<TYPE>((int)atof(tokens[3].c_str())));
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
@@ -191,12 +191,12 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
 		}
-
-		grid->LoadObjects(obj, x, y);
+		
+		grid->LoadObjects(obj,x,y);
 		break;
 	case ENEMY:
 		obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
-		grid->LoadObjects(obj, x, y);
+		grid->LoadObjects(obj,x,y);
 		//listEnemyObject.push_back(obj);
 		break;
 	case ITEM:
@@ -238,42 +238,26 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			grid->AddStaticObject(point, x, y);
 			break;
 		}
-		default:
-
-			DebugOut(L"[ERR] port object TAG: %d\n", object_TAG);
-			return;
 		}
 		break;
 	case EFFECT:
-	{
 		obj = Effects::CreateEffect(static_cast<TYPE>(type));
 		grid->AddStaticObject(obj, x, y);
-	}
 		break;
 	default:
-
+		
 		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);
 		return;
 	}
-<<<<<<< Updated upstream
 	
 	/*if (tag != PLAYER)
-=======
-
-	if (tag != PLAYER)
->>>>>>> Stashed changes
 	{
 		int type_ani = static_cast<TYPE>(type) == BLOCK ? atoi(tokens[4].c_str()) : atoi(tokens[3].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
 		LPANIMATION_SET ani_set = animation_sets->Get(types);
 		obj->SetAnimationSet(ani_set);
-<<<<<<< Updated upstream
 	}*/
 	
-=======
-	}
-
->>>>>>> Stashed changes
 	//DebugOut(L"[INFO] Object size: %d\n", HolderObjects.size());
 }
 void PlayScene::_ParseSection_SETTINGS(string line)
@@ -288,14 +272,12 @@ void PlayScene::_ParseSection_SETTINGS(string line)
 	if (tokens[0] == "cam")
 	{
 		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())) - camera->GetWidth(), int(atoi(tokens[4].c_str())));
-<<<<<<< HEAD
+		camera->SetCamMove(int(atoi(tokens[5].c_str())));
 	}
 	if (tokens[0] == "scene") {
 		TypeScene = int(atoi(tokens[1].c_str()));
-=======
->>>>>>> parent of 58ab2d9... add blockMove
 	}
-
+	
 }
 void PlayScene::Load()
 {
@@ -314,7 +296,7 @@ void PlayScene::Load()
 		string line(str);
 
 		if (line[0] == '#') continue;	// skip comment lines	
-
+		
 		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
 		if (line == "[SPRITES]") {
 			section = SCENE_SECTION_SPRITES; continue;
@@ -349,9 +331,9 @@ void PlayScene::Load()
 		case SCENE_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
 		}
 	}
-	//Init();
+	 //Init();
 	f.close();
-	if (TypeScene > 0)
+	if(TypeScene > 0)
 		scoreBoard->Init();
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
@@ -373,19 +355,11 @@ void PlayScene::Update(DWORD dt)
 	player->Update(dt, &coObjects);
 	for (auto& obj : grid->GetObjectInViewPort())
 	{
-		if (!player->freeze)
+		if(!player->freeze)
 			obj->Update(dt, &coObjects);
 	}
-<<<<<<< Updated upstream
 	
-	camera->Update();
-<<<<<<< HEAD
-=======
-
 	camera->Update(dt);
->>>>>>> Stashed changes
-=======
->>>>>>> parent of 58ab2d9... add blockMove
 	scoreBoard->Update(dt);
 }
 
@@ -401,7 +375,7 @@ void PlayScene::Render()
 	if (TypeScene != 0) {
 		scoreBoard->Render();
 	}
-
+	
 	//grid->RenderCell();
 }
 
@@ -409,10 +383,10 @@ void PlayScene::Unload()
 {
 	for (auto& obj : listPoint)
 		delete obj;
-
+	
 	for (int i = 0; i < listPortal.size(); i++)
 		delete listPortal[i];
-
+	
 	for (int i = 0; i < listTrigger.size(); i++)
 		delete listTrigger[i];
 
@@ -423,23 +397,22 @@ void PlayScene::Unload()
 	listPoint.clear();
 	listPortal.clear();
 	listTrigger.clear();
-	Player = NULL;
+	P = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 void PlayScene::ChangeScene() {
 
 	if (player->IsChangeTrigger) {
 		auto trigger = listTrigger.at(player->infor->GetGateId());
-		player->SetPosition(trigger->GetPosX(),
-			trigger->GetPosY());
+		player->SetPosition(trigger->GetPosX(), 
+							trigger->GetPosY());
 		player->SetSpeed(0, 0);
 		player->IsTouchTrigger = false;
-		camera->SetCamScene(trigger->leftScene, trigger->topScene, trigger->rightScene - camera->GetWidth(), trigger->bottomScene);
+		camera->SetCamScene(trigger->leftScene,trigger->topScene,trigger->rightScene - camera->GetWidth(),trigger->bottomScene);
 		player->IsChangeTrigger = false;
 	}
 
 	if (player->IsChangeScene) {
-			
 		player->IsChangeScene = false;
 		game->SwitchScene(player->infor->GetSceneId());
 	}
@@ -450,10 +423,10 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	Mario* mario = ((PlayScene*)scene)->GetPlayer();
 	keyCode[KeyCode] = true;
 	mario->OnKeyDown(KeyCode);
-
+	
 	if (((PlayScene*)scene)->GetTypeScene() == 0) {
-		if (KeyCode == DIK_W)
-			game->SwitchScene(0);
+		if(KeyCode == DIK_W)
+		game->SwitchScene(0);
 	}
 }
 
@@ -467,3 +440,4 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	keyCode[KeyCode] = false;
 	mario->OnKeyUp(KeyCode);
 }
+

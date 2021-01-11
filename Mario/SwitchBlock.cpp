@@ -4,7 +4,8 @@ SwitchBlock::SwitchBlock(float x, float y) : Item(x,y)
 {
 	this->type = BUTTON;
 	SetBBox(16, 16);
-	CurAnimation = animationsSets->Get(BUTTON)->Get(BLOCK_STATIC);
+	animation_set = animationsSets->Get(BUTTON);
+	CurAnimation = animation_set->Get(BLOCK_STATIC);
 	isChange = false;
 }
 void SwitchBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

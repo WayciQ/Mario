@@ -4,6 +4,7 @@ BasGoomba::BasGoomba() : Goomba()
 {
 	this->type = BASIC_GOOMBA;
 	this->nx = -1;
+	animation_set = animationsSets->Get(type);
 	Revival();
 }
 void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -50,7 +51,7 @@ void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		//y += min_ty * dy + ny * 0.4f;
 
 		/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
 		if (ny != 0) vy = 0;
@@ -90,12 +91,17 @@ void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					vx = 0;
 					SetState(ENEMY_DIE_FLIP);
 				}
-				if (e->nx != 0) {
-					x += dx;
+				else {
+					if (e->nx != 0) {
+						x += dx;
+					}
+					if (e->ny != 0) {
+						vy = 0;
+					}
 				}
-				if (e->ny != 0) {
-					vy = 0;
-				}
+			}
+			else if(e->obj->tag == ITEM) {
+				x += dx;
 			}
 			
 		}

@@ -10,8 +10,7 @@ PlayerFallingState::PlayerFallingState()
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	player->Allow[JUMPING] = false;
 	player->isJumpDone = true;
-	player->isFalling = true;
-	player->isWavingTail = false;
+	//player->isFalling = true;
 	switch (player->level)
 	{
 	case SMALL:
@@ -20,6 +19,7 @@ PlayerFallingState::PlayerFallingState()
 	case BIG:
 		break;
 	case RACCOON:
+		player->Allow[RACCON_WHIPING_FLY] = true;
 		player->Allow[WHIPPING] = true;
 		break;
 	case FIRE:
@@ -93,11 +93,13 @@ void PlayerFallingState::HandleKeyBoard()
 	}
 	else if (keyCode[DIK_RIGHT])
 	{
+		player->vx = player->vx <= MARIO_WALKING_SPEED? MARIO_WALKING_SPEED : player->vx;
 		player->nx = 1;
 		player->ChangeState(new PlayerFallingState());
 	}
 	else if (keyCode[DIK_LEFT])
 	{
+		player->vx = player->vx >= MARIO_WALKING_SPEED? MARIO_WALKING_SPEED : player->vx;
 		player->nx = -1;
 		player->ChangeState(new PlayerFallingState());
 	}

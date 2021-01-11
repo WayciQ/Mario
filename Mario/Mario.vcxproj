@@ -145,9 +145,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Alert.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BasGoomba.cpp" />
-    <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="BlockMove.cpp" />
+    <ClCompile Include="BoomerangEnemy.cpp" />
+    <ClCompile Include="BoomerangWeapon.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickBreakable.cpp" />
@@ -162,6 +165,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Information.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Koompa.cpp" />
     <ClCompile Include="Leaf.cpp" />
@@ -207,10 +211,13 @@
     <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alert.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="BasGoomba.h" />
-    <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="BlockMove.h" />
+    <ClInclude Include="BoomerangEnemy.h" />
     <ClInclude Include="BoomerangScene.h" />
+    <ClInclude Include="BoomerangWeapon.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BreakBrick.h" />
     <ClInclude Include="Brick.h" />
@@ -233,6 +240,7 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Information.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="Koompa.h" />

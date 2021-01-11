@@ -11,6 +11,7 @@ PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 	this->type = type;
 	PosX = posx;
 	SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
+	animation_set = animationsSets->Get(type);
 	YY = posy;
 	typeParent = PLANT;
 	PosY = type == PIRANHA_PLANT ? posy + 8 : posy;
@@ -54,8 +55,10 @@ void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					startTimeDead();
 					SetState(ENEMY_DIE_FLIP);
 				}
-				if (e->nx != 0) {
-					x += dx;
+				else {
+					if (e->nx != 0) {
+						x += dx;
+					}
 				}
 			}
 		}

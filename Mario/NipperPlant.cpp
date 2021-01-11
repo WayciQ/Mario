@@ -11,6 +11,7 @@ NipperPlant::NipperPlant( float posx, float posy) : Enemy()
 	startTimeUp = 0;
 	SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
 	this->type = NIPPER_PLANT;
+	animation_set = animationsSets->Get(type);
 	typeParent = PLANT;
 	PosX = posx;
 	PosY = posy;
@@ -53,8 +54,10 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					startTimeDead();
 					SetState(ENEMY_DIE_FLIP);
 				}
-				if (e->nx != 0) {
-					x += dx;
+				else {
+					if (e->nx != 0) {
+						x += dx;
+					}
 				}
 			}
 		}

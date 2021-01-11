@@ -146,22 +146,12 @@
 #
 #id	x	y	type	4-idPort	5-width	6-height	7-typeIn	8-posX	9-posY	10-leftScene	11-topScene	12-righttScene	13-botScene		
 #5	1936	64	33	1	32	32	1	2192	112	2064	0	2560	0		16
-5	70	80	33	1	32	32	1	2192	112	2064	0	2560	0		16
+#5	70	80	33	1	32	32	1	2192	112	2064	0	2560	0		16
 #Card						
 4	2448	80	5	37	0	1
 
 
 [SETTINGS]
-<<<<<<< HEAD
-<<<<<<< HEAD
 cam	0	0	2064	0	1
 time	300
 scene	2
-=======
-cam	0	0	2064	0
-time	300
->>>>>>> parent of 58ab2d9... add blockMove
-=======
-cam	0	0	2064	0
-time	300
->>>>>>> parent of 58ab2d9... add blockMove

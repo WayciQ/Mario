@@ -14,6 +14,7 @@ public:
 	~Goomba() {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
+	//virtual void UpdateWithEnemy(LPGAMEOBJECT e);
 	virtual void UpdatePosition(DWORD dt);
 	virtual void Revival() {};
 	virtual void SetState(STATEOBJECT state);

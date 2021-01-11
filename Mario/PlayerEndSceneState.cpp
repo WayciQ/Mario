@@ -13,7 +13,7 @@ PlayerEndSceneState::PlayerEndSceneState() {
 
 }
 void PlayerEndSceneState::Update(DWORD dt) {
-	if (player->x > map->GetWidthMap()) {
+	if (player->x > map->GetWidthMap() - 16) {
 		player->infor->SetSceneId(0);
 		player->IsChangeScene = true;
 	}

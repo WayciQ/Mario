@@ -21,7 +21,8 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	
 	if(isDead)
-	{	
+	{
+		ChangeAnimation(BLOCK_HITTED);
 		if (!isDone) {
 			y -= 1;
 			if (y <= curY - 8) {
@@ -32,18 +33,22 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			y += 1;
 		}
 
-		ChangeAnimation(BLOCK_HITTED);
-		if (!isSpawnItem) {
-
+		if (!isSpawnItem && child == COIN) {
 			auto item = Items::CreateItem(child, x, y, false);
 			grid->AddMovingObject(item);
 			isSpawnItem = true;
 		}
+		if (y >= curY) {
+			y = curY;
+			if (!isSpawnItem && child != COIN) {
+				auto item = Items::CreateItem(child, x, y, false);
+				grid->AddMovingObject(item);
+				isSpawnItem = true;
+			}
+		}
 	}
 
-	if (y >= curY) {
-		y = curY;
-	}
+	
 
 }
 
