@@ -5,7 +5,7 @@
 Whip::Whip()
 {
 	type = WHIP;
-	SetBBox(9, 7);
+	SetBBox(MARIO_RACCOON_WHIP_WIDTH, MARIO_RACCOON_WHIP_HEIGHT);
 	SetPosition(player->x, player->y);
 }
 
@@ -38,7 +38,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coEvents.at(i)->vx = 0;
 			coEvents.at(i)->startTimeDead();
 			coEvents.at(i)->isFlip = true;
-			coEvents.at(i)->vy = -0.2f;
+			coEvents.at(i)->vy = -MARIO_JUMP_DEFLECT_SPEED;
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
 			break;
 		case GROUND:
@@ -59,11 +59,11 @@ void Whip::UpdatePosititon(DWORD dt)
 	
 	if (curFrame == 3)
 	{
-		posX = player->nx > 0 ? player->x + 24 : player->x - 8;
+		posX = player->nx > 0 ? player->x + 72 : player->x - 24;
 	}
-	else posX = player->nx > 0 ? player->x + 8 : player->x + 8;
+	else posX = player->nx > 0 ? player->x + 24 : player->x + 24;
 
-	posY = player->y + 18;
+	posY = player->y + 54;
 	SetPosition(posX, posY);
 
 	if (player->CurAnimation->isLastFrame )

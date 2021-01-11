@@ -50,7 +50,7 @@ void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		x += min_tx * dx + nx * 0.4f;
+		x += min_tx * dx + nx * 1.2f;
 		//y += min_ty * dy + ny * 0.4f;
 
 		/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
@@ -87,7 +87,7 @@ void BasGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->obj->tagChange == WEAPON && e->obj->isKicked) {
 					startTimeDead();
 					isFlip = true;
-					vy = -0.2f;
+					vy = -GOOMBA_JUMP_DEFLECT_SPEED;
 					vx = 0;
 					SetState(ENEMY_DIE_FLIP);
 				}

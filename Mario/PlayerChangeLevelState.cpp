@@ -47,7 +47,7 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 		if (player->level == SMALL) {
 			isChange = true;
 			upsize = true;
-			player->y -= 12;
+			player->y -= 36;
 			stateName = player->nx > 0 ? UP_SIZE_RIGHT : UP_SIZE_LEFT;
 			player->SetLevel(BIG);
 		}
@@ -85,7 +85,7 @@ void PlayerChangeLevelState::Update(DWORD dt)
 	{
 		if (isChange) {
 			if (upsize) {
-				player->y -= 12;
+				player->y -= 36;
 				player->SetLevel(BIG);
 			}
 			else {

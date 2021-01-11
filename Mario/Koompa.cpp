@@ -11,10 +11,10 @@ void Koompa::GetBoundingBox(float& left, float& top, float& right, float& bottom
 {
 	left = x;
 	top = y;
-	right = x + KOOMBA_BBOX_WIDTH;
-	bottom = y + KOOMBA_BBOX_HEIGHT;
+	right = x + KOOMPA_BBOX_WIDTH;
+	bottom = y + KOOMPA_BBOX_HEIGHT;
 	if (isDead)
-		bottom = y + KOOMBA_BBOX_HEIGHT_DIE;
+		bottom = y + KOOMPA_BBOX_HEIGHT_DIE;
 }
 
 void Koompa::SetState(STATEOBJECT state)
@@ -24,11 +24,11 @@ void Koompa::SetState(STATEOBJECT state)
 	{
 	case ENEMY_WALKING_RIGHT:
 		nx = 1;
-		vx = KOOMBA_WALKING_SPEED;
+		vx = KOOMPA_WALKING_SPEED;
 		break;
 	case ENEMY_WALKING_LEFT:
 		nx = -1;
-		vx = -KOOMBA_WALKING_SPEED;
+		vx = -KOOMPA_WALKING_SPEED;
 		break;
 	case ENEMY_DIE_STAND:
 		vx = 0;
@@ -46,16 +46,16 @@ void Koompa::UpdatePosition(DWORD dt)
 	switch (player->level)
 	{
 	case RACCOON:
-		posX = player->nx > 0 ? player->x + 25 : player->x - 13;
-		posY = player->y + 9;
+		posX = player->nx > 0 ? player->x + 75 : player->x - 39;
+		posY = player->y + 27;
 		break;
 	case SMALL:
-		posX = player->nx > 0 ? player->x + 15 : player->x - 13;
+		posX = player->nx > 0 ? player->x + 45 : player->x - 39;
 		posY = player->y;
 		break;
 	case BIG:case FIRE:
-		posX = player->nx > 0 ? player->x + 15 : player->x - 13;
-		posY = player->y + 9;
+		posX = player->nx > 0 ? player->x + 45 : player->x - 39;
+		posY = player->y + 27;
 		break;
 	}
 	vy = 0;
@@ -64,7 +64,7 @@ void Koompa::UpdatePosition(DWORD dt)
 }
 void Koompa::UpdateLocation()
 {
-	if (x > maxRight - widthBBox - 5) {
+	if (x > maxRight - widthBBox - 15) {
 		SetState(ENEMY_WALKING_LEFT);
 	}
 	else if (x < maxLeft) {

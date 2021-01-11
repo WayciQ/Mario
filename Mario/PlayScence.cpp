@@ -92,7 +92,7 @@ void PlayScene::_ParseSection_ANIMATIONS(string line)
 	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
 
 	LPANIMATION ani = new Animation();
-	DebugOut(L"--> %s\n", ToWSTR(line).c_str());
+	//DebugOut(L"--> %s\n", ToWSTR(line).c_str());
 	int ani_id = atoi(tokens[0].c_str());
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
@@ -411,13 +411,16 @@ void PlayScene::ChangeScene() {
 
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	Mario* mario = ((PlayScene*)scene)->GetPlayer();
-	keyCode[KeyCode] = true;
-	mario->OnKeyDown(KeyCode);
+	
 	
 	if (((PlayScene*)scene)->GetTypeScene() == 0) {
 		if(KeyCode == DIK_W)
 		game->SwitchScene(0);
+	}
+	else {
+		Mario* mario = ((PlayScene*)scene)->GetPlayer();
+		keyCode[KeyCode] = true;
+		mario->OnKeyDown(KeyCode);
 	}
 }
 

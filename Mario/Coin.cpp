@@ -1,11 +1,12 @@
 #include "Coin.h"
 #include "Bricks.h"
 #include "Grid.h"
+#define COIN_JUMP 0.9f
 Coin::Coin(float x, float y, STATEOBJECT state, bool isStatic) : Item(x, y)
 {
 	this->isStatic = isStatic;
 	type = COIN;
-	SetBBox(16, 16);
+	SetBBox(UNIT_GAME, UNIT_GAME);
 	CurAnimation = animationsSets->Get(COIN)->Get(state);
 	
 	time = GetTickCount();
@@ -18,7 +19,7 @@ Coin::Coin(float x, float y, STATEOBJECT state, bool isStatic) : Item(x, y)
 	else
 	{
 		isCoinChange = true;
-		vy = -0.3f;
+		vy = -COIN_JUMP;
 	}
 	
 }

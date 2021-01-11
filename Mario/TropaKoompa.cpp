@@ -41,8 +41,9 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//y += min_ty * dy + ny * 0.4f;
 
 		if (ny == -1) {
-			if (!jumped && !isFlip)
-				vy = -0.25f;
+			if (!jumped && !isFlip) {
+				vy = -KOOMPA_JUMP_SPEED;
+			}
 			else vy = 0;
 		};
 		for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -96,7 +97,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (e->obj->tag == ENEMY) {
 				e->obj->startTimeDead();
 				e->obj->isFlip = true;
-				e->obj->vy = -0.2f;
+				e->obj->vy = -KOOMPA_JUMP_DEFLECT_SPEED;
 				e->obj->vx = 0;
 				e->obj->SetState(ENEMY_DIE_FLIP);
 				if (e->nx != 0) {
@@ -221,16 +222,16 @@ void TropaKoompa::SetState(STATEOBJECT state)
 	switch (state)
 	{
 	case ENEMY_JUMPING_RIGHT:case ENEMY_WALKING_RIGHT:
-		vx = KOOMBA_WALKING_SPEED;
+		vx = KOOMPA_WALKING_SPEED;
 		break;
 	case ENEMY_JUMPING_LEFT: case ENEMY_WALKING_LEFT:
-		vx = -KOOMBA_WALKING_SPEED;
+		vx = -KOOMPA_WALKING_SPEED;
 		break;
 	}
 }
 void TropaKoompa::Revival()
 {
-	y -=20;
+	y -=60;
 	nx = 1;
 	isDead = false;
 	canRespawn = false;

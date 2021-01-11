@@ -3,7 +3,7 @@
 SwitchBlock::SwitchBlock(float x, float y) : Item(x,y)
 {
 	this->type = BUTTON;
-	SetBBox(16, 16);
+	SetBBox(UNIT_GAME, UNIT_GAME);
 	animation_set = animationsSets->Get(BUTTON);
 	CurAnimation = animation_set->Get(BLOCK_STATIC);
 	isChange = false;
@@ -35,6 +35,6 @@ void SwitchBlock::GetBoundingBox(float& left, float& top, float& right, float& b
 	bottom = y + heightBBox;
 	if (isDead) {
 		top = y + heightBBox;
-		heightBBox = 9;
+		heightBBox = 27;
 	}
 }

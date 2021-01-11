@@ -276,9 +276,6 @@
     <ClCompile Include="BoomerangEnemy.cpp">
       <Filter>Framework\GameObjects\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="IntroScene.cpp">
-      <Filter>Framework\ManagerScene\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="BoomerangWeapon.cpp">
       <Filter>Framework\GameObjects\Weapon</Filter>
     </ClCompile>
@@ -509,14 +506,8 @@
     <ClInclude Include="BoomerangEnemy.h">
       <Filter>Framework\GameObjects\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Framework\GameObjects\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="BoomerangWeapon.h">
       <Filter>Framework\GameObjects\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="IntroScene.h">
-      <Filter>Framework\ManagerScene\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Effects.h">
       <Filter>Framework\GameObjects\Effect</Filter>
@@ -529,6 +520,9 @@
     </ClInclude>
     <ClInclude Include="Effect.h">
       <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Framework\GameObjects\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

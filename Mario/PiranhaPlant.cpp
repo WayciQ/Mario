@@ -14,13 +14,13 @@ PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 	animation_set = animationsSets->Get(type);
 	YY = posy;
 	typeParent = PLANT;
-	PosY = type == PIRANHA_PLANT ? posy + 8 : posy;
+	PosY = type == PIRANHA_PLANT ? posy + 24 : posy;
 	SetState(PLANT_FIRE_DOWN_RIGHT);
 }
 
 void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	x = PosX + 8;
+	x = PosX + 24;
 	GameObject::Update(dt);
 	UpdatePosition(dt);
 	y += dy;
@@ -112,7 +112,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 			nx = 1;
 			if (player->y >= this->y)
 			{
-				ny = player->y < this->y + 31 ? 0 : 1;
+				ny = player->y < this->y + 93 ? 0 : 1;
 				SetState(PLANT_FIRE_DOWN_RIGHT);
 			}
 			else
@@ -126,7 +126,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 			nx = -1;
 			if (player->y >= this->y) {
 
-				ny = ny = player->y < this->y + 31 ? 0 : 1;
+				ny = ny = player->y < this->y + 93 ? 0 : 1;
 				SetState(PLANT_FIRE_DOWN_LEFT);
 			}
 			else
@@ -135,10 +135,10 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 				SetState(PLANT_FIRE_UP_LEFT);
 			}
 		}
-		if (y <= PosY - 31)
+		if (y <= PosY - 93)
 		{
 			upDone = true;
-			y = PosY - 31;
+			y = PosY - 93;
 		}
 	}
 	else vy = PLANT_SPEED_UP;

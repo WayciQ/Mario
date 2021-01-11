@@ -19,22 +19,22 @@ PlayerWorlMapState::PlayerWorlMapState(int move)
 		posY = int(celly / 16) * 16;*/
 		break;
 	case 1:
-		player->vx = +0.1f;/*
+		player->vx = +0.3f;/*
 		posY = int(player->y);
 		posX = int(player->x) + 32;*/
 		break;
 	case -1:
-		player->vx = -0.1f;/*
+		player->vx = -0.3f;/*
 		posY = int(player->y);
 		posX = int(player->x) - 32;*/
 		break;
 	case 2:
-		player->vy = +0.1f;/*
+		player->vy = +0.3f;/*
 		posX = int(player->x);
 		posY = int(player->y) + 32;*/
 		break;
 	case -2:
-		player->vy = -0.1f;/*
+		player->vy = -0.3f;/*
 		posX = int(player->x);
 		posY = int(player->y) - 32;*/
 		break;

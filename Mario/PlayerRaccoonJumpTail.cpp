@@ -21,7 +21,7 @@ void PlayerRaccoonJumpTail::Update(DWORD dt) {
 void PlayerRaccoonJumpTail::HandleKeyBoard() {
 	
 	if (keyCode[DIK_S] && player->Allow[RACCON_WHIPING_FLY]) {
-		player->vy = 0.003;
+		player->vy = 0;
 		player->ChangeState(new PlayerRaccoonJumpTail());
 	}
 	else {

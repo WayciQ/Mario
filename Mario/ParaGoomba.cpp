@@ -1,8 +1,8 @@
 #include "ParaGoomba.h"
 #include "Camera.h"
 #include "Mario.h"
-#define PARA_GOOMBA_BBOX_WIDTH 21
-#define PARA_GOOMBA_BBOX_HEIGHT 24
+#define PARA_GOOMBA_BBOX_WIDTH 63
+#define PARA_GOOMBA_BBOX_HEIGHT 72
 ParaGoomba::ParaGoomba() : Goomba()
 {
 	this->type = PARA_GOOMBA;
@@ -72,8 +72,9 @@ void ParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		/*if (nx != 0) vx = nx < 0 ? -0.05 : GOOMBA_WALKING_SPEED;*/
 		if (ny == -1) {
-			if (!jumped && !isFlip)
-				vy = -0.3f;
+			if (!jumped && !isFlip) {
+				vy = -GOOMBA_JUMP_SPEED;
+			}
 			else vy = 0;
 		};
 		if (isDead == true && ny == -1)
@@ -122,7 +123,7 @@ void ParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->obj->tagChange == WEAPON && e->obj->isKicked) {
 					startTimeDead();
 					isFlip = true;
-					vy = -0.2f;
+					vy = -GOOMBA_JUMP_DEFLECT_SPEED;
 					vx = 0;
 					SetState(ENEMY_DIE_FLIP);
 				}

@@ -1,9 +1,11 @@
 #pragma once
 #include "Enemy.h"
-#define KOOMBA_WALKING_SPEED 0.05;
-#define KOOMBA_BBOX_WIDTH 16
-#define KOOMBA_BBOX_HEIGHT 27
-#define KOOMBA_BBOX_HEIGHT_DIE 16
+#define KOOMPA_WALKING_SPEED 0.15;
+#define KOOMPA_JUMP_DEFLECT_SPEED 0.6f;
+#define KOOMPA_JUMP_SPEED 0.75f;
+#define KOOMPA_BBOX_WIDTH 48
+#define KOOMPA_BBOX_HEIGHT 81
+#define KOOMPA_BBOX_HEIGHT_DIE 48
 #define KOOMPA_TIME_REVIVAL 7000
 class Koompa : public Enemy
 {

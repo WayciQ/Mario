@@ -4,7 +4,7 @@ BlockMove::BlockMove(float w, float h) {
 	type = GROUND_LAND;
 	animation_set = animationsSets->Get(type);
 	SetBBox(w, h);
-	vx = -0.2f;
+	//vx = -0.2f;
 	vy = 0;
 }
 

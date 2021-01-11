@@ -4,7 +4,7 @@
 #include "Grid.h"
 
 
-#define PLANT_SPEED_UP 0.05f;
+#define PLANT_SPEED_UP 0.15f;
 NipperPlant::NipperPlant( float posx, float posy) : Enemy()
 {
 	isUp = true;
@@ -67,7 +67,7 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void NipperPlant::UpdatePosition(DWORD dt)
 {
-	x = PosX + 6;
+	x = PosX + 18;
 	if (startTimeUp < 0)
 	{
 		startTimeUp = TIME_UP;
@@ -84,9 +84,9 @@ void NipperPlant::UpdatePosition(DWORD dt)
 		vy = -PLANT_SPEED_UP;
 	}
 
-	if (y <= PosY - 24)
+	if (y <= PosY - 72)
 	{
-		y = PosY - 24;
+		y = PosY - 72;
 	}
 	else if (y >= PosY) {
 		y = PosY; 

@@ -2,11 +2,12 @@
 #include "PlayerFallingState.h"
 #include "Mario.h"
 #define MARIO_FLY_TIME	5000
+#define MARIO_FLY_SPEED 0.75
 PlayerFlyingState::PlayerFlyingState() {
 	player->Allow[JUMPING] = false;
 	player->isOnSky = true;
 	player->isFlying = true;
-	player->vy = -0.25f;
+	player->vy = -MARIO_FLY_SPEED;
 
 	if (player->nx > 0)
 	{
