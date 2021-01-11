@@ -258,6 +258,10 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 <<<<<<< Updated upstream
 	
 	/*if (tag != PLAYER)
+=======
+
+	if (tag != PLAYER)
+>>>>>>> Stashed changes
 	{
 		int type_ani = static_cast<TYPE>(type) == BLOCK ? atoi(tokens[4].c_str()) : atoi(tokens[3].c_str());
 		TYPE types = static_cast<TYPE>(type_ani);
@@ -267,6 +271,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	}*/
 	
 =======
+	}
 
 >>>>>>> Stashed changes
 	//DebugOut(L"[INFO] Object size: %d\n", HolderObjects.size());
@@ -373,6 +378,7 @@ void PlayScene::Update(DWORD dt)
 	camera->Update();
 =======
 
+	camera->Update(dt);
 >>>>>>> Stashed changes
 	scoreBoard->Update(dt);
 }
@@ -389,6 +395,7 @@ void PlayScene::Render()
 	if (TypeScene != 0) {
 		scoreBoard->Render();
 	}
+
 	//grid->RenderCell();
 }
 
@@ -417,8 +424,11 @@ void PlayScene::ChangeScene() {
 
 	if (player->IsChangeTrigger) {
 		auto trigger = listTrigger.at(player->infor->GetGateId());
+		player->SetPosition(trigger->GetPosX(),
+			trigger->GetPosY());
 		player->SetSpeed(0, 0);
 		player->IsTouchTrigger = false;
+		camera->SetCamScene(trigger->leftScene, trigger->topScene, trigger->rightScene - camera->GetWidth(), trigger->bottomScene);
 		player->IsChangeTrigger = false;
 	}
 
@@ -434,6 +444,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	Mario* mario = ((PlayScene*)scene)->GetPlayer();
 	keyCode[KeyCode] = true;
 	mario->OnKeyDown(KeyCode);
+
 	if (((PlayScene*)scene)->GetTypeScene() == 0) {
 		if (KeyCode == DIK_W)
 			game->SwitchScene(0);
