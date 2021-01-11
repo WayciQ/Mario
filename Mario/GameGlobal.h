@@ -18,16 +18,16 @@ using namespace std;
 #define GAME_FILE_SECTION_SETTINGS 1
 #define GAME_FILE_SECTION_SCENES 2
 
-#define SCREEN_WIDTH	288
-#define SCREEN_HEIGHT	272
+#define SCREEN_WIDTH	864
+#define SCREEN_HEIGHT	816
 
 #define BACKGROUND_COLOR map->backgroundcolor
 #define WINDOW_CLASS_NAME L"Mario"
 #define MAIN_WINDOW_TITLE L"Mario"
 #define MAX_FRAME_RATE 120
 
-#define TITLE_WIDTH 16
-#define TITLE_HEIGHT 16
+#define TITLE_WIDTH 48
+#define TITLE_HEIGHT 48
 
 #define ID_TEX_MARIO 1
 #define ID_TEX_ENEMY 2
