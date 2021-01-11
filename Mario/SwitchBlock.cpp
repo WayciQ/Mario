@@ -3,14 +3,10 @@
 SwitchBlock::SwitchBlock(float x, float y) : Item(x,y)
 {
 	this->type = BUTTON;
-<<<<<<< Updated upstream
-	SetBBox(16, 16);
-	CurAnimation = animationsSets->Get(BUTTON)->Get(BLOCK_STATIC);
-=======
+
 	SetBBox(UNIT_GAME, UNIT_GAME);
 	animation_set = animationsSets->Get(BUTTON);
 	CurAnimation = animation_set->Get(BLOCK_STATIC);
->>>>>>> Stashed changes
 	isChange = false;
 }
 void SwitchBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

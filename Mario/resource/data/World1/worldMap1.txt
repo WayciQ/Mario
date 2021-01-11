@@ -649,24 +649,16 @@
 
 #id	link	sizecell	paddingleft	paddingTop	R	G	B(background)
 [MAPS]
-<<<<<<< Updated upstream
 1	resource\data\World1\world1_map.txt	16	24	36	0	0	0
-=======
-1	resource\data\World1\world1_map.txt	16	24	0	0	0	0
->>>>>>> Stashed changes
-
 [OBJECTS]
 # tag	x	y	type	extra_settings per object type
 # MARIO
-<<<<<<< Updated upstream
 0	16	32	-1
 # GROUND
-
 4	-1	0	11	1	160
 4	224	0	11	1	160
 4	0	160	11	224	1
 4	0	-2	11	224	1
-
 4	0	0	11	47	31
 4	0	48	11	48	96
 4	65	17	11	46	46
