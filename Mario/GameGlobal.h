@@ -231,6 +231,8 @@ extern enum TYPE {
 	CARD_HUB,
 	BOOMERANG,
 	NUMBER_SCENE,
+	BLOCK_MOVE,
+	BOOMERRANG_ENEMY,
 };
 extern enum TAG
 {

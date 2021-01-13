@@ -5,7 +5,7 @@
 Card::Card() {
 	getCard = 0;
 
-	SetBBox(3* UNIT_GAME, 3 * UNIT_GAME);
+	SetBBox(2 * UNIT_GAME, 2 * UNIT_GAME);
 	this->type = CARD;
 	timeChange = GetTickCount();
 	animation_set = animationsSets->Get(type);

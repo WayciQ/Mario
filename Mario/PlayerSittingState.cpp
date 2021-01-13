@@ -32,7 +32,6 @@ void PlayerSittingState::HandleKeyBoard()
 	
 			if (keyCode[DIK_LEFT])
 			{
-				
 				player->nx = -1;
 				player->ChangeState(new PlayerWalkingState());
 			}

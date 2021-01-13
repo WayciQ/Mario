@@ -1,10 +1,13 @@
 #include "BlockMove.h"
-BlockMove::BlockMove(float w, float h) {
+#define BLOCK_WIDTH 144
+#define BLOCK_HEIGHT 48
+BlockMove::BlockMove() {
 	tag = GROUND;
-	type = GROUND_LAND;
+	type = BLOCK_MOVE;
 	animation_set = animationsSets->Get(type);
-	SetBBox(w, h);
-	//vx = -0.2f;
+	ChangeAnimation(BLOCK_STATIC);
+	SetBBox(BLOCK_WIDTH, BLOCK_HEIGHT);
+	vx = -0.1f;
 	vy = 0;
 }
 
@@ -15,7 +18,7 @@ void BlockMove::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	y += dy;
 	if (isDead) {
 		vx = 0;
-		vy += WORLD_GRAVITY * dt;
+		vy += WORLD_GRAVITY/2 * dt;
 	}
 }
 void BlockMove::GetBoundingBox(float& l, float& t, float& r, float& b) {
@@ -23,9 +26,4 @@ void BlockMove::GetBoundingBox(float& l, float& t, float& r, float& b) {
 	t = y;
 	r = x + widthBBox;
 	b = y + heightBBox;
-}
-
-void BlockMove::Render()
-{
-	RenderBoundingBox();
 }

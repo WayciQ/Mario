@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Mario.h"
+#include "LimitAutoCameraState.h"
 Camera* Camera::__instance = NULL;
 
 Camera* Camera::GetInstance()
@@ -32,19 +33,18 @@ RECT Camera::GetBBox()
 
 void Camera::Update(DWORD dt)
 {
-	
 		switch (typeMove)
 		{
 		case 1:
 			if(cam_x <= maxRightCam)
-				cam_x += 0.5;
+				cam_x += 1.5;
 			if (player->x < cam_x) {
-				player->x = cam_x ;
+				player->ChangeState(new LimitAutoCameraState());
 			}
 
-			if (player->x > cam_x + GetWidth() - 32)
+			if (player->x > cam_x + GetWidth() - 96)
 			{
-				player->x = cam_x + width - 32;
+				player->ChangeState(new LimitAutoCameraState());
 			}
 			break;
 		case -1:

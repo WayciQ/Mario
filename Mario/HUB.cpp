@@ -82,7 +82,7 @@ void HUB::Update(float dt)
 void HUB::Render()
 {
 	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_TEX_HUB);
-	Game::GetInstance()->Draw(POS_X, POS_Y - map->padding_top, bbox, 0, 0, camera->GetWidth(), 192, 255);
+	Game::GetInstance()->Draw(POS_X, POS_Y - map->padding_top, bbox, 0, 0, camera->GetWidth(), 256, 255);
 	
 	hub->Draw(POS_X, POS_Y - map->padding_top);
 	Item1->Render(POS_I1, POS_Y - map->padding_top);

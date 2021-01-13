@@ -3,6 +3,7 @@
 #include "BrickCloud.h"
 #include "BrickNormal.h"
 #include "BrickQuestion.h"
+#include "BlockMove.h"
 #include "Card.h"
 class Bricks
 {
@@ -28,6 +29,8 @@ public:
 		case CARD:
 			return new Card();
 			break;
+		case BLOCK_MOVE:
+			return new BlockMove();
 		default:
 			return NULL;
 			break;

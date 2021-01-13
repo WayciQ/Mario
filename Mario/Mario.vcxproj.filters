@@ -288,6 +288,7 @@
     <ClCompile Include="Effect.cpp">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="LimitAutoCameraState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -524,6 +525,7 @@
     <ClInclude Include="Enemies.h">
       <Filter>Framework\GameObjects\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="LimitAutoCameraState.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">

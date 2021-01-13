@@ -35,29 +35,7 @@ Mario::Mario() {
 	gravity = WORLD_GRAVITY;
 	infor = new Information();
 }
-void Mario::CollisionAtCreate(LPGAMEOBJECT obj)
-{
-	if (obj->tag == ITEM) {
-		switch (obj->type)
-		{
-		case LEAF:
-				ChangeState(new PlayerChangeLevelState(false, RACCOON));
-			break;
-		case COIN:
-			infor->ScoreEarn(100);
-			infor->MoneyEarn(1);
-			break;
-		case RED_MUSHROOM:
-			x += 4;
-			ChangeState(new PlayerChangeLevelState(false));
-			break;
-		case GREEN_MUSHROOM:
-			infor->LifeEarn(1);
-			break;
-		}
-		obj->isDead = true;
-	}
-}
+
 
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -68,7 +46,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += gravity * dt;
 	
 	//DebugOut(L"state: %d\n", player->GetState());
-	if(y > currentLocationY + 5 && Allow[FALLING])
+	if(y > currentLocationY + 15 && Allow[FALLING])
 	{
 		Allow[FALLING] = false;
 		ChangeState(new PlayerFallingState());
@@ -146,7 +124,29 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
-
+void Mario::CollisionAtCreate(LPGAMEOBJECT obj)
+{
+	if (obj->tag == ITEM) {
+		switch (obj->type)
+		{
+		case LEAF:
+			ChangeState(new PlayerChangeLevelState(false, RACCOON));
+			break;
+		case COIN:
+			infor->ScoreEarn(100);
+			infor->MoneyEarn(1);
+			break;
+		case RED_MUSHROOM:
+			x += 4;
+			ChangeState(new PlayerChangeLevelState(false));
+			break;
+		case GREEN_MUSHROOM:
+			infor->LifeEarn(1);
+			break;
+		}
+		obj->isDead = true;
+	}
+}
 void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 {
 	if (e->ny == -1)
@@ -332,7 +332,10 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 			vx = 0;
 		}
 		break;
-	
+	case BLOCK_MOVE:
+		if (e->ny == -1) {
+			e->obj->isDead = true;
+		}
 	}
 	
 	if (dynamic_cast<Card*>(e->obj)) {
