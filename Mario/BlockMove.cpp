@@ -5,7 +5,8 @@ BlockMove::BlockMove() {
 	tag = GROUND;
 	type = BLOCK_MOVE;
 	animation_set = animationsSets->Get(type);
-	ChangeAnimation(BLOCK_STATIC);
+	ChangeAnimation(BLOCK_HITTED);
+	CurAnimation = animation_set->Get(BLOCK_HITTED);
 	SetBBox(BLOCK_WIDTH, BLOCK_HEIGHT);
 	vx = -0.1f;
 	vy = 0;
@@ -18,7 +19,7 @@ void BlockMove::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	y += dy;
 	if (isDead) {
 		vx = 0;
-		vy += WORLD_GRAVITY/2 * dt;
+		vy += WORLD_GRAVITY/3 * dt;
 	}
 }
 void BlockMove::GetBoundingBox(float& l, float& t, float& r, float& b) {

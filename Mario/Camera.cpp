@@ -37,14 +37,14 @@ void Camera::Update(DWORD dt)
 		{
 		case 1:
 			if(cam_x <= maxRightCam)
-				cam_x += 1.5;
+				cam_x += 2.2;
 			if (player->x < cam_x) {
 				player->ChangeState(new LimitAutoCameraState());
 			}
 
-			if (player->x > cam_x + GetWidth() - 96)
+			if (player->x > cam_x + GetWidth() - 48)
 			{
-				player->ChangeState(new LimitAutoCameraState());
+				player->x = cam_x + GetWidth() - 48;
 			}
 			break;
 		case -1:

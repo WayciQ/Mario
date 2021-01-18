@@ -3,6 +3,7 @@
 PlayerWorlMapState::PlayerWorlMapState(int move)
 {
 	player->gravity = 0;
+	player->Allow[FALLING] = false;
 	player->vx = 0;
 	player->vy = 0;
 	this->move = move;

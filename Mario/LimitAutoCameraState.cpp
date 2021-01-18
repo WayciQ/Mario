@@ -29,10 +29,10 @@ void LimitAutoCameraState::Update(DWORD dt)
 	if (player->x < camera->cam_x) {
 		player->x = camera->cam_x;
 	}
-	if (player->x > camera->cam_x + camera->GetWidth() - 32)
+	/*if (player->x > camera->cam_x + camera->GetWidth() - 32)
 	{
-		player->x = camera->cam_x + camera->GetWidth() - 32;
-	}
+		player->x = camera->cam_x + camera->GetWidth() - 48;
+	}*/
 }
 
 void LimitAutoCameraState::Render()

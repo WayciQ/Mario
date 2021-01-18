@@ -311,14 +311,19 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		}
 		break;
 	case BLOCK_BREAKABLE:
+		if (e->nx != 0) {
+			vx = 0;
+		}
 		if (e->ny == 1)
 		{
 			vy = 0;
 			e->obj->startTimeDead();
 			infor->ScoreEarn(20);
 		}
-		if (e->nx != 0) {
-			vx = 0;
+		if (e->ny == -1) {
+			if (e->nx != 0) {
+				x += dx;
+			}
 		}
 		break;
 	case BUTTON:

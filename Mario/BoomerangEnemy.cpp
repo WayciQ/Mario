@@ -4,7 +4,8 @@ BoomerangEnemy::BoomerangEnemy() {
 }
 
 void BoomerangEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-
+	GameObject::Update(dt);
+	
 }
 
 void BoomerangEnemy::Revival()
