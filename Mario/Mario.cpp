@@ -361,6 +361,7 @@ void Mario::UpdateWithGate(LPCOLLISIONEVENT e)
 
 			Portal* p = dynamic_cast<Portal*>(e->obj);
 			infor->SetSceneId(p->GetSceneId());
+			infor->SetCurSceneId(p->GetSceneId());
 			IsTouchPort = true;
 			x = e->obj->x;
 			y = e->obj->y;
@@ -528,7 +529,7 @@ void Mario::ChangeState(PlayerState* newState)
 
 void Mario::OnKeyDown(int key)
 {
-	if (typeScene != PLAYER_IN_WORLD_MAP)
+	if (WorldMapScene != PLAYER_IN_WORLD_MAP)
 	{
 		switch (key)
 		{
@@ -792,7 +793,7 @@ void Mario::OnKeyDown(int key)
 	}
 }
 void Mario::OnKeyUp(int key) {
-	if (typeScene != PLAYER_IN_WORLD_MAP)
+	if (WorldMapScene != PLAYER_IN_WORLD_MAP)
 	{
 		switch (key)
 		{
@@ -843,12 +844,12 @@ void Mario::Revival(float x, float y, int isInScene)
 		gravity = WORLD_GRAVITY;
 		nx = 1;
 		ChangeState(new PlayerStandingState());
-		typeScene = level;
+		WorldMapScene = level;
 	}
 	else
 	{
 		ChangeState(new PlayerWorlMapState(0));
-		typeScene = PLAYER_IN_WORLD_MAP;
+		WorldMapScene = PLAYER_IN_WORLD_MAP;
 	}
 	SetPosition(x, y);
 	SetSpeed(0, 0);

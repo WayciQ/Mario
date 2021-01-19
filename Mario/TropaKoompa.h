@@ -4,11 +4,11 @@ class TropaKoompa : public Koompa
 {
 	bool jumped;
 public:
-	TropaKoompa();
+	TropaKoompa(STATEOBJECT object);
 	~TropaKoompa(){}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void SetState(STATEOBJECT state);
-	void Revival();
+	void Revival(STATEOBJECT object);
 
 };
 

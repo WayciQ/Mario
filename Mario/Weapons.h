@@ -1,6 +1,7 @@
 #pragma once
 #include "Whip.h"
 #include "Fire.h"
+#include "BoomerangWeapon.h"
 class Weapons
 {
 public:
@@ -15,6 +16,9 @@ public:
 			break;
 		case WHIP:
 			return new Whip();
+			break;
+		case BOOMERRANG_WEAPON:
+			//return BoomerangWeapon(x,y);
 			break;
 		default:
 			return NULL;

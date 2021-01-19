@@ -195,7 +195,12 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		grid->LoadObjects(obj,x,y);
 		break;
 	case ENEMY:
-		obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+		if(type != TROPA_KOOMPA || type != PARA_KOOMPA)
+			obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+		else {
+			STATEOBJECT state = static_cast<STATEOBJECT>(atof(tokens[4].c_str()));
+			obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()), state);
+		}
 		grid->LoadObjects(obj,x,y);
 		//listEnemyObject.push_back(obj);
 		break;
@@ -227,7 +232,6 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			Portal* portal = new Portal((int)atof(tokens[4].c_str()),
 				(int)atof(tokens[5].c_str()),
 				(int)atof(tokens[6].c_str()));
-
 			listPortal[(int)atof(tokens[4].c_str())] = portal;
 			grid->AddStaticObject(portal, x, y);
 			break;

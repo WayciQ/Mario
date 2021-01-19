@@ -1,7 +1,7 @@
 #include "TropaKoompa.h"
 #include "Mario.h"
 #include "PlayerKickState.h"
-TropaKoompa::TropaKoompa() : Koompa()
+TropaKoompa::TropaKoompa(STATEOBJECT object) : Koompa()
 {
 	this->type = TROPA_KOOMPA;
 	animation_set = animationsSets->Get(type);
@@ -10,7 +10,7 @@ TropaKoompa::TropaKoompa() : Koompa()
 	isDead = false;
 	canRespawn = false;
 	isKicked = false;
-	SetState(ENEMY_JUMPING_LEFT);
+	SetState(object);
 }
 void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -123,7 +123,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (!jumped && !isFlip)
 			{
 				jumped = true;
-				Revival();
+				Revival(ENEMY_WALKING_LEFT);
 				return;
 			}
 			if (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL - 2000)
@@ -144,7 +144,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				player->canPicking = false;
 				player->isPicking = false;
 				TimeDead = 0;
-				Revival();
+				Revival(ENEMY_WALKING_LEFT);
 			}
 			
 
@@ -229,7 +229,7 @@ void TropaKoompa::SetState(STATEOBJECT state)
 		break;
 	}
 }
-void TropaKoompa::Revival()
+void TropaKoompa::Revival(STATEOBJECT object)
 {
 	y -=60;
 	nx = 1;
@@ -237,5 +237,5 @@ void TropaKoompa::Revival()
 	canRespawn = false;
 	isKicked = false;
 	jumped = true;
-	SetState(ENEMY_WALKING_LEFT);
+	SetState(object);
 }

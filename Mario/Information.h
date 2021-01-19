@@ -14,6 +14,7 @@ private:
 	int countCard;
 	int scene_id;
 	int gate_id;
+	int curScene_id;
 public:
 	Information() {
 		world_id = 1;
@@ -23,6 +24,7 @@ public:
 		life = 4;
 		card_1 = card_2 = card_3 = CARD_EMPTY;
 		countCard = 0;
+		curScene_id = 0;
 		scene_id = 0;
 		gate_id = 0;
 	}
@@ -30,6 +32,8 @@ public:
 	void SetWorldId(int id) { world_id = id; }
 	int GetSceneId() { return scene_id; }
 	void SetSceneId(int id) { scene_id = id; }
+	int GetCurSceneId() { return curScene_id; }
+	void SetCurSceneId(int id) { curScene_id = id; }
 	int GetGateId() { return gate_id; }
 	void SetGateId(int id) { gate_id = id; }
 	int GetGameTime() { return timeGame; }

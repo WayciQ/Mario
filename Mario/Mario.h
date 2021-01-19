@@ -9,14 +9,13 @@ public:
 	float currentLocationY;
 	PlayerState* state;
 	TYPE level;
-	TYPE typeScene;
+	TYPE WorldMapScene;
 	float  gravity;
 	bool untouchable;
 	DWORD untouchableTime,FreezeTime;
 	float speedJump;
 	int stateBoundingBox;
 	int alpha, beta;
-
 	bool isShooting;
 	bool canShoot;
 	int countShoot;
@@ -51,7 +50,6 @@ public:
 
 	bool IsChangeTrigger;
 	bool IsChangeScene;
-	int scene_id = 1;
 	int gateScene;
 
 	bool IsTouchTrigger;

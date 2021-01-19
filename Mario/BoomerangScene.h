@@ -8,8 +8,8 @@ public:
 	BoomerangScene() {
 		tag = ENEMY;
 		SetBBox(16, 16);
-		type = BOOMERANG;
-		CurAnimation = animationsSets->Get(BOOMERANG)->Get(ENEMY_WALKING_RIGHT);
+		type = BOOMERANG_SCENE;
+		CurAnimation = animationsSets->Get(BOOMERANG_SCENE)->Get(ENEMY_WALKING_RIGHT);
 		vx = 0.02f;
 	}
 	~BoomerangScene() {}
@@ -34,11 +34,11 @@ public:
 	void UpdatePosition(DWORD dt) {
 		if (x < maxLeft) {
 			vx = 0.02f;
-			CurAnimation = animationsSets->Get(BOOMERANG)->Get(ENEMY_WALKING_RIGHT);
+			CurAnimation = animationsSets->Get(BOOMERANG_SCENE)->Get(ENEMY_WALKING_RIGHT);
 		}
 		else if(x > maxRight){
 		vx = -0.02f;
-		CurAnimation = animationsSets->Get(BOOMERANG)->Get(ENEMY_WALKING_LEFT);
+		CurAnimation = animationsSets->Get(BOOMERANG_SCENE)->Get(ENEMY_WALKING_LEFT);
 		}
 		x += dx;
 		GameObject::Update(dt);

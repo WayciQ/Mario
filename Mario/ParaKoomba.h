@@ -3,10 +3,10 @@
 class ParaKoompa : public Koompa
 {	
 public:
-	ParaKoompa();
+	ParaKoompa(STATEOBJECT object);
 	~ParaKoompa() {};
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void SetState(STATEOBJECT state);
-	void Revival();
+	void Revival(STATEOBJECT object);
 };
 

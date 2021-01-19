@@ -64,7 +64,7 @@ void Koompa::UpdatePosition(DWORD dt)
 }
 void Koompa::UpdateLocation()
 {
-	if (x > maxRight - widthBBox - 15) {
+	if (x > maxRight - widthBBox -  10) {
 		SetState(ENEMY_WALKING_LEFT);
 	}
 	else if (x < maxLeft) {

@@ -288,7 +288,9 @@
     <ClCompile Include="Effect.cpp">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="LimitAutoCameraState.cpp" />
+    <ClCompile Include="LimitAutoCameraState.cpp">
+      <Filter>Framework\GameObjects\Player\state\SceneState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -525,7 +527,9 @@
     <ClInclude Include="Enemies.h">
       <Filter>Framework\GameObjects\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="LimitAutoCameraState.h" />
+    <ClInclude Include="LimitAutoCameraState.h">
+      <Filter>Framework\GameObjects\Player\state\SceneState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">
@@ -554,6 +558,9 @@
     </Text>
     <Text Include="resource\data\IntroScene-map.txt">
       <Filter>Framework\resources\data</Filter>
+    </Text>
+    <Text Include="resource\data\World1\map-test.txt">
+      <Filter>Framework\resources\data\World1</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

@@ -5,8 +5,7 @@ BlockMove::BlockMove() {
 	tag = GROUND;
 	type = BLOCK_MOVE;
 	animation_set = animationsSets->Get(type);
-	ChangeAnimation(BLOCK_HITTED);
-	CurAnimation = animation_set->Get(BLOCK_HITTED);
+	ChangeAnimation(BLOCK_STATIC);
 	SetBBox(BLOCK_WIDTH, BLOCK_HEIGHT);
 	vx = -0.1f;
 	vy = 0;
@@ -27,4 +26,10 @@ void BlockMove::GetBoundingBox(float& l, float& t, float& r, float& b) {
 	t = y;
 	r = x + widthBBox;
 	b = y + heightBBox;
+}
+
+void BlockMove::Render()
+{
+	CurAnimation->Render(x, y);
+	RenderBoundingBox();
 }

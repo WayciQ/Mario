@@ -295,6 +295,7 @@
     <Text Include="resource\data\IntroScene-map.txt" />
     <Text Include="resource\data\IntroScene.txt" />
     <Text Include="resource\data\mario-scene.txt" />
+    <Text Include="resource\data\World1\map-test.txt" />
     <Text Include="resource\data\World1\world1-scene1.txt" />
     <Text Include="resource\data\World1\world1-scene1_map.txt" />
     <Text Include="resource\data\World1\world1-scene4.txt" />

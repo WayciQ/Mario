@@ -5,20 +5,21 @@
 #include "PiranhaPlant.h"
 #include "BasGoomba.h"
 #include "BoomerangScene.h"
+#include "BoomerangEnemy.h"
 class Enemies
 {
 public:
 	Enemies() {};
 	~Enemies() {};
-	static Enemy* CreateEnemy(TYPE type, float x = 0, float y = 0)
+	static Enemy* CreateEnemy(TYPE type, float x = 0, float y = 0, STATEOBJECT state = ENEMY_WALKING_LEFT)
 	{
 		switch (type)
 		{
 		case PARA_KOOMPA:
-			return new ParaKoompa();
+			return new ParaKoompa(state);
 			break;
 		case TROPA_KOOMPA:
-			return new TropaKoompa();
+			return new TropaKoompa(state);
 			break;
 		case PARA_GOOMBA:
 			return new ParaGoomba();
@@ -35,9 +36,13 @@ public:
 		case PIRANHA_PLANT:
 			return new PiranhaPlant(type, x, y);
 			break;
-		case BOOMERANG:
+		case BOOMERRANG_ENEMY:
+			return new BoomerangEnemy();
+			break;
+		case BOOMERANG_SCENE:
 			return new BoomerangScene();
 			break;
+		
 		default:
 			return NULL;
 			break;
