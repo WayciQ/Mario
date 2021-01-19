@@ -11,15 +11,16 @@ public:
 	{
 		switch (type)
 		{
+		case BOOMERRANG_WEAPON:
+			return new BoomerangWeapon(x, y);
+			break;
 		case FIRE_FIRE:
 			return new Fire(nx, ny, x, y, tag);
 			break;
 		case WHIP:
 			return new Whip();
 			break;
-		case BOOMERRANG_WEAPON:
-			//return BoomerangWeapon(x,y);
-			break;
+		
 		default:
 			return NULL;
 			break;

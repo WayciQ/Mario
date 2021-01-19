@@ -1,7 +1,6 @@
 #include "BoomerangWeapon.h"
 BoomerangWeapon::BoomerangWeapon(float x, float y)
 {
-	this->tag = WEAPON;
 	this->type = BOOMERRANG_WEAPON;
 	animation_set = animationsSets->Get(type);
 	SetBBox(UNIT_GAME, UNIT_GAME);

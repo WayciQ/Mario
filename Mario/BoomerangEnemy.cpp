@@ -13,7 +13,7 @@ void BoomerangEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	GameObject::Update(dt);
 
 	if (GetTickCount() - TimeToMove > 1000) {
-		DebugOut(L"%d\n",nx);
+	//DebugOut(L"%d\n",nx);
 		nx = -nx;
 		TimeToMove = GetTickCount();
 	}
@@ -25,7 +25,7 @@ void BoomerangEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		SetState(ENEMY_WALKING_LEFT);
 	}
 	if (GetTickCount() - TimeToThrow > 3000) {
-		CanThrow = CanThrow ? false : true;
+		CanThrow = CanThrow == true ? false : true;
 		TimeToThrow = GetTickCount();
 	}
 	if (CanThrow) {

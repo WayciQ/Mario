@@ -509,9 +509,6 @@
     <ClInclude Include="BoomerangEnemy.h">
       <Filter>Framework\GameObjects\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="BoomerangWeapon.h">
-      <Filter>Framework\GameObjects\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Effects.h">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
@@ -529,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="LimitAutoCameraState.h">
       <Filter>Framework\GameObjects\Player\state\SceneState</Filter>
+    </ClInclude>
+    <ClInclude Include="BoomerangWeapon.h">
+      <Filter>Framework\GameObjects\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

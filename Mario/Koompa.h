@@ -21,5 +21,6 @@ public:
 	virtual void Revival() {};
 	virtual void SetState(STATEOBJECT state);
 	virtual void Render() { Enemy::Render(); };
+	virtual void UpdateStateFly(DWORD dt) {};
 };
 

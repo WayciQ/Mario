@@ -15,6 +15,12 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (canRespawn)
 		{
+			if (!isJumped && !isFlip)
+			{
+				isJumped = true;
+				Revival(ENEMY_WALKING_LEFT);
+				return;
+			}
 			if (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL - 2000)
 			{
 
@@ -35,8 +41,6 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				TimeDead = 0;
 				Revival(ENEMY_WALKING_RIGHT);
 			}
-
-
 		}
 		else {
 			if (isKicked)
@@ -88,9 +92,19 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	else {
-		UpdateLocation();
+		if(!isFlying)
+			UpdateLocation();
 	}
-	vy += WORLD_GRAVITY * dt;
+	
+
+
+	if (isFlying) {
+		UpdateStateFly(dt);
+	}
+	else {
+		vy += WORLD_GRAVITY * dt;
+	}
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -177,8 +191,6 @@ void ParaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
-	
 }
 
 void ParaKoompa::SetState(STATEOBJECT state)
@@ -187,12 +199,30 @@ void ParaKoompa::SetState(STATEOBJECT state)
 	switch (state)
 	{
 	case ENEMY_WALKING_RIGHT:
+		isJumped = true;
+		isFlying = false;
 		nx = 1;
 		vx = KOOMPA_WALKING_SPEED;
 		break;
 	case ENEMY_WALKING_LEFT:
+		isJumped = true;
+		isFlying = false;
 		nx = -1;
 		vx = -KOOMPA_WALKING_SPEED;
+		break;
+	case ENEMY_FLYING_LEFT:
+		isJumped = false;
+		isFlying = true;
+		nx = -1;
+		vx = 0;
+		vy = 0;
+		break;
+	case ENEMY_FLYING_RIGHT:
+		isFlying = true;
+		isJumped = false;
+		nx = -1;
+		vx = 0;
+		vy = 0;
 		break;
 	}
 }
@@ -200,8 +230,29 @@ void ParaKoompa::Revival(STATEOBJECT object)
 {
 	nx = -1;
 	y -= 60;
+	FlyUp = true;
 	isDead = false;
 	canRespawn = false;
 	isKicked = false;
+	isJumped = true;
+	isFlying = false;
 	SetState(object);
+}
+
+void ParaKoompa::UpdateStateFly(DWORD dt)
+{
+	if (GetTickCount() - TimeFly >= 1000) {
+		FlyUp = FlyUp == true ? false : true;
+		vy = 0;
+		TimeFly = GetTickCount();
+	}
+
+	if (FlyUp) {
+		DebugOut(L"len: %f\n", vy);
+		vy += -WORLD_GRAVITY / 8 * dt;
+	}
+	else {
+		DebugOut(L"xuong: %f\n", vy);
+		vy += WORLD_GRAVITY / 8 * dt;
+	}
 }

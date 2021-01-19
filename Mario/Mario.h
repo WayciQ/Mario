@@ -6,6 +6,8 @@ class Mario : public GameObject
 private:
 	static Mario* __instance;
 public:
+
+	bool immortal;
 	float currentLocationY;
 	PlayerState* state;
 	TYPE level;

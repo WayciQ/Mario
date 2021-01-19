@@ -34,6 +34,7 @@ Mario::Mario() {
 	level = SMALL;
 	gravity = WORLD_GRAVITY;
 	infor = new Information();
+	immortal = false;
 }
 
 
@@ -156,7 +157,9 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 		{
 			if (e->obj->typeParent == PLANT || e->obj->tagChange == WEAPON)
 			{
-				ChangeState(new PlayerChangeLevelState(true));
+				if (!immortal) {
+					ChangeState(new PlayerChangeLevelState(true));
+				}
 			}
 			else {
 				e->obj->vx = 0;
@@ -208,21 +211,26 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 		
 		if (!e->obj->isDead) {
 			//vy = -MARIO_JUMP_DEFLECT_SPEED;
-			ChangeState(new PlayerChangeLevelState(true));
+			if (!immortal) {
+				ChangeState(new PlayerChangeLevelState(true));
+			}
 		}
 	}
 	if (e->nx != 0)
 	{
 		x += dx;
 		if (!e->obj->isDead) {
-			ChangeState(new PlayerChangeLevelState(true));
+			if (!immortal) {
+				ChangeState(new PlayerChangeLevelState(true));
+			}
 		}
 		else {
 			if (e->obj->typeParent == KOOMPA)
 			{
 				if (e->obj->isKicked && e->obj->vx != 0)
 				{
-					ChangeState(new PlayerChangeLevelState(true));
+					if (!immortal)
+						ChangeState(new PlayerChangeLevelState(true));
 				}
 				if (canPicking) {
 					isPicking = true;
@@ -284,7 +292,6 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		Allow[FALLING] = true;
 		currentLocationY = y;
 	}
-	
 	switch (e->obj->type)
 	{
 	case GROUND_BOX:
@@ -330,6 +337,7 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		if (e->ny == -1) {
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			e->obj->startTimeDead();
+			vy = 0;
 		}
 		break;
 	case GROUND_LAND:
@@ -760,6 +768,16 @@ void Mario::OnKeyDown(int key)
 		{
 			player->ChangeState(new PlayerChangeLevelState(true));
 			break;
+		}
+		case DIK_I:
+		{
+			immortal = immortal ? false : true;
+			if (immortal) {
+				DebugOut(L"immortal mode\n");
+			}
+			else {
+				DebugOut(L"normal mode\n");
+			}
 		}
 		break;
 		}

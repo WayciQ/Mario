@@ -156,7 +156,8 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
-	int type = atof(tokens[3].c_str());
+	int object_TYPE = atof(tokens[3].c_str());
+	TYPE type = static_cast<TYPE>(object_TYPE);
 	// General object setup
 	GameObject* obj = NULL;
 
@@ -191,21 +192,22 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
 			break;
 		}
-		
 		grid->LoadObjects(obj,x,y);
 		break;
 	case ENEMY:
-		if(type != TROPA_KOOMPA || type != PARA_KOOMPA)
-			obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
-		else {
+		if (type == PARA_KOOMPA || type == TROPA_KOOMPA) {
 			STATEOBJECT state = static_cast<STATEOBJECT>(atof(tokens[4].c_str()));
-			obj = Enemies::CreateEnemy(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()), state);
+			obj = Enemies::CreateEnemy(type, (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()), state);
+		}
+		else {
+			obj = Enemies::CreateEnemy(type, (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+			
 		}
 		grid->LoadObjects(obj,x,y);
 		//listEnemyObject.push_back(obj);
 		break;
 	case ITEM:
-		obj = Items::CreateItem(static_cast<TYPE>(type), (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+		obj = Items::CreateItem(type, (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
 		grid->AddStaticObject(obj, x, y);
 		break;
 	case BOX:
