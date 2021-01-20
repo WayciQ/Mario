@@ -248,11 +248,11 @@ void ParaKoompa::UpdateStateFly(DWORD dt)
 	}
 
 	if (FlyUp) {
-		DebugOut(L"len: %f\n", vy);
+		//DebugOut(L"len: %f\n", vy);
 		vy += -WORLD_GRAVITY / 8 * dt;
 	}
 	else {
-		DebugOut(L"xuong: %f\n", vy);
+		//DebugOut(L"xuong: %f\n", vy);
 		vy += WORLD_GRAVITY / 8 * dt;
 	}
 }

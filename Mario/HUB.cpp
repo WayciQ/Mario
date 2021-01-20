@@ -38,13 +38,14 @@ HUB::HUB() {
 	
 
 	auto sprites = Sprites::GetInstance();
+	auto animation = Animations::GetInstance();
 	hub = sprites->Get(90000);
 	Item1 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
 	Item2 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
 	Item3 = animationsSets->Get(CARD)->Get(CARD_EMPTY);
 	typePlayer = sprites->Get(92001);
 	speed = sprites->Get(91001);
-	push = sprites->Get(91002);
+	push = animation->Get(91002);
 }
 void HUB::Init()
 {
@@ -70,7 +71,7 @@ void HUB::Update(float dt)
 	float vx,vy;
 	player->GetSpeed(vx, vy);
 	if (player->isRunning)
-		NumSpeed = NumSpeed > 6 ? 6 : abs(int(vx/ 0.09));
+		NumSpeed = NumSpeed > 6 ? 6 : abs(int(vx/ 0.08));
 	else NumSpeed = 0;
 
 	information = scene + "                                 " + money + "\n";
@@ -91,13 +92,12 @@ void HUB::Render()
 	typePlayer->Draw(POS_X + 12, POS_Y + 45 - map->padding_top);
 	for(int i = 0; i < NumSpeed; i++)
 	{
-		speed->Draw(POS_X + 159 + (i*24), POS_Y + 21 - map->padding_top);
+		speed->Draw(POS_X + 156 + (i*24), POS_Y + 21 - map->padding_top);
 	}
-	isDrawPush = isDrawPush ? false : true;
 
-	if (NumSpeed >= 6 && isDrawPush)
+	if (NumSpeed >= 6)
 	{
-		push->Draw(POS_X + 300, POS_Y + 21 - map->padding_top);
+		push->Render(POS_X + 300, POS_Y + 21 - map->padding_top);
 	}
 
 	LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();

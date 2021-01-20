@@ -11,6 +11,7 @@ PlayerFallingState::PlayerFallingState()
 	player->Allow[JUMPING] = false;
 	player->isJumpDone = true;
 	//player->isFalling = true;
+	player->isOnSky = true;
 	switch (player->level)
 	{
 	case SMALL:
@@ -39,6 +40,7 @@ PlayerFallingState::PlayerFallingState()
 	{
 		if (player->isFlying)
 		{
+			player->Allow[RACCON_WHIPING_FLY] = false;
 			if (player->nx > 0)
 				stateName = FLYING_FALL_RIGHT;
 			else
@@ -67,6 +69,7 @@ void PlayerFallingState::Update(DWORD dt)
 	if (!player->isOnSky)
 	{
 		if (player->vy == 0) {
+			
 			player->ChangeState(new PlayerStandingState());
 		}
 	}
@@ -91,15 +94,15 @@ void PlayerFallingState::HandleKeyBoard()
 			player->ChangeState(new PlayerFlyingState());
 		}
 	}
-	else if (keyCode[DIK_RIGHT])
+	else if (keyCode[DIK_RIGHT] && player->isOnSky)
 	{
-		player->vx = player->vx <= MARIO_WALKING_SPEED? MARIO_WALKING_SPEED : player->vx;
+		player->vx = player->vx > MARIO_WALKING_SPEED ? MARIO_WALKING_SPEED : player->vx + MARIO_INERTIA_WALKING;
 		player->nx = 1;
 		player->ChangeState(new PlayerFallingState());
 	}
-	else if (keyCode[DIK_LEFT])
+	else if (keyCode[DIK_LEFT] && player->isOnSky )
 	{
-		player->vx = player->vx >= MARIO_WALKING_SPEED? MARIO_WALKING_SPEED : player->vx;
+		player->vx = player->vx < -MARIO_WALKING_SPEED ? -MARIO_WALKING_SPEED : player->vx - MARIO_INERTIA_WALKING;
 		player->nx = -1;
 		player->ChangeState(new PlayerFallingState());
 	}

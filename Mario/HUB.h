@@ -14,7 +14,7 @@ class HUB
 	LPSPRITE hub;
 	LPSPRITE speed;
 	int NumSpeed;
-	LPSPRITE push;
+	Animation* push;
 	bool isDrawPush;
 public:
 	

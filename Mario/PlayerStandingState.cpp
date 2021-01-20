@@ -11,7 +11,6 @@ PlayerStandingState::PlayerStandingState() {
 	player->Allow[JUMPING] = true; // allow jump in standing state
 	player->Allow[WALKING] = true; // allow walk
 	player->Allow[JUMPING_SHORT] = true;
-	player->Allow[FLYING_PUSH] = false;
 	player->Allow[WHIPPING] = false;
 	player->Allow[SITTING] = true;
 	player->Allow[FIRING_FIRE] = false;
@@ -43,9 +42,8 @@ PlayerStandingState::PlayerStandingState() {
 	player->isSitting = false;
 	player->isJumping = false;
 	player->isShooting = false;
-	player->isFlying = false;
 	player->isFalling = false;
-	player->isOnSky = false;
+	player->isFlying = false;
 	player->freeze = false;
 	// set state by nx
 	if (player->isPicking)
@@ -100,9 +98,6 @@ void PlayerStandingState::Update(DWORD dt)
 			
 		}
 	}
-		
-
-	
 	
 }
 

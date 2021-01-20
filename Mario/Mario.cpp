@@ -35,6 +35,7 @@ Mario::Mario() {
 	gravity = WORLD_GRAVITY;
 	infor = new Information();
 	immortal = false;
+	countShoot = 0;
 }
 
 
@@ -47,6 +48,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += gravity * dt;
 	
 	//DebugOut(L"state: %d\n", player->GetState());
+	DebugOut(L"count: %d\n", countShoot);
 	if(y > currentLocationY + 15 && Allow[FALLING])
 	{
 		Allow[FALLING] = false;
@@ -94,8 +96,8 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 		// block 
-		x += min_tx * dx + nx * 1.2f;
-		//y += min_ty * dy + ny * 0.1f;
+		x += min_tx * dx + nx * 0.8f;
+		//y += min_ty * dy + ny * 0.8f;
 		if (ny == -1) {
 			currentLocationY = y;
 			isOnSky = false;
@@ -275,6 +277,22 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 	case GREEN_MUSHROOM:
 		infor->LifeEarn(1);
 		break;
+	case BUTTON:
+		if (e->nx != 0) {
+			if (isOnSky) {
+				y += dy;
+			}
+			else {
+				//vy = 0;
+			}
+		}
+		if (e->ny == -1) {
+			vy = 0;
+			isJumpDone = true;
+			isOnSky = false;
+			e->obj->startTimeDead();
+		}
+		break;
 	}
 	e->obj->isDead = true;
 	
@@ -305,6 +323,14 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		}
 		break;
 	case BLOCK_QUESTION: 
+		if (e->nx != 0) {
+			if (isOnSky) {
+				y += dy;
+			}
+			else {
+				//vy = 0;
+			}
+		}
 		if (e->ny == 1)
 		{
 			vy = 0;
@@ -313,13 +339,18 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 				infor->MoneyEarn(1);
 			};
 		}
-		if (e->nx != 0) {
-			vx = 0;
+		if (e->ny == -1) {
+			isOnSky = false;
 		}
 		break;
 	case BLOCK_BREAKABLE:
 		if (e->nx != 0) {
-			vx = 0;
+			if (isOnSky) {
+				y += dy;
+			}
+			else {
+				//vy = 0;
+			}
 		}
 		if (e->ny == 1)
 		{
@@ -328,18 +359,10 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 			infor->ScoreEarn(20);
 		}
 		if (e->ny == -1) {
-			if (e->nx != 0) {
-				x += dx;
-			}
+			isOnSky = false;
 		}
 		break;
-	case BUTTON:
-		if (e->ny == -1) {
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			e->obj->startTimeDead();
-			vy = 0;
-		}
-		break;
+	
 	case GROUND_LAND:
 		if (e->nx != 0) {
 			vx = 0;
@@ -601,7 +624,7 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_X:
 		{
-			if (!isOnSky && Allow[FLYING])
+			/*if (!isOnSky && Allow[FLYING])
 			{
 				StartTimeFly();
 				if ((keyCode[DIK_RIGHT]))
@@ -618,7 +641,7 @@ void Mario::OnKeyDown(int key)
 				{
 					ChangeState(new PlayerFlyingState());
 				}
-			}
+			}*/
 			break;
 		}
 		case DIK_A:
@@ -643,7 +666,7 @@ void Mario::OnKeyDown(int key)
 				}
 				break;
 			case FIRE:
-				if (!isShooting && Allow[FIRING_FIRE]) {
+				if (!isShooting && Allow[FIRING_FIRE] && countShoot < 2) {
 					{
 						ChangeState(new PlayerShootingFireState());
 					}

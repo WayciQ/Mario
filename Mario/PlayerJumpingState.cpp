@@ -67,18 +67,18 @@ void PlayerJumpingState::HandleKeyBoard()
 		}
 		else
 		{
-			player->vy = -MARIO_JUMP_SPEED_Y;
+			player->vy = - MARIO_JUMP_SPEED_Y - abs(player->vx / 3);
 		}
 	}
 	else if (keyCode[DIK_RIGHT])
 	{
-		player->vx = MARIO_WALKING_SPEED;
+		player->vx = player->vx > MARIO_WALKING_SPEED ? MARIO_WALKING_SPEED : player->vx + MARIO_INERTIA_WALKING;
 		player->nx = 1;
 		player->ChangeState(new PlayerJumpingState());
 	}
 	else if (keyCode[DIK_LEFT])
 	{
-		player->vx = -MARIO_WALKING_SPEED;
+		player->vx = player->vx < -MARIO_WALKING_SPEED ? -MARIO_WALKING_SPEED : player->vx - MARIO_INERTIA_WALKING;
 		player->nx = -1;
 		player->ChangeState(new PlayerJumpingState());
 	}

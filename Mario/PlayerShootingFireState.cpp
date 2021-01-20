@@ -15,8 +15,9 @@ PlayerShootingFireState::PlayerShootingFireState()
 
 	player->isShooting = true;
 
-	if (player->canShoot)
+	if (player->canShoot )
 	{
+		player->countShoot++;
 		auto w = Weapons::CreateWeapon(FIRE_FIRE, player->nx, player->ny, player->x, player->y,PLAYER);
 		grid->AddMovingObject(w);
 	}
@@ -46,7 +47,7 @@ void PlayerShootingFireState::HandleKeyBoard()
 }
 void PlayerShootingFireState::Update(DWORD dt)
 {
-	if (player->countShoot <= 1 && player->countShoot > 0)
+	/*if (player->countShoot <= 1 && player->countShoot > 0)
 	{
 		player->canShoot = true;
 		player->countShoot++;
@@ -54,8 +55,7 @@ void PlayerShootingFireState::Update(DWORD dt)
 	else
 	{
 		player->canShoot = false;
-	}
-	
+	}*/
 }
 
 void PlayerShootingFireState::Render()

@@ -64,7 +64,12 @@ void PlayerWalkingState::HandleKeyBoard()
 {
 	if (keyCode[DIK_A] && (keyCode[DIK_RIGHT] || keyCode[DIK_LEFT]) && !player->isPicking)
 	{
-		player->ChangeState(new PlayerRunningState());
+		//player->ChangeState(new PlayerRunningState());
+		if (!player->isWalkingComplete)
+		{
+			player->ChangeState(new PlayerRunningState());
+		}
+		else player->ChangeState(new PlayerLastRunState());
 	}
 	else if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT] )
 	{

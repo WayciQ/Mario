@@ -57,19 +57,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	GameObject::Update(dt);
 	UpdatePosititon(dt);
-	if (isDead)
-	{
-		ChangeAnimation(BIGBANG);
-	}
-	if (canRespawn)
-	{
-		if (GetTickCount() - TimeDead > 50)
-		{
-			canDel = true;
-			TimeDead = 0;
-		}
-	}
-
+	
 	if (fireFrom == PLAYER) {
 
 		vy += WORLD_GRAVITY * dt;
@@ -149,6 +137,9 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+		if (isDead) {
+			player->countShoot = player->countShoot <= 0 ? 0 : player->countShoot - 1;
+		}
 	}
 	else {
 		tag = ENEMY;
@@ -157,7 +148,10 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 		y += dy;
 	}
-	
+	if (isDead)
+	{
+		canDel = true;
+	}
 }
 
 void Fire::UpdatePosititon(DWORD dt)
@@ -165,8 +159,7 @@ void Fire::UpdatePosititon(DWORD dt)
 
 	if(x < camera-> cam_x || x > camera->cam_x + camera->GetWidth() ||  y > camera->cam_y + camera->GetHeight())
 	{
-		startTimeDead();
-		CurAnimation = animation_set->Get(BIGBANG);
+		isDead = true;
 	}
 }
 Fire::~Fire()

@@ -174,9 +174,6 @@
     <ClCompile Include="Leaf.cpp">
       <Filter>Framework\GameObjects\Item</Filter>
     </ClCompile>
-    <ClCompile Include="SwitchBlock.cpp">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
-    </ClCompile>
     <ClCompile Include="Mushroom.cpp">
       <Filter>Framework\GameObjects\Item</Filter>
     </ClCompile>
@@ -291,6 +288,9 @@
     <ClCompile Include="LimitAutoCameraState.cpp">
       <Filter>Framework\GameObjects\Player\state\SceneState</Filter>
     </ClCompile>
+    <ClCompile Include="SwitchBlock.cpp">
+      <Filter>Framework\GameObjects\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -385,9 +385,6 @@
     </ClInclude>
     <ClInclude Include="Items.h">
       <Filter>Framework\GameObjects\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="SwitchBlock.h">
-      <Filter>Framework\GameObjects\Ground\Block</Filter>
     </ClInclude>
     <ClInclude Include="Mushroom.h">
       <Filter>Framework\GameObjects\Item</Filter>
@@ -529,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="BoomerangWeapon.h">
       <Filter>Framework\GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchBlock.h">
+      <Filter>Framework\GameObjects\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
