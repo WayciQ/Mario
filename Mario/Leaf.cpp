@@ -10,7 +10,7 @@ Leaf::Leaf(float x, float y) :Item(x, y)
 	SetBBox(UNIT_GAME, UNIT_GAME);
 	CenX = x;
 	CenY = y;
-	CurAnimation = animationsSets->Get(LEAF)->Get(FIRE_FIRE_RIGHT);
+	CurAnimation = animationsSets->Get(LEAF)->Get(WEAPON_SHOOT_RIGHT);
 	isFalling = false;
 }
 void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -38,11 +38,11 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = CenX + LEAF_MOVE * cos(y);
 		if (x <= CenX - 30)
 		{
-			CurAnimation = animationsSets->Get(LEAF)->Get(FIRE_FIRE_LEFT);
+			CurAnimation = animationsSets->Get(LEAF)->Get(WEAPON_SHOOT_LEFT);
 		}
 		else if(x > CenX)
 		{
-			CurAnimation = animationsSets->Get(LEAF)->Get(FIRE_FIRE_RIGHT);
+			CurAnimation = animationsSets->Get(LEAF)->Get(WEAPON_SHOOT_RIGHT);
 		}
 	}
 	

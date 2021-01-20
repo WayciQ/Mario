@@ -224,7 +224,8 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 				(int)atof(tokens[10].c_str()),
 				(int)atof(tokens[11].c_str()),
 				(int)atof(tokens[12].c_str()),
-				(int)atof(tokens[13].c_str()));
+				(int)atof(tokens[13].c_str()), 
+				(int)atof(tokens[14].c_str()));
 			listTrigger[(int)atof(tokens[4].c_str())] = trigger;
 			grid->AddStaticObject(trigger, x, y);
 			break;
@@ -268,7 +269,7 @@ void PlayScene::_ParseSection_SETTINGS(string line)
 	}
 	if (tokens[0] == "cam")
 	{
-		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())) - camera->GetWidth(), int(atoi(tokens[4].c_str())));
+		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())) - SCREEN_WIDTH, int(atoi(tokens[4].c_str())));
 		camera->SetCamMove(int(atoi(tokens[5].c_str())));
 	}
 	if (tokens[0] == "scene") {
@@ -405,7 +406,8 @@ void PlayScene::ChangeScene() {
 							trigger->GetPosY());
 		player->SetSpeed(0, 0);
 		player->IsTouchTrigger = false;
-		camera->SetCamScene(trigger->leftScene,trigger->topScene,trigger->rightScene - camera->GetWidth(),trigger->bottomScene);
+		camera->SetCamScene(trigger->leftScene,trigger->topScene,trigger->rightScene - SCREEN_WIDTH,trigger->bottomScene);
+		camera->SetCamMove(trigger->typecam);
 		player->IsChangeTrigger = false;
 	}
 

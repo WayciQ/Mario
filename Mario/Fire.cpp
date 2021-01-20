@@ -13,7 +13,8 @@ Fire::Fire(int nx, int ny, float x, float y, TAG tag)
 {
 	type = WEAPON_MARIO;
 	this->tag = tag;
-	fireFrom = tag;
+	weaponOwner = tag;
+	
 	SetBBox(FIRE_WIDTH, FIRE_HEIGHT);
 	canRespawn = false;
 	animation_set = animationsSets->Get(WEAPON_MARIO);
@@ -21,12 +22,12 @@ Fire::Fire(int nx, int ny, float x, float y, TAG tag)
 	
 	if (nx > 0)
 	{
-		ChangeAnimation(FIRE_FIRE_RIGHT);
+		ChangeAnimation(WEAPON_SHOOT_RIGHT);
 		vx = this->tag == ENEMY ? FIRE_SPEED_PLANT_X : player->vx + FIRE_SPEED_X;
 	}
 	else 
 	{
-		ChangeAnimation(FIRE_FIRE_LEFT);
+		ChangeAnimation(WEAPON_SHOOT_LEFT);
 		vx = this->tag == ENEMY ? -FIRE_SPEED_PLANT_X : player->vx -FIRE_SPEED_X;
 	}
 
@@ -58,7 +59,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt);
 	UpdatePosititon(dt);
 	
-	if (fireFrom == PLAYER) {
+	if (weaponOwner == PLAYER) {
 
 		vy += WORLD_GRAVITY * dt;
 		tagChange = WEAPON;

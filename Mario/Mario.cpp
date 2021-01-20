@@ -48,7 +48,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += gravity * dt;
 	
 	//DebugOut(L"state: %d\n", player->GetState());
-	DebugOut(L"count: %d\n", countShoot);
+	//DebugOut(L"count: %d\n", countShoot);
 	if(y > currentLocationY + 15 && Allow[FALLING])
 	{
 		Allow[FALLING] = false;
@@ -764,7 +764,13 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_F5:
 		{
-			SetPosition(7848, 1200);
+			SetPosition(x, 240);
+			camera->SetCamPos(5328, 0);
+			break;
+		}
+		case DIK_5:
+		{
+			SetPosition(x, 240);
 			break;
 		}
 		case DIK_F6:

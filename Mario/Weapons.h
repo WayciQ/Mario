@@ -12,7 +12,7 @@ public:
 		switch (type)
 		{
 		case BOOMERRANG_WEAPON:
-			return new BoomerangWeapon(x, y);
+			return new BoomerangWeapon(nx,x, y);
 			break;
 		case FIRE_FIRE:
 			return new Fire(nx, ny, x, y, tag);

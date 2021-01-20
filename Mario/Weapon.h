@@ -3,6 +3,8 @@
 
 class Weapon: public GameObject
 {
+protected:
+	TAG weaponOwner;
 public:
 	Weapon();
 	~Weapon() {};

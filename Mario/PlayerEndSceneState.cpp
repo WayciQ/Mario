@@ -1,7 +1,7 @@
 #include "PlayerEndSceneState.h"
 #include "PlayerStandingState.h"
 #include "Mario.h"
-#include "Map.h"
+#include "camera.h"
 PlayerEndSceneState::PlayerEndSceneState() {
 	player->Allow[WALKING] = false;
 	player->Allow[JUMPING] = false;
@@ -12,7 +12,9 @@ PlayerEndSceneState::PlayerEndSceneState() {
 
 }
 void PlayerEndSceneState::Update(DWORD dt) {
-	if (player->x > map->GetWidthMap() - 48) {
+	float cam_x, y;
+	camera->GetCamPos(cam_x, y);
+	if (player->x > cam_x + SCREEN_WIDTH) {
 		player->infor->SetSceneId(0);
 		player->IsChangeScene = true;
 	}

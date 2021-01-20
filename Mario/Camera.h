@@ -30,7 +30,7 @@ public:
 	
 	int GetHeight() { return height; }
 	int GetWidth() { return width; }
-	void SetCamScene(float l, float t, float r, float b) { maxLeftCam = l; maxTopCam = t; maxRightCam = l + r; maxBottomCam = b; }
+	void SetCamScene(float l, float t, float r, float b) { maxLeftCam = l; maxTopCam = t; maxRightCam = r; maxBottomCam = b; }
 	void Update(DWORD dt);
 
 	static Camera* GetInstance();

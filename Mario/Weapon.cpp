@@ -7,9 +7,6 @@ Weapon::Weapon()
 
 void Weapon::Render()
 {
-	int alpha = 255;
-	
-	CurAnimation->Render(x, y, alpha);
+	CurAnimation->Render(x, y);
 	//RenderBoundingBox();
-	
 }

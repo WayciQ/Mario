@@ -7,10 +7,21 @@ class SceneGate : public GameObject
 	float posX, posY;
 	
 public:
+	int typecam;
 	float topScene;
 	float leftScene;
 	float rightScene, bottomScene;
-	SceneGate(int port, float w, float h, int SideToIn,float PosX, float PosY, float leftScene,float topScene, float rightScene,float  bottomScene)
+	SceneGate(int port, 
+		float w, 
+		float h, 
+		int SideToIn,
+		float PosX, 
+		float PosY, 
+		float leftScene,
+		float topScene, 
+		float rightScene,
+		float  bottomScene,
+		int typeCam = 0)
 	{
 		this->type = SCENE_GATE;
 		tag = BOX;
@@ -23,6 +34,7 @@ public:
 		this->topScene = topScene;
 		this->rightScene = rightScene;
 		this->bottomScene = bottomScene;
+		typecam = typeCam;
 	};
 	void Render() {
 		//RenderBoundingBox();
