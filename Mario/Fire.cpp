@@ -1,7 +1,8 @@
 #include "Fire.h"
 #include "Camera.h"
 #include "Mario.h"
-
+#include "Effects.h"
+#include "Grid.h"
 #define FIRE_WIDTH		24
 #define FIRE_HEIGHT		24
 #define FIRE_SPEED_X	0.36f
@@ -151,6 +152,8 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (isDead)
 	{
+		auto bigbang = Effects::CreateEffect(EFFECT_BIGBANG);
+		grid->AddStaticObject(bigbang, x, y);
 		canDel = true;
 	}
 }
@@ -158,7 +161,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Fire::UpdatePosititon(DWORD dt)
 {
 
-	if(x < camera-> cam_x || x > camera->cam_x + camera->GetWidth() ||  y > camera->cam_y + camera->GetHeight())
+	if(x < camera-> cam_x || x > camera->cam_x + SCREEN_WIDTH ||  y > camera->cam_y + camera->GetHeight())
 	{
 		isDead = true;
 	}

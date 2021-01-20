@@ -4,7 +4,7 @@
 #include "PlayerSittingState.h"
 #include "Mario.h"
 #include "Grid.h"
-#include "EffectBigBang.h"
+#include "Effects.h"
 PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 {
 	player->Allow[JUMPING] = false;
@@ -13,23 +13,27 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 	isChange = false;
 	upsize = false;
 	if (isHurt) {
+		auto e = Effects::CreateEffect(EFFECT_BIGBANG);
 		player->startTimeChangeState();
 		player->startTimeFreeze();
 		switch (player->level)
 		{
 		case RACCOON:
+			grid->AddStaticObject(e, player->x + 10, player->y - 10);
 			player->SetLevel(BIG);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
 			break;
 		case FIRE:
+			grid->AddStaticObject(e, player->x + 10, player->y - 10);
 			player->SetLevel(BIG);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
 			break;
 		case BIG:
+			grid->AddStaticObject(e, player->x + 10, player->y - 10);
 			isChange = true;
 			upsize = false;
 			stateName = player->nx > 0 ? DOWN_SIZE_RIGHT : DOWN_SIZE_LEFT;

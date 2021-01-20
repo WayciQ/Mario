@@ -4,8 +4,10 @@
 #include "Grid.h"
 #include "Weapons.h"
 #define ENNEMY_WALKING_SPEED 0.05f
-#define BOOMERAN_WIDTH_BBOX 48
-#define BOOMERAN_HEIGHT_BBOX 72
+#define BOOMERANG_WIDTH_BBOX 48
+#define BOOMERANG_HEIGHT_BBOX 72
+#define BOOMERANG_TIME_DIE 300
+#define BOOMERANG_JUMP_DEFLECT_SPEED 0.6f
 BoomerangEnemy::BoomerangEnemy() {
 	nx = 1;
 	countThrow = 0;
@@ -13,7 +15,7 @@ BoomerangEnemy::BoomerangEnemy() {
 	CanThrow = false;
 	animation_set = animationsSets->Get(type);
 	vx = ENNEMY_WALKING_SPEED;
-	SetBBox(BOOMERAN_WIDTH_BBOX, BOOMERAN_HEIGHT_BBOX);
+	SetBBox(BOOMERANG_WIDTH_BBOX, BOOMERANG_HEIGHT_BBOX);
 	SetState(ENEMY_WALKING_RIGHT);
 	Revival();
 }
@@ -21,7 +23,17 @@ BoomerangEnemy::BoomerangEnemy() {
 void BoomerangEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	GameObject::Update(dt);
 
-	
+	if (isDead)
+	{
+		SetBBox(0, 0);
+		if (canRespawn)
+		{
+			if (GetTickCount() - TimeDead > BOOMERANG_TIME_DIE)
+			{
+				canDel = true;
+			}
+		}
+	}
 
 	if (GetTickCount() - TimeToJump < 4000) {
 		
@@ -86,8 +98,26 @@ void BoomerangEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 						x += dx;
 					}
 				}
-				else
+				if (e->obj->tag == ENEMY)
 				{
+					if (e->obj->tagChange == WEAPON && e->obj->isKicked) {
+						startTimeDead();
+						isFlip = true;
+						vy = -BOOMERANG_JUMP_DEFLECT_SPEED;
+						vx = 0;
+						SetState(ENEMY_DIE_FLIP);
+					}
+					else {
+						if (e->nx != 0) {
+							x += dx;
+						}
+						if (e->ny != 0) {
+							vy = 0;
+						}
+					}
+				}
+				else if (e->obj->tag == ITEM) {
+					x += dx;
 				}
 			}
 		}

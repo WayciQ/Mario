@@ -1,6 +1,6 @@
 #include "NipperPlant.h"
 #include "Mario.h"
-#include "EffectBigBang.h"
+#include "Effects.h"
 #include "Grid.h"
 
 
@@ -28,8 +28,8 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - TimeDead > 150)
 			{
-				auto effect = new EffectBigBang();
-				grid->AddStaticObject(effect, x, y);
+				auto e = Effects::CreateEffect(EFFECT_BIGBANG);
+				grid->AddStaticObject(e, x + 5, y - 10);
 				canDel = true;
 				TimeDead = 0;
 			}

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#define SPEED_X 0.05f
+#define SPEED_X 0.15f
 #define ANIMATION_BREAKBRICK 817
 class BreakBrick : public GameObject
 {

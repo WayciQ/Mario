@@ -160,7 +160,9 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Drain.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectBigBang.cpp" />
     <ClCompile Include="EffectBigBang.h" />
+    <ClCompile Include="EffectStar.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -175,6 +177,7 @@
     <ClCompile Include="ParaGoomba.cpp" />
     <ClCompile Include="ParaKoomba.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
+    <ClCompile Include="PlayerChangeGateState.cpp" />
     <ClCompile Include="PlayerEndSceneState.cpp" />
     <ClCompile Include="PlayerFlyingState.cpp" />
     <ClCompile Include="PlayerHoldingState.cpp" />
@@ -233,7 +236,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Drain.h" />
     <ClInclude Include="Effect.h" />
-    <ClInclude Include="EffectHit.h" />
+    <ClInclude Include="EffectStar.h" />
     <ClInclude Include="Effects.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Fire.h" />
@@ -251,6 +254,7 @@
     <ClInclude Include="ParaGoomba.h" />
     <ClInclude Include="ParaKoomba.h" />
     <ClInclude Include="PiranhaPlant.h" />
+    <ClInclude Include="PlayerChangeGateState.h" />
     <ClInclude Include="PlayerEndSceneState.h" />
     <ClInclude Include="PlayerFlyingState.h" />
     <ClInclude Include="PlayerHoldingState.h" />

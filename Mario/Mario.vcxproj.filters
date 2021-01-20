@@ -213,9 +213,6 @@
     <ClCompile Include="PlayerFallingState.cpp">
       <Filter>Framework\GameObjects\Player\state\Normal State\JUMP-FLY</Filter>
     </ClCompile>
-    <ClCompile Include="EffectBigBang.h">
-      <Filter>Framework\GameObjects\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerChangeLevelState.cpp">
       <Filter>Framework\GameObjects\Player\state\Normal State</Filter>
     </ClCompile>
@@ -290,6 +287,18 @@
     </ClCompile>
     <ClCompile Include="SwitchBlock.cpp">
       <Filter>Framework\GameObjects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChangeGateState.cpp">
+      <Filter>Framework\GameObjects\Player\state\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBigBang.cpp">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBigBang.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectStar.cpp">
+      <Filter>Framework\GameObjects\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -509,9 +518,6 @@
     <ClInclude Include="Effects.h">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="EffectHit.h">
-      <Filter>Framework\GameObjects\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Number.h">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
@@ -529,6 +535,12 @@
     </ClInclude>
     <ClInclude Include="SwitchBlock.h">
       <Filter>Framework\GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerChangeGateState.h">
+      <Filter>Framework\GameObjects\Player\state\SceneState</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectStar.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

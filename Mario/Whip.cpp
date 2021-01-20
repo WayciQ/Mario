@@ -1,6 +1,6 @@
 #include "Whip.h"
 #include "Mario.h"
-#include "EffectHit.h"
+#include "Effects.h"
 #include "Grid.h"
 Whip::Whip()
 {
@@ -35,11 +35,15 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		switch(coEvents.at(i)->tag)
 		{
 		case ENEMY:
+		{
+			auto effect = Effects::CreateEffect(EFFECT_STAR);
+			grid->AddStaticObject(effect, x, y);
 			coEvents.at(i)->vx = 0;
 			coEvents.at(i)->startTimeDead();
 			coEvents.at(i)->isFlip = true;
 			coEvents.at(i)->vy = -MARIO_JUMP_DEFLECT_SPEED;
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
+		}
 			break;
 		case GROUND:
 			if (coEvents.at(i)->type == BLOCK_QUESTION || coEvents.at(i)->type == BLOCK_BREAKABLE)
@@ -56,7 +60,10 @@ void Whip::UpdatePosititon(DWORD dt)
 	int curFrame = player->CurAnimation->currentFrame;
 	
 	int posX, posY;
-	
+	if (curFrame == 0) {
+		posX = player->nx > 0 ? player->x : player->x + 45;
+	}
+	else
 	if (curFrame == 3)
 	{
 		posX = player->nx > 0 ? player->x + 72 : player->x - 24;
@@ -72,6 +79,6 @@ void Whip::UpdatePosititon(DWORD dt)
 }
 void Whip::Render() {
 	UpdatePosititon(dt);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 Whip::~Whip(){}

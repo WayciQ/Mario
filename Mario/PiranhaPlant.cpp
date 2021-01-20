@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "Camera.h"
 #include "Weapons.h"
+#include "Effects.h"
 #include "Grid.h"
 PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 {
@@ -30,6 +31,8 @@ void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - TimeDead > 150)
 			{
+				auto e = Effects::CreateEffect(EFFECT_BIGBANG);
+				grid->AddStaticObject(e, x + 5, y - 10);
 				canDel = true;
 				TimeDead = 0;
 			}

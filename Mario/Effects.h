@@ -1,5 +1,6 @@
 #include "Number.h"
-
+#include "EffectBigBang.h"
+#include "EffectStar.h"
 class Effects
 {
 public:
@@ -10,6 +11,12 @@ public:
 		{
 		case NUMBER_SCENE:
 			return new Number();
+			break;
+		case EFFECT_BIGBANG:
+			return new EffectBigBang();
+			break;
+		case EFFECT_STAR:
+			return new EffectStar();
 			break;
 		}
 	}

@@ -45,7 +45,7 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				grid->AddStaticObject(brick, x, y);
 				brick = new BreakBrick(-1, -0.9f);
 				grid->AddStaticObject(brick, x, y);
-				brick = new BreakBrick(-1, -0.9f);
+				brick = new BreakBrick(-1, -0.6f);
 				grid->AddStaticObject(brick, x + 24, y);
 			}
 			canDel = true;

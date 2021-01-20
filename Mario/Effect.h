@@ -4,16 +4,10 @@ class Effect : public GameObject
 {
 public:
 	Animation* CurAnimation;
-	Effect() {
-		tag = EFFECT;
-	};
+	Effect();
 	~Effect() {};
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {
-			
-	};
-	virtual void Render() {
-		CurAnimation->Render(x, y);
-	};
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	virtual void Render();
 	void GetBoundingBox(float& l, float& t, float& r, float& b) {}
 };
 
