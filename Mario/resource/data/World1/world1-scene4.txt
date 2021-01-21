@@ -1,6 +1,5 @@
 [TEXTURES]
 5	resource\textures\title.png	230	130	155
-
 [SPRITES]
 990001	768	480	911	527	5
 

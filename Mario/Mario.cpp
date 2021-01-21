@@ -129,29 +129,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
-void Mario::CollisionAtCreate(LPGAMEOBJECT obj)
-{
-	if (obj->tag == ITEM) {
-		switch (obj->type)
-		{
-		case LEAF:
-			ChangeState(new PlayerChangeLevelState(false, RACCOON));
-			break;
-		case COIN:
-			infor->ScoreEarn(100);
-			infor->MoneyEarn(1);
-			break;
-		case RED_MUSHROOM:
-			x += 4;
-			ChangeState(new PlayerChangeLevelState(false));
-			break;
-		case GREEN_MUSHROOM:
-			infor->LifeEarn(1);
-			break;
-		}
-		obj->isDead = true;
-	}
-}
+
 void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 {
 	if (e->ny == -1)
@@ -260,6 +238,32 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 		}
 	}
 }
+void Mario::CollisionAtCreate(LPGAMEOBJECT obj)
+{
+	if (obj->tag == ITEM) {
+		switch (obj->type)
+		{
+		case LEAF:
+			ChangeState(new PlayerChangeLevelState(false, RACCOON));
+			break;
+		case COIN:
+			infor->ScoreEarn(100);
+			infor->MoneyEarn(1);
+			break;
+		case RED_MUSHROOM:
+			x += 4;
+			ChangeState(new PlayerChangeLevelState(false));
+			break;
+		case GREEN_MUSHROOM:
+			infor->LifeEarn(1);
+			break;
+		case FIRE_FLOWER:
+			ChangeState(new PlayerChangeLevelState(false, FIRE));
+			break;
+		}
+		obj->isDead = true;
+	}
+}
 void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 {
 	switch (e->obj->type)
@@ -294,6 +298,9 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 			isOnSky = false;
 			e->obj->startTimeDead();
 		}
+		break;
+	case FIRE_FLOWER:
+		ChangeState(new PlayerChangeLevelState(false, FIRE));
 		break;
 	}
 	e->obj->isDead = true;

@@ -1,6 +1,7 @@
 #include "Number.h"
 #include "Effectbigbang.h"
 #include "EffectStar.h"
+#include "Curtain.h"
 class Effects
 {
 public:
@@ -17,6 +18,9 @@ public:
 			break;
 		case EFFECT_STAR:
 			return new EffectStar();
+			break;
+		case CURTAIN:
+			return new Curtain();
 			break;
 		default:
 			break;

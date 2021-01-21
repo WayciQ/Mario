@@ -297,6 +297,9 @@
     <ClCompile Include="EffectBigBang.cpp">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="FireFlower.cpp">
+      <Filter>Framework\GameObjects\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -376,9 +379,6 @@
     </ClInclude>
     <ClInclude Include="NipperPlant.h">
       <Filter>Framework\GameObjects\Enemy\Plant</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Framework\GameObjects\Item</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>Framework\GameObjects\Player\state</Filter>
@@ -542,6 +542,13 @@
     <ClInclude Include="EffectBigBang.h">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Framework\GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="FireFlower.h">
+      <Filter>Framework\GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Curtain.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">

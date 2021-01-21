@@ -4,7 +4,7 @@
 
 class Drain	: public GameObject
 {
-
+	Animation* CurAnimation;
 public:
 	Drain(float w, float h);
 	~Drain();

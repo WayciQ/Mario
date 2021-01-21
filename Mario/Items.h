@@ -2,6 +2,7 @@
 #include "Leaf.h"
 #include "Mushroom.h"
 #include "SwitchBlock.h"
+#include "FireFlower.h"
 class Items
 {
 public:
@@ -26,6 +27,9 @@ public:
 			break;
 		case BUTTON:
 			return new SwitchBlock(x,y);
+			break;
+		case FIRE_FLOWER:
+			return new FireFlower(x, y);
 			break;
 		default:
 			break;

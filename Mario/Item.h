@@ -21,7 +21,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};
 	virtual void UpdatePosition(float dt) {};
 	virtual void Render() {
-		CurAnimation->Render(x, y, 255);
+		CurAnimation->Render(x, y);
 		RenderBoundingBox();
 	};
 	virtual void Revival() {};

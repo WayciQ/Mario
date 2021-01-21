@@ -3,8 +3,8 @@ Drain::Drain(float w, float h)
 {
 	tag = GROUND;
 	type = GRASS;
-	this->widthBBox = w;
-	this->heightBBox = h;
+	SetBBox(w, h);
+
 }
 
 Drain::~Drain(){}

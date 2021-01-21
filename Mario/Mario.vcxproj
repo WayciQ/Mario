@@ -163,6 +163,7 @@
     <ClCompile Include="EffectBigBang.cpp" />
     <ClCompile Include="EffectStar.cpp" />
     <ClCompile Include="Fire.cpp" />
+    <ClCompile Include="FireFlower.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Information.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Curtain.h" />
     <ClInclude Include="Drain.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectBigBang.h" />
@@ -240,6 +242,7 @@
     <ClInclude Include="Effects.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Fire.h" />
+    <ClInclude Include="FireFlower.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Information.h" />

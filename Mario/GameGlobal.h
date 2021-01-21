@@ -239,7 +239,8 @@ extern enum TYPE {
 	BLOCK_MOVE,
 	BOOMERRANG_ENEMY,
 	BOOMERRANG_WEAPON,
-	
+	FIRE_FLOWER,
+	CURTAIN,
 };
 extern enum TAG
 {
