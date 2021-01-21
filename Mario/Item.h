@@ -22,7 +22,7 @@ public:
 	virtual void UpdatePosition(float dt) {};
 	virtual void Render() {
 		CurAnimation->Render(x, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	};
 	virtual void Revival() {};
 };

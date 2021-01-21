@@ -53,10 +53,11 @@ void PlayScene::_ParseSection_MAPS(string line)
 	wstring path = ToWSTR(tokens[1]);
 	map->LoadResourses(path.c_str());
 	map->SetPadding((float)atoi(tokens[3].c_str()), (float)atoi(tokens[4].c_str()));
-	grid->SetSizeCell((int)atoi(tokens[2].c_str()));
+	float size = (int)atoi(tokens[2].c_str()) * UNIT_GAME;
+	grid->SetSizeCell(size);
 	int widthmap = (int)map->GetWidthMap();
-	grid->cols = (widthmap/(int)atoi(tokens[2].c_str())) +1;
-	grid->rows = ((int)map->GetHeightMap() / (int)atoi(tokens[2].c_str())) ;
+	grid->cols = (widthmap/(int)size) +1;
+	grid->rows = ((int)map->GetHeightMap() / (int)size) ;
 	grid->Init();
 	int R = atoi(tokens[5].c_str());
 	int G = atoi(tokens[6].c_str());
@@ -154,8 +155,8 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	int object_TAG = atoi(tokens[0].c_str());
 	TAG  tag = static_cast<TAG>(object_TAG);
 
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());
+	float x = atof(tokens[1].c_str()) * UNIT_GAME;
+	float y = atof(tokens[2].c_str()) * UNIT_GAME;
 	int object_TYPE = atof(tokens[3].c_str());
 	TYPE type = static_cast<TYPE>(object_TYPE);
 	// General object setup
@@ -179,7 +180,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		switch (type)
 		{
 		case GROUND_LAND:
-			obj = new Ground((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+			obj = new Ground((float)atof(tokens[4].c_str()) * UNIT_GAME, (float)atof(tokens[5].c_str()) * UNIT_GAME);
 			listGroundObject.push_back(obj);
 			break;
 		case BLOCK:
@@ -189,7 +190,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 			obj = new SceneGrass();
 			break;
 		case GROUND_BOX:
-			obj = new Box((float)atof(tokens[4].c_str()), (float)atof(tokens[5].c_str()));
+			obj = new Box((float)atof(tokens[4].c_str()) * UNIT_GAME, (float)atof(tokens[5].c_str()) * UNIT_GAME);
 			break;
 		}
 		grid->LoadObjects(obj,x,y);
@@ -197,17 +198,16 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	case ENEMY:
 		if (type == PARA_KOOMPA || type == TROPA_KOOMPA) {
 			STATEOBJECT state = static_cast<STATEOBJECT>(atof(tokens[4].c_str()));
-			obj = Enemies::CreateEnemy(type, (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()), state);
+			obj = Enemies::CreateEnemy(type, x, y, state);
 		}
 		else {
-			obj = Enemies::CreateEnemy(type, (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
-			
+			obj = Enemies::CreateEnemy(type, x, y);
 		}
-		grid->LoadObjects(obj,x,y);
+		grid->LoadObjects(obj, x, y);
 		//listEnemyObject.push_back(obj);
 		break;
 	case ITEM:
-		obj = Items::CreateItem(type, (float)atof(tokens[1].c_str()), (float)atof(tokens[2].c_str()));
+		obj = Items::CreateItem(type, x, y);
 		grid->AddStaticObject(obj, x, y);
 		break;
 	case BOX:
@@ -216,15 +216,15 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		case SCENE_GATE:
 		{
 			SceneGate* trigger = new SceneGate((int)atof(tokens[4].c_str()),
-				(int)atof(tokens[5].c_str()),
-				(int)atof(tokens[6].c_str()),
+				(int)atof(tokens[5].c_str()) * UNIT_GAME,
+				(int)atof(tokens[6].c_str()) * UNIT_GAME,
 				(int)atof(tokens[7].c_str()),
-				(int)atof(tokens[8].c_str()),
-				(int)atof(tokens[9].c_str()),
-				(int)atof(tokens[10].c_str()),
-				(int)atof(tokens[11].c_str()),
-				(int)atof(tokens[12].c_str()),
-				(int)atof(tokens[13].c_str()), 
+				(int)atof(tokens[8].c_str()) * UNIT_GAME,
+				(int)atof(tokens[9].c_str()) * UNIT_GAME,
+				(int)atof(tokens[10].c_str()) * UNIT_GAME,
+				(int)atof(tokens[11].c_str()) * UNIT_GAME,
+				(int)atof(tokens[12].c_str()) * UNIT_GAME,
+				(int)atof(tokens[13].c_str()) * UNIT_GAME,
 				(int)atof(tokens[14].c_str()));
 			listTrigger[(int)atof(tokens[4].c_str())] = trigger;
 			grid->AddStaticObject(trigger, x, y);
@@ -233,8 +233,8 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		case PORTAL:
 		{
 			Portal* portal = new Portal((int)atof(tokens[4].c_str()),
-				(int)atof(tokens[5].c_str()),
-				(int)atof(tokens[6].c_str()));
+				(int)atof(tokens[5].c_str()) * UNIT_GAME,
+				(int)atof(tokens[6].c_str()) * UNIT_GAME);
 			listPortal[(int)atof(tokens[4].c_str())] = portal;
 			grid->AddStaticObject(portal, x, y);
 			break;
@@ -269,7 +269,7 @@ void PlayScene::_ParseSection_SETTINGS(string line)
 	}
 	if (tokens[0] == "cam")
 	{
-		camera->SetCamScene(int(atoi(tokens[1].c_str())), int(atoi(tokens[2].c_str())), int(atoi(tokens[3].c_str())) - SCREEN_WIDTH, int(atoi(tokens[4].c_str())));
+		camera->SetCamScene(int(atoi(tokens[1].c_str())) * UNIT_GAME, int(atoi(tokens[2].c_str())) * UNIT_GAME, int(atoi(tokens[3].c_str())) * UNIT_GAME - SCREEN_WIDTH, int(atoi(tokens[4].c_str())) * UNIT_GAME);
 		camera->SetCamMove(int(atoi(tokens[5].c_str())));
 	}
 	if (tokens[0] == "scene") {

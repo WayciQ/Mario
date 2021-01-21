@@ -548,7 +548,9 @@
     <ClInclude Include="FireFlower.h">
       <Filter>Framework\GameObjects\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Curtain.h" />
+    <ClInclude Include="Curtain.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">
