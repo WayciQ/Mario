@@ -161,7 +161,6 @@
     <ClCompile Include="Drain.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectBigBang.cpp" />
-    <ClCompile Include="EffectBigBang.h" />
     <ClCompile Include="EffectStar.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Grid.cpp" />
@@ -236,6 +235,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Drain.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectBigBang.h" />
     <ClInclude Include="EffectStar.h" />
     <ClInclude Include="Effects.h" />
     <ClInclude Include="Enemies.h" />

@@ -1,42 +1,45 @@
 #include "Alert.h"
 #include "Mario.h"
 Alert::Alert(STATEOBJECT card, float x, float y) {
-	this->card = card;
-	font = NULL;
-	SetRect(&r, x, y, x + 112, y + 60);
-	LPDIRECT3DDEVICE9 d3ddv = Game::GetInstance()->GetDirect3DDevice();
-	LPDIRECT3DSURFACE9 buffer = Game::GetInstance()->GetBackBuffer();
-	//AddFontResourceEx(L"resource\\font\\Super-Mario-Bros--3.ttf", FR_PRIVATE, NULL);
-	HRESULT result = D3DXCreateFont(
+	this->x = x;
+	this->y = y;
+	startTimeAlert = GetTickCount();
+	infor = "      COURSE   CLEAR   :\n";
+	infor +="\n\n";
+	infor +="YOU   GOT   A   CARD";
+	Item = animationsSets->Get(CARD_HUB)->Get(card);
+}
+
+Alert::~Alert()
+{
+}
+
+void Alert::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){
+}
+void Alert::Init()
+{
+	test = NULL;
+	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
+	SetRect(&rect, 192, 200, 720, 400);
+	HRESULT hr = D3DXCreateFont(
 		d3ddv,		// d3d divice
-		20,			//	Height
+		25,			//	Height
 		0,			//	Width
 		FW_NORMAL,	//	Weight
 		1,			//MipLevels
 		false,		//Italic,
 		DEFAULT_CHARSET, //CharSet
-		OUT_CHARACTER_PRECIS, //OutputPrecision
+		OUT_DEFAULT_PRECIS, //OutputPrecision
 		ANTIALIASED_QUALITY, // Quality
-		FF_DONTCARE, // PitchAndFamily,
+		DEFAULT_PITCH|FF_DONTCARE, // PitchAndFamily,
 		L"Super Mario Bros. 3",
-		&font);
-	startTimeAlert = GetTickCount();
-}
-
-void Alert::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){
-	if (GetTickCount() - startTimeAlert > 1000) {
-		LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
-		
-		/*if (font)
-			font->DrawTextA(spriteHandler,"COURSE CLEAR!", -1, &r, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));*/
-	}
-
-	
-	SetRect(&r, player->x, player->y - 100, player->x + 120, player->y - 40);
-	
+		&test);	
 }
 void Alert::Render() {
 	LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
-	if (font)
-		font->DrawTextA(spriteHandler, "COURSE CLEAR!", -1, &r, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
+	if (test) {
+		test->DrawTextA(spriteHandler, infor.c_str(), -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
+		
+	}
+	Item->Render(x +150, y);
 }

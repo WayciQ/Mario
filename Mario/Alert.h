@@ -3,15 +3,15 @@
 class Alert : public GameObject
 {
 public:
-	STATEOBJECT card;
-	RECT r;
+	RECT rect;
 	DWORD startTimeAlert;
-	ID3DXFont* font;
+	ID3DXFont* test;
+	string infor;
+	Animation* Item;
 	Alert(STATEOBJECT card, float x, float y);
-	~Alert() {};
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL)  ;
-	void DrawTitle(string alert);
-	void DrawtImage(STATEOBJECT sp);
+	~Alert();
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	void Init();
 	void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b) {};
 

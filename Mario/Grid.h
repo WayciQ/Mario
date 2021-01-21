@@ -21,12 +21,13 @@ public:
 	vector<vector<Cell*>> Cells;
 	vector<LPGAMEOBJECT> CurObjectInViewPort;
 	vector<LPGAMEOBJECT> CurMovingObjectInViewPort;
-	vector<LPGAMEOBJECT> HandleGameOBject;
+	vector<LPGAMEOBJECT> CurEffectObject;
 	Area GetCell(RECT e);
 	void Init();
 	void SetSizeCell(int s) { this->SizeCell = s;}
 	void LoadObjects(LPGAMEOBJECT& obj, float x, float y);
 	void AddStaticObject( LPGAMEOBJECT obj, float x, float y);
+	void AddEffect( LPGAMEOBJECT obj, float x, float y);
 	void UpdateCellInViewPort();
 	void RespawnObject();
 	void RenderCell();

@@ -20,6 +20,8 @@
 #include "Card.h"
 #include "PlayerEndSceneState.h"
 #include "PlayerRaccoonJumpTail.h"
+#include "Alert.h"
+#include "Grid.h"
 Mario * Mario::__instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -334,6 +336,7 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		if (e->ny == 1)
 		{
 			vy = 0;
+			isJumpDone = true;
 			e->obj->startTimeDead();
 			if (e->obj->child == COIN) {
 				infor->MoneyEarn(1);
@@ -355,6 +358,7 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		if (e->ny == 1)
 		{
 			vy = 0;
+			isJumpDone = true;
 			e->obj->startTimeDead();
 			infor->ScoreEarn(20);
 		}
@@ -379,6 +383,9 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		e->obj->canDel = true;
 		Card* card = dynamic_cast<Card*>(e->obj);
 		infor->AddCard(card->GetTypeCard());
+		Alert* alert = new Alert(card->GetTypeCard(), card->x, card->y);
+		alert->Init();
+		grid->AddStaticObject(alert, card->x, card->y);
 		ChangeState(new PlayerEndSceneState());
 	}
 }
@@ -740,6 +747,14 @@ void Mario::OnKeyDown(int key)
 			y -= 60;
 			SetLevel(FIRE);
 			ChangeState(new PlayerStandingState());
+			break;
+		}
+		case DIK_V:
+		{
+			
+			Alert* alert = new Alert(CARD_FLOWER, x, y);
+			alert->Init();
+			grid->AddStaticObject(alert, x, y);
 			break;
 		}
 		case DIK_F1:

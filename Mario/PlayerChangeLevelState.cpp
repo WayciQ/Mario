@@ -85,7 +85,7 @@ void PlayerChangeLevelState::HandleKeyBoard() {
 void PlayerChangeLevelState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
-	if (GetTickCount() - player->untouchableTime >= 200 && !player->isDead )
+	if (GetTickCount() - player->untouchableTime >= 400 && !player->isDead )
 	{
 		if (isChange) {
 			if (upsize) {

@@ -55,7 +55,7 @@ void PlayScene::_ParseSection_MAPS(string line)
 	map->SetPadding((float)atoi(tokens[3].c_str()), (float)atoi(tokens[4].c_str()));
 	grid->SetSizeCell((int)atoi(tokens[2].c_str()));
 	int widthmap = (int)map->GetWidthMap();
-	grid->cols = (widthmap/(int)atoi(tokens[2].c_str()));
+	grid->cols = (widthmap/(int)atoi(tokens[2].c_str())) +1;
 	grid->rows = ((int)map->GetHeightMap() / (int)atoi(tokens[2].c_str())) ;
 	grid->Init();
 	int R = atoi(tokens[5].c_str());
@@ -333,6 +333,7 @@ void PlayScene::Load()
 	f.close();
 	if(TypeScene > 0)
 		scoreBoard->Init();
+	
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -342,7 +343,6 @@ void PlayScene::Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	coObjects.clear();
 	grid->UpdateCellInViewPort();
-	//player->CollisonGroundWall(dt, &listGroundObject);
 
 	for (auto& obj : listGroundObject) {
 		coObjects.push_back(obj);

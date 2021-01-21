@@ -40,7 +40,6 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 	e.right =x + obj->widthBBox;
 	e.bottom = y + obj->heightBBox;
 	auto area = GetCell(e);
-	HandleGameOBject.push_back(obj);
 	switch (obj->tag)
 	{
 	case GROUND:
@@ -238,6 +237,23 @@ void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
 			//DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
 			Cells[r][c]->staticObjects.insert(obj);
 		}
+	obj->SetPosition(x, y);
+}
+void Grid::AddEffect(LPGAMEOBJECT obj, float x, float y)
+{
+	RECT e;
+	e.top = y;
+	e.left = x;
+	e.right = x + obj->widthBBox;
+	e.bottom = y + obj->heightBBox;
+	auto area = GetCell(e);
+	for (int r = area.TopCell; r <= area.BottomCell; r++)
+		for (int c = area.LeftCell; c <= area.RightCell; c++)
+		{
+			//DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+			Cells[r][c]->staticObjects.insert(obj);
+		}
+
 	obj->SetPosition(x, y);
 }
 void Grid::AddMovingObject(LPGAMEOBJECT obj)
