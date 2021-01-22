@@ -45,6 +45,9 @@ void Camera::Update(DWORD dt)
 			player->x = cam_x + GetWidth() - 48;
 		}
 	}
+	else if (typeMove == 2) {
+		SetCamPos(0, 0);
+	}
 	else {
 		
 		float cx, cy;
@@ -70,17 +73,12 @@ void Camera::Update(DWORD dt)
 		}
 		else
 		{
-			if (cy >= maxBottomCam - SCREEN_HEIGHT / 2 - 32)
+			if (cy >= maxBottomCam - SCREEN_HEIGHT / 2 - 120)
 				cy = maxBottomCam;
 		}
 		SetCamPos(cx, cy);
 		
 	}
-			
-		
-		
-	
-	
 }
 
 

@@ -1,5 +1,6 @@
 #include  "PlayerWorlMapState.h"
 #include "PlayScene.h"
+#define SPEED 0.3
 PlayerWorlMapState::PlayerWorlMapState(int move)
 {
 	player->gravity = 0;
@@ -20,22 +21,22 @@ PlayerWorlMapState::PlayerWorlMapState(int move)
 		posY = int(celly / 16) * 16;*/
 		break;
 	case 1:
-		player->vx = +0.3f;/*
+		player->vx = +SPEED;/*
 		posY = int(player->y);
 		posX = int(player->x) + 32;*/
 		break;
 	case -1:
-		player->vx = -0.3f;/*
+		player->vx = -SPEED;/*
 		posY = int(player->y);
 		posX = int(player->x) - 32;*/
 		break;
 	case 2:
-		player->vy = +0.3f;/*
+		player->vy = +SPEED;/*
 		posX = int(player->x);
 		posY = int(player->y) + 32;*/
 		break;
 	case -2:
-		player->vy = -0.3f;/*
+		player->vy = -SPEED;/*
 		posX = int(player->x);
 		posY = int(player->y) - 32;*/
 		break;

@@ -5,6 +5,8 @@
 #include "Mario.h"
 #include "Grid.h"
 #include "Effects.h"
+#define BIGBANG 10
+#define X_SPAW 36
 PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 {
 	player->Allow[JUMPING] = false;
@@ -16,24 +18,25 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 		auto e = Effects::CreateEffect(EFFECT_BIGBANG);
 		player->startTimeChangeState();
 		player->startTimeFreeze();
+		player->isDead = false;
 		switch (player->level)
 		{
 		case RACCOON:
-			grid->AddStaticObject(e, player->x + 10, player->y - 10);
+			grid->AddStaticObject(e, player->x + BIGBANG, player->y - BIGBANG);
 			player->SetLevel(BIG);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
 			break;
 		case FIRE:
-			grid->AddStaticObject(e, player->x + 10, player->y - 10);
+			grid->AddStaticObject(e, player->x + BIGBANG, player->y - BIGBANG);
 			player->SetLevel(BIG);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
 			break;
 		case BIG:
-			grid->AddStaticObject(e, player->x + 10, player->y - 10);
+			grid->AddStaticObject(e, player->x + BIGBANG, player->y - BIGBANG);
 			isChange = true;
 			upsize = false;
 			stateName = player->nx > 0 ? DOWN_SIZE_RIGHT : DOWN_SIZE_LEFT;
@@ -51,7 +54,7 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 		if (player->level == SMALL) {
 			isChange = true;
 			upsize = true;
-			player->y -= 36;
+			player->y -= X_SPAW;
 			stateName = player->nx > 0 ? UP_SIZE_RIGHT : UP_SIZE_LEFT;
 			player->SetLevel(BIG);
 		}
@@ -89,7 +92,7 @@ void PlayerChangeLevelState::Update(DWORD dt)
 	{
 		if (isChange) {
 			if (upsize) {
-				player->y -= 36;
+				player->y -= X_SPAW;
 				player->SetLevel(BIG);
 			}
 			else {

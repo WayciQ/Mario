@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #define SPEED_X 0.15f
 #define ANIMATION_BREAKBRICK 817
+#define TIME_DEL 700
 class BreakBrick : public GameObject
 {
 	DWORD timeDead;
@@ -26,7 +27,7 @@ public:
 		y += dy;
 		x += dx;
 		
-		if (GetTickCount() - timeDead >= 700)
+		if (GetTickCount() - timeDead >= TIME_DEL)
 		{
 			isDead = true;
 		}

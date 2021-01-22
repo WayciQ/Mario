@@ -8,6 +8,10 @@
 #define BOOMERANG_HEIGHT_BBOX 72
 #define BOOMERANG_TIME_DIE 300
 #define BOOMERANG_JUMP_DEFLECT_SPEED 0.6f
+#define TIME_JUMP 4000
+#define TIME_MOVE 2000
+#define TIME_SHOOT 2000
+#define TIME_ENNEMY_JUMP 0.8
 BoomerangEnemy::BoomerangEnemy() {
 	nx = 1;
 	countThrow = 0;
@@ -35,10 +39,10 @@ void BoomerangEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		}
 	}
 
-	if (GetTickCount() - TimeToJump < 4000) {
+	if (GetTickCount() - TimeToJump < TIME_JUMP) {
 		
 		
-		if (GetTickCount() - TimeToMove > 2000) {
+		if (GetTickCount() - TimeToMove > TIME_MOVE) {
 			//DebugOut(L"%d\n",nx);
 			vx = -vx;
 			isThrow = false;
@@ -51,7 +55,7 @@ void BoomerangEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		TimeToJump = GetTickCount();
 	}
 	  
-	if (GetTickCount() - TimeToThrow < 400) {
+	if (GetTickCount() - TimeToThrow < TIME_SHOOT) {
 		CanThrow = true;
 		SetState(ENEMY_SHOOTING_RIGHT);
 	}
@@ -83,7 +87,6 @@ void BoomerangEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.004f;
 
 		if (ny != 0) vy = 0;
 		for (UINT i = 0; i < coEventsResult.size(); i++) {
@@ -141,7 +144,7 @@ void BoomerangEnemy::SetState(STATEOBJECT state) {
 		vy = -ENNEMY_WALKING_SPEED;
 		break;
 	case ENEMY_JUMPING_RIGHT:
-		vy = -0.8;
+		vy = -TIME_ENNEMY_JUMP;
 		break;
 	case ENEMY_SHOOTING_RIGHT: 
 		break;

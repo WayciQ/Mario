@@ -4,6 +4,15 @@
 #include "Weapons.h"
 #include "Effects.h"
 #include "Grid.h"
+
+#define PLANT_SPEED_UP 0.15f
+#define PLANT_BIGBANG_X x + 5
+#define PLANT_BIGBANG_Y y - 10
+#define PLANT_UP_Y y + 93
+#define PLANT_UP_HEIGHT PosY - 93
+#define PLANT_UP_WIDTH PosX + 24
+#define ANI_DRAIN	54001
+#define TIME_DIE	150
 PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 {
 	isUp = true;
@@ -15,7 +24,7 @@ PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 	animation_set = animationsSets->Get(type);
 	YY = posy;
 	typeParent = PLANT;
-	PosY = type == PIRANHA_PLANT ? posy + 24 : posy;
+	PosY = type == PIRANHA_PLANT ? PLANT_UP_WIDTH : posy;
 	SetState(PLANT_SHOOT_DOWN_RIGHT);
 }
 
@@ -29,10 +38,10 @@ void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (canRespawn)
 		{
-			if (GetTickCount() - TimeDead > 150)
+			if (GetTickCount() - TimeDead > TIME_DIE)
 			{
 				auto e = Effects::CreateEffect(EFFECT_BIGBANG);
-				grid->AddStaticObject(e, x + 5, y - 10);
+				grid->AddStaticObject(e, PLANT_BIGBANG_X, PLANT_BIGBANG_Y);
 				canDel = true;
 				TimeDead = 0;
 			}
@@ -115,7 +124,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 			nx = 1;
 			if (player->y >= this->y)
 			{
-				ny = player->y < this->y + 93 ? 0 : 1;
+				ny = player->y < PLANT_UP_Y ? 0 : 1;
 				SetState(PLANT_SHOOT_DOWN_RIGHT);
 			}
 			else
@@ -129,7 +138,7 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 			nx = -1;
 			if (player->y >= this->y) {
 
-				ny = ny = player->y < this->y + 93 ? 0 : 1;
+				ny = ny = player->y < PLANT_UP_Y ? 0 : 1;
 				SetState(PLANT_SHOOT_DOWN_LEFT);
 			}
 			else
@@ -138,10 +147,10 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 				SetState(PLANT_SHOOT_UP_LEFT);
 			}
 		}
-		if (y <= PosY - 93)
+		if (y <= PLANT_UP_HEIGHT)
 		{
 			upDone = true;
-			y = PosY - 93;
+			y = PLANT_UP_HEIGHT;
 		}
 	}
 	else vy = PLANT_SPEED_UP;
@@ -164,7 +173,7 @@ void PiranhaPlant::SetState(STATEOBJECT state)
 void PiranhaPlant::Render()
 {
 	ChangeAnimation();
-	CurAnimation->Render(x, y, 225);
+	CurAnimation->Render(x, y);
 	//RenderBoundingBox();
 	Sprites::GetInstance()->Get(54001)->Draw(PosX, YY);
 }

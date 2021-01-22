@@ -2,6 +2,8 @@
 #include "Mario.h"
 #define SPEED_MUSHROOM 0.15f
 #define SPEED_SPAWN 0.9
+#define Y_SPAW_UP posY - 48
+#define X_SPAW_UP CenX + 32
 Mushroom::Mushroom(TYPE type, float x, float y) : Item(x,y)
 {
 	isRespawn = true;
@@ -24,7 +26,7 @@ void Mushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		y -= SPEED_SPAWN;
 		vx = 0;
-		if (y <= posY - 48)
+		if (y <= Y_SPAW_UP)
 		{
 			isRespawn = false;
 			if (nx > 0)

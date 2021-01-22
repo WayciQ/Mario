@@ -7,6 +7,10 @@
 #define KOOMPA_BBOX_HEIGHT 81
 #define KOOMPA_BBOX_HEIGHT_DIE 48
 #define KOOMPA_TIME_REVIVAL 7000
+#define TIME_AIN_RESPAWN 5000
+#define SPEED_KICK_KOOMPA 0.6
+#define SPEED_FLY_UP 0.6
+#define SPEED_FLY_KOOMPA 0.6
 class Koompa : public Enemy
 {
 public:

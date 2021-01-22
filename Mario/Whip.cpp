@@ -54,6 +54,12 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 }
+#define X_TAIL_1_FRAME_3 player->x + 76
+#define X_TAIL_2_FRAME_3 player->x - 27
+#define X_TAIL_1_FRAME_0 player->x
+#define X_TAIL_2_FRAME_0 player->x + 45
+#define X_TAIL_2_FRAME player->x + 24
+#define Y_TAIL_2_FRAME player->y + 54
 
 void Whip::UpdatePosititon(DWORD dt)
 {
@@ -61,16 +67,16 @@ void Whip::UpdatePosititon(DWORD dt)
 	
 	int posX, posY;
 	if (curFrame == 0) {
-		posX = player->nx > 0 ? player->x : player->x + 45;
+		posX = player->nx > 0 ? X_TAIL_1_FRAME_0 : X_TAIL_2_FRAME_0;
 	}
 	else
 	if (curFrame == 3)
 	{
-		posX = player->nx > 0 ? player->x + 72 : player->x - 24;
+		posX = player->nx > 0 ? X_TAIL_1_FRAME_3 : X_TAIL_2_FRAME_3;
 	}
-	else posX = player->nx > 0 ? player->x + 24 : player->x + 24;
+	else posX = player->nx > 0 ? X_TAIL_2_FRAME : X_TAIL_2_FRAME;
 
-	posY = player->y + 54;
+	posY = Y_TAIL_2_FRAME;
 	SetPosition(posX, posY);
 
 	if (player->CurAnimation->isLastFrame )

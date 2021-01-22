@@ -4,7 +4,12 @@
 #include "Grid.h"
 
 
-#define PLANT_SPEED_UP 0.15f;
+#define PLANT_SPEED_UP 0.15f
+#define PLANT_BIGBANG_X x + 5
+#define PLANT_BIGBANG_Y y - 10
+#define PLANT_UP_HEIGHT PosY - 72
+#define PLANT_UP_WIDTH PosX + 18
+#define ANI_DRAIN	54000
 NipperPlant::NipperPlant( float posx, float posy) : Enemy()
 {
 	isUp = true;
@@ -29,7 +34,7 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (GetTickCount() - TimeDead > 150)
 			{
 				auto e = Effects::CreateEffect(EFFECT_BIGBANG);
-				grid->AddStaticObject(e, x + 5, y - 10);
+				grid->AddStaticObject(e, PLANT_BIGBANG_X, PLANT_BIGBANG_Y);
 				canDel = true;
 				TimeDead = 0;
 			}
@@ -67,7 +72,7 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void NipperPlant::UpdatePosition(DWORD dt)
 {
-	x = PosX + 18;
+	x = PLANT_UP_WIDTH;
 	if (startTimeUp < 0)
 	{
 		startTimeUp = TIME_UP;
@@ -84,9 +89,9 @@ void NipperPlant::UpdatePosition(DWORD dt)
 		vy = -PLANT_SPEED_UP;
 	}
 
-	if (y <= PosY - 72)
+	if (y <= PLANT_UP_HEIGHT)
 	{
-		y = PosY - 72;
+		y = PLANT_UP_HEIGHT;
 	}
 	else if (y >= PosY) {
 		y = PosY; 
@@ -98,8 +103,8 @@ void NipperPlant::UpdatePosition(DWORD dt)
 void NipperPlant::Render()
 {
 	ChangeAnimation();
-	CurAnimation->Render(x, y, 225);
-	Sprites::GetInstance()->Get(54000)->Draw(PosX, PosY);
+	CurAnimation->Render(x, y);
+	Sprites::GetInstance()->Get(ANI_DRAIN)->Draw(PosX, PosY);
 }
 void NipperPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

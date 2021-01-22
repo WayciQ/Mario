@@ -56,7 +56,7 @@ void PlayScene::_ParseSection_MAPS(string line)
 	float size = (int)atoi(tokens[2].c_str()) * UNIT_GAME;
 	grid->SetSizeCell(size);
 	int widthmap = (int)map->GetWidthMap();
-	grid->cols = (widthmap/(int)size) +1;
+	grid->cols = (widthmap/(int)size);
 	grid->rows = ((int)map->GetHeightMap() / (int)size) ;
 	grid->Init();
 	int R = atoi(tokens[5].c_str());

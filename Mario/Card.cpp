@@ -2,10 +2,11 @@
 #include "Grid.h"
 #include "Alert.h"
 #define TIME_CHANGE 2000
+#define BBOX 2 * UNIT_GAME
 Card::Card() {
 	getCard = 0;
 
-	SetBBox(2 * UNIT_GAME, 2 * UNIT_GAME);
+	SetBBox(BBOX, BBOX);
 	this->type = CARD;
 	timeChange = GetTickCount();
 	animation_set = animationsSets->Get(type);
@@ -38,8 +39,4 @@ void Card::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	}
 	CurAnimation = animation_set->Get(typeCard);
 	
-	/*if (isDead) {
-		auto a = new Alert(typeCard,x,y);
-		grid->AddStaticObject(a, x, y);
-	}*/
 }

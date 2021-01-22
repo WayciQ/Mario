@@ -40,22 +40,30 @@ void Koompa::SetState(STATEOBJECT state)
 		break;
 	}
 }
+
+#define X_KOOMPA_1_RACCOON player->x + 76
+#define X_KOOMPA_2_RACCOON player->x - 39
+#define X_KOOMPA_1 player->x + 45
+#define X_KOOMPA_2 player->x - 39
+#define Y_KOOMPA_SMALL player->x
+#define Y_KOOMPA player->y + 27
+
 void Koompa::UpdatePosition(DWORD dt)
 {
 	int posX, posY;
 	switch (player->level)
 	{
 	case RACCOON:
-		posX = player->nx > 0 ? player->x + 75 : player->x - 39;
-		posY = player->y + 27;
+		posX = player->nx > 0 ? X_KOOMPA_1_RACCOON : X_KOOMPA_2_RACCOON;
+		posY = Y_KOOMPA;
 		break;
 	case SMALL:
-		posX = player->nx > 0 ? player->x + 45 : player->x - 39;
-		posY = player->y;
+		posX = player->nx > 0 ? X_KOOMPA_1 : X_KOOMPA_2;
+		posY = Y_KOOMPA_SMALL;
 		break;
 	case BIG:case FIRE:
-		posX = player->nx > 0 ? player->x + 45 : player->x - 39;
-		posY = player->y + 27;
+		posX = player->nx > 0 ? X_KOOMPA_1 : X_KOOMPA_2;
+		posY = Y_KOOMPA;
 		break;
 	}
 	vy = 0;

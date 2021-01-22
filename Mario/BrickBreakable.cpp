@@ -24,7 +24,11 @@ BrickBreakable::BrickBreakable(int curY,TYPE child,int Num)
 	isDone = false;
 	this->curY = curY;
 }
-
+#define SPEED_Y_1	0.6
+#define SPEED_Y_2	0.6
+#define LOCA_X_BREAK x + 24
+#define X_UP_HIT	curY - 24
+#define X_RESPANW_ITEM	y - 48
 void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (isDead)
@@ -39,14 +43,14 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else
 			{
-				BreakBrick* brick = new BreakBrick(1, -0.6f);
+				BreakBrick* brick = new BreakBrick(1, -SPEED_Y_1);
 				grid->AddStaticObject(brick, x, y);
-				brick = new BreakBrick(1, -0.9f);
+				brick = new BreakBrick(1, -SPEED_Y_2);
 				grid->AddStaticObject(brick, x, y);
-				brick = new BreakBrick(-1, -0.9f);
+				brick = new BreakBrick(-1, -SPEED_Y_2);
 				grid->AddStaticObject(brick, x, y);
-				brick = new BreakBrick(-1, -0.6f);
-				grid->AddStaticObject(brick, x + 24, y);
+				brick = new BreakBrick(-1, -SPEED_Y_1);
+				grid->AddStaticObject(brick, LOCA_X_BREAK, y);
 			}
 			canDel = true;
 		}
@@ -54,7 +58,7 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (NumberHit >= 1) {
 				if (!isDone) {
 					y -= BRICK_DEFLECT_SPEED;
-					if (y <= curY - 24) {
+					if (y <= X_UP_HIT) {
 						isDone = true;
 					}
 				}
@@ -76,8 +80,8 @@ void BrickBreakable::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (!isSpawnItem)
 				{
 					if (child == BUTTON) {
-						auto item = Items::CreateItem(child, x, y - 48, false);
-						grid->AddStaticObject(item, x, y - 48);
+						auto item = Items::CreateItem(child, x, X_RESPANW_ITEM, false);
+						grid->AddStaticObject(item, x, X_RESPANW_ITEM);
 					}
 					else {
 						auto item = Items::CreateItem(child, x, y, false);

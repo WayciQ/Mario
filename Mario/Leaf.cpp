@@ -2,7 +2,8 @@
 #define SPEED_X_LEAF 0.5f
 #define SPEED_Y_LEAF 0.09f
 #define LEAF_MOVE 45
-
+#define Y_SPAW_UP CenY - 144
+#define X_SPAW_UP CenX + 32
 Leaf::Leaf(float x, float y) :Item(x, y)
 {
 	tag = ITEM;
@@ -22,10 +23,10 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		y += dy;
 		vy = -MARIO_JUMP_SPEED_Y;
-		if (y <= CenY - 144)
+		if (y <= Y_SPAW_UP)
 		{
 			isFalling = true;
-			x = CenX + 32;
+			x = X_SPAW_UP;
 			CenX = x;
 			vy = 0;
 			
@@ -36,7 +37,7 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += SPEED_Y_LEAF;
 		//x += sin(y);
 		x = CenX + LEAF_MOVE * cos(y);
-		if (x <= CenX - 30)
+		if (x <= X_SPAW_UP)
 		{
 			CurAnimation = animationsSets->Get(LEAF)->Get(WEAPON_SHOOT_LEFT);
 		}

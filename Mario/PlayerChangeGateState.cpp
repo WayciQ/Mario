@@ -1,6 +1,8 @@
 #include "PlayerChangeGateState.h"
 #include "PlayerStandingState.h"
 #include "Mario.h"
+#define Y_MOVE_UP	 posY - 48
+#define Y_MOVE_DOWN	 posY + 48
 PlayerChangeGateState::PlayerChangeGateState(int way,bool isOut,float x, float y)
 {
 	waymove = way;
@@ -35,7 +37,7 @@ void PlayerChangeGateState::Update(DWORD dt)
 	if (waymove == -2)
 	{
 
-		if (player->y < posY - 48) {
+		if (player->y < Y_MOVE_UP) {
 			if (isChangeDone) {
 				player->nx = 1;
 				player->ChangeState(new PlayerStandingState());
@@ -47,7 +49,7 @@ void PlayerChangeGateState::Update(DWORD dt)
 		}
 	}
 	else if(waymove == 2) {
-		if (player->y > posY + 48) {
+		if (player->y > Y_MOVE_DOWN) {
 			if (isChangeDone) {
 				player->nx = 1;
 				player->ChangeState(new PlayerStandingState());

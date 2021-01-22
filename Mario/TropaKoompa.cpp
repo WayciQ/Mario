@@ -124,7 +124,7 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				Revival(ENEMY_WALKING_LEFT);
 				return;
 			}
-			if (GetTickCount() - TimeDead > KOOMPA_TIME_REVIVAL - 2000)
+			if (GetTickCount() - TimeDead > TIME_AIN_RESPAWN)
 			{
 
 				if (!isFlip)
@@ -186,10 +186,10 @@ void TropaKoompa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				canRespawn = false;
 				if (player->nx == 1)
 				{
-					this->vx = 2 * MARIO_WALKING_SPEED;
+					this->vx = SPEED_KICK_KOOMPA;
 				}
 				else {
-					this->vx = -2 * MARIO_WALKING_SPEED;
+					this->vx = -SPEED_KICK_KOOMPA;
 				}
 				player->isPicking = false;
 			}

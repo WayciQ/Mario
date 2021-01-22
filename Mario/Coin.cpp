@@ -2,6 +2,8 @@
 #include "Bricks.h"
 #include "Grid.h"
 #define COIN_JUMP 0.9f
+#define TIME_BACK_TO_BLOCK 5000
+#define TIME_DEL 400
 Coin::Coin(float x, float y, STATEOBJECT state, bool isStatic) : Item(x, y)
 {
 	this->isStatic = isStatic;
@@ -29,7 +31,7 @@ void Coin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	y += dy;
 	if (isStatic) {
 		vy = 0;
-		if (GetTickCount() - time >= 5000 && !isKicked && isCoinChange)
+		if (GetTickCount() - time >= TIME_BACK_TO_BLOCK && !isKicked && isCoinChange)
 		{
 			auto Brick = Bricks::CreateBrick(BLOCK_BREAKABLE,0,COIN);
 			grid->AddStaticObject(Brick,x,y);
@@ -38,7 +40,7 @@ void Coin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		}
 	}
 	else {
-		if (GetTickCount() - time >= 400)
+		if (GetTickCount() - time >= TIME_DEL)
 		{
 			isDead = true;
 		}

@@ -7,7 +7,7 @@ class BoomerangScene : public Enemy
 public:
 	BoomerangScene() {
 		tag = ENEMY;
-		SetBBox(16, 16);
+		SetBBox(UNIT_GAME, UNIT_GAME);
 		type = BOOMERANG_SCENE;
 		CurAnimation = animationsSets->Get(BOOMERANG_SCENE)->Get(ENEMY_WALKING_RIGHT);
 		vx = 0.02f;
@@ -51,7 +51,7 @@ public:
 	};
 	void Render()
 	{
-		CurAnimation->Render(x, y, 255);
+		CurAnimation->Render(x, y);
 		//RenderBoundingBox();
 	}
 };

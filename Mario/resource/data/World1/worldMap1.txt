@@ -781,6 +781,6 @@
 
 
 [SETTINGS]
-cam	0	0	16	0	0
+cam	0	0	16	0	2
 time	500
 scene	1

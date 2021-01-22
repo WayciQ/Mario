@@ -15,6 +15,9 @@ BrickQuestion::BrickQuestion(float CurY,TYPE Child)
 	SetBBox(UNIT_GAME, UNIT_GAME);
 	isDone = false;
 }
+
+
+#define X_UP_HIT	curY - 24
 void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	//GameObject::Update(dt);
@@ -25,7 +28,7 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		ChangeAnimation(BLOCK_HITTED);
 		if (!isDone) {
 			y -= BRICK_DEFLECT_SPEED;
-			if (y <= curY - 24) {
+			if (y <= X_UP_HIT) {
 				isDone = true;
 			}
 		}

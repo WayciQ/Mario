@@ -1,6 +1,7 @@
 #include "SwitchBlock.h"
 #include "Grid.h"
 #include "Mario.h"
+#define X_DIE 38
 SwitchBlock::SwitchBlock(float x, float y) : Item(x,y)
 {
 	this->type = BUTTON;
@@ -16,7 +17,7 @@ void SwitchBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	if (isDead && !isChange)
 	{
-		SetBBox(UNIT_GAME, 10);
+		SetBBox(UNIT_GAME, 0);
 		player->vy = -MARIO_JUMP_DEFLECT_SPEED;
 		CurAnimation = animationsSets->Get(BUTTON)->Get(BLOCK_HITTED);
 		for (UINT i = 0; i < coObjects->size(); i++)
@@ -36,7 +37,7 @@ void SwitchBlock::GetBoundingBox(float& left, float& top, float& right, float& b
 	left = x;
 	top = y;
 	if (isDead) {
-		top += 38;
+		top += X_DIE;
 	}
 	
 	right = left + widthBBox;
