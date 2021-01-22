@@ -3,7 +3,7 @@ void Enemy::Render()
 {
 	ChangeAnimation();
 	CurAnimation->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void Enemy::ChangeAnimation()

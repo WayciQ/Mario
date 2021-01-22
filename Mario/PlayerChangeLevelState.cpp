@@ -7,10 +7,12 @@
 #include "Effects.h"
 #define BIGBANG 10
 #define X_SPAW 36
+#define TIME_FREEZE 500
 PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 {
 	player->Allow[JUMPING] = false;
 	player->Allow[WALKING] = false;
+	player->Allow[FALLING] = false;
 	player->vx = 0;
 	isChange = false;
 	upsize = false;
@@ -93,7 +95,7 @@ void PlayerChangeLevelState::HandleKeyBoard() {
 void PlayerChangeLevelState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
-	if (GetTickCount() - player->FreezeTime > 1000)
+	if (GetTickCount() - player->FreezeTime > TIME_FREEZE)
 	{
 		if (isChange) {
 			if (upsize) {
@@ -108,7 +110,7 @@ void PlayerChangeLevelState::Update(DWORD dt)
 		}
 		
 	}
-	if (GetTickCount() - player->FreezeTime > 1000 && player->isFreezeTime)
+	if (GetTickCount() - player->FreezeTime > TIME_FREEZE && player->isFreezeTime)
 	{
 		player->isFreezeTime = false;
 		player->startTimeChangeState();

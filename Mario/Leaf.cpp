@@ -8,7 +8,7 @@ Leaf::Leaf(float x, float y) :Item(x, y)
 {
 	tag = ITEM;
 	type = LEAF;
-	SetBBox(UNIT_GAME, UNIT_GAME);
+	SetBBox(0, 0);
 	CenX = x;
 	CenY = y;
 	CurAnimation = animationsSets->Get(LEAF)->Get(WEAPON_SHOOT_RIGHT);
@@ -21,6 +21,7 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//x = startPositionX + 60cos(0.004 * dt)
 	if (!isFalling)
 	{
+		
 		y += dy;
 		vy = -MARIO_JUMP_SPEED_Y;
 		if (y <= Y_SPAW_UP)
@@ -34,6 +35,7 @@ void Leaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
+		SetBBox(UNIT_GAME, UNIT_GAME);
 		y += SPEED_Y_LEAF;
 		//x += sin(y);
 		x = CenX + LEAF_MOVE * cos(y);

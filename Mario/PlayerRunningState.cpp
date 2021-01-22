@@ -61,7 +61,6 @@ void PlayerRunningState::HandleKeyBoard() {
 		{
 			if (!player->isWalkingComplete)
 			{
-
 				player->nx = 1;
 				player->ChangeState(new PlayerRunningState());
 			}

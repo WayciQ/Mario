@@ -8,9 +8,9 @@
 #define BOOMERANG_HEIGHT_BBOX 72
 #define BOOMERANG_TIME_DIE 300
 #define BOOMERANG_JUMP_DEFLECT_SPEED 0.6f
-#define TIME_JUMP 4000
-#define TIME_MOVE 2000
-#define TIME_SHOOT 2000
+#define TIME_JUMP 2000
+#define TIME_MOVE 6000
+#define TIME_SHOOT 3000
 #define TIME_ENNEMY_JUMP 0.8
 BoomerangEnemy::BoomerangEnemy() {
 	nx = 1;

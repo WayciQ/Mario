@@ -297,9 +297,11 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 		break;
 	case GREEN_MUSHROOM:
 	{
-		infor->LifeEarn(1);
-		auto ef = Effects::CreateEffect(LIFE_UP);
-		grid->AddMovingObject(ef, x, y);
+		if (!e->obj->isDead) {
+			infor->LifeEarn(1);
+			auto ef = Effects::CreateEffect(LIFE_UP);
+			grid->AddMovingObject(ef, x, y);
+		}
 	}
 		break;
 	case BUTTON:
@@ -366,14 +368,13 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		if (e->ny == 1)
 		{
 			vy = 0;
-			isJumpDone = true;
 			e->obj->startTimeDead();
 			if (e->obj->child == COIN) {
 				infor->MoneyEarn(1);
 			};
 		}
 		if (e->ny == -1) {
-			isOnSky = false;
+			vy = 0;
 		}
 		break;
 	case BLOCK_BREAKABLE:
@@ -388,12 +389,11 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		if (e->ny == 1)
 		{
 			vy = 0;
-			isJumpDone = true;
 			e->obj->startTimeDead();
 			infor->ScoreEarn(20);
 		}
 		if (e->ny == -1) {
-			isOnSky = false;
+			vy = 0;
 		}
 		break;
 	
@@ -404,7 +404,8 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		break;
 	case BLOCK_MOVE:
 		if (e->ny == -1) {
-			e->obj->isDead = true;
+			vy = 0;
+			e->obj->startTimeDead();
 		}
 	}
 	

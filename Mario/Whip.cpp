@@ -5,6 +5,7 @@
 Whip::Whip()
 {
 	type = WHIP;
+	isDead = false;
 	SetBBox(MARIO_RACCOON_WHIP_WIDTH, MARIO_RACCOON_WHIP_HEIGHT);
 	//SetPosition(player->x, player->y);
 }
@@ -38,22 +39,27 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			auto effect = Effects::CreateEffect(EFFECT_STAR);
 			grid->AddStaticObject(effect, x, y);
+			auto ef = Effects::CreateEffect(SCORE_100);
+			grid->AddStaticObject(ef, x, y);
+			canDel = true;
 			coEvents.at(i)->vx = 0;
 			coEvents.at(i)->startTimeDead();
 			coEvents.at(i)->isFlip = true;
 			coEvents.at(i)->vy = -MARIO_JUMP_DEFLECT_SPEED;
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
-			auto ef = Effects::CreateEffect(SCORE_100);
-			grid->AddStaticObject(ef, coEvents.at(i)->x, coEvents.at(i)->y);
+			
 		}
 			break;
 		case GROUND:
 			if (coEvents.at(i)->type == BLOCK_QUESTION || coEvents.at(i)->type == BLOCK_BREAKABLE)
 			{
+				canDel = true;
 				coEvents.at(i)->startTimeDead();
 			}
 			break;
 		}
+	}
+	if (isDead) {
 	}
 }
 #define X_TAIL_1_FRAME_3 player->x + 76
@@ -69,20 +75,28 @@ void Whip::UpdatePosititon(DWORD dt)
 	
 	int posX, posY;
 	if (curFrame == 0) {
+		SetBBox(0, 0);
 		posX = player->nx > 0 ? X_TAIL_1_FRAME_0 : X_TAIL_2_FRAME_0;
 	}
 	else
 	if (curFrame == 3)
 	{
+		SetBBox(MARIO_RACCOON_WHIP_WIDTH, MARIO_RACCOON_WHIP_HEIGHT);
 		posX = player->nx > 0 ? X_TAIL_1_FRAME_3 : X_TAIL_2_FRAME_3;
 	}
-	else posX = player->nx > 0 ? X_TAIL_2_FRAME : X_TAIL_2_FRAME;
+	else {
+		posX = player->nx > 0 ? X_TAIL_1_FRAME_3 : X_TAIL_2_FRAME_3;
+		SetBBox(MARIO_RACCOON_WHIP_WIDTH, MARIO_RACCOON_WHIP_HEIGHT);
+	}
 
 	posY = Y_TAIL_2_FRAME;
 	SetPosition(posX, posY);
 
-	if (player->CurAnimation->isLastFrame )
+	if (player->CurAnimation->isLastFrame)
+	{
 		canDel = true;
+		isDead = true;
+	}
 
 }
 void Whip::Render() {

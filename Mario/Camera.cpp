@@ -1,8 +1,9 @@
 #include "Camera.h"
 #include "Mario.h"
 #include "LimitAutoCameraState.h"
+#include "PlayerChangeLevelState.h"
 Camera* Camera::__instance = NULL;
-
+#define HEIGHT_SCREEN_GAME 576
 Camera* Camera::GetInstance()
 {
 	if (__instance == NULL)
@@ -40,9 +41,9 @@ void Camera::Update(DWORD dt)
 			player->ChangeState(new LimitAutoCameraState());
 		}
 
-		if (player->x > cam_x + GetWidth() - 48)
+		if (player->x > cam_x + SCREEN_WIDTH - 48)
 		{
-			player->x = cam_x + GetWidth() - 48;
+			player->x = cam_x + SCREEN_WIDTH - 48;
 		}
 	}
 	else if (typeMove == 2) {
@@ -73,11 +74,15 @@ void Camera::Update(DWORD dt)
 		}
 		else
 		{
-			if (cy >= maxBottomCam - SCREEN_HEIGHT / 2 - 120)
+			if (cy >= maxBottomCam - HEIGHT_SCREEN_GAME)
 				cy = maxBottomCam;
 		}
 		SetCamPos(cx, cy);
-		
+	}
+	if (player->y > cam_y + HEIGHT_SCREEN_GAME) {
+		player->infor->LifeEarn(-1);
+		player->infor->SetSceneId(0);
+		player->IsChangeScene = true;
 	}
 }
 
