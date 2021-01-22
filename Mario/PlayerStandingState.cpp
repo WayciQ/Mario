@@ -44,7 +44,8 @@ PlayerStandingState::PlayerStandingState() {
 	player->isShooting = false;
 	player->isFalling = false;
 	player->isFlying = false;
-	player->freeze = false;
+	player->isFreezeTime = false;
+	player->untouchable = false;
 	// set state by nx
 	if (player->isPicking)
 	{

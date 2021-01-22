@@ -2,10 +2,9 @@
 #include "Enemy.h" 
 class NipperPlant : public Enemy
 {
-	int startTimeUp;
+	DWORD startTimeUp;
 	float PosX, PosY;
 	bool isUp;
-	bool isDown;
 public:
 	NipperPlant(float x, float y);
 	~NipperPlant() {}

@@ -4,12 +4,12 @@ class Portal : public GameObject
 {
 	int scene_id;
 public:
-	Portal(int scene_id, float w, float h)
+	Portal(int scene_id)
 	{
 		type = PORTAL;
 		tag = BOX;
 		this->scene_id = scene_id;
-		SetBBox(w, h);
+		SetBBox(UNIT_GAME, UNIT_GAME);
 	}
 	void Render()
 	{

@@ -6,7 +6,7 @@ Whip::Whip()
 {
 	type = WHIP;
 	SetBBox(MARIO_RACCOON_WHIP_WIDTH, MARIO_RACCOON_WHIP_HEIGHT);
-	SetPosition(player->x, player->y);
+	//SetPosition(player->x, player->y);
 }
 
 void Whip::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -43,6 +43,8 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			coEvents.at(i)->isFlip = true;
 			coEvents.at(i)->vy = -MARIO_JUMP_DEFLECT_SPEED;
 			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
+			auto ef = Effects::CreateEffect(SCORE_100);
+			grid->AddStaticObject(ef, coEvents.at(i)->x, coEvents.at(i)->y);
 		}
 			break;
 		case GROUND:

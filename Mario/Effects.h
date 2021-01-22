@@ -2,12 +2,16 @@
 #include "Effectbigbang.h"
 #include "EffectStar.h"
 #include "Curtain.h"
+#include "Score_100.h"
+#include "LifeUp.h"
+#include "CardSelect.h"
+
 class Effects
 {
 public:
 	Effects() {};
 	~Effects() {};
-	static Effect* CreateEffect(TYPE type) {
+	static Effect* CreateEffect(TYPE type, STATEOBJECT card = BLOCK_STATIC) {
 		switch (type)
 		{
 		case NUMBER_SCENE:
@@ -21,6 +25,15 @@ public:
 			break;
 		case CURTAIN:
 			return new Curtain();
+			break; 
+		case SCORE_100:
+			return new Score_100();
+			break;
+		case LIFE_UP:
+			return new LifeUp();
+			break;
+		case EFFECT_CARD:
+			return new CardSelect(card);
 			break;
 		default:
 			break;

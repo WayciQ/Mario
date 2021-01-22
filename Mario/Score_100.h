@@ -1,31 +1,31 @@
 #pragma once
+#pragma once
+#pragma once
 #include "Effect.h"
-#define ANIMATION 100002
-#define	HEIGHT_CURTAIN 560
-#define	SPEED_UP_CURTAIN 0.5f
-class Curtain : public Effect
+#define ANIMATION 90051
+#define TIME_UP 300
+#define SPEED_UP 0.5f
+class Score_100 : public Effect
 {
 	DWORD TimeUp;
 public:
-	Curtain() {
-		SetBBox(UNIT_GAME, HEIGHT_CURTAIN);
+	Score_100() {
 		CurAnimation = Animations::GetInstance()->Get(ANIMATION);
-		vy = -SPEED_UP_CURTAIN;
+		vy = -SPEED_UP;
 		TimeUp = GetTickCount();
-		SetBBox(0, 0);
-	}
-	~Curtain() {
-	}
+	};
+	~Score_100() {};
+	void GetBoundingBox(float& l, float& t, float& r, float& b) {}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {
 		GameObject::Update(dt);
 		y += dy;
-		if (GetTickCount() - TimeUp >= 2000) {
+		if (GetTickCount() - TimeUp > TIME_UP) {
 			isDead = true;
 			canDel = true;
 		}
 	}
-	void Render() {
+	void Render()
+	{
 		CurAnimation->Render(x, y);
 	}
 };
-

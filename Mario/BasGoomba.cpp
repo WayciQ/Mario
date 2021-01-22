@@ -1,5 +1,4 @@
 #include "BasGoomba.h"
-
 BasGoomba::BasGoomba() : Goomba()
 {
 	this->type = BASIC_GOOMBA;

@@ -154,12 +154,11 @@ void BoomerangEnemy::SetState(STATEOBJECT state) {
 	default:
 		break;
 	}
-
 }
 void BoomerangEnemy::CreateBoomerang()
 {
 	auto Bom = Weapons::CreateWeapon(BOOMERRANG_WEAPON, nx, ny, x, y);
-	grid->AddMovingObject(Bom);
+	grid->AddMovingObject(Bom,x,y);
 }
 void BoomerangEnemy::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

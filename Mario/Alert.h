@@ -8,6 +8,9 @@ public:
 	ID3DXFont* test;
 	string infor;
 	Animation* Item;
+	DWORD TimeUP;
+	bool isShow;
+	bool isShowCard;
 	Alert(STATEOBJECT card, float x, float y);
 	~Alert();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);

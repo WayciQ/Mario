@@ -22,6 +22,7 @@
 #include "PlayerRaccoonJumpTail.h"
 #include "Alert.h"
 #include "Grid.h"
+#include "Effects.h"
 Mario * Mario::__instance = NULL;
 Mario* Mario::GetInstance()
 {
@@ -29,7 +30,8 @@ Mario* Mario::GetInstance()
 		__instance = new Mario();
 	return __instance;
 }
-
+#define EFFECT_SCORE_100 {auto ef = Effects::CreateEffect(SCORE_100);grid->AddStaticObject(ef, e->obj->x, e->obj->y);}
+				
 Mario::Mario() {
 	tag = PLAYER;
 	type = MARIO;
@@ -41,7 +43,7 @@ Mario::Mario() {
 }
 #define LENGTH_FALL currentLocationY + 15
 #define TIME 1000
-#define SCORE_100 100
+#define SCORE_1 100
 #define SPEED_KICK_KOOMPA 0.6
 
 void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -64,17 +66,19 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		DebugOut(L"\n isWaittingPress:true - %d", GetTickCount() - startWalkingComplete);
 	}else DebugOut(L"\n isWaittingPress:false - %d", GetTickCount() - startWalkingComplete);*/
 
+
 	if (GetTickCount() - untouchableTime >= MARIO_UNTOUCHABLE_TIME)
 	{
 		untouchableTime = 0;
 		untouchable = false;
 	}
 
-	if (GetTickCount() - countTime > TIME && !freeze)
+	if (GetTickCount() - countRealTime > TIME && !isFreezeTime)
 	{
 		infor->CalcTimeGame(-1);
-		countTime = GetTickCount();
+		countRealTime = GetTickCount();
 	}
+
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -120,8 +124,7 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				UpdateWithGround(e);
 				break;
 			case ENEMY:
-				
-					UpdateWithEnemy(e);
+				UpdateWithEnemy(e);
 				break;
 			case BOX:
 				UpdateWithGate(e);
@@ -132,7 +135,8 @@ void Mario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
-
+#define EFFECT_Y_SCORE y + 59
+#define EFFECT_X_SCORE y + 59
 void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 {
 	if (e->ny == -1)
@@ -142,9 +146,10 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 		{
 			if (e->obj->typeParent == PLANT || e->obj->tagChange == WEAPON)
 			{
-				if (!untouchable)
-				if (!immortal) {
-					ChangeState(new PlayerChangeLevelState(true));
+				if (!untouchable) {
+					if (!immortal) {
+						ChangeState(new PlayerChangeLevelState(true));
+					}
 				}
 			}
 			else {
@@ -153,7 +158,8 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 				e->obj->startTimeDead();
 				e->obj->isFlip = false;
 				e->obj->SetState(ENEMY_DIE_STAND);
-				infor->ScoreEarn(SCORE_100);
+				infor->ScoreEarn(SCORE_1);
+				EFFECT_SCORE_100
 			}
 		}
 		else
@@ -171,7 +177,9 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 						SetState(ENEMY_DIE_FLIP);
 					}
 					else SetState(ENEMY_DIE_STAND);
-					infor->ScoreEarn(SCORE_100);
+					infor->ScoreEarn(SCORE_1);
+					auto ef = Effects::CreateEffect(SCORE_100);
+					grid->AddMovingObject(ef, e->obj->x, e->obj->y);
 
 				}
 				else {
@@ -181,12 +189,13 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 					e->obj->tagChange = WEAPON;
 					if (player->nx > 0)
 					{
-						e->obj->vx = 2 * MARIO_WALKING_SPEED;
+						e->obj->vx = SPEED_KICK_KOOMPA;
 					}
 					else {
-						e->obj->vx = -2 * MARIO_WALKING_SPEED;
+						e->obj->vx = -SPEED_KICK_KOOMPA;
 					}
-					infor->ScoreEarn(100);
+					infor->ScoreEarn(SCORE_1);
+					EFFECT_SCORE_100
 				}
 			}
 		}
@@ -194,12 +203,12 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 	else if (e->ny == 1)
 	{
 		vy = 0;
-		
 		if (!e->obj->isDead) {
 			//vy = -MARIO_JUMP_DEFLECT_SPEED;
-			if (!untouchable)
-			if (!immortal) {
-				ChangeState(new PlayerChangeLevelState(true));
+			if (!untouchable) {
+				if (!immortal) {
+					ChangeState(new PlayerChangeLevelState(true));
+				}
 			}
 		}
 	}
@@ -207,9 +216,10 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 	{
 		x += dx;
 		if (!e->obj->isDead) {
-			if (!untouchable)
-			if (!immortal) {
-				ChangeState(new PlayerChangeLevelState(true));
+			if (!untouchable) {
+				if (!immortal) {
+					ChangeState(new PlayerChangeLevelState(true));
+				}
 			}
 		}
 		else {
@@ -217,9 +227,10 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 			{
 				if (e->obj->isKicked && e->obj->vx != 0)
 				{
-					if (!untouchable)
-					if (!immortal)
-						ChangeState(new PlayerChangeLevelState(true));
+					if (!untouchable) {
+						if (!immortal)
+							ChangeState(new PlayerChangeLevelState(true));
+					}
 				}
 				if (canPicking) {
 					isPicking = true;
@@ -251,21 +262,9 @@ void Mario::CollisionAtCreate(LPGAMEOBJECT obj)
 		switch (obj->type)
 		{
 		case LEAF:
-			ChangeState(new PlayerChangeLevelState(false, RACCOON));
-			break;
-		case COIN:
-			infor->ScoreEarn(100);
-			infor->MoneyEarn(1);
-			break;
-		case RED_MUSHROOM:
-			x += 4;
-			ChangeState(new PlayerChangeLevelState(false));
-			break;
-		case GREEN_MUSHROOM:
-			infor->LifeEarn(1);
-			break;
-		case FIRE_FLOWER:
-			ChangeState(new PlayerChangeLevelState(false, FIRE));
+			if (level != RACCOON) {
+				ChangeState(new PlayerChangeLevelState(false, RACCOON));
+			}
 			break;
 		}
 		obj->isDead = true;
@@ -276,7 +275,12 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 	switch (e->obj->type)
 	{
 	case LEAF:
-		ChangeState(new PlayerChangeLevelState(false, RACCOON));
+		if (level != RACCOON) {
+			ChangeState(new PlayerChangeLevelState(false,RACCOON));
+		}
+		else {
+			EFFECT_SCORE_100
+		}
 		break;
 	case COIN:
 		//y += dy;
@@ -284,11 +288,19 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 		infor->MoneyEarn(1);
 		break;
 	case RED_MUSHROOM:
-		x += 4;
-		ChangeState(new PlayerChangeLevelState(false));
+		if (level == SMALL) {
+			ChangeState(new PlayerChangeLevelState(false,BIG));
+		}
+		else {
+			EFFECT_SCORE_100
+		}
 		break;
 	case GREEN_MUSHROOM:
+	{
 		infor->LifeEarn(1);
+		auto ef = Effects::CreateEffect(LIFE_UP);
+		grid->AddMovingObject(ef, x, y);
+	}
 		break;
 	case BUTTON:
 		if (e->nx != 0) {
@@ -307,7 +319,10 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 		}
 		break;
 	case FIRE_FLOWER:
-		ChangeState(new PlayerChangeLevelState(false, FIRE));
+		if (level != FIRE) {
+			ChangeState(new PlayerChangeLevelState(false,FIRE));
+		}
+		else EFFECT_SCORE_100
 		break;
 	}
 	e->obj->isDead = true;
@@ -326,6 +341,7 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		Allow[FALLING] = true;
 		currentLocationY = y;
 	}
+
 	switch (e->obj->type)
 	{
 	case GROUND_BOX:
@@ -344,7 +360,7 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 				y += dy;
 			}
 			else {
-				//vy = 0;
+				vx = 0;
 			}
 		}
 		if (e->ny == 1)
@@ -366,7 +382,7 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 				y += dy;
 			}
 			else {
-				//vy = 0;
+				
 			}
 		}
 		if (e->ny == 1)
@@ -400,6 +416,8 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		Alert* alert = new Alert(card->GetTypeCard(), card->x, card->y);
 		alert->Init();
 		grid->AddStaticObject(alert, card->x, card->y);
+		auto ef = Effects::CreateEffect(EFFECT_CARD, card->GetTypeCard());
+		grid->AddMovingObject(ef, card->x, card->y);
 		ChangeState(new PlayerEndSceneState());
 	}
 }
@@ -559,13 +577,15 @@ void Mario::Render() {
 	}
 	else alpha = 255;
 
-	if (GetState() == WHIPPING_LEFT)
-	{
-		CurAnimation->Render(MARIO_X_WHIP, y, alpha);
-	}
-	else
-	{
-		CurAnimation->Render(x, y, alpha);
+	if (!isFreezeTime) {
+		if (GetState() == WHIPPING_LEFT)
+		{
+			CurAnimation->Render(MARIO_X_WHIP, y, alpha);
+		}
+		else
+		{
+			CurAnimation->Render(x, y, alpha);
+		}
 	}
 	//RenderBoundingBox();
 }
@@ -929,5 +949,5 @@ void Mario::Revival(float x, float y, int isInScene)
 	}
 	SetPosition(x, y);
 	SetSpeed(0, 0);
-	freeze = false;
+	isFreezeTime = false;
 }

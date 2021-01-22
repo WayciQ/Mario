@@ -4,14 +4,17 @@
 #define TOP 200
 #define RIGHT 720
 #define BOTTOM 400
+#define TimeShow_2 1000
+#define X_CARD x +150
 Alert::Alert(STATEOBJECT card, float x, float y) {
 	this->x = x;
 	this->y = y;
 	startTimeAlert = GetTickCount();
 	infor = "      COURSE   CLEAR   :\n";
-	infor +="\n\n";
-	infor +="YOU   GOT   A   CARD";
 	Item = animationsSets->Get(CARD_HUB)->Get(card);
+	TimeUP = GetTickCount();
+	isShow = true;
+	isShowCard = false;
 }
 
 Alert::~Alert()
@@ -19,6 +22,12 @@ Alert::~Alert()
 }
 
 void Alert::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){
+	if (GetTickCount() - TimeUP >= TimeShow_2 && isShow) {
+		infor += "\n\n";
+		infor += "YOU   GOT   A   CARD";
+		isShow = false;
+		isShowCard = true;
+	}
 }
 void Alert::Init()
 {
@@ -43,7 +52,7 @@ void Alert::Render() {
 	LPD3DXSPRITE spriteHandler = Game::GetInstance()->GetSpriteHandler();
 	if (test) {
 		test->DrawTextA(spriteHandler, infor.c_str(), -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
-		
 	}
-	Item->Render(x +150, y);
+	if(isShowCard)
+		Item->Render(X_CARD, y);
 }

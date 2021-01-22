@@ -3,6 +3,7 @@
 Effect::Effect()
 {
 	tag = EFFECT;
+	SetBBox(0, 0);
 }
 
 void Effect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

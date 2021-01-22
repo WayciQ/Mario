@@ -551,6 +551,15 @@
     <ClInclude Include="Curtain.h">
       <Filter>Framework\GameObjects\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="CardSelect.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Score_100.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeUp.h">
+      <Filter>Framework\GameObjects\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\data\mario-scene.txt">

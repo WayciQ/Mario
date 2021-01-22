@@ -3,7 +3,7 @@
 
 class PiranhaPlant: public Enemy
 {
-	int startTimeUp;
+	DWORD startTimeUp;
 	float PosX, PosY;
 	float YY;
 	bool upDone;

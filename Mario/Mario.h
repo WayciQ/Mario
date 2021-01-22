@@ -58,9 +58,9 @@ public:
 	int moveToTrigger;
 	bool IsTouchPort;
 
-	DWORD countTime;
+	DWORD countRealTime;
 	Information* infor;
-	bool freeze;
+	bool isFreezeTime;
 	Animation* CurAnimation;
 	unordered_map<STATEPLAYER, bool> Allow;
 	static Mario* GetInstance();
@@ -82,6 +82,6 @@ public:
 	void ChangeState(PlayerState* newState);
 	void Revival(float x, float y, int isInScene);
 	void startTimeChangeState() { untouchableTime = GetTickCount(); untouchable = true; }
-	void startTimeFreeze() { FreezeTime = GetTickCount(); freeze = true; }
+	void startTimeFreeze() { FreezeTime = GetTickCount(); isFreezeTime = true; }
 	void StartTimeFly() { startTimeFly = GetTickCount(); isFlying = true; }
 };

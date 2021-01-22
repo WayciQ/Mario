@@ -2,6 +2,8 @@
 #include "Mario.h"
 #include "Camera.h"
 #include "Items.h"
+#include "Weapons.h"
+#include "Effects.h"
 
 Grid* Grid::__instance = NULL;
 Grid::Grid() 
@@ -32,6 +34,40 @@ void Grid::Init()
 	}
 	DebugOut(L"Cell %d %d\n", rows, cols);
 }
+void Grid::AddMovingObject(LPGAMEOBJECT obj, float x, float y)
+{
+	RECT e;
+	e.top = y;
+	e.left = x;
+	e.right = x + obj->widthBBox;
+	e.bottom = y + obj->heightBBox;
+	obj->GetRect();
+	auto area = GetCell(e);
+	LOOP(r, area.TopCell, area.BottomCell)
+		LOOP(c, area.LeftCell, area.RightCell) {
+		Cells[r][c]->movingObjects.insert(obj);
+		//DebugOut(L"[INFO] object Moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+	}
+	obj->SetPosition(x, y);
+}
+
+void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
+{
+	RECT e;
+	e.top = y;
+	e.left = x;
+	e.right = x + obj->widthBBox;
+	e.bottom = y + obj->heightBBox;
+	auto area = GetCell(e);
+	LOOP(r, area.TopCell, area.BottomCell) {
+		LOOP(c, area.LeftCell, area.RightCell)
+		{
+			//DebugOut(L"[INFO] object Static TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+			Cells[r][c]->staticObjects.insert(obj);
+		}
+	}
+	obj->SetPosition(x, y);
+}
 void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 {
 	RECT e;
@@ -44,45 +80,25 @@ void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
 	{
 	case GROUND:
 	{
-		
-		for (int r = area.TopCell; r <= area.BottomCell; r++)
-			for (int c = area.LeftCell; c <= area.RightCell; c++)
-			{
-				DebugOut(L"[INFO] object static TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
-				Cells[r][c]->staticObjects.insert(obj);
-			}
-		obj->SetPosition(x, y);
+		AddStaticObject(obj, x, y);
 		break;
 	}
 	case ENEMY:
 	{
-		for (int r = area.TopCell; r <= area.BottomCell; r++)
-			for (int c = area.LeftCell; c <= area.RightCell; c++)
-			{
-				//DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
-				Cells[r][c]->movingObjects.insert(obj);
-			}
-		obj->SetPosition(x, y);
+		AddMovingObject(obj, x, y);
 		break;
 	}
 	case ITEM:
-		for (int r = area.TopCell; r <= area.BottomCell; r++)
-			for (int c = area.LeftCell; c <= area.RightCell; c++)
-			{
-				//DebugOut(L"[INFO] object Hidden TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
-				Cells[r][c]->staticObjects.insert(obj);
-			}
-		obj->SetPosition(x, y);
+		AddStaticObject(obj, x, y);
 		break;
 	case BOX:
-		for (int r = area.TopCell; r <= area.BottomCell; r++)
-			for (int c = area.LeftCell; c <= area.RightCell; c++)
-			{
-				DebugOut(L"[INFO] object static TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
-				Cells[r][c]->staticObjects.insert(obj);
-			}
-		obj->SetPosition(x, y);
+		AddStaticObject(obj, x, y);
 		break;
+	case EFFECT:
+	{
+		AddMovingObject(obj, x, y);
+		break; 
+	}
 	default:
 		DebugOut(L"[ERR] Invalid object TYPE: %d\n", obj->type);
 		break;
@@ -113,27 +129,24 @@ void Grid::RenderCell()
 	}
 }
 
-// test
 
 void Grid::CalcObjectInViewPort()
 {
 	auto area = GetCell(camera->GetBBox());
 	unordered_set<GameObject*> result;
-	unordered_set<GameObject*> resultItem;
 	for(int r = area.TopCell;r <= area.BottomCell;r++)
 	{
 		//DebugOut(L"[info] Cell row [%d]\n", r);
 		for(int c = area.LeftCell; c <= area.RightCell;c++)
 		{
-			result.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 			result.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
+			result.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 			//DebugOut(L"[info] Object in Cell  [%d]: %d\n",c,Cells[r][c]->staticObjects.size());
 			//DebugOut(L"[info] Cell column [%d]\n",c);
-			resultItem.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
+			
 			
 		}
 	}
-	CurMovingObjectInViewPort = { resultItem.begin(), resultItem.end() };
 	CurObjectInViewPort = { result.begin(), result.end() };
 	//DebugOut(L"[info] Cell left: [%d], top: [%d], right: [%d] bottom: [%d]\n", area.LeftCell, area.TopCell, area.RightCell, area.BottomCell);
 	//DebugOut(L"[info] Object in viewport: %d\n", CurObjectInViewPort.size());
@@ -193,7 +206,7 @@ void Grid::UpdateCellInViewPort()
 				if (obj->canDel)
 				{
 					return true;
-					isDeadObject = true;
+					//isDeadObject = true;
 				}
 				return false;
 			});
@@ -217,52 +230,9 @@ void Grid::UpdateCellInViewPort()
 	CalcObjectInViewPort();
 
 }
-void Grid::RespawnObject() {
-	/*for (auto& obj : HandleGameOBject)
-	{
-		if(obj->)
-	}*/
-}
-void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
-{
-	RECT e;
-	e.top = y;
-	e.left = x;
-	e.right = x + obj->widthBBox;
-	e.bottom = y + obj->heightBBox;
-	auto area = GetCell(e);
-	for (int r = area.TopCell; r <= area.BottomCell; r++)
-		for (int c = area.LeftCell; c <= area.RightCell; c++)
-		{
-			//DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
-			Cells[r][c]->staticObjects.insert(obj);
-		}
-	obj->SetPosition(x, y);
-}
-void Grid::AddEffect(LPGAMEOBJECT obj, float x, float y)
-{
-	RECT e;
-	e.top = y;
-	e.left = x;
-	e.right = x + obj->widthBBox;
-	e.bottom = y + obj->heightBBox;
-	auto area = GetCell(e);
-	for (int r = area.TopCell; r <= area.BottomCell; r++)
-		for (int c = area.LeftCell; c <= area.RightCell; c++)
-		{
-			//DebugOut(L"[INFO] object moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
-			Cells[r][c]->staticObjects.insert(obj);
-		}
 
-	obj->SetPosition(x, y);
-}
-void Grid::AddMovingObject(LPGAMEOBJECT obj)
-{
-	auto area = GetCell(obj->GetRect());
-	LOOP(r, area.TopCell, area.BottomCell)
-		LOOP(c, area.LeftCell, area.RightCell)
-			Cells[r][c]->movingObjects.insert(obj);
-}
+
+
 
 void Grid::RemoveDeadObject() 
 {

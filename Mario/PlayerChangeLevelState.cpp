@@ -16,33 +16,35 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 	upsize = false;
 	if (isHurt) {
 		auto e = Effects::CreateEffect(EFFECT_BIGBANG);
-		player->startTimeChangeState();
+		
 		player->startTimeFreeze();
 		player->isDead = false;
 		switch (player->level)
 		{
 		case RACCOON:
-			grid->AddStaticObject(e, player->x + BIGBANG, player->y - BIGBANG);
+			
+			grid->AddMovingObject(e, player->x + BIGBANG, player->y - BIGBANG);
 			player->SetLevel(BIG);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
 			break;
 		case FIRE:
-			grid->AddStaticObject(e, player->x + BIGBANG, player->y - BIGBANG);
+			grid->AddMovingObject(e, player->x + BIGBANG, player->y - BIGBANG);
 			player->SetLevel(BIG);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
 			else stateName = STANDING_LEFT;
 			break;
 		case BIG:
-			grid->AddStaticObject(e, player->x + BIGBANG, player->y - BIGBANG);
+			player->isFreezeTime = false;
 			isChange = true;
 			upsize = false;
 			stateName = player->nx > 0 ? DOWN_SIZE_RIGHT : DOWN_SIZE_LEFT;
-			player->SetLevel(SMALL);
 			break;
 		case SMALL:
+			player->startTimeFreeze();
+			player->isFreezeTime = false;
 			stateName = DIE;
 			player->isDead = true;
 			break;
@@ -50,15 +52,18 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 	}
 	else {
 		player->isDead = false;
-		player->startTimeChangeState();
 		if (player->level == SMALL) {
+			player->startTimeFreeze();
+			player->isFreezeTime = false;
 			isChange = true;
 			upsize = true;
 			player->y -= X_SPAW;
+			player->vy = 0;
+			player->gravity = 0;
 			stateName = player->nx > 0 ? UP_SIZE_RIGHT : UP_SIZE_LEFT;
-			player->SetLevel(BIG);
 		}
 		else {
+			player->startTimeChangeState();
 			player->SetLevel(typeChange);
 			if (player->nx > 0)
 				stateName = STANDING_RIGHT;
@@ -69,7 +74,7 @@ PlayerChangeLevelState::PlayerChangeLevelState(bool isHurt,TYPE typeChange)
 }
 
 void PlayerChangeLevelState::HandleKeyBoard() {
-	if (!player->isDead || !player->untouchable) {
+	if (!player->isDead && !player->isFreezeTime && !isChange) {
 		if (keyCode[DIK_LEFT] && keyCode[DIK_RIGHT])
 		{
 			player->ChangeState(new PlayerStandingState());
@@ -88,30 +93,30 @@ void PlayerChangeLevelState::HandleKeyBoard() {
 void PlayerChangeLevelState::Update(DWORD dt)
 {
 	this->HandleKeyBoard();
-	if (GetTickCount() - player->untouchableTime >= 400 && !player->isDead )
+	if (GetTickCount() - player->FreezeTime > 1000)
 	{
 		if (isChange) {
 			if (upsize) {
-				player->y -= X_SPAW;
+
 				player->SetLevel(BIG);
 			}
 			else {
 				player->SetLevel(SMALL);
 			}
 			isChange = false;
+			player->ChangeState(new PlayerStandingState());
 		}
-		player->ChangeState(new PlayerStandingState());
+		
 	}
-	if (GetTickCount() - player->FreezeTime > 1000)
+	if (GetTickCount() - player->FreezeTime > 1000 && player->isFreezeTime)
 	{
-		player->freeze = false;
-		if (GetTickCount() - player->FreezeTime < 1200 && player->isDead) {
-			player->vy = -MARIO_JUMP_SPEED_Y;
-		}
-		if (GetTickCount() - player->FreezeTime < 1400 && player->isDead) {
-			player->infor->LifeEarn(-1);
-			player->infor->SetSceneId(0);
-			player->IsChangeScene = true;
-		}
+		player->isFreezeTime = false;
+		player->startTimeChangeState();
+	}
+	if (GetTickCount() - player->FreezeTime > 1000 && player->isDead)
+	{
+		player->infor->LifeEarn(-1);
+		player->infor->SetSceneId(0);
+		player->IsChangeScene = true;
 	}
 }

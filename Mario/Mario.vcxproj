@@ -231,6 +231,7 @@
     <ClInclude Include="Bricks.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="CardSelect.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="Coin.h" />
@@ -268,6 +269,8 @@
     <ClInclude Include="PlayerWorlMapState.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="SceneGrass.h" />
+    <ClInclude Include="Score_100.h" />
+    <ClInclude Include="LifeUp.h" />
     <ClInclude Include="Trigger.h" />
     <ClInclude Include="HUB.h" />
     <ClInclude Include="SwitchBlock.h" />

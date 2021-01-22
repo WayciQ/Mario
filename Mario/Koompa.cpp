@@ -41,12 +41,12 @@ void Koompa::SetState(STATEOBJECT state)
 	}
 }
 
-#define X_KOOMPA_1_RACCOON player->x + 76
+#define X_KOOMPA_1_RACCOON player->x + 55
 #define X_KOOMPA_2_RACCOON player->x - 39
-#define X_KOOMPA_1 player->x + 45
+#define X_KOOMPA_1 player->x + 39
 #define X_KOOMPA_2 player->x - 39
-#define Y_KOOMPA_SMALL player->x
-#define Y_KOOMPA player->y + 27
+#define Y_KOOMPA_SMALL player->y
+#define Y_KOOMPA player->y + 30
 
 void Koompa::UpdatePosition(DWORD dt)
 {

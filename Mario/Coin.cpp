@@ -1,9 +1,10 @@
 #include "Coin.h"
 #include "Bricks.h"
 #include "Grid.h"
+#include "Effects.h"
 #define COIN_JUMP 0.9f
 #define TIME_BACK_TO_BLOCK 5000
-#define TIME_DEL 400
+#define TIME_DEL 600
 Coin::Coin(float x, float y, STATEOBJECT state, bool isStatic) : Item(x, y)
 {
 	this->isStatic = isStatic;
@@ -42,6 +43,8 @@ void Coin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	else {
 		if (GetTickCount() - time >= TIME_DEL)
 		{
+			auto ef = Effects::CreateEffect(SCORE_100);
+			grid->AddMovingObject(ef, x, y);
 			isDead = true;
 		}
 	}

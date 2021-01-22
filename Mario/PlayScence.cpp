@@ -208,14 +208,14 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case ITEM:
 		obj = Items::CreateItem(type, x, y);
-		grid->AddStaticObject(obj, x, y);
+		grid->LoadObjects(obj, x, y);
 		break;
 	case BOX:
 		switch (type)
 		{
 		case SCENE_GATE:
 		{
-			SceneGate* trigger = new SceneGate((int)atof(tokens[4].c_str()),
+			obj = new SceneGate((int)atof(tokens[4].c_str()),
 				(int)atof(tokens[5].c_str()) * UNIT_GAME,
 				(int)atof(tokens[6].c_str()) * UNIT_GAME,
 				(int)atof(tokens[7].c_str()),
@@ -226,30 +226,28 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 				(int)atof(tokens[12].c_str()) * UNIT_GAME,
 				(int)atof(tokens[13].c_str()) * UNIT_GAME,
 				(int)atof(tokens[14].c_str()));
-			listTrigger[(int)atof(tokens[4].c_str())] = trigger;
-			grid->AddStaticObject(trigger, x, y);
+			listTrigger[(int)atof(tokens[4].c_str())] = dynamic_cast<SceneGate*>(obj);
+			grid->LoadObjects(obj, x, y);
 			break;
 		}
 		case PORTAL:
 		{
-			Portal* portal = new Portal((int)atof(tokens[4].c_str()),
-				(int)atof(tokens[5].c_str()) * UNIT_GAME,
-				(int)atof(tokens[6].c_str()) * UNIT_GAME);
-			listPortal[(int)atof(tokens[4].c_str())] = portal;
-			grid->AddStaticObject(portal, x, y);
+			obj = new Portal((int)atof(tokens[4].c_str()));
+			listPortal[(int)atof(tokens[4].c_str())] = dynamic_cast<Portal*>(obj);
+			grid->LoadObjects(obj, x, y);
 			break;
 		}
 		case CHECKPOINT:
 		{
-			CheckPoint* point = new CheckPoint();
-			grid->AddStaticObject(point, x, y);
+			obj = new CheckPoint();
+			grid->LoadObjects(obj, x, y);
 			break;
 		}
 		}
 		break;
 	case EFFECT:
 		obj = Effects::CreateEffect(static_cast<TYPE>(type));
-		grid->AddStaticObject(obj, x, y);
+		grid->LoadObjects(obj, x, y);
 		break;
 	default:
 		
@@ -351,11 +349,13 @@ void PlayScene::Update(DWORD dt)
 		coObjects.push_back(obj);
 	}
 	player->Update(dt, &coObjects);
-	for (auto& obj : grid->GetObjectInViewPort())
-	{
-		if(!player->freeze)
-			obj->Update(dt, &coObjects);
-	}
+	
+		for (auto& obj : grid->GetObjectInViewPort())
+		{
+			if (!player->isFreezeTime)
+				obj->Update(dt, &coObjects);
+		}
+	
 	
 	camera->Update(dt);
 	scoreBoard->Update(dt);
@@ -369,6 +369,7 @@ void PlayScene::Render()
 	{
 		obj->Render();
 	}
+	
 	player->Render();
 	if (TypeScene != 0) {
 		scoreBoard->Render();

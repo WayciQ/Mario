@@ -8,5 +8,5 @@ Weapon::Weapon()
 void Weapon::Render()
 {
 	CurAnimation->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }

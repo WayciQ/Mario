@@ -4,6 +4,6 @@ start	-1
 [SCENES]
 -1	resource\data\IntroScene.txt
 0	resource\data\World1\worldMap1.txt
-1	resource\data\World1\world1-scene1.txt
+3	resource\data\World1\world1-scene1.txt
 2	resource\data\World1\world1-scene4.txt
-3	resource\data\World1\map-test.txt
+1	resource\data\World1\map-test.txt

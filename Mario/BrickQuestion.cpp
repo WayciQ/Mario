@@ -38,14 +38,14 @@ void BrickQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (!isSpawnItem && child == COIN) {
 			auto item = Items::CreateItem(child, x, y, false);
-			grid->AddMovingObject(item);
+			grid->AddMovingObject(item,x,y);
 			isSpawnItem = true;
 		}
 		if (y >= curY) {
 			y = curY;
 			if (!isSpawnItem && child != COIN) {
 				auto item = Items::CreateItem(child, x, y, false);
-				grid->AddMovingObject(item);
+				grid->AddMovingObject(item, x, y);
 				isSpawnItem = true;
 			}
 		}

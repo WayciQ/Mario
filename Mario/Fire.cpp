@@ -121,6 +121,8 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						e->obj->SetState(ENEMY_DIE_FLIP);
 						e->obj->vy = -MARIO_JUMP_DEFLECT_SPEED;
 						e->obj->vx = 0;
+						auto ef = Effects::CreateEffect(SCORE_100);
+						grid->AddMovingObject(ef, e->obj->x, e->obj->y);
 						startTimeDead();
 						vx = 0;
 					}
@@ -153,7 +155,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isDead)
 	{
 		auto bigbang = Effects::CreateEffect(EFFECT_BIGBANG);
-		grid->AddStaticObject(bigbang, x, y);
+		grid->AddMovingObject(bigbang, x, y);
 		canDel = true;
 	}
 }

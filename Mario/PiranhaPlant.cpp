@@ -8,32 +8,32 @@
 #define PLANT_SPEED_UP 0.15f
 #define PLANT_BIGBANG_X x + 5
 #define PLANT_BIGBANG_Y y - 10
-#define PLANT_UP_Y y + 93
+#define PLANT_X PosX + 24
+#define PLANT_UP_Y this->y + 93
 #define PLANT_UP_HEIGHT PosY - 93
-#define PLANT_UP_WIDTH PosX + 24
+#define PLANT_UP_WIDTH YY + 24
 #define ANI_DRAIN	54001
 #define TIME_DIE	150
 PiranhaPlant::PiranhaPlant(TYPE type, float posx, float posy) : Enemy()
 {
 	isUp = true;
-	startTimeUp = 0;
 	isShoot = false;
+	canShoot = false;
 	this->type = type;
 	PosX = posx;
+	PosY = posy;
 	SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
 	animation_set = animationsSets->Get(type);
-	YY = posy;
 	typeParent = PLANT;
-	PosY = type == PIRANHA_PLANT ? PLANT_UP_WIDTH : posy;
-	SetState(PLANT_SHOOT_DOWN_RIGHT);
+	SetState(PLANT_SHOOT_DOWN_LEFT);
 }
 
 void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	x = PosX + 24;
+	
 	GameObject::Update(dt);
-	UpdatePosition(dt);
 	y += dy;
+	UpdatePosition(dt);
 	if (isDead)
 	{
 		if (canRespawn)
@@ -41,7 +41,7 @@ void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (GetTickCount() - TimeDead > TIME_DIE)
 			{
 				auto e = Effects::CreateEffect(EFFECT_BIGBANG);
-				grid->AddStaticObject(e, PLANT_BIGBANG_X, PLANT_BIGBANG_Y);
+				grid->AddMovingObject(e, PLANT_BIGBANG_X, PLANT_BIGBANG_Y);
 				canDel = true;
 				TimeDead = 0;
 			}
@@ -82,27 +82,11 @@ void PiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void PiranhaPlant::UpdatePosition(DWORD dt)
 {
-	if (x > camera->cam_x && x < camera->cam_x + camera->GetWidth())
+	x = PLANT_X;
+	if (GetTickCount() - startTimeUp > TIME_UP)
 	{
-
-		if (upDone && CurAnimation->isLastFrame)
-		{
-			if (!isShoot) {
-
-				canShoot = true;
-			}
-			else {
-				
-				canShoot = false;
-			}
-			if (canShoot)
-			{
-				auto w = Weapons::CreateWeapon(FIRE_FIRE, nx, ny, x, y, tag);
-				grid->AddMovingObject(w);
-				isShoot = true;
-			}
-		}
-		
+		startTimeUp = GetTickCount();
+		isUp = isUp == false ? true : false;
 		if (isUp)
 		{
 			SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
@@ -110,57 +94,68 @@ void PiranhaPlant::UpdatePosition(DWORD dt)
 			upDone = false;
 		}
 		else {
+			SetBBox(0, 0);
 			upDone = false;
 			vy = PLANT_SPEED_UP;
 		}
-		if (startTimeUp < 0)
+	}
+
+	
+	if (upDone && CurAnimation->isLastFrame)
+	{
+		if (canShoot)
 		{
-			startTimeUp = TIME_UP;
-			isUp = !isUp ? true : false;
+			auto w = Weapons::CreateWeapon(FIRE_FIRE, nx, ny, x, y, tag);
+			grid->AddMovingObject(w, x, y);
+			isShoot = true;
+			canShoot = false;
 		}
-		else startTimeUp--;
-		if (player->x > this->x)
+	}
+	
+
+		
+
+	if (player->x > this->x)
+	{
+		nx = 1;
+		if (player->y >= this->y)
 		{
-			nx = 1;
-			if (player->y >= this->y)
-			{
-				ny = player->y < PLANT_UP_Y ? 0 : 1;
-				SetState(PLANT_SHOOT_DOWN_RIGHT);
-			}
-			else
-			{
-				ny = -1;
-				SetState(PLANT_SHOOT_UP_RIGHT);
-			}
+			ny = player->y < PLANT_UP_Y ? 0 : 1;
+			SetState(PLANT_SHOOT_DOWN_RIGHT);
 		}
 		else
 		{
-			nx = -1;
-			if (player->y >= this->y) {
-
-				ny = ny = player->y < PLANT_UP_Y ? 0 : 1;
-				SetState(PLANT_SHOOT_DOWN_LEFT);
-			}
-			else
-			{
-				ny = -1;
-				SetState(PLANT_SHOOT_UP_LEFT);
-			}
-		}
-		if (y <= PLANT_UP_HEIGHT)
-		{
-			upDone = true;
-			y = PLANT_UP_HEIGHT;
+			ny = -1;
+			SetState(PLANT_SHOOT_UP_RIGHT);
 		}
 	}
-	else vy = PLANT_SPEED_UP;
-	
-	
+	else
+	{
+		nx = -1;
+		if (player->y >= this->y) {
+
+			ny = ny = player->y < PLANT_UP_Y ? 0 : 1;
+			SetState(PLANT_SHOOT_DOWN_LEFT);
+		}
+		else
+		{
+			ny = -1;
+			SetState(PLANT_SHOOT_UP_LEFT);
+		}
+	}
+
+
+	if (y <= PLANT_UP_HEIGHT)
+	{
+		y = PLANT_UP_HEIGHT;
+		upDone = true;
+		if (!isShoot)
+			canShoot = true;
+	}
 	if (y >= PosY)
 	{
-		y = PosY;
 		isShoot = false;
-		SetBBox(1, 1);
+		y = PosY;
 	}
 		
 
@@ -175,7 +170,7 @@ void PiranhaPlant::Render()
 	ChangeAnimation();
 	CurAnimation->Render(x, y);
 	//RenderBoundingBox();
-	Sprites::GetInstance()->Get(54001)->Draw(PosX, YY);
+	Sprites::GetInstance()->Get(ANI_DRAIN)->Draw(PosX, PosY);
 }
 void PiranhaPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

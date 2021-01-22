@@ -10,10 +10,10 @@
 #define PLANT_UP_HEIGHT PosY - 72
 #define PLANT_UP_WIDTH PosX + 18
 #define ANI_DRAIN	54000
-NipperPlant::NipperPlant( float posx, float posy) : Enemy()
+#define TIME_DIE	150
+NipperPlant::NipperPlant(float posx, float posy) : Enemy()
 {
 	isUp = true;
-	startTimeUp = 0;
 	SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
 	this->type = NIPPER_PLANT;
 	animation_set = animationsSets->Get(type);
@@ -31,10 +31,10 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (canRespawn)
 		{
-			if (GetTickCount() - TimeDead > 150)
+			if (GetTickCount() - TimeDead > TIME_DIE)
 			{
 				auto e = Effects::CreateEffect(EFFECT_BIGBANG);
-				grid->AddStaticObject(e, PLANT_BIGBANG_X, PLANT_BIGBANG_Y);
+				grid->AddMovingObject(e, PLANT_BIGBANG_X, PLANT_BIGBANG_Y);
 				canDel = true;
 				TimeDead = 0;
 			}
@@ -73,29 +73,29 @@ void NipperPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void NipperPlant::UpdatePosition(DWORD dt)
 {
 	x = PLANT_UP_WIDTH;
-	if (startTimeUp < 0)
+	if (GetTickCount() - startTimeUp > TIME_UP)
 	{
-		startTimeUp = TIME_UP;
-		isUp = isUp ? false : true;
+		startTimeUp = GetTickCount();
+		isUp = isUp == false ? true : false;
 	}
-	else startTimeUp--;
 
 	if (isUp)
 	{
 		SetBBox(PLANE_BBOX_WIDTH, PLANE_BBOX_HEIGHT);
-		vy = PLANT_SPEED_UP;
+		vy = -PLANT_SPEED_UP;
 	}
 	else {
-		vy = -PLANT_SPEED_UP;
+		SetBBox(0, 0);
+		vy = PLANT_SPEED_UP;
 	}
 
 	if (y <= PLANT_UP_HEIGHT)
 	{
 		y = PLANT_UP_HEIGHT;
 	}
-	else if (y >= PosY) {
+	
+	if (y >= PosY) {
 		y = PosY; 
-		SetBBox(0, 0);
 	}
 		
 }
@@ -105,6 +105,7 @@ void NipperPlant::Render()
 	ChangeAnimation();
 	CurAnimation->Render(x, y);
 	Sprites::GetInstance()->Get(ANI_DRAIN)->Draw(PosX, PosY);
+	//RenderBoundingBox();
 }
 void NipperPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

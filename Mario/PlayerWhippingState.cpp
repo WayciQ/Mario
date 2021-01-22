@@ -18,7 +18,7 @@ PlayerWhippingState::PlayerWhippingState() {
 	player->isWhipping = true;
 	
 	auto w = Weapons::CreateWeapon(WHIP, player->nx, player->ny, player->x, player->y);
-	grid->AddMovingObject(w);
+	grid->AddMovingObject(w, player->x, player->y);
 	
 	player->stateBoundingBox = MARIO_STATE_BIG_BOUNDING_BOX;
 	if (player->nx > 0) {
