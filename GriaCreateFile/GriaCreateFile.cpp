@@ -11,8 +11,11 @@ using namespace std;
 #define SIZE_CELL  11
 #define COLS_MAP 161
 #define ROWS_MAP 12
-int cols = (int(COLS_MAP / SIZE_CELL));
-int rows = (int(ROWS_MAP / SIZE_CELL)) + 1;
+int SizeCell = 0;
+//int cols = (int(COLS_MAP / SIZE_CELL));
+//int rows = (int(ROWS_MAP / SIZE_CELL)) + 1;
+int cols = 0;
+int rows = 0;
 void GetCell(int x, int y, int& l, int& t, int& r, int& b, int w = 1, int h = 1) {
 	int ri = int((x + w - 1) / SIZE_CELL);
 	int bo = int((y + h - 1) / SIZE_CELL);
@@ -92,7 +95,22 @@ void _ParseSection_OBJECTS(string line, ofstream& ofs) {
 		case 33:
 		{
 			GetCell(x, y, left, top, right, bot);
-			ofs << tag << "\t" << x << "\t" << y << "\t" << type << "\t" << (float)atof(tokens[4].c_str()) << "\t" << (float)atof(tokens[5].c_str()) << (float)atof(tokens[6].c_str()) << "\t" << (float)atof(tokens[7].c_str()) << (float)atof(tokens[8].c_str()) << "\t" << (float)atof(tokens[9].c_str()) << (float)atof(tokens[10].c_str()) << "\t" << (float)atof(tokens[11].c_str()) << (float)atof(tokens[12].c_str()) << "\t" << (float)atof(tokens[13].c_str()) << "\t" << (float)atof(tokens[14].c_str()) << "\t" << left << "\t" << top << "\t" << right << "\t" << bot;
+			ofs << tag << "\t";
+			ofs << x << "\t"; 
+			ofs << y << "\t"; 
+			ofs << type << "\t";
+			ofs << (float)atof(tokens[4].c_str()) << "\t";
+			ofs << (int)atof(tokens[5].c_str()) << "\t";
+			ofs << (int)atof(tokens[6].c_str()) << "\t";
+			ofs << (int)atof(tokens[7].c_str()) << "\t";
+			ofs << (int)atof(tokens[8].c_str()) << "\t";
+			ofs << (int)atof(tokens[9].c_str()) << "\t";
+			ofs << (int)atof(tokens[10].c_str()) << "\t";
+			ofs << (int)atof(tokens[11].c_str()) << "\t";
+			ofs << (int)atof(tokens[12].c_str()) << "\t";
+			ofs << (int)atof(tokens[13].c_str()) << "\t";
+			ofs << (int)atof(tokens[14].c_str()) << "\t";
+			ofs << left << "\t" << top << "\t" << right << "\t" << bot;
 			break;
 		}
 		case 34:
@@ -116,19 +134,20 @@ void _ParseSection_OBJECTS(string line, ofstream& ofs) {
 	default:
 		return;
 	}
+	
 	ofs << "\n";
 }
 
-//void _ParseSection_SETTINGS(string line, ofstream& ofs) {
-//	vector<string> tokens = split(line);
-//	if (tokens.size() < 3) return;
-//
-//	SizeCell = int(atoi(tokens[0].c_str()));
-//	cols = (int(atoi(tokens[1].c_str())) / SizeCell);
-//	rows = (int(atoi(tokens[2].c_str())) / SizeCell);
-//	
-//	ofs << SizeCell << "\top" << cols << "\top" << rows << "\top";
-//}
+void _ParseSection_SETTINGS(string line, ofstream& ofs) {
+	vector<string> tokens = split(line);
+	if (tokens.size() < 3) return;
+
+	SizeCell = int(atoi(tokens[0].c_str()));
+	cols = (int(atoi(tokens[1].c_str())) / SizeCell);
+	rows = (int(atoi(tokens[2].c_str())) / SizeCell) + 1;
+	
+	ofs << "\nSize: " << SIZE_CELL << "\nCols: " << cols << "\nRows: " << rows << "\n";
+}
 
 int main()
 {
@@ -147,34 +166,33 @@ int main()
 	else
 	{
 		cout << "Load File Thanh cong";
-		char str[1024];
-		while (fs.getline(str, 1024))
+		char str[MAX_SCENE_LINE];
+		
+		while (fs.getline(str, MAX_SCENE_LINE))
 		{
-			while (fs.getline(str, MAX_SCENE_LINE))
-			{
-				string line(str);
+			string line(str);
 
-				if (line[0] == '#') continue;	// skip comment lines	
-				/*if (line == "[SETTINGS]") {
-					ofs << "[GRID]" << "\n";
-					section = SCENE_FILE_SECTION_SETTINGS; continue;
-				}*/
-				if (line == "[OBJECTS]") {
-					ofs << "[OBJECTS]" << "\n";
-					section = SCENE_SECTION_OBJECTS; continue;
-				}
-				
-				if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
-				//
-				// data section
-				//
-				switch (section)
-				{
-				case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line, ofs); break;
-				//case SCENE_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line, ofs); break;
-				}
+			if (line[0] == '#') continue;	// skip comment lines	
+			if (line == "[SETTINGS]") {
+				ofs << "[GRID]" << "\n";
+				section = SCENE_FILE_SECTION_SETTINGS; continue;
+			}
+			if (line == "[OBJECTS]") {
+				ofs << "[OBJECTS]" << "\n";
+				section = SCENE_SECTION_OBJECTS; continue;
+			}
+
+			if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+			//
+			// data section
+			//
+			switch (section)
+			{
+			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line, ofs); break;
+			case SCENE_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line, ofs); break;
 			}
 		}
+		
 	}
 	fs.close();
 	ofs.close();

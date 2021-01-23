@@ -24,6 +24,7 @@
     <ProjectGuid>{a76b48ad-f95c-4818-ac11-4c0858d9fa94}</ProjectGuid>
     <RootNamespace>GriaCreateFile</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>GridCreateFile</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
