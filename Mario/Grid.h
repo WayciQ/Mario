@@ -23,9 +23,11 @@ public:
 	Area GetCell(RECT e);
 	void Init();
 	void SetSizeCell(int s) { this->SizeCell = s;}
-	void LoadObjects(LPGAMEOBJECT& obj, float x, float y);
+	void LoadObjects(LPGAMEOBJECT& obj, int Left, int Top, int Right, int Bottom);
 	void AddStaticObject(LPGAMEOBJECT obj, float x, float y);
 	void AddMovingObject(LPGAMEOBJECT obj, float x, float y);
+	void AddStaticObjectByFile(LPGAMEOBJECT obj, int Left, int Top, int Right, int Bottom);
+	void AddMovingObjectByFile(LPGAMEOBJECT obj, int Left, int Top, int Right, int Bottom);
 	void UpdateCellInViewPort();
 	void RenderCell();
 	void RemoveDeadObject();

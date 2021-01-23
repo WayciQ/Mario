@@ -44,7 +44,7 @@ void Coin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		if (GetTickCount() - time >= TIME_DEL)
 		{
 			auto ef = Effects::CreateEffect(SCORE_100);
-			grid->AddMovingObject(ef, x, y);
+			grid->AddStaticObject(ef, x, y);
 			isDead = true;
 		}
 	}

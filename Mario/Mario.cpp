@@ -30,7 +30,7 @@ Mario* Mario::GetInstance()
 		__instance = new Mario();
 	return __instance;
 }
-#define EFFECT_SCORE_100 {auto ef = Effects::CreateEffect(SCORE_100);grid->AddStaticObject(ef, e->obj->x, e->obj->y);}
+#define EFFECT_SCORE_100 {auto ef = Effects::CreateEffect(SCORE_100);grid->AddMovingObject(ef, e->obj->x, e->obj->y);}
 				
 Mario::Mario() {
 	tag = PLAYER;
@@ -840,7 +840,8 @@ void Mario::OnKeyDown(int key)
 		}
 		case DIK_5:
 		{
-			SetPosition(x, 0);
+			SetPosition(2976, 384);
+			camera->SetCamPos(2592, 0);
 			break;
 		}
 		case DIK_F6:
@@ -906,6 +907,10 @@ void Mario::OnKeyDown(int key)
 				IsChangeScene = true;
 				IsTouchPort = false;
 			}
+		}
+		else if (keyCode[DIK_F1])
+		{
+			SetPosition(48, 144);
 		}
 	}
 }

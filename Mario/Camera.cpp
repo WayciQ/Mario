@@ -13,7 +13,6 @@ Camera* Camera::GetInstance()
 
 Camera::Camera()
 {
-
 	cam_x = 0;
 	cam_y = 0;
 	typeMove = 0;
@@ -23,11 +22,10 @@ Camera::Camera()
 RECT Camera::GetBBox()
 {
 	RECT bound;
-
 	bound.left = cam_x;
 	bound.top = cam_y;
-	bound.right = cam_x + width;;
-	bound.bottom = cam_y + height;
+	bound.right = cam_x + SCREEN_WIDTH;
+	bound.bottom = cam_y + SCREEN_HEIGHT;
 	return bound;
 }
 
@@ -36,7 +34,7 @@ void Camera::Update(DWORD dt)
 {
 	if (typeMove == 1) {
 		if (cam_x <= maxRightCam)
-			cam_x += 2.2;
+			cam_x += 1.5;
 		if (player->x < cam_x) {
 			player->ChangeState(new LimitAutoCameraState());
 		}

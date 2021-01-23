@@ -46,9 +46,43 @@ void Grid::AddMovingObject(LPGAMEOBJECT obj, float x, float y)
 	LOOP(r, area.TopCell, area.BottomCell)
 		LOOP(c, area.LeftCell, area.RightCell) {
 		Cells[r][c]->movingObjects.insert(obj);
-		//DebugOut(L"[INFO] object Moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+		DebugOut(L"[INFO] object Moving TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
 	}
 	obj->SetPosition(x, y);
+}
+
+void Grid::AddStaticObjectByFile(LPGAMEOBJECT obj, int Left, int Top, int Right, int Bottom)
+{
+	RECT e;
+	e.top = Left;
+	e.left = Top;
+	e.right = Right;
+	e.bottom = Bottom;
+	auto area = GetCell(e);
+	LOOP(r, Top, Bottom) {
+		LOOP(c, Left, Right)
+		{
+			DebugOut(L"[INFO] object Static TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+			Cells[r][c]->staticObjects.insert(obj);
+		}
+	}
+}
+
+void Grid::AddMovingObjectByFile(LPGAMEOBJECT obj, int Left, int Top, int Right, int Bottom)
+{
+	RECT e;
+	e.top = Left;
+	e.left = Top;
+	e.right = Right;
+	e.bottom = Bottom;
+	auto area = GetCell(e);
+	LOOP(r, Top, Bottom) {
+		LOOP(c, Left, Right)
+		{
+			DebugOut(L"[INFO] object Static TYPE: %d is add in Cell [%d] [%d]\n", obj->type, r, c);
+			Cells[r][c]->movingObjects.insert(obj);
+		}
+	}
 }
 
 void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
@@ -68,35 +102,30 @@ void Grid::AddStaticObject(LPGAMEOBJECT obj, float x, float y)
 	}
 	obj->SetPosition(x, y);
 }
-void Grid::LoadObjects(LPGAMEOBJECT& obj, float x, float y)
+void Grid::LoadObjects(LPGAMEOBJECT& obj, int Left, int Top, int Right, int Bottom)
 {
-	RECT e;
-	e.top = y;
-	e.left = x;
-	e.right =x + obj->widthBBox;
-	e.bottom = y + obj->heightBBox;
-	auto area = GetCell(e);
+	
 	switch (obj->tag)
 	{
 	case GROUND:
 	{
-		AddStaticObject(obj, x, y);
+		AddStaticObjectByFile(obj, Left, Top,Right,Bottom);
 		break;
 	}
 	case ENEMY:
 	{
-		AddMovingObject(obj, x, y);
+		AddMovingObjectByFile(obj, Left, Top, Right, Bottom);
 		break;
 	}
 	case ITEM:
-		AddStaticObject(obj, x, y);
+		AddStaticObjectByFile(obj, Left, Top, Right, Bottom);
 		break;
 	case BOX:
-		AddStaticObject(obj, x, y);
+		AddStaticObjectByFile(obj, Left, Top, Right, Bottom);
 		break;
 	case EFFECT:
 	{
-		AddMovingObject(obj, x, y);
+		AddStaticObjectByFile(obj, Left, Top, Right, Bottom);
 		break; 
 	}
 	default:
@@ -142,9 +171,8 @@ void Grid::CalcObjectInViewPort()
 			result.insert(Cells[r][c]->movingObjects.begin(), Cells[r][c]->movingObjects.end());
 			result.insert(Cells[r][c]->staticObjects.begin(), Cells[r][c]->staticObjects.end());
 			//DebugOut(L"[info] Object in Cell  [%d]: %d\n",c,Cells[r][c]->staticObjects.size());
+			//DebugOut(L"[info] Object move in Cell  [%d]: %d\n",c,Cells[r][c]->movingObjects.size());
 			//DebugOut(L"[info] Cell column [%d]\n",c);
-			
-			
 		}
 	}
 	CurObjectInViewPort = { result.begin(), result.end() };

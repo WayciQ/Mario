@@ -3,7 +3,7 @@
 #include "Camera.h"
 #define HEIGHT_SCORE_BROAD 84
 #define ID_TEX_HUB 7
-#define POS_X camera->cam_x
+#define POS_X camera->cam_x + 48
 #define POS_Y camera->cam_y + 576
 #define POS_I1 POS_X + 480
 #define POS_I2 POS_X + 549

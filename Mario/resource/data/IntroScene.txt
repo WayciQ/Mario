@@ -700,14 +700,14 @@
 
 #id	link	sizecell	paddingleft	paddingTop	R	G	B(background)
 [MAPS]
-1	resource\data\IntroScene-map.txt	1	0	0	0	0	0
+1	resource\data\IntroScene-map.txt	11	2	2	0	0	0	0	0
 
 [OBJECTS]
 # tag	x	y	type	extra_settings per object type
 # MARIO
 0	0	-2	-1
-6	0	0	45
-6	7	7	40
+6	0	0	45	0	0	0	0
+6	7	7	40	0	0	0	1
 
 
 [SETTINGS]

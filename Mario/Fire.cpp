@@ -20,7 +20,6 @@ Fire::Fire(int nx, int ny, float x, float y, TAG tag)
 	canRespawn = false;
 	animation_set = animationsSets->Get(WEAPON_MARIO);
 	SetPosition(x, y);
-	
 	if (nx > 0)
 	{
 		ChangeAnimation(WEAPON_SHOOT_RIGHT);

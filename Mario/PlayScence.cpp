@@ -161,7 +161,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	TYPE type = static_cast<TYPE>(object_TYPE);
 	// General object setup
 	GameObject* obj = NULL;
-
+	int left, top, right, bot;
 	AnimationSets* animation_sets = AnimationSets::GetInstance();
 	switch (tag)
 	{
@@ -181,34 +181,73 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		{
 		case GROUND_LAND:
 			obj = new Ground((float)atof(tokens[4].c_str()) * UNIT_GAME, (float)atof(tokens[5].c_str()) * UNIT_GAME);
+			obj->SetPosition(x, y);
 			listGroundObject.push_back(obj);
+
+			left = (float)atof(tokens[6].c_str());
+			top = (float)atof(tokens[7].c_str());
+			right = (float)atof(tokens[8].c_str());
+			bot = (float)atof(tokens[9].c_str());
 			break;
 		case BLOCK:
 			obj = Bricks::CreateBrick(static_cast<TYPE>((int)atof(tokens[4].c_str())), y, static_cast<TYPE>((int)atof(tokens[5].c_str())), static_cast<TYPE>((int)atof(tokens[6].c_str())));
+			obj->SetPosition(x, y);
+			left = (float)atof(tokens[7].c_str());
+			top = (float)atof(tokens[8].c_str());
+			right = (float)atof(tokens[9].c_str());
+			bot = (float)atof(tokens[10].c_str()); 
+			grid->AddStaticObjectByFile(obj, left, top, right, bot);
 			break;
 		case GRASS:
 			obj = new SceneGrass();
+			obj->SetPosition(x, y);
+			left = (float)atof(tokens[4].c_str());
+			top = (float)atof(tokens[5].c_str());
+			right = (float)atof(tokens[6].c_str());
+			bot = (float)atof(tokens[7].c_str()); 
 			break;
 		case GROUND_BOX:
 			obj = new Box((float)atof(tokens[4].c_str()) * UNIT_GAME, (float)atof(tokens[5].c_str()) * UNIT_GAME);
+			obj->SetPosition(x, y);
+			left = (float)atof(tokens[6].c_str());
+			top = (float)atof(tokens[7].c_str());
+			right = (float)atof(tokens[8].c_str());
+			bot = (float)atof(tokens[9].c_str()); 
+			grid->AddStaticObjectByFile(obj, left, top, right, bot);
 			break;
 		}
-		grid->LoadObjects(obj,x,y);
+		grid->AddStaticObjectByFile(obj, left, top, right, bot);
 		break;
+
 	case ENEMY:
 		if (type == PARA_KOOMPA || type == TROPA_KOOMPA) {
 			STATEOBJECT state = static_cast<STATEOBJECT>(atof(tokens[4].c_str()));
 			obj = Enemies::CreateEnemy(type, x, y, state);
+			obj->SetPosition(x, y);
+			left = (float)atof(tokens[5].c_str());
+			top = (float)atof(tokens[6].c_str());
+			right = (float)atof(tokens[7].c_str());
+			bot = (float)atof(tokens[8].c_str());
 		}
 		else {
 			obj = Enemies::CreateEnemy(type, x, y);
+			obj->SetPosition(x, y);
+			left = (float)atof(tokens[4].c_str());
+			top = (float)atof(tokens[5].c_str());
+			right = (float)atof(tokens[6].c_str());
+			bot = (float)atof(tokens[7].c_str());
 		}
-		grid->LoadObjects(obj, x, y);
 		//listEnemyObject.push_back(obj);
+		grid->AddMovingObjectByFile(obj, left, top, right, bot);
 		break;
 	case ITEM:
 		obj = Items::CreateItem(type, x, y);
-		grid->LoadObjects(obj, x, y);
+		obj->SetPosition(x, y);
+		left = (float)atof(tokens[4].c_str());
+		top = (float)atof(tokens[5].c_str());
+		right = (float)atof(tokens[6].c_str());
+		bot = (float)atof(tokens[7].c_str());
+		grid->AddStaticObjectByFile(obj, left, top, right, bot);
 		break;
 	case BOX:
 		switch (type)
@@ -226,34 +265,53 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 				(int)atof(tokens[12].c_str()) * UNIT_GAME,
 				(int)atof(tokens[13].c_str()) * UNIT_GAME,
 				(int)atof(tokens[14].c_str()));
+			obj->SetPosition(x, y);
 			listTrigger[(int)atof(tokens[4].c_str())] = dynamic_cast<SceneGate*>(obj);
-			grid->LoadObjects(obj, x, y);
+			left = (float)atof(tokens[15].c_str());
+			top = (float)atof(tokens[16].c_str());
+			right = (float)atof(tokens[17].c_str());
+			bot = (float)atof(tokens[18].c_str());
 			break;
 		}
 		case PORTAL:
 		{
 			obj = new Portal((int)atof(tokens[4].c_str()));
+			obj->SetPosition(x, y);
 			listPortal[(int)atof(tokens[4].c_str())] = dynamic_cast<Portal*>(obj);
-			grid->LoadObjects(obj, x, y);
+			left = (float)atof(tokens[5].c_str());
+			top = (float)atof(tokens[6].c_str());
+			right = (float)atof(tokens[7].c_str());
+			bot = (float)atof(tokens[8].c_str());
 			break;
 		}
 		case CHECKPOINT:
 		{
 			obj = new CheckPoint();
-			grid->LoadObjects(obj, x, y);
+			obj->SetPosition(x, y);
+			left = (float)atof(tokens[4].c_str());
+			top = (float)atof(tokens[5].c_str());
+			right = (float)atof(tokens[6].c_str());
+			bot = (float)atof(tokens[7].c_str()); 
 			break;
 		}
 		}
+		grid->AddStaticObjectByFile(obj, left, top, right, bot);
 		break;
 	case EFFECT:
 		obj = Effects::CreateEffect(static_cast<TYPE>(type));
-		grid->LoadObjects(obj, x, y);
+		obj->SetPosition(x, y);
+		left = (float)atof(tokens[4].c_str());
+		top = (float)atof(tokens[5].c_str());
+		right = (float)atof(tokens[6].c_str());
+		bot = (float)atof(tokens[7].c_str());
+		grid->AddStaticObjectByFile(obj, left, top, right, bot);
 		break;
 	default:
 		
 		DebugOut(L"[ERR] Invalid object TAG: %d\n", object_TAG);
 		return;
 	}
+	
 	//DebugOut(L"[INFO] Object size: %d\n", HolderObjects.size());
 }
 void PlayScene::_ParseSection_SETTINGS(string line)
@@ -287,46 +345,46 @@ void PlayScene::Load()
 	int section = SCENE_SECTION_UNKNOWN;
 
 	char str[MAX_SCENE_LINE];
-	while (f.getline(str, MAX_SCENE_LINE))
-	{
-		string line(str);
-
-		if (line[0] == '#') continue;	// skip comment lines	
-		
-		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
-		if (line == "[SPRITES]") {
-			section = SCENE_SECTION_SPRITES; continue;
-		}
-		if (line == "[ANIMATIONS]") {
-			section = SCENE_SECTION_ANIMATIONS; continue;
-		}
-		if (line == "[ANIMATION_SETS]") {
-			section = SCENE_SECTION_ANIMATION_SETS; continue;
-		}
-		if (line == "[OBJECTS]") {
-			section = SCENE_SECTION_OBJECTS; continue;
-		}
-		if (line == "[MAPS]") {
-			section = SCENE_SECTION_MAPS; continue;
-		}
-		if (line == "[SETTINGS]") {
-			section = SCENE_FILE_SECTION_SETTINGS; continue;
-		}
-		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
-		//
-		// data section
-		//
-		switch (section)
+		while (f.getline(str, MAX_SCENE_LINE))
 		{
-		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
-		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
-		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
-		case SCENE_SECTION_MAPS: _ParseSection_MAPS(line); break;
-		case SCENE_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
+			string line(str);
+
+			if (line[0] == '#') continue;	// skip comment lines	
+		
+			if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
+			if (line == "[SPRITES]") {
+				section = SCENE_SECTION_SPRITES; continue;
+			}
+			if (line == "[ANIMATIONS]") {
+				section = SCENE_SECTION_ANIMATIONS; continue;
+			}
+			if (line == "[ANIMATION_SETS]") {
+				section = SCENE_SECTION_ANIMATION_SETS; continue;
+			}
+			if (line == "[OBJECTS]") {
+				section = SCENE_SECTION_OBJECTS; continue;
+			}
+			if (line == "[MAPS]") {
+				section = SCENE_SECTION_MAPS; continue;
+			}
+			if (line == "[SETTINGS]") {
+				section = SCENE_FILE_SECTION_SETTINGS; continue;
+			}
+			if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+			//
+			// data section
+			//
+			switch (section)
+			{
+			case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+			case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
+			case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+			case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
+			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+			case SCENE_SECTION_MAPS: _ParseSection_MAPS(line); break;
+			case SCENE_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
+			}
 		}
-	}
 	 //Init();
 	f.close();
 	if(TypeScene > 0)
@@ -375,7 +433,7 @@ void PlayScene::Render()
 		scoreBoard->Render();
 	}
 	
-	//grid->RenderCell();
+	grid->RenderCell();
 }
 
 void PlayScene::Unload()

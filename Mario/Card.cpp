@@ -1,7 +1,7 @@
 #include "Card.h"
 #include "Grid.h"
 #include "Alert.h"
-#define TIME_CHANGE 2000
+#define TIME_CHANGE 1000
 #define BBOX 2 * UNIT_GAME
 Card::Card() {
 	getCard = 0;
