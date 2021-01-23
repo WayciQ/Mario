@@ -8,11 +8,9 @@ Effect::Effect()
 
 void Effect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	{
-		if (isDead) {
-			canDel = true;
-		}
-	};
+	if (isDead) {
+		canDel = true;
+	}
 }
 
 void Effect::Render()

@@ -21,19 +21,19 @@ void Whip::GetBoundingBox(float& l, float& t, float& r, float& b)
 void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	
-	vector<LPGAMEOBJECT> coEvents;
-	coEvents.clear();
+	vector<LPGAMEOBJECT> coEventsCreate;
+	coEventsCreate.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		if (IsCollisionAABB(GetRect(), coObjects->at(i)->GetRect()))
 		{
-			coEvents.push_back(coObjects->at(i));
+			coEventsCreate.push_back(coObjects->at(i));
 		}
 	}
-
-	for (UINT i = 0; i < coEvents.size(); i++)
+	
+	for (UINT i = 0; i < coEventsCreate.size(); i++)
 	{
-		switch(coEvents.at(i)->tag)
+		switch(coEventsCreate.at(i)->tag)
 		{
 		case ENEMY:
 		{
@@ -42,24 +42,62 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			auto ef = Effects::CreateEffect(SCORE_100);
 			grid->AddStaticObject(ef, x, y);
 			canDel = true;
-			coEvents.at(i)->vx = 0;
-			coEvents.at(i)->startTimeDead();
-			coEvents.at(i)->isFlip = true;
-			coEvents.at(i)->vy = -MARIO_JUMP_DEFLECT_SPEED;
-			coEvents.at(i)->SetState(ENEMY_DIE_FLIP);
+			coEventsCreate.at(i)->vx = 0;
+			coEventsCreate.at(i)->startTimeDead();
+			coEventsCreate.at(i)->isFlip = true;
+			coEventsCreate.at(i)->vy = -MARIO_JUMP_DEFLECT_SPEED;
+			coEventsCreate.at(i)->SetState(ENEMY_DIE_FLIP);
 			
 		}
 			break;
 		case GROUND:
-			if (coEvents.at(i)->type == BLOCK_QUESTION || coEvents.at(i)->type == BLOCK_BREAKABLE)
+			if (coEventsCreate.at(i)->type == BLOCK_QUESTION || coEventsCreate.at(i)->type == BLOCK_BREAKABLE)
 			{
 				canDel = true;
-				coEvents.at(i)->startTimeDead();
+				coEventsCreate.at(i)->startTimeDead();
 			}
 			break;
 		}
 	}
-	if (isDead) {
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
+	if (coEvents.size() != 0) {
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			switch (e->obj->tag)
+			{
+			case ENEMY:
+			{
+				auto effect = Effects::CreateEffect(EFFECT_STAR);
+				grid->AddStaticObject(effect, x, y);
+				auto ef = Effects::CreateEffect(SCORE_100);
+				grid->AddStaticObject(ef, x, y);
+				canDel = true;
+				e->obj->vx = 0;
+				e->obj->startTimeDead();
+				e->obj->isFlip = true;
+				e->obj->vy = -MARIO_JUMP_DEFLECT_SPEED;
+				e->obj->SetState(ENEMY_DIE_FLIP);
+
+			}
+			break;
+			case GROUND:
+				if (e->obj->type == BLOCK_QUESTION || e->obj->type == BLOCK_BREAKABLE)
+				{
+					canDel = true;
+					e->obj->startTimeDead();
+				}
+				break;
+			}
+		}
 	}
 }
 #define X_TAIL_1_FRAME_3 player->x + 76
@@ -101,6 +139,6 @@ void Whip::UpdatePosititon(DWORD dt)
 }
 void Whip::Render() {
 	UpdatePosititon(dt);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 Whip::~Whip(){}

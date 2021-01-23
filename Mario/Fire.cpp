@@ -101,7 +101,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							vx = 0;
 							vy = 0;
 							e->obj->isDead = true;
-							startTimeDead();
+							isDead = true;
 						}
 					}
 					else {
@@ -123,7 +123,7 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						e->obj->vx = 0;
 						auto ef = Effects::CreateEffect(SCORE_100);
 						grid->AddMovingObject(ef, e->obj->x, e->obj->y);
-						startTimeDead();
+						isDead = true;
 						vx = 0;
 					}
 					break;
@@ -142,6 +142,8 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// clean up collision events
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 		if (isDead) {
+			auto bigbang = Effects::CreateEffect(EFFECT_BIGBANG);
+			grid->AddMovingObject(bigbang, x, y);
 			player->countShoot = player->countShoot <= 0 ? 0 : player->countShoot - 1;
 		}
 	}
@@ -154,8 +156,6 @@ void Fire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (isDead)
 	{
-		auto bigbang = Effects::CreateEffect(EFFECT_BIGBANG);
-		grid->AddMovingObject(bigbang, x, y);
 		canDel = true;
 	}
 }

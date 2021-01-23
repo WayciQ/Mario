@@ -77,22 +77,34 @@ void PlayerWalkingState::HandleKeyBoard()
 	}
 	else if (keyCode[DIK_LEFT])
 	{
-		if (!player->isWalkingComplete)
-		{
+		if (player->isPicking) {
 			player->nx = -1;
 			player->ChangeState(new PlayerWalkingState());
 		}
-		else player->ChangeState(new PlayerLastRunState());
+		else {
+			if (!player->isWalkingComplete)
+			{
+				player->nx = -1;
+				player->ChangeState(new PlayerWalkingState());
+			}
+			else player->ChangeState(new PlayerLastRunState());
+		}
+		
 	}
 	else if (keyCode[DIK_RIGHT])
 	{
-		if (!player->isWalkingComplete)
-		{
-			
+		if (player->isPicking) {
 			player->nx = 1;
 			player->ChangeState(new PlayerWalkingState());
 		}
-		else player->ChangeState(new PlayerLastRunState());
+		else {
+			if (!player->isWalkingComplete)
+			{
+				player->nx = 1;
+				player->ChangeState(new PlayerWalkingState());
+			}
+			else player->ChangeState(new PlayerLastRunState());
+		}
 	}
 	
 	

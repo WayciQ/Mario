@@ -141,7 +141,6 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 {
 	if (e->ny == -1)
 	{
-		
 		if (!e->obj->isDead)
 		{
 			if (e->obj->typeParent == PLANT || e->obj->tagChange == WEAPON)
@@ -209,6 +208,26 @@ void Mario::UpdateWithEnemy(LPCOLLISIONEVENT e)
 				if (!immortal) {
 					ChangeState(new PlayerChangeLevelState(true));
 				}
+			}
+		}
+		else
+		{
+			if (e->obj->typeParent == KOOMPA)
+			{
+				ChangeState(new PlayerKickState());
+				e->obj->isKicked = true;
+				e->obj->canRespawn = false;
+				e->obj->tagChange = WEAPON;
+				if (player->nx > 0)
+				{
+					e->obj->vx = SPEED_KICK_KOOMPA;
+				}
+				else {
+					e->obj->vx = -SPEED_KICK_KOOMPA;
+				}
+				infor->ScoreEarn(SCORE_1);
+				EFFECT_SCORE_100
+				
 			}
 		}
 	}
@@ -297,8 +316,8 @@ void Mario::UpdateWithItem(LPCOLLISIONEVENT e)
 		break;
 	case GREEN_MUSHROOM:
 	{
-		if (!e->obj->isDead) {
-			infor->LifeEarn(1);
+		infor->LifeEarn(1);
+		if (e->nx != 0 || e->ny != 0) {
 			auto ef = Effects::CreateEffect(LIFE_UP);
 			grid->AddMovingObject(ef, x, y);
 		}
@@ -404,7 +423,8 @@ void Mario::UpdateWithGround(LPCOLLISIONEVENT e)
 		break;
 	case BLOCK_MOVE:
 		if (e->ny == -1) {
-			vy = 0;
+			Allow[FALLING] = false;
+			e->obj->isDead = true;
 			e->obj->startTimeDead();
 		}
 	}

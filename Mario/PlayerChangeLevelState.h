@@ -2,10 +2,11 @@
 #include "PlayerState.h"
 class PlayerChangeLevelState : public PlayerState
 {
-	bool isChange;
-	bool upsize;
+	bool isChangeState;
+	int upsize;
+	TYPE level;
 public:
-	PlayerChangeLevelState(bool isdead,TYPE typeChange = BIG);
+	PlayerChangeLevelState(bool isHurt,TYPE typeChange = BIG);
 	void Render() {};
 	~PlayerChangeLevelState() {};
 	void Update(DWORD dt);

@@ -20,12 +20,12 @@ void BlockMove::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	GameObject::Update(dt);
 	x += dx;
 	y += dy;
-	if (GetTickCount()- TimeDead > TIME_FALL) {
-		if (isDead) {
-			vx = 0;
-			vy += GRAVITY * dt;
-		}
-	}
+
+	if (isDead) {
+		vx = 0;
+		vy += GRAVITY * dt;
+	}	
+	
 	if (x < camera->cam_x + SCREEN_WIDTH && !isDead) {
 		vx = -SPEED_MOVE;
 	}
